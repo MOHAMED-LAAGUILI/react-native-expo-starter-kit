@@ -33,12 +33,6 @@ function ProfileScreen() {
           {user?.email ?? "No email"}
         </Text>
 
-        <View className="w-full p-4 rounded-xl border border-border bg-card mt-4">
-          <Text variant="body">
-            Member since {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : "N/A"}
-          </Text>
-        </View>
-
         <Button
           title="Sign Out"
           variant="destructive"

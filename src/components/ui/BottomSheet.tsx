@@ -40,7 +40,7 @@ function BottomSheetInner<T>({
   return (
     <BottomSheetLib
       ref={sheetRef}
-      snapPoints={["35%"]}
+      snapPoints={["70%"]}
       index={-1}
       enablePanDownToClose
       onChange={index => {
@@ -79,7 +79,7 @@ function BottomSheetInner<T>({
             />
           </Pressable>
         </View>
-        <View className="rounded-xl border border-border bg-card overflow-hidden">
+        <View className="border-t border-border bg-card overflow-hidden">
           {options.map((option, index) => (
             <Pressable
               key={String(option.value)}

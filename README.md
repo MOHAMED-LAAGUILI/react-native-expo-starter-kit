@@ -1,6 +1,6 @@
 # React Native Starter Kit
 
-A production-ready [React Native](https://reactnative.dev/) starter built with [Expo SDK 57](https://expo.dev/), [Expo Router](https://expo.dev/router), [Tailwind CSS v4](https://tailwindcss.com/) via [Uniwind](https://uniwind.dev/), [Zustand](https://github.com/pmndrs/zustand), [TanStack Query](https://tanstack.com/query), and [React Native Reusables](https://reactnativereusables.com).
+A production-ready [React Native](https://reactnative.dev/) starter built with [Expo SDK 57](https://expo.dev/), [Expo Router](https://expo.dev/router), [Tailwind CSS v4](https://tailwindcss.com/) via [Uniwind](https://uniwind.dev/), [Zustand](https://github.com/pmndrs/zustand), [TanStack Query](https://tanstack.com/query), and [@gorhom/bottom-sheet](https://github.com/gorhom/bottom-sheet).
 
 ## Quick Start
 
@@ -10,13 +10,6 @@ cd my-app
 bun install
 bun dev
 ```
-
-## ENV
-create .env.staging env.development env.production
-API_URL=http://localhost:3000/api
-ENABLE_ANALYTICS=false
-ENABLE_CRASH_REPORTING=false
-
 
 Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](https://expo.dev/go).
 
@@ -31,61 +24,71 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 | `bun run clean` | Remove `.expo` and `node_modules` |
 | `bun run fix:deps` | Fix dependency versions via Expo |
 | `bun run doctor` | Run Expo doctor diagnostics |
-
+| `bun run prebuild` | Prebuild native project |
+| `bun run biome` | Lint + format via Biome |
+| `bun run format` | Format code via Biome |
 
 ## Features
 
 - **Expo Router** — File-based routing with Stack, Drawer, and Tab navigators
-- **Uniwind + Tailwind v4** — Runtime CSS-in-JS with `className` props, `cn()` utility, dark mode
-- **Zustand** — Lightweight client state with MMKV persistence
-- **TanStack Query** — Server state, caching, and auto-refetching
+- **Uniwind + Tailwind v4** — Runtime CSS-in-JS with `className` props, `cn()` utility, dark mode via oklch CSS vars
+- **Zustand** — Lightweight client state with MMKV persistence and hydration
+- **TanStack Query** — Server state, caching, and auto-refetching (staleTime 5min, gcTime 30min, retry 2)
 - **TanStack Form + Zod** — Type-safe form validation
 - **Axios** — HTTP client with auth token interceptor and refresh queue
-- **i18next** — Internationalization (English, French, Arabic) with RTL support
-- **MMKV** — High-performance key-value storage
+- **i18next** — Internationalization (English, French, Arabic) with RTL support (restart on RTL toggle)
+- **MMKV** — High-performance key-value storage (SSR-safe lazy init)
 - **Authentication** — Login/register flow with token management, demo mode skip
-- **React Navigation** — Deep linking, typed routes
-- **Bottom Sheet** — Reusable bottom sheet component via `@rn-primitives/dialog`
-- **React Native Reusables** — Accessible, headless UI primitives (Dialog, Portal, Slot)
-- **lucide-react-native** — Icon library
-- **Dark/Light/System theme** — CSS variables in oklch, persisted preference
+- **Drawer + Tabs** — Left drawer with hamburger menu header button, bottom tab bar (Home, Search, Profile, Settings)
+- **Bottom Sheet** — Reusable bottom sheet component via `@gorhom/bottom-sheet` with snap points, backdrop, pan-to-close
+- **Dark/Light/System theme** — CSS variables in oklch, persisted preference, follows system
+- **Splash Screen** — Custom splash with auto-hide after i18n + auth hydration ready
+- **System UI** — Background color synced with theme mode
 - **Cross-platform** — iOS, Android, Web
 
 ## Project Structure
 
 ```
-├── app/                    # Expo Router routes
-│   ├── _layout.tsx         # Root layout (providers, stack)
-│   ├── (auth)/             # Unauthenticated routes
+├── app/                        # Expo Router routes
+│   ├── _layout.tsx             # Root: GestureHandler, SafeAreaProvider, Query, Theme, StatusBar, Splash, SystemUI, Stack
+│   ├── index.tsx               # Auth redirect (→ login or home)
+│   ├── +not-found.tsx          # 404
+│   ├── +html.tsx               # Web HTML shell
+│   ├── (auth)/                 # Unauthenticated routes
+│   │   ├── _layout.tsx
 │   │   └── login.tsx
-│   └── (app)/              # Authenticated routes
-│       ├── _layout.tsx     # Drawer layout + auth guard
-│       ├── settings.tsx
-│       └── (tabs)/         # Bottom tabs
+│   └── (app)/                  # Authenticated routes
+│       ├── _layout.tsx         # Drawer (left hamburger menu) + auth guard
+│       └── (tabs)/             # Bottom tabs
 │           ├── _layout.tsx
-│           ├── index.tsx   # Home
+│           ├── index.tsx       # Home
 │           ├── search.tsx
 │           ├── profile.tsx
 │           └── settings.tsx
 ├── src/
-│   ├── api/                # Axios client + TanStack Query hooks
+│   ├── api/                    # Axios client + TanStack Query hooks
 │   ├── components/
-│   │   ├── common/         # LoadingScreen, ErrorFallback
-│   │   ├── forms/          # FormField
-│   │   └── ui/             # Button, Text, BottomSheet
-│   ├── config/             # Constants
-│   ├── hooks/              # Shared hooks
-│   ├── i18n/               # i18next + locales/{en,fr,ar}
-│   ├── providers/          # QueryProvider, ThemeProvider
-│   ├── screens/            # Screen components
-│   ├── storage/            # MMKV wrapper (SSR-safe)
-│   ├── store/              # Zustand stores
-│   ├── types/              # Type declarations
-│   ├── utils/              # Utilities
-│   └── validation/         # Zod schemas
-├── global.css              # Tailwind v4 + Uniwind entry
+│   │   ├── common/             # LoadingScreen, ErrorFallback
+│   │   ├── forms/              # FormField
+│   │   └── ui/                 # Button, Text, Input, BottomSheet
+│   ├── config/                 # Constants, env helpers
+│   ├── hooks/                  # Shared hooks
+│   ├── i18n/                   # i18next + locales/{en,fr,ar}
+│   ├── providers/              # QueryProvider, ThemeProvider
+│   ├── screens/                # Screen components
+│   ├── storage/                # MMKV wrapper (SSR-safe, lazy init)
+│   ├── store/                  # Zustand stores (authStore, themeStore)
+│   ├── types/                  # Type declarations (uniwind.d.ts)
+│   ├── utils/                  # cn() utility
+│   └── validation/             # Zod schemas (login, register, forgotPassword)
+├── global.css                  # Tailwind v4 + Uniwind entry, oklch CSS vars (light/dark)
+├── app.config.ts               # Expo config (EAS, plugins, fonts, localization)
+├── metro.config.js             # Expo + Uniwind Metro plugin
+├── babel.config.js             # module-resolver, reanimated, dotenv
+├── env.ts                      # Shared env constants
+├── eas.json                    # EAS Build profiles
+├── biome.json                  # Biome config
 ├── tsconfig.json
-├── metro.config.js
 └── package.json
 ```
 
@@ -95,40 +98,33 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 |----------|---------|
 | Framework | React 19 + React Native 0.86 |
 | Platform | Expo SDK 57 |
-| Language | TypeScript (strict) |
+| Language | TypeScript 6 (strict) |
 | Routing | Expo Router (Stack/Drawer/Tabs) |
-| Styling | Tailwind CSS v4 + Uniwind |
-| Client State | Zustand 5 |
-| Server State | TanStack Query 5 |
+| Styling | Tailwind CSS v4 + Uniwind + cn() |
+| Client State | Zustand 5 (MMKV persistence) |
+| Server State | TanStack Query 5 + Devtools |
 | Forms | TanStack Form 1 + Zod 3 |
-| Storage | react-native-mmkv 4 |
-| i18n | i18next 26 + react-i18next |
-| UI | @rn-primitives |
+| Storage | react-native-mmkv 4 (lazy, SSR-safe) |
+| i18n | i18next 26 + react-i18next (EN/FR/AR, RTL) |
+| UI Primitives | @rn-primitives 1.5 (Portal, Slot, Dialog, etc.) |
+| Bottom Sheet | @gorhom/bottom-sheet 5 |
 | Icons | lucide-react-native |
-| HTTP | Axios |
+| HTTP | Axios (auth interceptor, refresh queue) |
 | Animation | react-native-reanimated + gesture-handler |
-| Linting | ESLint 10 + Prettier |
-| Git Hooks | Husky 9 + lint-staged |
-
-## Adding Components
-
-```bash
-npx @react-native-reusables/cli@latest add <component>
-```
-
-Available: `button`, `text`, `card`, `avatar`, `dialog`, `input`, `select`, `tabs`, `switch`, `checkbox`, `radio-group`, `tooltip`, `dropdown-menu`, `popover`, `accordion`, `alert-dialog`, `context-menu`, `hover-card`, `menubar`, `progress`, `separator`, `toggle`, `toggle-group`, `label`, `collapsible`, `aspect-ratio`.
+| Font | @expo-google-fonts/inter (4 weights, via expo-font plugin) |
+| Linting | Biome 2 |
 
 ## Learn More
 
 - [React Native Docs](https://reactnative.dev/docs/getting-started)
 - [Expo Docs](https://docs.expo.dev/)
 - [Uniwind Docs](https://docs.uniwind.dev/)
-- [React Native Reusables](https://reactnativereusables.com)
 - [Tailwind CSS v4 Docs](https://tailwindcss.com/docs)
 - [TanStack Query](https://tanstack.com/query/latest)
 - [TanStack Form](https://tanstack.com/form/latest)
 - [Zustand](https://github.com/pmndrs/zustand)
 - [i18next](https://www.i18next.com/)
+- [@gorhom/bottom-sheet](https://github.com/gorhom/bottom-sheet)
 
 ## Deploy
 

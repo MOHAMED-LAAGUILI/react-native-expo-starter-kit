@@ -1,7 +1,12 @@
 {
-  "name": "minimal",
+  "name": "react-native-starter-kit",
   "main": "expo-router/entry",
   "version": "1.0.0",
+   "packageManager": "bun",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit.git"
+  },
   "scripts": {
     "dev": "expo start -c",
     "android": "expo start -c --android",
