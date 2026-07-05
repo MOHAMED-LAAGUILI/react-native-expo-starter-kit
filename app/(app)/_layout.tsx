@@ -114,25 +114,22 @@ function HeaderTitle() {
 
 function AppDrawerContent(props: AppDrawerContentProps) {
   const pathname = usePathname();
-  const { primary, background } = useThemeColors();
+  const { text, background } = useThemeColors();
 
   return (
     <DrawerContentScrollView {...props}>
       {ROUTES.map(({ label, href, icon: Icon, match }) => {
-        const isFocused = match.includes(pathname);
+        const isActive = match.includes(pathname);
+
         return (
           <DrawerItem
             key={label}
             label={label}
-            focused={isFocused}
-            icon={({ color, size }) => (
-              <Icon
-                color={color}
-                size={size}
-              />
-            )}
+            focused={isActive}
+            activeBackgroundColor={isActive ? "#2563eb" : background + "00"}
+            activeTintColor={isActive ? "#ffffff" : text}
+            icon={({ color, size }) => <Icon color={isActive ? "#ffffff" : color} size={size} />}
             onPress={() => router.push(href)}
-            style={isFocused ? { backgroundColor: primary + "33", borderRadius: 8 } : undefined}
           />
         );
       })}
