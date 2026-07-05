@@ -1,4 +1,4 @@
-import BottomSheetLib, { BottomSheetBackdrop, BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheetLib, { BottomSheetBackdrop, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { X } from "lucide-react-native";
 import * as React from "react";
 import { Pressable, View } from "react-native";
@@ -40,12 +40,14 @@ function BottomSheetInner<T>({
   return (
     <BottomSheetLib
       ref={sheetRef}
-      snapPoints={["70%"]}
+      snapPoints={["90%"]}
       index={-1}
       enablePanDownToClose
+      enableContentPanningGesture={false}
       onChange={index => {
         if (index === -1) onOpenChange(false);
       }}
+      backgroundComponent={() => <View className="flex-1 bg-card rounded-3xl" />}
       backdropComponent={props => (
         <BottomSheetBackdrop
           {...props}
@@ -55,12 +57,12 @@ function BottomSheetInner<T>({
         />
       )}
       handleComponent={() => (
-        <View className="items-center pt-2 pb-1">
+        <View className="items-center pt-2 pb-1 bg-card rounded-t-3xl">
           <View className="w-10 h-1 rounded-full bg-muted-foreground/30" />
         </View>
       )}
     >
-      <BottomSheetView className="flex-1 px-4">
+      <BottomSheetScrollView className="flex-1 px-4 bg-card">
         <View className="flex-row items-center justify-between mb-4">
           <Text
             variant="h4"
@@ -98,7 +100,7 @@ function BottomSheetInner<T>({
             </Pressable>
           ))}
         </View>
-      </BottomSheetView>
+      </BottomSheetScrollView>
     </BottomSheetLib>
   );
 }

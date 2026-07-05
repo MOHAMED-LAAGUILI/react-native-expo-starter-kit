@@ -1,80 +1,62 @@
 import { Tabs } from "expo-router";
-import { DrawerToggleButton } from "expo-router/drawer";
 import { Home, Search, Settings, User } from "lucide-react-native";
-import { useColorScheme, View } from "react-native";
-import { useThemeStore } from "@/store";
-
-function TabsHeaderLeft({ tintColor }: { tintColor: string }) {
-  return (
-    <View className="ml-3">
-      <DrawerToggleButton tintColor={tintColor} />
-    </View>
-  );
-}
 
 export default function TabLayout() {
-  const themeMode = useThemeStore(s => s.mode);
-  const colorScheme = useColorScheme();
-  const isDark = themeMode === "system" ? colorScheme === "dark" : themeMode === "dark";
-  const headerTintColor = isDark ? "#ffffff" : "#111827";
-
   return (
     <Tabs
       screenOptions={{
-        headerLeft: () => <TabsHeaderLeft tintColor={headerTintColor} />,
-        headerTintColor,
-        //   headerRight: () => <TabsHeaderLeft tintColor={headerTintColor} />,
+        headerShown: false,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
+          headerTitle: "Home",
           tabBarIcon: ({ color, size }) => (
             <Home
               color={color}
               size={size}
             />
           ),
-          tabBarLabel: "Home",
           title: "Home",
         }}
       />
       <Tabs.Screen
         name="search"
         options={{
+          headerTitle: "Search",
           tabBarIcon: ({ color, size }) => (
             <Search
               color={color}
               size={size}
             />
           ),
-          tabBarLabel: "Search",
           title: "Search",
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
+          headerTitle: "Profile",
           tabBarIcon: ({ color, size }) => (
             <User
               color={color}
               size={size}
             />
           ),
-          tabBarLabel: "Profile",
           title: "Profile",
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
+          headerTitle: "Settings",
           tabBarIcon: ({ color, size }) => (
             <Settings
               color={color}
               size={size}
             />
           ),
-          tabBarLabel: "Settings",
           title: "Settings",
         }}
       />

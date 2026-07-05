@@ -2,7 +2,7 @@
   "name": "react-native-starter-kit",
   "main": "expo-router/entry",
   "version": "1.0.0",
-   "packageManager": "bun",
+  "packageManager": "bun",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit.git"
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.2",
+    "@expo/vector-icons": "^15.1.1",
     "@gorhom/bottom-sheet": "^5",
     "@react-navigation/drawer": "^7",
     "@react-navigation/native-stack": "^7",
@@ -92,6 +93,7 @@
     "react-native-url-polyfill": "^3.0.0",
     "react-native-web": "^0.21.0",
     "react-native-worklets": "0.10.0",
+    "react-navigation-header-buttons": "^13.0.0",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.1",
     "tailwindcss-animate": "^1.0.7",
