@@ -1,5 +1,6 @@
-import { API_ENDPOINTS } from "@/config/constants";
+import { API_ENDPOINTS, PUBLIC_API_BASE } from "@/config/constants";
 import type { LoginRequest, LoginResponse, User } from "@/types/auth";
+import type { PublicPost } from "@/api/types";
 import { apiClient } from "./client";
 
 export const authApi = {
@@ -38,4 +39,18 @@ export const postsApi = {
 
   update: (id: string, data: unknown) =>
     apiClient.put(API_ENDPOINTS.POSTS.UPDATE(id), data).then(r => r.data),
+};
+
+export const publicApi = {
+  posts: (search?: string) => {
+    const url = `${PUBLIC_API_BASE}/posts`;
+    return apiClient.get<PublicPost[]>(url).then(r => {
+      const posts = r.data;
+      if (!search) return posts;
+      const q = search.toLowerCase();
+      return posts.filter(p => p.title.toLowerCase().includes(q) || p.body.toLowerCase().includes(q));
+    });
+  },
+  post: (id: number) =>
+    apiClient.get<PublicPost>(`${PUBLIC_API_BASE}/posts/${id}`).then(r => r.data),
 };

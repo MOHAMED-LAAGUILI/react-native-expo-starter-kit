@@ -5,9 +5,12 @@ export const STORAGE_KEYS = {
   THEME_MODE: "theme.mode",
 } as const;
 
+export const PUBLIC_API_BASE = "https://jsonplaceholder.typicode.com";
+
 export const QUERY_KEYS = {
   AUTH: ["auth"],
   POSTS: ["posts"],
+  PUBLIC_POSTS: ["public-posts"],
   USER: ["user"],
 } as const;
 
