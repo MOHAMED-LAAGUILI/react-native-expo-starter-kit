@@ -40,6 +40,10 @@
   "settings": {
     "appearance": "المظهر",
     "about": "حول",
-    "info": "معلومات التطبيق"
+    "info": "معلومات التطبيق",
+    "network": "الشبكة",
+    "networkConnected": "{{type}} • متصل",
+    "networkDisconnected": "غير متصل",
+    "networkChecking": "جارٍ التحقق..."
   }
 }

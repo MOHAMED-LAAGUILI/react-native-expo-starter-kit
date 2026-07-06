@@ -1,10 +1,18 @@
 import { Eye, EyeOff, Home, Lock, Mail, Phone, Search } from "lucide-react-native";
 import * as React from "react";
 import { Pressable, ScrollView, View } from "react-native";
-import { FormField } from "@/components/forms/FormField";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { Image } from "@/components/ui/Image";
 import { Input } from "@/components/ui/Input";
+import { Progress } from "@/components/ui/Progress";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
+import { Slider } from "@/components/ui/Slider";
+import { Spinner } from "@/components/ui/Spinner";
+import { Switch } from "@/components/ui/Switch";
 import { Text } from "@/components/ui/Text";
+import { Toggle } from "@/components/ui/Toggle";
 
 function SectionTitle({ children }: { children: string }) {
   return (
@@ -15,12 +23,20 @@ function SectionTitle({ children }: { children: string }) {
   );
 }
 
+function Row({ children }: { children: React.ReactNode }) {
+  return <View className="flex-row flex-wrap items-center gap-3 mb-4">{children}</View>;
+}
+
 function HomeScreen() {
   const [email, setEmail] = React.useState("");
   const [emailError, setEmailError] = React.useState("");
   const [inputValue, setInputValue] = React.useState("");
-  const [formValue, setFormValue] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
+  const [switchOn, setSwitchOn] = React.useState(false);
+  const [checked, setChecked] = React.useState(false);
+  const [fruit, setFruit] = React.useState("apple");
+  const [sliderValue, setSliderValue] = React.useState(50);
+  const [togglePressed, setTogglePressed] = React.useState(false);
 
   return (
     <ScrollView
@@ -37,9 +53,10 @@ function HomeScreen() {
         variant="body"
         className="text-muted-foreground mb-2"
       >
-        All UI, form, and typography components with available variants.
+        All UI components with available variants.
       </Text>
 
+      {/* Typography */}
       <SectionTitle>Typography</SectionTitle>
       <View className="gap-1 bg-card p-4 rounded-xl border border-border">
         <Text variant="h1">Heading h1</Text>
@@ -53,15 +70,15 @@ function HomeScreen() {
         <Text variant="label">Label text</Text>
       </View>
 
-      <SectionTitle>UI Components</SectionTitle>
-
+      {/* Buttons */}
+      <SectionTitle>Buttons</SectionTitle>
       <Text
         variant="label"
         className="text-muted-foreground mb-1"
       >
-        Button variants
+        Variants
       </Text>
-      <View className="flex-row flex-wrap gap-2 mb-4">
+      <Row>
         <Button
           title="Primary"
           variant="primary"
@@ -87,15 +104,15 @@ function HomeScreen() {
           variant="destructive"
           size="sm"
         />
-      </View>
+      </Row>
 
       <Text
         variant="label"
         className="text-muted-foreground mb-1"
       >
-        Button sizes
+        Sizes
       </Text>
-      <View className="flex-row items-center gap-2 mb-4">
+      <Row>
         <Button
           title="Small"
           size="sm"
@@ -108,15 +125,15 @@ function HomeScreen() {
           title="Large"
           size="lg"
         />
-      </View>
+      </Row>
 
       <Text
         variant="label"
         className="text-muted-foreground mb-1"
       >
-        Button states
+        States
       </Text>
-      <View className="flex-row flex-wrap gap-2 mb-4">
+      <Row>
         <Button
           title="Loading"
           loading
@@ -135,14 +152,179 @@ function HomeScreen() {
             />
           }
         />
+      </Row>
+
+      {/* Switch */}
+      <SectionTitle>Switch</SectionTitle>
+      <Row>
+        <View className="flex-row items-center gap-3">
+          <Switch
+            checked={switchOn}
+            onCheckedChange={setSwitchOn}
+          />
+          <Text variant="body">{switchOn ? "On" : "Off"}</Text>
+        </View>
+        <Switch
+          checked={true}
+          onCheckedChange={() => {}}
+          disabled
+        />
+        <Text
+          variant="caption"
+          className="text-muted-foreground"
+        >
+          disabled (on)
+        </Text>
+      </Row>
+
+      {/* Checkbox */}
+      <SectionTitle>Checkbox</SectionTitle>
+      <Row>
+        <View className="flex-row items-center gap-3">
+          <Checkbox
+            checked={checked}
+            onCheckedChange={setChecked}
+          />
+          <Text variant="body">{checked ? "Checked" : "Unchecked"}</Text>
+        </View>
+        <View className="flex-row items-center gap-3">
+          <Checkbox
+            checked={true}
+            onCheckedChange={() => {}}
+            disabled
+          />
+          <Text
+            variant="caption"
+            className="text-muted-foreground"
+          >
+            disabled
+          </Text>
+        </View>
+      </Row>
+
+      {/* Radio Group */}
+      <SectionTitle>Radio Group</SectionTitle>
+      <View className="bg-card p-4 rounded-xl border border-border">
+        <RadioGroup
+          value={fruit}
+          onValueChange={setFruit}
+        >
+          <RadioGroupItem
+            value="apple"
+            label="Apple"
+          />
+          <RadioGroupItem
+            value="banana"
+            label="Banana"
+          />
+          <RadioGroupItem
+            value="orange"
+            label="Orange"
+          />
+        </RadioGroup>
       </View>
 
+      {/* Toggle */}
+      <SectionTitle>Toggle</SectionTitle>
+      <Row>
+        <Toggle
+          pressed={togglePressed}
+          onPressedChange={setTogglePressed}
+        >
+          Bold
+        </Toggle>
+        <Toggle
+          pressed={true}
+          onPressedChange={() => {}}
+          disabled
+        >
+          Disabled
+        </Toggle>
+      </Row>
+
+      {/* Slider */}
+      <SectionTitle>Slider</SectionTitle>
+      <View className="bg-card p-4 rounded-xl border border-border">
+        <Slider
+          value={sliderValue}
+          onValueChange={setSliderValue}
+          min={0}
+          max={100}
+        />
+        <Text
+          variant="body"
+          className="text-center mt-2"
+        >
+          Value: {sliderValue}
+        </Text>
+      </View>
+
+      {/* Progress */}
+      <SectionTitle>Progress</SectionTitle>
+      <View className="bg-card p-4 rounded-xl border border-border gap-3">
+        <Progress value={30} />
+        <Progress value={65} />
+        <Progress value={100} />
+      </View>
+
+      {/* Spinner */}
+      <SectionTitle>Spinner</SectionTitle>
+      <Row>
+        <Spinner size="sm" />
+        <Spinner size="md" />
+        <Spinner size="lg" />
+        <Spinner
+          size="md"
+          className="text-primary"
+          color="#3b82f6"
+        />
+        <Text
+          variant="caption"
+          className="text-muted-foreground"
+        >
+          (sm, md, lg, colored)
+        </Text>
+      </Row>
+
+      {/* Badge */}
+      <SectionTitle>Badge</SectionTitle>
       <Text
         variant="label"
         className="text-muted-foreground mb-1"
       >
-        Input variants
+        Variants
       </Text>
+      <Row>
+        <Badge variant="default">default</Badge>
+        <Badge variant="primary">primary</Badge>
+        <Badge variant="secondary">secondary</Badge>
+        <Badge variant="destructive">destructive</Badge>
+        <Badge variant="outline">outline</Badge>
+      </Row>
+
+      {/* Image */}
+      <SectionTitle>Image</SectionTitle>
+      <Row>
+        <Image
+          source={{ uri: "https://picsum.photos/seed/a/100/100" }}
+          className="w-20 h-20 rounded-xl"
+        />
+        <Image
+          source={{ uri: "https://picsum.photos/seed/b/200/200" }}
+          className="w-20 h-20 rounded-full"
+        />
+        <View>
+          <Text
+            variant="caption"
+            className="text-muted-foreground"
+          >
+            Square + Circle
+          </Text>
+        </View>
+      </Row>
+
+      {/* Input */}
+      <SectionTitle>Input</SectionTitle>
       <View className="gap-3 mb-4">
         <Input
           label="Default"
@@ -223,32 +405,12 @@ function HomeScreen() {
           error={emailError}
           keyboardType="email-address"
         />
-        {!emailError && (
-          <Button
-            title="Show error"
-            variant="ghost"
-            size="sm"
-            onPress={() => setEmailError("Invalid email address")}
-          />
-        )}
-      </View>
 
-      <SectionTitle>Form Components</SectionTitle>
-      <View className="gap-3 bg-card p-4 rounded-xl border border-border">
-        <FormField
-          name="email"
-          label="Email"
-          placeholder="you@example.com"
-          value={formValue}
-          onChangeText={setFormValue}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <FormField
-          name="password"
-          label="Password"
-          placeholder="Enter password"
-          secureTextEntry
+        <Button
+          title={emailError ? "Reset Error" : "Trigger Error"}
+          variant="outline"
+          size="sm"
+          onPress={() => (emailError ? setEmailError("") : setEmailError("Invalid email address"))}
         />
       </View>
     </ScrollView>

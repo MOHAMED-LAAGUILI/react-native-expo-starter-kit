@@ -17,6 +17,7 @@ export function DrawerProfileHeader() {
         height={140}
         width="100%"
         viewBox="0 0 300 140"
+        preserveAspectRatio="none"
       >
         <Defs>
           <LinearGradient
@@ -40,14 +41,14 @@ export function DrawerProfileHeader() {
         <Rect
           x="0"
           y="0"
-          width="300"
-          height="140"
+          width="100%"
+          height="100%"
           fill="url(#drawerGrad)"
         />
       </Svg>
 
-      <View className="absolute top-0 left-0 right-0 bottom-0 flex-row items-center px-5">
-        <View className={cn("rounded-full border-2 border-white/30 overflow-hidden", "w-[68px] h-[68px]")}>
+      <View className="absolute top-0 left-0 right-0 bottom-0 flex-row items-center px-4">
+        <View className={cn("rounded-full border-2 border-white/30 overflow-hidden", "w-17 h-17")}>
           <View className="w-full h-full bg-white/20 items-center justify-center">
             <Text
               variant="h1"

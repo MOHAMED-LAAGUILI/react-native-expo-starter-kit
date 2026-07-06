@@ -3,9 +3,11 @@ import Drawer, { DrawerContentScrollView } from "expo-router/drawer";
 import type { ComponentProps } from "react";
 import { View } from "react-native";
 import { Button } from "@/components/ui/Button";
+import { COLOR_PALETTES } from "@/config/color-palettes";
 import { NAV_ITEMS } from "@/config/navigation";
 import { useThemeColors } from "@/hooks/useThemeColor";
 import { cn } from "@/lib/utils";
+import { useThemeStore } from "@/store";
 import { DrawerProfileHeader } from "./DrawerProfileHeader";
 
 type AppDrawerContentProps = Parameters<NonNullable<ComponentProps<typeof Drawer>["drawerContent"]>>[0];
@@ -17,6 +19,9 @@ function normalizePath(path: string | { pathname: string; params?: unknown }) {
 export function AppDrawerContent(props: AppDrawerContentProps) {
   const pathname = usePathname();
   const { background } = useThemeColors();
+  const primaryColor = useThemeStore(s => s.primaryColor);
+  const palette = COLOR_PALETTES.find(p => p.key === primaryColor);
+  const primaryHex = palette?.color ?? "#3b82f6";
 
   return (
     <DrawerContentScrollView
@@ -32,7 +37,8 @@ export function AppDrawerContent(props: AppDrawerContentProps) {
       <View className="mt-4 px-4">
         {NAV_ITEMS.map(({ label, href, icon: Icon, match }) => {
           const currentPath = normalizePath(pathname);
-          const isActive = match.some(p => currentPath.includes(p));
+          const normalizedPath = currentPath.replace(/\/+$/, "") || "/";
+          const isActive = match.some(p => normalizedPath === p);
 
           return (
             <Button
@@ -43,10 +49,11 @@ export function AppDrawerContent(props: AppDrawerContentProps) {
               leftIcon={
                 <Icon
                   size={22}
-                  className={isActive ? "text-primary-foreground" : "text-muted-foreground"}
+                  className={isActive ? "text-white" : "text-muted-foreground"}
                 />
               }
-              className={cn("mb-1 justify-start", !isActive && "bg-transparent")}
+              className={cn("mb-2 justify-start w-full gap-3", !isActive && "bg-transparent")}
+              style={isActive ? { backgroundColor: primaryHex } : undefined}
               onPress={() => router.push(href)}
             />
           );

@@ -26,22 +26,15 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, .
       ) : null}
       <View
         className={cn(
-          "flex-row items-center rounded-md border h-11",
+          "flex-row items-center rounded-md border h-11 gap-2 px-3",
           "bg-secondary",
           focused ? "border-ring" : "border-border",
           error && "border-destructive"
         )}
       >
-        {leftIcon && (
-          <View className="h-9 w-8 items-center justify-center border-r border-border">{leftIcon}</View>
-        )}
+        {leftIcon && <View className="items-center justify-center">{leftIcon}</View>}
         <TextInput
-          className={cn(
-            "flex-1 text-base text-foreground px-3 h-full outline-0 ms-2",
-            leftIcon && "pl-1",
-            rightIcon && "pr-1",
-            className
-          )}
+          className={cn("flex-1 text-base text-foreground h-full outline-0", className)}
           placeholderTextColor="#9CA3AF"
           onFocus={e => {
             setFocused(true);
@@ -53,7 +46,7 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, .
           }}
           {...props}
         />
-        {rightIcon ? <View className="pr-3">{rightIcon}</View> : null}
+        {rightIcon && <View className="items-center justify-center">{rightIcon}</View>}
       </View>
       {error ? (
         <Text

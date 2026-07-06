@@ -51,8 +51,7 @@ function Button({
       {loading ? (
         <ActivityIndicator
           size="small"
-          color={variant === "outline" || variant === "ghost" ? undefined : undefined}
-          className="text-primary-foreground"
+          color={variant === "primary" || variant === "destructive" ? "#ffffff" : undefined}
         />
       ) : (
         <>

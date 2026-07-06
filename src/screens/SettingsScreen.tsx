@@ -1,4 +1,5 @@
-import { Brush, Globe, Info, Palette } from "lucide-react-native";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { Brush, Globe, Info, Palette, Wifi } from "lucide-react-native";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View } from "react-native";
@@ -25,6 +26,7 @@ const LANGUAGE_OPTIONS: BottomSheetOption<string>[] = [
 function SettingsScreen() {
   const { mode, setMode, primaryColor, setPrimaryColor } = useThemeStore();
   const { t, i18n } = useTranslation();
+  const { type, isConnected } = useNetInfo();
   const [themeSheetOpen, setThemeSheetOpen] = React.useState(false);
   const [langSheetOpen, setLangSheetOpen] = React.useState(false);
   const [colorSheetOpen, setColorSheetOpen] = React.useState(false);
@@ -114,12 +116,7 @@ function SettingsScreen() {
                   >
                     {t("app.version", { version: "1.0.0" })}
                   </Text>
-                </View>
-              </View>
-              <View className="h-px bg-border mx-4" />
-              <View className="flex-row items-center p-4">
-                <View className="w-5.5 mr-3" />
-                <View className="flex-1">
+
                   <Text
                     variant="caption"
                     className="text-muted-foreground"
@@ -128,6 +125,29 @@ function SettingsScreen() {
                   </Text>
                 </View>
               </View>
+
+              <View className="h-px bg-border mx-4" />
+              <SettingRow
+                icon={Wifi}
+                label={t("settings.network")}
+                subtitle={
+                  isConnected == null
+                    ? t("settings.networkChecking")
+                    : isConnected
+                      ? t("settings.networkConnected", { type })
+                      : t("settings.networkDisconnected")
+                }
+                rightElement={
+                  <View
+                    className={cn(
+                      "w-3 h-3 rounded-full mr-2",
+                      isConnected == null && "bg-muted-foreground",
+                      isConnected === true && "bg-green-500",
+                      isConnected === false && "bg-red-500"
+                    )}
+                  />
+                }
+              />
             </View>
           </View>
         </View>

@@ -99,8 +99,7 @@ src/
 ├── components/
 │   ├── common/       — LoadingScreen, ErrorFallback, SettingRow, InfoRow, PostCard
 │   ├── drawer/       — DrawerHeaderLeft, DrawerHeaderRight, DrawerProfileHeader, HeaderTitle, AppDrawerContent
-│   ├── forms/        — FormField
-│   └── ui/           — Button, Text, Input, BottomSheet (gorhom)
+│   └── ui/           — Button, Text, Input, BottomSheet, Badge, Switch, Checkbox, RadioGroup, Slider, Spinner, Image, Progress, Toggle
 ├── config/           — Constants, env helpers, color-palettes.ts (7 palettes)
 ├── hooks/            — Shared hooks
 ├── i18n/             — i18next setup + locales/{en,fr,ar}/, RNRestart restart
@@ -156,9 +155,17 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 ## Component Patterns
 - All UI components use `className` + `cn()` for styling with Tailwind classes
 - `BottomSheet<T>` — generic bottom sheet built on `@gorhom/bottom-sheet` v5 with `enablePanDownToClose`, backdrop, `index` prop (`-1` closed, `0` open), sticky handle
-- `Button` — variants (primary/secondary/outline/ghost/destructive), sizes (sm/md/lg), loading state
+- `Badge` — variants (default/primary/secondary/destructive/outline), sizes (sm/md/lg)
 - `Text` — variants (h1-h4, body/large/small, caption, label)
 - `Input` — styled input with label, error, icon support
+- `Switch` — toggle switch with primary color theming
+- `Checkbox` — checkbox with checkmark icon
+- `RadioGroup` / `RadioGroupItem` — radio button group
+- `Slider` — gesture-driven slider with reanimated
+- `Spinner` — ActivityIndicator with size variants (sm/md/lg)
+- `Image` — expo-image wrapper with fallback
+- `Progress` — progress bar with primary color fill
+- `Toggle` — pressed-state toggle button (on/off)
 
 ## Important Packages
 - `@gorhom/bottom-sheet` (v5) — native gesture-driven bottom sheet with snap points

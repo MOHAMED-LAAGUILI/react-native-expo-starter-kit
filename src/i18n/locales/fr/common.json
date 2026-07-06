@@ -40,6 +40,10 @@
   "settings": {
     "appearance": "Apparence",
     "about": "À propos",
-    "info": "Info de l'application"
+    "info": "Info de l'application",
+    "network": "Réseau",
+    "networkConnected": "{{type}} • Connecté",
+    "networkDisconnected": "Déconnecté",
+    "networkChecking": "Vérification..."
   }
 }

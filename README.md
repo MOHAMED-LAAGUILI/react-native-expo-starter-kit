@@ -70,7 +70,6 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 │   ├── api/                    # Axios client + TanStack Query hooks
 │   ├── components/
 │   │   ├── common/             # LoadingScreen, ErrorFallback
-│   │   ├── forms/              # FormField
 │   │   └── ui/                 # Button, Text, Input, BottomSheet
 │   ├── config/                 # Constants, env helpers, color-palettes.ts
 │   ├── hooks/                  # Shared hooks

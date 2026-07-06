@@ -8,7 +8,7 @@ type SettingRowProps = {
   label: string;
   subtitle?: string;
   rightElement?: React.ReactNode;
-  onPress: () => void;
+  onPress?: () => void;
 };
 
 export function SettingRow({ icon: Icon, label, subtitle, rightElement, onPress }: SettingRowProps) {
@@ -16,6 +16,7 @@ export function SettingRow({ icon: Icon, label, subtitle, rightElement, onPress 
     <Pressable
       className={cn("flex-row items-center p-4 active:bg-accent")}
       onPress={onPress}
+      disabled={!onPress}
     >
       <Icon
         size={22}
@@ -33,10 +34,12 @@ export function SettingRow({ icon: Icon, label, subtitle, rightElement, onPress 
         )}
       </View>
       {rightElement}
-      <ChevronRight
-        size={18}
-        className="text-muted-foreground"
-      />
+      {onPress && (
+        <ChevronRight
+          size={18}
+          className="text-muted-foreground"
+        />
+      )}
     </Pressable>
   );
 }
