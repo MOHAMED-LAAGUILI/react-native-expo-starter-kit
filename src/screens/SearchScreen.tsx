@@ -14,12 +14,6 @@ function SearchScreen() {
   return (
     <View className="flex-1 bg-background">
       <View className="p-6 pb-0">
-        <Text
-          variant="h2"
-          className="mb-4"
-        >
-          Search
-        </Text>
         <Input
           placeholder="Search posts..."
           value={query}

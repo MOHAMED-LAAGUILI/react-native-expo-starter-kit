@@ -37,9 +37,9 @@ function ProfileScreen() {
       showsVerticalScrollIndicator={false}
     >
       {/* Gradient Wave Header */}
-      <View className="relative">
+      <View className="relative ">
         <Svg
-          height={220}
+          height={100}
           width="100%"
           viewBox="0 0 400 220"
           preserveAspectRatio="none"
@@ -94,6 +94,7 @@ function ProfileScreen() {
             </Text>
           </View>
         </View>
+       
       </View>
 
       {/* User Info */}
@@ -127,7 +128,7 @@ function ProfileScreen() {
       <View className="px-6 mt-6 mb-8">
         <Button
           title="Logout"
-          variant="ghost"
+          variant="outline"
           onPress={logout}
         />
       </View>

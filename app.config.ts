@@ -1,41 +1,23 @@
 import type { ConfigContext, ExpoConfig } from '@expo/config';
 
 import type { AppIconBadgeConfig } from 'app-icon-badge/types';
+import 'dotenv/config';
 
 import 'tsx/cjs';
 
-import pkg from './package.json' with { type: 'json' };
-const EXPO_PUBLIC_VERSION = pkg.version;
+import Env from './env';
 
-const EXPO_PUBLIC_APP_ENV = process.env.EXPO_PUBLIC_APP_ENV ?? 'development';
-const EXPO_PUBLIC_NAME = 'Starter Kit';
-const EXPO_PUBLIC_SCHEME = 'starterkit';
-const EXPO_PUBLIC_SLUG = 'starter-kit';
-const EXPO_ACCOUNT_OWNER = 'obytes';
-const EAS_PROJECT_ID = 'c3e1075b-6fe7-4686-aa49-35b46a229044';
-
-const BUNDLE_IDS: Record<string, string> = {
-  development: 'com.starterkit.dev',
-  preview: 'com.starterkit.preview',
-  production: 'com.starterkit',
-};
-
-const PACKAGES: Record<string, string> = {
-  development: 'com.starterkit.dev',
-  preview: 'com.starterkit.preview',
-  production: 'com.starterkit',
-};
 
 const appIconBadgeConfig: AppIconBadgeConfig = {
-  enabled: EXPO_PUBLIC_APP_ENV !== 'production',
+  enabled: process.env.NODE_ENV !== 'production',
   badges: [
     {
-      text: EXPO_PUBLIC_APP_ENV,
+      text: process.env.NODE_ENV,
       type: 'banner',
       color: 'white',
     },
     {
-      text: EXPO_PUBLIC_VERSION,
+      text: Env.EXPO_PUBLIC_VERSION,
       type: 'ribbon',
       color: 'white',
     },
@@ -44,12 +26,12 @@ const appIconBadgeConfig: AppIconBadgeConfig = {
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: EXPO_PUBLIC_NAME,
-  slug: EXPO_PUBLIC_SLUG,
-  version: EXPO_PUBLIC_VERSION,
-  description: `${EXPO_PUBLIC_NAME} Mobile App`,
-  owner: EXPO_ACCOUNT_OWNER,
-  scheme: EXPO_PUBLIC_SCHEME,
+  name: Env.EXPO_PUBLIC_NAME,
+  slug: Env.EXPO_PUBLIC_SLUG,
+  version: Env.EXPO_PUBLIC_VERSION,
+  description: `${Env.EXPO_PUBLIC_NAME} Mobile App`,
+  owner: Env.EXPO_ACCOUNT_OWNER,
+  scheme: Env.EXPO_PUBLIC_SCHEME,
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   userInterfaceStyle: 'automatic',
@@ -62,7 +44,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
-    bundleIdentifier: BUNDLE_IDS[EXPO_PUBLIC_APP_ENV] ?? BUNDLE_IDS.development,
+    bundleIdentifier: Env.EXPO_PUBLIC_BUNDLE_ID,
     backgroundColor: '#ffffff',
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
@@ -74,7 +56,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#2E3C4B',
     },
-    package: PACKAGES[EXPO_PUBLIC_APP_ENV] ?? PACKAGES.development,
+    package: Env.EXPO_PUBLIC_PACKAGE,
   },
   web: {
     bundler: 'metro',
@@ -92,6 +74,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         imageWidth: 150,
       },
     ],
+    [
+        "expo-dev-client",
+        {
+          launchMode: "most-recent",
+          defaultLaunchURL: "http://localhost:8081",
+          android: {
+            defaultLaunchURL: "http://10.0.0.2:8081"
+          }
+        }
+      ],
     [
       'expo-font',
       {
@@ -133,15 +125,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-localization',
     'expo-router',
     ['app-icon-badge', appIconBadgeConfig],
-    ['react-native-edge-to-edge'],
     'expo-status-bar',
+    ['react-native-edge-to-edge'],
+
   ],
   experiments: {
     typedRoutes: true,
   },
   extra: {
     eas: {
-      projectId: EAS_PROJECT_ID,
+      projectId: Env.EAS_PROJECT_ID,
     },
   },
 });

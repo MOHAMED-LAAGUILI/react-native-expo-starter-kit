@@ -21,7 +21,6 @@ import { isWeb } from "@/utils/platform";
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
-  strict: true, // Reanimated runs in strict mode by default
 });
 
 export { ErrorBoundary } from "expo-router";

@@ -10,12 +10,34 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 | `bun run android` | `expo start -c --android` |
 | `bun run ios` | `expo start -c --ios` |
 | `bun run web` | `expo start -c --web` |
-| `bun run clean` | `rm -rf .expo node_modules` |
+| `bun run clean` | `rm -rf .expo node_modules android ios build dist bun.lock && bun install` |
 | `bun run fix:deps` | `npx expo install --fix` |
 | `bun run doctor` | `npx expo-doctor --verbose` |
-| `bun run prebuild` | `expo prebuild --clean` |
-| `bun run biome` | `npx @biomejs/biome check --write && npx @biomejs/biome format --write` |
+| `bun run prebuild` | `expo prebuild -c` |
+| `bun run biome` | `bun run check && bun run format` |
+| `bun run check` | `npx @biomejs/biome check --write` |
 | `bun run format` | `npx @biomejs/biome format --write` |
+| `bun run export` | `npx expo export --platform web` |
+| `bun run login` | `eas login` |
+| `bun run logout` | `eas logout` |
+| `bun run build:development:ios` | `eas build --profile development --platform ios` |
+| `bun run build:development:android` | `eas build --profile development --platform android` |
+| `bun run build:preview:ios` | `eas build --profile preview --platform ios` |
+| `bun run build:preview:android` | `eas build --profile preview --platform android` |
+| `bun run build:production:ios` | `eas build --profile production --platform ios` |
+| `bun run build:production:android` | `eas build --profile production --platform android` |
+| `bun run start:preview` | `cross-env EXPO_PUBLIC_APP_ENV=preview expo start -c` |
+| `bun run start:production` | `cross-env EXPO_PUBLIC_APP_ENV=production expo start -c` |
+| `bun run prebuild:preview` | `cross-env EXPO_PUBLIC_APP_ENV=preview expo prebuild -c` |
+| `bun run prebuild:production` | `cross-env EXPO_PUBLIC_APP_ENV=production expo prebuild -c` |
+
+### EAS Build Profiles
+| Profile | Distribution | Channel | Use Case |
+|---------|-------------|---------|----------|
+| `development` | Internal | — | Dev client builds for testing |
+| `preview` | Store (APK) | preview | Internal testing / QA |
+| `production` | Store (AAB) | production | App Store / Play Store release |
+| `simulator` | — | — | iOS simulator / Android emulator builds |
 
 ## Conventions
 
@@ -196,3 +218,30 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - Use `bun` for package management only — don't add `package-lock.json` or `yarn.lock`
 - MMKV storage is lazily initialized with try/catch to prevent SSR crashes during Metro bundling
 - `ActivityIndicator` in Uniwind doesn't support `className` color — use native `color` prop with hex fallback
+
+## CI/CD
+
+### EAS Build (`eas.json`)
+| Profile | Channel | Distribution | Use Case |
+|---------|---------|-------------|----------|
+| `development` | — | Internal | Dev client builds for local testing |
+| `preview` | preview | Store (APK) | Internal QA builds |
+| `production` | production | Store (AAB) | App Store / Play Store release |
+
+- `autoIncrement: true` on `preview` and `production` — EAS auto-bumps build numbers
+- `appVersionSource: "remote"` — version numbers managed by EAS
+- Environment variables set per-profile via `env` in `eas.json`
+- Build commands: `bun run build:preview:ios`, `bun run build:production:android`, etc.
+
+### GitHub Actions Release (`.github/workflows/release.yml`)
+- Triggers on **push to `main`**
+- Reads version from `package.json` → tag `v{version}`
+- **New version** → creates GitHub release with auto-generated notes
+- **Existing version** → updates release notes with commits since previous release
+- Uses `gh` CLI with `GITHUB_TOKEN` (no extra secrets needed)
+
+### Environment Variables
+- `.env.development`, `.env.preview`, `.env.production` — per-environment values
+- `env.ts` — shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`)
+- EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
+- Android package: `com.rn_template.app` (underscores, not hyphens — Android requirement)

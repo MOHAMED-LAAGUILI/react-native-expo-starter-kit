@@ -59,7 +59,7 @@ function Button({
           <Text
             className={cn(
               "font-semibold",
-              variant === "primary" && "text-primary-foreground",
+              variant === "primary" && "text-primary-foreground dark:text-white",
               variant === "secondary" && "text-secondary-foreground",
               variant === "outline" && "text-foreground",
               variant === "ghost" && "text-foreground",

@@ -21,12 +21,26 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 | `bun run ios` | Dev server targeting iOS |
 | `bun run android` | Dev server targeting Android |
 | `bun run web` | Dev server targeting Web |
-| `bun run clean` | Remove `.expo` and `node_modules` |
+| `bun run clean` | Remove `.expo`, `node_modules`, `android`, `ios`, `build`, `dist`, `bun.lock` and reinstall |
 | `bun run fix:deps` | Fix dependency versions via Expo |
 | `bun run doctor` | Run Expo doctor diagnostics |
 | `bun run prebuild` | Prebuild native project |
-| `bun run biome` | Lint + format via Biome |
+| `bun run check` | Lint + auto-fix via Biome |
 | `bun run format` | Format code via Biome |
+| `bun run biome` | Lint + format (both) |
+| `bun run export` | Export web build |
+| `bun run login` | EAS login |
+| `bun run logout` | EAS logout |
+| `bun run build:development:ios` | EAS dev client build for iOS |
+| `bun run build:development:android` | EAS dev client build for Android |
+| `bun run build:preview:ios` | EAS preview build for iOS |
+| `bun run build:preview:android` | EAS preview build for Android |
+| `bun run build:production:ios` | EAS production build for iOS |
+| `bun run build:production:android` | EAS production build for Android |
+| `bun run start:preview` | Dev server with preview env |
+| `bun run start:production` | Dev server with production env |
+| `bun run prebuild:preview` | Prebuild with preview env |
+| `bun run prebuild:production` | Prebuild with production env |
 
 ## Features
 
@@ -89,7 +103,10 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 ├── eas.json                    # EAS Build profiles
 ├── biome.json                  # Biome config
 ├── tsconfig.json
-└── package.json
+├── package.json
+└── .github/
+    └── workflows/
+        └── release.yml         # GitHub Actions: auto-release on push to main
 ```
 
 ## Tech Stack
@@ -130,3 +147,57 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 ## Deploy
 
 Use [Expo Application Services (EAS)](https://expo.dev/eas) for builds, updates, and submissions.
+
+### EAS Build Profiles
+
+| Profile | Distribution | Channel | Use Case |
+|---------|-------------|---------|----------|
+| `development` | Internal | — | Dev client builds for local testing |
+| `preview` | Store (APK) | preview | Internal QA builds |
+| `production` | Store (AAB) | production | App Store / Play Store release |
+| `simulator` | — | — | iOS simulator / Android emulator builds |
+
+```bash
+# Login to EAS
+bun run login
+
+# Build for preview (QA)
+bun run build:preview:ios
+bun run build:preview:android
+
+# Build for production
+bun run build:production:ios
+bun run build:production:android
+
+# Submit to stores
+bun run submit:android
+bun run submit:ios
+```
+
+- `autoIncrement: true` on `preview` and `production` — EAS auto-bumps build numbers
+- `appVersionSource: "remote"` — version numbers managed by EAS
+- Environment variables set per-profile in `eas.json`
+
+### GitHub Actions Release
+
+A GitHub Actions workflow (`.github/workflows/release.yml`) automatically manages releases:
+
+- **Triggers** on every push to `main`
+- Reads version from `package.json` → creates/updates tag `v{version}`
+- **New version** → creates a GitHub release with auto-generated notes
+- **Existing version** → updates the release notes with commits since the previous release
+- Uses `gh` CLI with `GITHUB_TOKEN` — no extra secrets needed
+
+To release, just bump the version in `package.json` and push to `main`.
+
+### Environment Variables
+
+| File | Purpose |
+|------|---------|
+| `.env.development` | Local dev values |
+| `.env.preview` | Preview/QA builds |
+| `.env.production` | Production builds |
+| `env.ts` | Shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`) |
+
+- Android package: `com.rn_template.app` (underscores, not hyphens — Android requirement)
+- EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
