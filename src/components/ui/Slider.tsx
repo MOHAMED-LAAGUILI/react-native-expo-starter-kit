@@ -17,7 +17,16 @@ interface SliderProps {
   className?: string;
 }
 
-function Slider({ value, onValueChange, onSlidingComplete, min = 0, max = 100, step = 1, disabled, className }: SliderProps) {
+function Slider({
+  value,
+  onValueChange,
+  onSlidingComplete,
+  min = 0,
+  max = 100,
+  step = 1,
+  disabled,
+  className,
+}: SliderProps) {
   const primaryColor = useThemeStore(s => s.primaryColor);
   const { border } = useThemeColors();
   const palette = COLOR_PALETTES.find(p => p.key === primaryColor);

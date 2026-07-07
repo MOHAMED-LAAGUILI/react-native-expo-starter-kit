@@ -19,57 +19,63 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Get version from package.json
+      - name: Get version
         id: version
         run: |
           echo "tag=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
 
-      - name: Setup Git
-        run: |
-          git fetch --tags --force
+      - name: Fetch tags
+        run: git fetch --tags --force
 
-      - name: Create or Update Release
+      - name: Delete existing release (if any)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -e
-
           TAG="${{ steps.version.outputs.tag }}"
 
-          echo "Current tag: $TAG"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Deleting existing release $TAG..."
+            gh release delete "$TAG" --yes
+          else
+            echo "No existing release found."
+          fi
 
-          PREV_TAG=$(gh release list \
-            --limit 100 \
-            --json tagName,publishedAt \
-            --jq '[.[] | select(.tagName != "'"$TAG"'")] | sort_by(.publishedAt) | last | .tagName')
+      - name: Delete existing tag (if any)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
 
-          echo "Previous tag: ${PREV_TAG:-None}"
+          if git ls-remote --tags origin | grep -q "refs/tags/$TAG$"; then
+            echo "Deleting remote tag..."
+            git push origin ":refs/tags/$TAG"
+          fi
 
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Deleting local tag..."
+            git tag -d "$TAG"
+          fi
+
+      - name: Create tag
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          git tag "$TAG"
+          git push origin "$TAG"
+
+      - name: Generate release notes
+        run: |
           {
             echo "## What's Changed"
             echo ""
-
-            if [ -z "$PREV_TAG" ] || [ "$PREV_TAG" = "null" ]; then
-              git log --pretty=format:"- %s (%h)" -20
-            else
-              git log "${PREV_TAG}..HEAD" --pretty=format:"- %s (%h)"
-            fi
+            git log -20 --pretty=format:"- %s (%h)"
           } > release_notes.md
 
-          echo "Generated release notes:"
-          cat release_notes.md
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
 
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            echo "Updating existing release..."
-
-            gh release edit "$TAG" \
-              --title "$TAG" \
-              --notes-file release_notes.md
-
-          else
-            echo "Creating new release..."
-
-            gh release create "$TAG" \
-              --title "$TAG" \
-              --notes-file release_notes.md
-          fi
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --notes-file release_notes.md
