@@ -308,9 +308,7 @@ function HomeScreen() {
         <Button
           title="Success"
           size="sm"
-          onPress={() =>
-            showToast({ message: "Operation completed.", title: "Success!", variant: "success" })
-          }
+          onPress={() => showToast({ message: "Operation completed.", title: "Success!", variant: "success" })}
         />
         <Button
           title="Error"

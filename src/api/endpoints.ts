@@ -5,8 +5,7 @@ import { apiClient } from "./client";
 
 export const authApi = {
   getMe: () => apiClient.get<User>(API_ENDPOINTS.AUTH.ME).then(r => r.data),
-  login: (data: LoginRequest) =>
-    apiClient.post<LoginResponse>(API_ENDPOINTS.AUTH.LOGIN, data).then(r => r.data),
+  login: (data: LoginRequest) => apiClient.post<LoginResponse>(API_ENDPOINTS.AUTH.LOGIN, data).then(r => r.data),
 
   logout: () => apiClient.post(API_ENDPOINTS.AUTH.LOGOUT),
 
@@ -24,8 +23,7 @@ export const authApi = {
 export const usersApi = {
   getProfile: () => apiClient.get<User>(API_ENDPOINTS.USERS.PROFILE).then(r => r.data),
 
-  updateProfile: (data: Partial<User>) =>
-    apiClient.put<User>(API_ENDPOINTS.USERS.UPDATE, data).then(r => r.data),
+  updateProfile: (data: Partial<User>) => apiClient.put<User>(API_ENDPOINTS.USERS.UPDATE, data).then(r => r.data),
 };
 
 export const postsApi = {
@@ -34,11 +32,9 @@ export const postsApi = {
   delete: (id: string) => apiClient.delete(API_ENDPOINTS.POSTS.DELETE(id)).then(r => r.data),
 
   detail: (id: string) => apiClient.get(API_ENDPOINTS.POSTS.DETAIL(id)).then(r => r.data),
-  list: (params?: Record<string, unknown>) =>
-    apiClient.get(API_ENDPOINTS.POSTS.LIST, { params }).then(r => r.data),
+  list: (params?: Record<string, unknown>) => apiClient.get(API_ENDPOINTS.POSTS.LIST, { params }).then(r => r.data),
 
-  update: (id: string, data: unknown) =>
-    apiClient.put(API_ENDPOINTS.POSTS.UPDATE(id), data).then(r => r.data),
+  update: (id: string, data: unknown) => apiClient.put(API_ENDPOINTS.POSTS.UPDATE(id), data).then(r => r.data),
 };
 
 function withImageUrl(post: Omit<PublicPost, "imageUrl">): PublicPost {
@@ -47,9 +43,7 @@ function withImageUrl(post: Omit<PublicPost, "imageUrl">): PublicPost {
 
 export const publicApi = {
   post: (id: number) =>
-    apiClient
-      .get<Omit<PublicPost, "imageUrl">>(`${PUBLIC_API_BASE}/posts/${id}`)
-      .then(r => withImageUrl(r.data)),
+    apiClient.get<Omit<PublicPost, "imageUrl">>(`${PUBLIC_API_BASE}/posts/${id}`).then(r => withImageUrl(r.data)),
   posts: (search?: string) => {
     const url = `${PUBLIC_API_BASE}/posts`;
     return apiClient.get<Omit<PublicPost, "imageUrl">[]>(url).then(r => {

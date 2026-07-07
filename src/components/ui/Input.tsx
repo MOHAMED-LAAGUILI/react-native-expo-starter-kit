@@ -16,16 +16,7 @@ interface InputProps extends TextInputProps {
   type?: InputType;
 }
 
-function Input({
-  label,
-  error,
-  leftIcon,
-  rightIcon,
-  containerStyle,
-  className,
-  type = "text",
-  ...props
-}: InputProps) {
+function Input({ label, error, leftIcon, rightIcon, containerStyle, className, type = "text", ...props }: InputProps) {
   const [focused, setFocused] = React.useState(false);
   const [secureVisible, setSecureVisible] = React.useState(false);
   const { text, muted } = useThemeColors();

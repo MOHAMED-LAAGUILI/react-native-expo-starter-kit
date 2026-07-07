@@ -43,10 +43,7 @@ function SettingsScreen() {
         label: p.label,
         leftElement: (
           <View
-            className={cn(
-              "w-6 h-6 rounded-full mr-3",
-              primaryColor === p.key && "ring-2 ring-offset-2 ring-primary"
-            )}
+            className={cn("w-6 h-6 rounded-full mr-3", primaryColor === p.key && "ring-2 ring-offset-2 ring-primary")}
             style={{ backgroundColor: p.color }}
           />
         ),
@@ -177,9 +174,7 @@ function SettingsScreen() {
                 icon={Heart}
                 label="Support & Feedback"
                 subtitle="Open a GitHub issue"
-                onPress={() =>
-                  Linking.openURL("https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit/issues")
-                }
+                onPress={() => Linking.openURL("https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit/issues")}
               />
               <View className="h-px bg-border mx-4" />
               <SettingRow

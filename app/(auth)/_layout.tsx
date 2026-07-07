@@ -15,9 +15,7 @@ export default function AuthLayout() {
     }
   }, [isAuthenticated]);
 
-  const [onboardingComplete] = React.useState(() =>
-    StorageService.getBoolean(STORAGE_KEYS.ONBOARDING_COMPLETE)
-  );
+  const [onboardingComplete] = React.useState(() => StorageService.getBoolean(STORAGE_KEYS.ONBOARDING_COMPLETE));
 
   useEffect(() => {
     if (!isAuthenticated && !onboardingComplete) {

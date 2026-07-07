@@ -80,10 +80,7 @@ apiClient.interceptors.response.use(
         const newToken: string = data.accessToken ?? data.tokens?.accessToken;
         StorageService.setString(STORAGE_KEYS.AUTH_TOKEN, newToken);
         if (data.refreshToken ?? data.tokens?.refreshToken) {
-          StorageService.setString(
-            STORAGE_KEYS.AUTH_REFRESH_TOKEN,
-            data.refreshToken ?? data.tokens?.refreshToken
-          );
+          StorageService.setString(STORAGE_KEYS.AUTH_REFRESH_TOKEN, data.refreshToken ?? data.tokens?.refreshToken);
         }
         processQueue(null, newToken);
         if (originalRequest.headers) {

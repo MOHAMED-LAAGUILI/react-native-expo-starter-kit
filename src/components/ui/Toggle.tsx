@@ -24,9 +24,7 @@ function Toggle({ pressed, onPressedChange, disabled, className, children }: Tog
         className
       )}
     >
-      <Text className={cn("text-base font-medium", pressed ? "text-primary-foreground" : "text-foreground")}>
-        {children}
-      </Text>
+      <Text className={cn("text-base font-medium", pressed ? "text-primary-foreground" : "text-foreground")}>{children}</Text>
     </TogglePrimitive.Root>
   );
 }

@@ -2,7 +2,8 @@ name: Release
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -10,51 +11,65 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
 
       - name: Get version from package.json
         id: version
-        run: echo "tag=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "tag=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
 
-      - name: Check if release exists
-        id: check
+      - name: Setup Git
+        run: |
+          git fetch --tags --force
+
+      - name: Create or Update Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if gh release view "${{ steps.version.outputs.tag }}" > /dev/null 2>&1; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-          fi
+          set -e
 
-      - name: Create release
-        if: steps.check.outputs.exists == 'false'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release create "${{ steps.version.outputs.tag }}" \
-            --title "${{ steps.version.outputs.tag }}" \
-            --generate-notes
-
-      - name: Update existing release
-        if: steps.check.outputs.exists == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
           TAG="${{ steps.version.outputs.tag }}"
 
-          PREV_TAG=$(gh release list --limit 100 --json tagName,publishedAt -q \
-            '[.[] | select(.tagName != "'"$TAG"'")] | sort_by(.publishedAt) | last | .tagName' 2>/dev/null || echo "")
+          echo "Current tag: $TAG"
+
+          PREV_TAG=$(gh release list \
+            --limit 100 \
+            --json tagName,publishedAt \
+            --jq '[.[] | select(.tagName != "'"$TAG"'")] | sort_by(.publishedAt) | last | .tagName')
+
+          echo "Previous tag: ${PREV_TAG:-None}"
 
           {
             echo "## What's Changed"
             echo ""
-            if [ -z "$PREV_TAG" ]; then
-              gh log --oneline -20
-            else
-              gh log "${PREV_TAG}..HEAD" --oneline
-            fi
-          } > /tmp/release_notes.md
 
-          gh release edit "$TAG" --notes-file /tmp/release_notes.md
+            if [ -z "$PREV_TAG" ] || [ "$PREV_TAG" = "null" ]; then
+              git log --pretty=format:"- %s (%h)" -20
+            else
+              git log "${PREV_TAG}..HEAD" --pretty=format:"- %s (%h)"
+            fi
+          } > release_notes.md
+
+          echo "Generated release notes:"
+          cat release_notes.md
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Updating existing release..."
+
+            gh release edit "$TAG" \
+              --title "$TAG" \
+              --notes-file release_notes.md
+
+          else
+            echo "Creating new release..."
+
+            gh release create "$TAG" \
+              --title "$TAG" \
+              --notes-file release_notes.md
+          fi

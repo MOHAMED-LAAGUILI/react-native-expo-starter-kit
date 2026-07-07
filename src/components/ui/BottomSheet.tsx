@@ -25,14 +25,7 @@ interface BottomSheetProps<T> {
   onSelect: (value: T) => void;
 }
 
-function BottomSheetInner<T>({
-  open,
-  onOpenChange,
-  title,
-  options,
-  selectedValue,
-  onSelect,
-}: BottomSheetProps<T>) {
+function BottomSheetInner<T>({ open, onOpenChange, title, options, selectedValue, onSelect }: BottomSheetProps<T>) {
   const sheetRef = React.useRef<React.ElementRef<typeof BottomSheetLib>>(null);
   const { height: screenHeight } = useWindowDimensions();
 
