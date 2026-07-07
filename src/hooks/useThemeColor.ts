@@ -10,6 +10,7 @@ export function useThemeColors() {
     border: isDark ? "#3f3f46" : "#d4d4d8",
     icon: isDark ? "#fff" : "#000",
     isDark,
+    muted: isDark ? "#a1a1aa" : "#71717a",
     text: isDark ? "#fff" : "#000",
   };
 }

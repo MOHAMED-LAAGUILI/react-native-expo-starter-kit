@@ -28,13 +28,14 @@ export function AppDrawerContent(props: AppDrawerContentProps) {
       {...props}
       contentContainerStyle={{
         backgroundColor: background,
+        flexGrow: 1,
         paddingHorizontal: 0,
         paddingTop: 0,
       }}
     >
       <DrawerProfileHeader />
 
-      <View className="mt-4 px-4">
+      <View className="mt-4 px-4 flex-1">
         {NAV_ITEMS.map(({ label, href, icon: Icon, match }) => {
           const currentPath = normalizePath(pathname);
           const normalizedPath = currentPath.replace(/\/+$/, "") || "/";
@@ -49,7 +50,7 @@ export function AppDrawerContent(props: AppDrawerContentProps) {
               leftIcon={
                 <Icon
                   size={22}
-                  className={isActive ? "text-white" : "text-muted-foreground"}
+                  className={isActive ? "text-white" : "text-foreground"}
                 />
               }
               className={cn("mb-2 justify-start w-full gap-3", !isActive && "bg-transparent")}

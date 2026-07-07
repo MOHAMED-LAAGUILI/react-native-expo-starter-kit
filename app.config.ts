@@ -1,3 +1,4 @@
+import ExpoEnv from './src/config/env.js';
 import type { ConfigContext, ExpoConfig } from '@expo/config';
 
 import type { AppIconBadgeConfig } from 'app-icon-badge/types';
@@ -5,7 +6,6 @@ import 'dotenv/config';
 
 import 'tsx/cjs';
 
-import Env from './env';
 
 
 const appIconBadgeConfig: AppIconBadgeConfig = {
@@ -17,7 +17,7 @@ const appIconBadgeConfig: AppIconBadgeConfig = {
       color: 'white',
     },
     {
-      text: Env.EXPO_PUBLIC_VERSION,
+      text: ExpoEnv.EXPO_PUBLIC_VERSION,
       type: 'ribbon',
       color: 'white',
     },
@@ -26,12 +26,12 @@ const appIconBadgeConfig: AppIconBadgeConfig = {
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: Env.EXPO_PUBLIC_NAME,
-  slug: Env.EXPO_PUBLIC_SLUG,
-  version: Env.EXPO_PUBLIC_VERSION,
-  description: `${Env.EXPO_PUBLIC_NAME} Mobile App`,
-  owner: Env.EXPO_ACCOUNT_OWNER,
-  scheme: Env.EXPO_PUBLIC_SCHEME,
+  name: ExpoEnv.EXPO_PUBLIC_NAME,
+  slug: ExpoEnv.EXPO_PUBLIC_SLUG,
+  version: ExpoEnv.EXPO_PUBLIC_VERSION,
+  description: `${ExpoEnv.EXPO_PUBLIC_NAME} Mobile App`,
+  owner: ExpoEnv.EXPO_ACCOUNT_OWNER,
+  scheme: ExpoEnv.EXPO_PUBLIC_SCHEME,
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   userInterfaceStyle: 'automatic',
@@ -44,7 +44,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
-    bundleIdentifier: Env.EXPO_PUBLIC_BUNDLE_ID,
+    bundleIdentifier: ExpoEnv.EXPO_PUBLIC_BUNDLE_ID,
     backgroundColor: '#ffffff',
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
@@ -56,7 +56,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#2E3C4B',
     },
-    package: Env.EXPO_PUBLIC_PACKAGE,
+    package: ExpoEnv.EXPO_PUBLIC_PACKAGE,
   },
   web: {
     bundler: 'metro',
@@ -134,7 +134,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   extra: {
     eas: {
-      projectId: Env.EAS_PROJECT_ID,
+      projectId: ExpoEnv.EAS_PROJECT_ID,
     },
   },
 });

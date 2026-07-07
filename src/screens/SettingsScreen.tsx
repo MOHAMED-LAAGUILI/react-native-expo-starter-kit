@@ -1,12 +1,13 @@
 import { useNetInfo } from "@react-native-community/netinfo";
-import { Brush, Globe, Info, Palette, Wifi } from "lucide-react-native";
+import { Brush, ExternalLink, Globe, Heart, Info, Palette, Share2, Wifi } from "lucide-react-native";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, View } from "react-native";
+import { Linking, ScrollView, Share, View } from "react-native";
 import { SettingRow } from "@/components/common/SettingRow";
 import { BottomSheet, type BottomSheetOption } from "@/components/ui/BottomSheet";
 import { Text } from "@/components/ui/Text";
 import { COLOR_PALETTES, type ColorPaletteKey } from "@/config/color-palettes";
+import { useThemeColors } from "@/hooks/useThemeColor";
 import { changeLanguage } from "@/i18n";
 import { cn } from "@/lib/utils";
 import { type ThemeMode, useThemeStore } from "@/store";
@@ -20,13 +21,13 @@ const THEME_OPTIONS: BottomSheetOption<ThemeMode>[] = [
 const LANGUAGE_OPTIONS: BottomSheetOption<string>[] = [
   { label: "English", value: "en" },
   { label: "Français", value: "fr" },
-  { label: "العربية", value: "ar" },
 ];
 
 function SettingsScreen() {
   const { mode, setMode, primaryColor, setPrimaryColor } = useThemeStore();
   const { t, i18n } = useTranslation();
   const { type, isConnected } = useNetInfo();
+  const { text } = useThemeColors();
   const [themeSheetOpen, setThemeSheetOpen] = React.useState(false);
   const [langSheetOpen, setLangSheetOpen] = React.useState(false);
   const [colorSheetOpen, setColorSheetOpen] = React.useState(false);
@@ -106,7 +107,8 @@ function SettingsScreen() {
               <View className="flex-row items-center p-4">
                 <Info
                   size={22}
-                  className="text-foreground mr-3"
+                  color={text}
+                  style={{ marginRight: 12 }}
                 />
                 <View className="flex-1">
                   <Text variant="body">{t("app.name")}</Text>
@@ -147,6 +149,44 @@ function SettingsScreen() {
                     )}
                   />
                 }
+              />
+            </View>
+          </View>
+
+          <View>
+            <Text
+              variant="label"
+              className="text-muted-foreground uppercase tracking-wider mb-3"
+            >
+              Support
+            </Text>
+            <View className="rounded-xl border border-border bg-card overflow-hidden">
+              <SettingRow
+                icon={Share2}
+                label="Share App"
+                subtitle="Tell others about this app"
+                onPress={() => {
+                  Share.share({
+                    message: "Check out this app!",
+                    url: "https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit",
+                  });
+                }}
+              />
+              <View className="h-px bg-border mx-4" />
+              <SettingRow
+                icon={Heart}
+                label="Support & Feedback"
+                subtitle="Open a GitHub issue"
+                onPress={() =>
+                  Linking.openURL("https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit/issues")
+                }
+              />
+              <View className="h-px bg-border mx-4" />
+              <SettingRow
+                icon={ExternalLink}
+                label="Developer"
+                subtitle="View portfolio"
+                onPress={() => Linking.openURL("https://github.com/MOHAMED-LAAGUILI")}
               />
             </View>
           </View>

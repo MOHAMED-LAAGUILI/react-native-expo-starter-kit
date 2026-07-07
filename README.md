@@ -99,7 +99,6 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 ├── app.config.ts               # Expo config (EAS, plugins, fonts, localization)
 ├── metro.config.js             # Expo + Uniwind Metro plugin
 ├── babel.config.js             # module-resolver, reanimated, dotenv
-├── env.ts                      # Shared env constants
 ├── eas.json                    # EAS Build profiles
 ├── biome.json                  # Biome config
 ├── tsconfig.json
@@ -197,7 +196,7 @@ To release, just bump the version in `package.json` and push to `main`.
 | `.env.development` | Local dev values |
 | `.env.preview` | Preview/QA builds |
 | `.env.production` | Production builds |
-| `env.ts` | Shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`) |
+| `src/config/env.js` | Shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`) |
 
 - Android package: `com.rn_template.app` (underscores, not hyphens — Android requirement)
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block

@@ -1,6 +1,6 @@
-import { Eye, EyeOff, Home, Lock, Mail, Phone, Search } from "lucide-react-native";
+import { Home } from "lucide-react-native";
 import * as React from "react";
-import { Pressable, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Checkbox } from "@/components/ui/Checkbox";
@@ -31,7 +31,6 @@ function HomeScreen() {
   const [email, setEmail] = React.useState("");
   const [emailError, setEmailError] = React.useState("");
   const [inputValue, setInputValue] = React.useState("");
-  const [showPassword, setShowPassword] = React.useState(false);
   const [switchOn, setSwitchOn] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
   const [fruit, setFruit] = React.useState("apple");
@@ -308,10 +307,12 @@ function HomeScreen() {
         <Image
           source={{ uri: "https://picsum.photos/seed/a/100/100" }}
           className="w-20 h-20 rounded-xl"
+          style={{ height: 80, width: 80 }}
         />
         <Image
           source={{ uri: "https://picsum.photos/seed/b/200/200" }}
           className="w-20 h-20 rounded-full"
+          style={{ borderRadius: 40, height: 80, width: 80 }}
         />
         <View>
           <Text
@@ -333,68 +334,30 @@ function HomeScreen() {
           onChangeText={setInputValue}
         />
         <Input
+          type="search"
           label="Search"
           placeholder="Search..."
-          leftIcon={
-            <Search
-              size={16}
-              className="text-muted-foreground"
-            />
-          }
         />
         <Input
+          type="email"
           label="Email"
           placeholder="you@example.com"
-          leftIcon={
-            <Mail
-              size={16}
-              className="text-muted-foreground"
-            />
-          }
           keyboardType="email-address"
           autoCapitalize="none"
         />
         <Input
+          type="password"
           label="Password"
           placeholder="Enter password"
-          leftIcon={
-            <Lock
-              size={16}
-              className="text-muted-foreground"
-            />
-          }
-          secureTextEntry={!showPassword}
-          rightIcon={
-            <Pressable
-              onPress={() => setShowPassword(p => !p)}
-              hitSlop={8}
-            >
-              {showPassword ? (
-                <EyeOff
-                  size={16}
-                  className="text-muted-foreground"
-                />
-              ) : (
-                <Eye
-                  size={16}
-                  className="text-muted-foreground"
-                />
-              )}
-            </Pressable>
-          }
         />
         <Input
+          type="phone"
           label="Phone"
           placeholder="+1 (555) 000-0000"
-          leftIcon={
-            <Phone
-              size={16}
-              className="text-muted-foreground"
-            />
-          }
           keyboardType="phone-pad"
         />
         <Input
+          type="email"
           label="With error"
           placeholder="Email"
           value={email}

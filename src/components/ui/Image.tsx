@@ -1,13 +1,13 @@
 import { Image as ExpoImage, type ImageProps as ExpoImageProps } from "expo-image";
 import * as React from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { cn } from "@/lib/utils";
 
 interface ImageProps extends ExpoImageProps {
   fallback?: string;
 }
 
-function Image({ className, fallback, ...props }: ImageProps) {
+function Image({ className, fallback, style, ...props }: ImageProps) {
   const [errored, setErrored] = React.useState(false);
 
   if (errored && fallback) {
@@ -24,7 +24,9 @@ function Image({ className, fallback, ...props }: ImageProps) {
     <ExpoImage
       className={cn(className)}
       contentFit="cover"
+      transition={300}
       onError={() => setErrored(true)}
+      style={StyleSheet.flatten(style)}
       {...props}
     />
   );

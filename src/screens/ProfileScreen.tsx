@@ -1,6 +1,6 @@
 import { Globe, Mail, Phone, X } from "lucide-react-native";
 import * as React from "react";
-import { ScrollView, View } from "react-native";
+import { Dimensions, Linking, ScrollView, View } from "react-native";
 import Svg, { Defs, LinearGradient, Path, Rect, Stop } from "react-native-svg";
 import { InfoRow } from "@/components/common/InfoRow";
 import { Button } from "@/components/ui/Button";
@@ -10,10 +10,14 @@ import { cn } from "@/lib/utils";
 import { useAuthStore, useThemeStore } from "@/store";
 
 type InfoItem = {
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: React.ComponentType<{ size?: number; color?: string }>;
   label: string;
   value: string;
+  href?: string;
 };
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const SVG_HEIGHT = Math.round(SCREEN_WIDTH * 0.4);
 
 function ProfileScreen() {
   const user = useAuthStore(s => s.user);
@@ -27,8 +31,18 @@ function ProfileScreen() {
     { icon: Mail, label: "Email", value: "james011@gmail.com" },
     { icon: Phone, label: "Mobile", value: "1234567891" },
     { icon: X, label: "Twitter", value: "@james012" },
-    { icon: Globe, label: "Behance", value: "www.behance.net/jones012" },
-    { icon: Globe, label: "Facebook", value: "www.facebook.com/james012" },
+    {
+      href: "https://www.behance.net/jones012",
+      icon: Globe,
+      label: "Behance",
+      value: "www.behance.net/jones012",
+    },
+    {
+      href: "https://www.facebook.com/james012",
+      icon: Globe,
+      label: "Facebook",
+      value: "www.facebook.com/james012",
+    },
   ];
 
   return (
@@ -36,13 +50,17 @@ function ProfileScreen() {
       className="flex-1 bg-background"
       showsVerticalScrollIndicator={false}
     >
-      {/* Gradient Wave Header */}
-      <View className="relative ">
+      {/* Gradient Wave Header with Profile */}
+      <View
+        className="relative"
+        style={{ height: SVG_HEIGHT }}
+      >
         <Svg
-          height={100}
+          height={SVG_HEIGHT}
           width="100%"
           viewBox="0 0 400 220"
           preserveAspectRatio="none"
+          style={{ bottom: 0, left: 0, position: "absolute", right: 0, top: 0 }}
         >
           <Defs>
             <LinearGradient
@@ -75,37 +93,35 @@ function ProfileScreen() {
             fill="url(#grad)"
             opacity={0.6}
           />
-          <Path
-            d="M0,200 Q150,170 300,195 T400,185 L400,220 L0,220 Z"
-            fill="#ffffff"
-          />
         </Svg>
-      </View>
 
-      {/* Avatar */}
-      <View className="items-center -mt-20 relative z-10">
-        <View className={cn("rounded-full border-4 border-background overflow-hidden", "w-25 h-25")}>
-          <View className="w-full h-full bg-muted items-center justify-center">
+        {/* Avatar + Name + Role centered inside SVG */}
+        <View className="absolute inset-0 items-center justify-center z-10">
+          <View className={cn("rounded-full border-4 border-background overflow-hidden", "w-25 h-25")}>
+            <View className="w-full h-full bg-muted items-center justify-center">
+              <Text
+                variant="h1"
+                className="text-white"
+              >
+                {user?.name?.charAt(0)?.toUpperCase() ?? "J"}
+              </Text>
+            </View>
+          </View>
+          <View className="items-center mt-3">
             <Text
-              variant="h1"
-              className="text-muted-foreground"
+              variant="h3"
+              className="text-white"
             >
-              {user?.name?.charAt(0)?.toUpperCase() ?? "J"}
+              {user?.name ?? "James Martin"}
+            </Text>
+            <Text
+              variant="body"
+              className="text-white/80 mt-1"
+            >
+              Senior Graphic Designer
             </Text>
           </View>
         </View>
-       
-      </View>
-
-      {/* User Info */}
-      <View className="items-center mt-3 px-6">
-        <Text variant="h3">{user?.name ?? "James Martin"}</Text>
-        <Text
-          variant="body"
-          className="text-muted-foreground mt-1"
-        >
-          Senior Graphic Designer
-        </Text>
       </View>
 
       {/* Info Cards */}
@@ -118,6 +134,8 @@ function ProfileScreen() {
                 icon={item.icon}
                 label={item.label}
                 value={item.value}
+                href={item.href}
+                onPress={item.href ? () => Linking.openURL(item.href!) : undefined}
               />
             </React.Fragment>
           ))}
@@ -128,7 +146,7 @@ function ProfileScreen() {
       <View className="px-6 mt-6 mb-8">
         <Button
           title="Logout"
-          variant="outline"
+          variant="primary"
           onPress={logout}
         />
       </View>

@@ -60,6 +60,16 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 - Use custom components from `@/components/ui/` (`Text`, `Button`, `Input`, `BottomSheet`) instead of `Text` and `Pressable` from `react-native`
 - Custom components support `variant`, `className`, and proper theme tokens — never use raw `react-native` components for UI
 
+### Cross-Platform (Web + iOS + Android)
+- **Icons** (lucide-react-native): always use `color` prop, never `className` — `className` colors don't work on native. Use `useThemeColors()` to get hex values: `color={text}`, `color={muted}`
+- **Spacing**: test on all platforms — drawer/header items may need explicit `ml`/`mr` margins on native that web handles via CSS
+- **SafeArea**: always wrap screens in `SafeAreaView` or use `useSafeAreaInsets()` — not needed on web but critical on native
+- **Drawer/Header**: `DrawerToggleButton` and header buttons need explicit margins (`ml-3`, `mr-3`) on native
+- **ScrollViews**: use `contentContainerStyle` not `className` for background colors on scroll containers
+- **SVG**: hardcoded hex colors (`#ffffff`) won't follow theme — use `useThemeColors()` or CSS variables for dynamic theming
+- **BottomSheet**: `@gorhom/bottom-sheet` needs `GestureHandlerRootView` wrapper — already in root layout
+- **RTL**: not supported — Arabic removed from language options
+
 ### Imports
 - `@/` path alias maps to `./src/` (tsconfig paths)
 - Absolute imports: `import { cn } from '@/lib/utils'`
@@ -214,7 +224,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - No test framework installed
 - `expo-env.d.ts` and `.expo/types/` are auto-generated — do not edit
 - `src/types/uniwind.d.ts` patches TypeScript 6 compatibility with uniwind types
-- `app.config.ts` inlines all env values (no separate env.ts loaded during config resolution to avoid Node ESM `.ts` issues)
+- `app.config.ts` inlines all env values (no separate env.js loaded during config resolution to avoid Node ESM `.ts` issues)
 - Use `bun` for package management only — don't add `package-lock.json` or `yarn.lock`
 - MMKV storage is lazily initialized with try/catch to prevent SSR crashes during Metro bundling
 - `ActivityIndicator` in Uniwind doesn't support `className` color — use native `color` prop with hex fallback
@@ -242,6 +252,6 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 
 ### Environment Variables
 - `.env.development`, `.env.preview`, `.env.production` — per-environment values
-- `env.ts` — shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`)
+- `src/config/env.js` — shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`)
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
 - Android package: `com.rn_template.app` (underscores, not hyphens — Android requirement)

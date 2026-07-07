@@ -1,4 +1,5 @@
 import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Defs, LinearGradient, Rect, Stop } from "react-native-svg";
 import { Text } from "@/components/ui/Text";
 import { COLOR_PALETTES } from "@/config/color-palettes";
@@ -10,14 +11,19 @@ export function DrawerProfileHeader() {
   const primaryColor = useThemeStore(s => s.primaryColor);
   const palette = COLOR_PALETTES.find(p => p.key === primaryColor);
   const gradientColor = palette?.color ?? "#2563eb";
+  const { top: safeTop } = useSafeAreaInsets();
 
   return (
-    <View className="relative -mx-4 -mt-4 mb-2">
+    <View
+      className="relative -mx-4 mb-2"
+      style={{ height: 140 + safeTop }}
+    >
       <Svg
-        height={140}
+        height="100%"
         width="100%"
         viewBox="0 0 300 140"
         preserveAspectRatio="none"
+        style={{ bottom: 0, left: 0, position: "absolute", right: 0, top: 0 }}
       >
         <Defs>
           <LinearGradient
@@ -47,7 +53,10 @@ export function DrawerProfileHeader() {
         />
       </Svg>
 
-      <View className="absolute top-0 left-0 right-0 bottom-0 flex-row items-center px-4">
+      <View
+        className="absolute left-0 right-0 flex-row items-center px-4"
+        style={{ bottom: 0, top: safeTop }}
+      >
         <View className={cn("rounded-full border-2 border-white/30 overflow-hidden", "w-17 h-17")}>
           <View className="w-full h-full bg-white/20 items-center justify-center">
             <Text
