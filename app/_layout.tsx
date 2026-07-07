@@ -13,6 +13,7 @@ import { configureReanimatedLogger, ReanimatedLogLevel } from "react-native-rean
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { HeaderButtonsProvider } from "react-navigation-header-buttons/HeaderButtonsProvider";
 import { LoadingScreen } from "@/components/common/LoadingScreen";
+import { ToastConfig } from "@/components/ui/Toast";
 import { setupI18n } from "@/i18n";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
@@ -102,6 +103,7 @@ export default function RootLayout() {
               <StatusBar style="auto" />
               <RootLayoutInner onReady={onReady} />
               <PortalHost />
+              <ToastConfig />
             </ThemeProvider>
           </QueryProvider>
         </HeaderButtonsProvider>

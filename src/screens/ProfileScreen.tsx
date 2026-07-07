@@ -5,6 +5,7 @@ import Svg, { Defs, LinearGradient, Path, Rect, Stop } from "react-native-svg";
 import { InfoRow } from "@/components/common/InfoRow";
 import { Button } from "@/components/ui/Button";
 import { Text } from "@/components/ui/Text";
+import { showToast } from "@/components/ui/Toast";
 import { COLOR_PALETTES } from "@/config/color-palettes";
 import { cn } from "@/lib/utils";
 import { useAuthStore, useThemeStore } from "@/store";
@@ -17,7 +18,7 @@ type InfoItem = {
 };
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
-const SVG_HEIGHT = Math.round(SCREEN_WIDTH * 0.4);
+const SVG_HEIGHT = Math.round(SCREEN_WIDTH * 0.5);
 
 function ProfileScreen() {
   const user = useAuthStore(s => s.user);
@@ -32,10 +33,10 @@ function ProfileScreen() {
     { icon: Phone, label: "Mobile", value: "1234567891" },
     { icon: X, label: "Twitter", value: "@james012" },
     {
-      href: "https://www.behance.net/jones012",
+      href: "https://linkedin.com/in/james012",
       icon: Globe,
-      label: "Behance",
-      value: "www.behance.net/jones012",
+      label: "LinkedIn",
+      value: "www.linkedin.com/in/james012",
     },
     {
       href: "https://www.facebook.com/james012",
@@ -147,7 +148,10 @@ function ProfileScreen() {
         <Button
           title="Logout"
           variant="primary"
-          onPress={logout}
+          onPress={() => {
+            logout();
+            showToast({ message: "You have been logged out.", title: "Signed out", variant: "info" });
+          }}
         />
       </View>
     </ScrollView>

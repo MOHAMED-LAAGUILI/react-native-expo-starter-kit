@@ -55,6 +55,7 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 - **Authentication** — Login/register flow with token management, demo mode skip
 - **Drawer + Tabs** — Left drawer with hamburger menu header button, bottom tab bar (Home, Search, Profile, Settings)
 - **Bottom Sheet** — Reusable bottom sheet component via `@gorhom/bottom-sheet` with snap points, backdrop, pan-to-close
+- **Toast** — Notification toasts via `react-native-toast-message` with success/error/info variants, callable from anywhere via `showToast()`
 - **Dark/Light/System theme** — CSS variables in oklch, persisted preference, follows system
 - **Accent Color System** — 7 color palettes (blue, purple, green, orange, red, teal, pink) switchable at runtime; all screens (drawer, tabs, profile) react instantly via `Uniwind.updateCSSVariables()`
 - **Splash Screen** — Custom splash with auto-hide after i18n + auth hydration ready
@@ -168,6 +169,10 @@ bun run build:preview:android
 bun run build:production:ios
 bun run build:production:android
 
+# or use workflow instead of Build
+bun run workflow:build-android
+bun run workflow:build-ios
+
 # Submit to stores
 bun run submit:android
 bun run submit:ios
@@ -200,3 +205,10 @@ To release, just bump the version in `package.json` and push to `main`.
 
 - Android package: `com.rn_template.app` (underscores, not hyphens — Android requirement)
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
+
+## Roadmap
+
+- **Sentry** — Error tracking and performance monitoring
+- **Expo Notifications** — Push notifications with local and remote support
+- **Husky** — Git hooks for pre-commit linting and formatting
+- **Maestro** — E2E testing framework for mobile

@@ -12,6 +12,7 @@ import { Slider } from "@/components/ui/Slider";
 import { Spinner } from "@/components/ui/Spinner";
 import { Switch } from "@/components/ui/Switch";
 import { Text } from "@/components/ui/Text";
+import { showToast } from "@/components/ui/Toast";
 import { Toggle } from "@/components/ui/Toggle";
 
 function SectionTitle({ children }: { children: string }) {
@@ -299,6 +300,30 @@ function HomeScreen() {
         <Badge variant="secondary">secondary</Badge>
         <Badge variant="destructive">destructive</Badge>
         <Badge variant="outline">outline</Badge>
+      </Row>
+
+      {/* Toast */}
+      <SectionTitle>Toast</SectionTitle>
+      <Row>
+        <Button
+          title="Success"
+          size="sm"
+          onPress={() =>
+            showToast({ message: "Operation completed.", title: "Success!", variant: "success" })
+          }
+        />
+        <Button
+          title="Error"
+          size="sm"
+          variant="destructive"
+          onPress={() => showToast({ message: "Something went wrong.", title: "Error", variant: "error" })}
+        />
+        <Button
+          title="Info"
+          size="sm"
+          variant="outline"
+          onPress={() => showToast({ message: "Here is some information.", title: "Info", variant: "info" })}
+        />
       </Row>
 
       {/* Image */}

@@ -6,6 +6,7 @@ import { useLogin, useRegister } from "@/api/hooks/useAuth";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Text } from "@/components/ui/Text";
+import { showToast } from "@/components/ui/Toast";
 import { getFieldError } from "@/lib/form-helpers";
 import { useAuthStore } from "@/store";
 import type { RegisterFormData } from "@/validation";
@@ -53,6 +54,7 @@ function LoginScreen() {
       },
       { accessToken: "demo-token", refreshToken: "demo-refresh" }
     );
+    showToast({ message: "You are now logged in as Demo User.", title: "Welcome!", variant: "success" });
   }
 
   const iconSize = 16;
