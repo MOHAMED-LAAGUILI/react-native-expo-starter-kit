@@ -44,6 +44,18 @@ export default function AppLayout() {
           headerShown: true,
         }}
       />
+      <Drawer.Screen
+        name="features"
+        options={{
+          headerShown: true,
+        }}
+      />
+      <Drawer.Screen
+        name="blank"
+        options={{
+          headerShown: true,
+        }}
+      />
     </Drawer>
   );
 }

@@ -1,5 +1,4 @@
 import { useForm } from "@tanstack/react-form";
-import { Lock, Mail, User } from "lucide-react-native";
 import * as React from "react";
 import { KeyboardAvoidingView, Pressable, ScrollView, View } from "react-native";
 import { useLogin, useRegister } from "@/api/hooks/useAuth";
@@ -57,8 +56,6 @@ function LoginScreen() {
     showToast({ message: "You are now logged in as Demo User.", title: "Welcome!", variant: "success" });
   }
 
-  const iconSize = 16;
-
   return (
     <KeyboardAvoidingView className="flex-1 bg-background">
       <ScrollView
@@ -80,15 +77,10 @@ function LoginScreen() {
             <form.Field name="name">
               {field => (
                 <Input
+                  type="username"
                   label="Name"
                   placeholder="Enter your name"
                   autoCapitalize="words"
-                  leftIcon={
-                    <User
-                      size={iconSize}
-                      className="text-muted-foreground"
-                    />
-                  }
                   value={field.state.value}
                   onChangeText={v => field.handleChange(v)}
                   onBlur={() => field.handleBlur()}
@@ -101,16 +93,10 @@ function LoginScreen() {
           <form.Field name="email">
             {field => (
               <Input
+                type="email"
                 label="Email"
                 placeholder="Enter your email"
-                keyboardType="email-address"
                 autoCapitalize="none"
-                leftIcon={
-                  <Mail
-                    size={iconSize}
-                    className="text-muted-foreground"
-                  />
-                }
                 value={field.state.value}
                 onChangeText={v => field.handleChange(v)}
                 onBlur={() => field.handleBlur()}
@@ -122,15 +108,9 @@ function LoginScreen() {
           <form.Field name="password">
             {field => (
               <Input
+                type="password"
                 label="Password"
                 placeholder="Enter your password"
-                secureTextEntry
-                leftIcon={
-                  <Lock
-                    size={iconSize}
-                    className="text-muted-foreground"
-                  />
-                }
                 value={field.state.value}
                 onChangeText={v => field.handleChange(v)}
                 onBlur={() => field.handleBlur()}
@@ -143,15 +123,9 @@ function LoginScreen() {
             <form.Field name="confirmPassword">
               {field => (
                 <Input
+                  type="password"
                   label="Confirm Password"
                   placeholder="Confirm your password"
-                  secureTextEntry
-                  leftIcon={
-                    <Lock
-                      size={iconSize}
-                      className="text-muted-foreground"
-                    />
-                  }
                   value={field.state.value}
                   onChangeText={v => field.handleChange(v)}
                   onBlur={() => field.handleBlur()}

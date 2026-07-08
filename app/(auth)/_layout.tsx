@@ -1,12 +1,11 @@
 import { Stack, useRouter } from "expo-router";
 import * as React from "react";
 import { useEffect } from "react";
-import { STORAGE_KEYS } from "@/config/constants";
-import { StorageService } from "@/storage";
-import { useAuthStore } from "@/store";
+import { useAuthStore, useOnboardingStore } from "@/store";
 
 export default function AuthLayout() {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
+  const isOnboarded = useOnboardingStore(s => s.isComplete);
   const router = useRouter();
 
   useEffect(() => {
@@ -15,13 +14,11 @@ export default function AuthLayout() {
     }
   }, [isAuthenticated]);
 
-  const [onboardingComplete] = React.useState(() => StorageService.getBoolean(STORAGE_KEYS.ONBOARDING_COMPLETE));
-
   useEffect(() => {
-    if (!isAuthenticated && !onboardingComplete) {
+    if (!isAuthenticated && !isOnboarded) {
       router.replace("/onboarding");
     }
-  }, [isAuthenticated, onboardingComplete]);
+  }, [isAuthenticated, isOnboarded]);
 
   return (
     <Stack screenOptions={{ headerShown: false }}>

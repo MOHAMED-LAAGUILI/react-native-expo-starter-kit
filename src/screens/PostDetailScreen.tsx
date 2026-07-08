@@ -1,4 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
+import LottieView from "lottie-react-native";
 import * as React from "react";
 import { ActivityIndicator, Image, ScrollView, View } from "react-native";
 import { usePublicPost } from "@/api/hooks/usePublicPosts";
@@ -13,7 +14,12 @@ function PostDetailScreen() {
   if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-background">
-        <ActivityIndicator size="large" />
+        <LottieView
+          source={require("@assets/lottie/Loading animation blue.json")}
+          autoPlay
+          loop
+          style={{ height: 70, width: 70 }}
+        />
       </View>
     );
   }

@@ -1,14 +1,12 @@
 import { Redirect } from "expo-router";
 import * as React from "react";
-import { STORAGE_KEYS } from "@/config/constants";
-import { StorageService } from "@/storage";
-import { useAuthStore } from "@/store";
+import { useAuthStore, useOnboardingStore } from "@/store";
 
 export default function Index() {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
-  const [onboardingComplete] = React.useState(() => StorageService.getBoolean(STORAGE_KEYS.ONBOARDING_COMPLETE));
+  const isOnboarded = useOnboardingStore(s => s.isComplete);
 
-  if (!onboardingComplete) {
+  if (!isOnboarded) {
     return <Redirect href="/onboarding" />;
   }
 

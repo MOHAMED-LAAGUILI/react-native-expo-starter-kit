@@ -20,11 +20,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   hydrate: () => {
     const accessToken = StorageService.getString(STORAGE_KEYS.AUTH_TOKEN);
     const refreshToken = StorageService.getString(STORAGE_KEYS.AUTH_REFRESH_TOKEN);
+    const user = StorageService.getObject<User>(STORAGE_KEYS.AUTH_USER);
     if (accessToken && refreshToken) {
       set({
         isAuthenticated: true,
         isLoading: false,
         tokens: { accessToken, refreshToken },
+        user: user ?? null,
       });
     } else {
       set({ isLoading: false });
@@ -36,12 +38,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   login: (user, tokens) => {
     StorageService.setString(STORAGE_KEYS.AUTH_TOKEN, tokens.accessToken);
     StorageService.setString(STORAGE_KEYS.AUTH_REFRESH_TOKEN, tokens.refreshToken);
+    StorageService.setObject(STORAGE_KEYS.AUTH_USER, user);
     set({ isAuthenticated: true, isLoading: false, tokens, user });
   },
 
   logout: () => {
     StorageService.delete(STORAGE_KEYS.AUTH_TOKEN);
     StorageService.delete(STORAGE_KEYS.AUTH_REFRESH_TOKEN);
+    StorageService.delete(STORAGE_KEYS.AUTH_USER);
     set({ isAuthenticated: false, isLoading: false, tokens: null, user: null });
   },
 

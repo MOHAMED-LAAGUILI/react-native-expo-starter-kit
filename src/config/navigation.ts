@@ -1,5 +1,5 @@
 import { type Href } from "expo-router";
-import { Home, Search, Settings, User } from "lucide-react-native";
+import { FileQuestion, Home, Search, Settings, Sparkles, User } from "lucide-react-native";
 import type { ComponentProps } from "react";
 
 export type NavItem = {
@@ -33,5 +33,17 @@ export const NAV_ITEMS: NavItem[] = [
     icon: Settings,
     label: "Settings",
     match: ["/settings"],
+  },
+  {
+    href: "/(app)/features" as Href,
+    icon: Sparkles,
+    label: "Features",
+    match: ["/features"],
+  },
+  {
+    href: "/(app)/blank" as Href,
+    icon: FileQuestion,
+    label: "Blank",
+    match: ["/blank"],
   },
 ];

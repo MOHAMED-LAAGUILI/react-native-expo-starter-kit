@@ -13,6 +13,10 @@ export function HeaderTitle() {
     const currentSegment = segments.at(-1);
 
     switch (currentSegment) {
+      case "features":
+        return "Features";
+      case "blank":
+        return "Blank";
       case "search":
         return "Search";
       case "profile":

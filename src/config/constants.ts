@@ -1,6 +1,7 @@
 export const STORAGE_KEYS = {
   AUTH_REFRESH_TOKEN: "auth.refresh_token",
   AUTH_TOKEN: "auth.token",
+  AUTH_USER: "auth.user",
   LANGUAGE: "i18n.language",
   ONBOARDING_COMPLETE: "onboarding.complete",
   PRIMARY_COLOR: "theme.primary_color",

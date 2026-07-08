@@ -18,7 +18,7 @@ function normalizePath(path: string | { pathname: string; params?: unknown }) {
 
 export function AppDrawerContent(props: AppDrawerContentProps) {
   const pathname = usePathname();
-  const { background } = useThemeColors();
+  const { background, text } = useThemeColors();
   const primaryColor = useThemeStore(s => s.primaryColor);
   const palette = COLOR_PALETTES.find(p => p.key === primaryColor);
   const primaryHex = palette?.color ?? "#3b82f6";
@@ -50,7 +50,7 @@ export function AppDrawerContent(props: AppDrawerContentProps) {
               leftIcon={
                 <Icon
                   size={22}
-                  className={isActive ? "text-white" : "text-foreground"}
+                  color={isActive ? "#fff" : text}
                 />
               }
               className={cn("mb-2 justify-start w-full gap-3", !isActive && "bg-transparent")}

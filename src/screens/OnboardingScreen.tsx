@@ -1,4 +1,5 @@
 import { router } from "expo-router";
+import LottieView from "lottie-react-native";
 import * as React from "react";
 import { useWindowDimensions, View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
@@ -6,29 +7,33 @@ import Carousel, { Pagination } from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button } from "@/components/ui/Button";
 import { Text } from "@/components/ui/Text";
-import { STORAGE_KEYS } from "@/config/constants";
-import { StorageService } from "@/storage";
+import { useOnboardingStore } from "@/store";
 
+const ANIMATIONS: Record<string, unknown> = {
+  Hello: require("@assets/lottie/Hello.json"),
+  "People reading news on phone": require("@assets/lottie/People reading news on phone.json"),
+  Welcome: require("@assets/lottie/Welcome.json"),
+};
 interface Slide {
   title: string;
   description: string;
-  emoji: string;
+  animation: string;
 }
 
 const SLIDES: Slide[] = [
   {
+    animation: "Welcome",
     description: "A production-ready React Native starter with Expo Router, Tailwind v4, Zustand, and more.",
-    emoji: "🚀",
     title: "Welcome",
   },
   {
+    animation: "People reading news on phone",
     description: "Navigation, theming, i18n, API client, forms, and reusable UI components out of the box.",
-    emoji: "⚡",
     title: "Features",
   },
   {
+    animation: "Hello",
     description: "Tap below to start building your app. You can revisit settings anytime.",
-    emoji: "🎯",
     title: "Get Started",
   },
 ];
@@ -39,9 +44,10 @@ function OnboardingScreen() {
   const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const isLast = activeIndex === SLIDES.length - 1;
+  const complete = useOnboardingStore(s => s.complete);
 
   function completeOnboarding() {
-    StorageService.setBoolean(STORAGE_KEYS.ONBOARDING_COMPLETE, true);
+    complete();
     router.replace("/(auth)/login");
   }
 
@@ -69,8 +75,13 @@ function OnboardingScreen() {
           }}
           renderItem={({ item }) => (
             <View className="items-center justify-center px-10 flex-1">
-              <View className="w-24 h-24 rounded-2xl bg-primary/10 items-center justify-center mb-8">
-                <Text className="text-5xl">{item.emoji}</Text>
+              <View className="w-48 h-48 items-center justify-center mb-8">
+                <LottieView
+                  source={ANIMATIONS[item.animation]}
+                  autoPlay
+                  loop
+                  style={{ height: "100%", width: "100%" }}
+                />
               </View>
               <Text
                 variant="h2"

@@ -17,7 +17,7 @@ import { ToastConfig } from "@/components/ui/Toast";
 import { setupI18n } from "@/i18n";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
-import { useAuthStore, useThemeStore } from "@/store";
+import { useAuthStore, useOnboardingStore, useThemeStore } from "@/store";
 import { isWeb } from "@/utils/platform";
 
 configureReanimatedLogger({
@@ -32,13 +32,15 @@ function RootLayoutInner({ onReady }: { onReady: () => void }) {
   const isLoading = useAuthStore(s => s.isLoading);
   const hydrate = useAuthStore(s => s.hydrate);
   const themeHydrate = useThemeStore(s => s.hydrate);
+  const onboardingHydrate = useOnboardingStore(s => s.hydrate);
   const themeMode = useThemeStore(s => s.mode);
   const readyRef = useRef(false);
 
   useEffect(() => {
     hydrate();
     themeHydrate();
-  }, [hydrate, themeHydrate]);
+    onboardingHydrate();
+  }, [hydrate, themeHydrate, onboardingHydrate]);
 
   useEffect(() => {
     if (!isLoading && !readyRef.current) {

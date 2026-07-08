@@ -207,7 +207,6 @@ To release, just bump the version in `package.json` and push to `main`.
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
 
 ## Roadmap
-
 - **Sentry** — Error tracking and performance monitoring
 - **Expo Notifications** — Push notifications with local and remote support
 - **Husky** — Git hooks for pre-commit linting and formatting
