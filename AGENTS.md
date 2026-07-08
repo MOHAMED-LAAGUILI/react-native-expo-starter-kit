@@ -62,6 +62,7 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 
 ### Cross-Platform (Web + iOS + Android)
 - **Icons** (lucide-react-native): always use `color` prop, never `className` — `className` colors don't work on native. Use `useThemeColors()` to get hex values: `color={text}`, `color={muted}`
+- **Lottie**: wrap in sized container (`width`/`height` via `style`); no dimensions = large default
 - **Spacing**: test on all platforms — drawer/header items may need explicit `ml`/`mr` margins on native that web handles via CSS
 - **SafeArea**: always wrap screens in `SafeAreaView` or use `useSafeAreaInsets()` — not needed on web but critical on native
 - **Drawer/Header**: `DrawerToggleButton` and header buttons need explicit margins (`ml-3`, `mr-3`) on native
@@ -72,6 +73,7 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 
 ### Imports
 - `@/` path alias maps to `./src/` (tsconfig paths)
+- `@assets/*` path alias maps to `./assets/*` (tsconfig + Metro resolver)
 - Absolute imports: `import { cn } from '@/lib/utils'`
 - Side-effect CSS: `import '@/global.css'`
 - URL polyfill (entry): `import 'react-native-url-polyfill/auto'`
@@ -103,6 +105,7 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 | Animation | react-native-reanimated + gesture-handler |
 | Font | @expo-google-fonts/inter (4 weights via expo-font plugin) |
 | Lint | Biome 2 |
+| Assets Alias | `@assets/*` → `./assets/*` (tsconfig + Metro) |
 
 ## Routing Structure
 ```
@@ -116,6 +119,8 @@ app/
 │   └── login.tsx        — Login screen
 └── (app)/
     ├── _layout.tsx      — Drawer (left hamburger via DrawerToggleButton) + auth guard
+    ├── features.tsx     — Features list (drawer-only, no bottom tab)
+    ├── blank.tsx        — Blank page (drawer-only, no bottom tab)
     └── (tabs)/
         ├── _layout.tsx  — Tabs (Home, Search, Profile, Settings) with lucide icons
         ├── index.tsx    — Home tab
@@ -136,9 +141,9 @@ src/
 ├── hooks/            — Shared hooks
 ├── i18n/             — i18next setup + locales/{en,fr,ar}/, RNRestart restart
 ├── providers/        — QueryProvider, ThemeProvider (Uniwind.setTheme + nav theme)
-├── screens/          — LoginScreen, HomeScreen, SearchScreen, ProfileScreen, SettingsScreen
+├── screens/          — LoginScreen, HomeScreen, SearchScreen, ProfileScreen, SettingsScreen, OnboardingScreen, FeaturesScreen
 ├── storage/          — MMKV wrapper (lazy, SSR-safe, try/catch fallback)
-├── store/            — Zustand stores (authStore, themeStore) with MMKV persist
+├── store/            — Zustand stores (authStore, themeStore, onboardingStore) with MMKV persist
 ├── types/            — Global type declarations (uniwind.d.ts)
 ├── lib/              — cn() utility, form-helpers (getFieldError)
 ├── utils/            — format utilities, platform helpers
@@ -147,7 +152,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 ```
 
 ## State Management
-- **Zustand**: Auth tokens/user, theme mode. Persisted via MMKV middleware. Hydrated on app boot via `hydrate()` call (not module-level).
+- **Zustand**: Auth tokens/user, theme mode, onboarding state. Persisted via MMKV. Hydrated on app boot via `hydrate()` call (not module-level).
 - **TanStack Query**: Server data with staleTime 5min, gcTime 30min, retry 2.
 - **Selectors**: Use arrow selectors for re-render perf: `useAuthStore((s) => s.isAuthenticated)`
 
@@ -162,16 +167,15 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `expo-system-ui` background color synced on theme change
 
 ## i18n
-- 3 languages: English, French, Arabic
+- 2 languages: English, French
 - Namespaces: `common`, `auth`
-- RTL support (Arabic toggles `I18nManager.forceRTL` + `RNRestart.restart()` with `Updates.reloadAsync()` fallback)
 - Language persisted in MMKV via `StorageService`
-- `changeLanguage(lang)` updates i18next + triggers restart if RTL changed
+- `changeLanguage(lang)` updates i18next + persists to MMKV
 
 ## Auth Flow
 1. App boots → `SplashScreen.preventAutoHideAsync()`
 2. `RootLayout` → setup i18n → `setupI18n()`
-3. `RootLayoutInner` → hydrate auth + theme stores from MMKV
+3. `RootLayoutInner` → hydrate auth + theme + onboarding stores from MMKV
 4. When i18n ready + stores hydrated → `SplashScreen.hideAsync()`
 5. Auth guard in `(app)/_layout.tsx` → redirects to `/(auth)/login` if not authenticated
 6. LoginScreen → `authStore.login()` (demo mode: sets mock token)
@@ -180,6 +184,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 
 ## Navigation Patterns
 - **Left Drawer**: single `(tabs)` route group, accessible via `DrawerToggleButton` in header (top-left hamburger)
+- **Drawer-only routes**: Features, Blank — registered under `(app)/` (not inside `(tabs)`), no bottom tab
 - **Bottom Tabs**: Home, Search, Profile, Settings with lucide icons
 - **Auth guard**: redirect logic in `(app)/_layout.tsx` (check `isAuthenticated`, replace to login if false)
 - **Header**: custom `headerLeft` with `DrawerToggleButton` positioned via `ml-3`
@@ -189,7 +194,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `BottomSheet<T>` — generic bottom sheet built on `@gorhom/bottom-sheet` v5 with `enablePanDownToClose`, backdrop, `index` prop (`-1` closed, `0` open), sticky handle
 - `Badge` — variants (default/primary/secondary/destructive/outline), sizes (sm/md/lg)
 - `Text` — variants (h1-h4, body/large/small, caption, label)
-- `Input` — styled input with label, error, icon support
+- `Input` — styled input with label, error, icon support; built-in `type` prop: `search`, `phone`, `username`, `password` (with Eye toggle), `email`
 - `Switch` — toggle switch with primary color theming
 - `Checkbox` — checkbox with checkmark icon
 - `RadioGroup` / `RadioGroupItem` — radio button group
@@ -210,6 +215,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `react-native-mmkv` (v4) — fast KV storage (lazy, SSR-safe)
 - `i18next` (v26) + `react-i18next` — i18n
 - `lucide-react-native` — icons
+- `lottie-react-native` — Lottie animations (onboarding, loading)
 - `axios` — HTTP client with interceptors
 - `expo-haptics` — haptic feedback
 - `expo-splash-screen` — splash screen lifecycle
