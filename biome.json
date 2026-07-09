@@ -14,7 +14,7 @@
 
   "files": {
     "ignoreUnknown": true,
-    "includes": ["app/**/*.{ts,tsx,js,jsx}", "src/**/*.{ts,tsx,js,jsx}"]
+    "includes": ["app/**/*.{ts,tsx,js,jsx}", "src/**/*.{ts,tsx,js,jsx}", "eas.json", "app.config.ts", "biome.json"]
   },
 
   "formatter": {

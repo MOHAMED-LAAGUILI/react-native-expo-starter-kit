@@ -1,32 +1,61 @@
+import { toast } from "@backpackapp-io/react-native-toast";
 import * as React from "react";
-import { View } from "react-native";
-import RNToast from "react-native-toast-message";
+import { useThemeStore } from "@/store";
 
-type ToastVariant = "success" | "error" | "info";
+export type ToastVariant = "success" | "error" | "info";
+const themeMode = useThemeStore(s => s.mode);
 
-interface ToastProps {
+export interface ToastProps {
   variant?: ToastVariant;
   title: string;
   message?: string;
 }
 
-function ToastConfig() {
-  return (
-    <RNToast
-      visibilityTime={3000}
-      position="top"
-      topOffset={60}
-    />
-  );
+const isDark = themeMode === "dark";
+
+export const toastDefaultStyle = React.useMemo(
+  () => ({
+    indicator: {
+      alignSelf: "stretch" as const,
+      borderRadius: 2,
+      marginRight: 12,
+      width: 4,
+    },
+    pressable: {
+      backgroundColor: isDark ? "#1c1c1e" : "#ffffff",
+      borderColor: isDark ? "#333333" : "#e5e5ea",
+      borderRadius: 10,
+      borderWidth: 0.5,
+    },
+    text: {
+      color: isDark ? "#f2f2f2" : "#1c1c1e",
+      fontWeight: "600" as const,
+    },
+    view: {
+      overflow: "hidden" as const,
+      paddingLeft: 0,
+    },
+  }),
+  [isDark]
+);
+
+export function showToast({ variant = "info", title, message }: ToastProps) {
+  const text = message ? `${title}\n${message}` : title;
+
+  switch (variant) {
+    case "success":
+      toast.success(text);
+      break;
+
+    case "error":
+      toast.error(text);
+      break;
+
+    case "info":
+    default:
+      toast(text);
+      break;
+  }
 }
 
-function showToast({ variant = "info", title, message }: ToastProps) {
-  RNToast.show({
-    text1: title,
-    text2: message,
-    type: variant,
-  });
-}
-
-export type { ToastProps, ToastVariant };
-export { showToast, ToastConfig };
+export { toast };

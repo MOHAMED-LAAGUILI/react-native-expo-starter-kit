@@ -33,7 +33,7 @@ function getDeviceLanguage(): string {
 
 export function changeLanguage(lang: string): void {
   try {
-    StorageService.setItem(STORAGE_KEYS.LANGUAGE, lang);
+    StorageService.i18n.setItem(STORAGE_KEYS.LANGUAGE, lang);
   } catch {}
 
   i18next.changeLanguage(lang);
@@ -43,7 +43,7 @@ export async function setupI18n(): Promise<void> {
   let initialLanguage = getDeviceLanguage();
 
   try {
-    const persisted = StorageService.getItem<string>(STORAGE_KEYS.LANGUAGE);
+    const persisted = StorageService.i18n.getItem<string>(STORAGE_KEYS.LANGUAGE);
     if (persisted) initialLanguage = persisted;
   } catch {}
 

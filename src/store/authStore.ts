@@ -16,8 +16,8 @@ interface AuthState {
 
 function loadTokens(): AuthTokens | null {
   try {
-    const accessToken = StorageService.getItem<string>(STORAGE_KEYS.AUTH_TOKEN);
-    const refreshToken = StorageService.getItem<string>(STORAGE_KEYS.AUTH_REFRESH_TOKEN);
+    const accessToken = StorageService.auth.getItem<string>(STORAGE_KEYS.AUTH_TOKEN);
+    const refreshToken = StorageService.auth.getItem<string>(STORAGE_KEYS.AUTH_REFRESH_TOKEN);
     if (accessToken && refreshToken) return { accessToken, refreshToken };
   } catch {}
   return null;
@@ -25,7 +25,7 @@ function loadTokens(): AuthTokens | null {
 
 function loadUser(): User | null {
   try {
-    return StorageService.getItem<User>(STORAGE_KEYS.AUTH_USER) ?? null;
+    return StorageService.auth.getItem<User>(STORAGE_KEYS.AUTH_USER) ?? null;
   } catch {
     return null;
   }
@@ -45,26 +45,26 @@ export const useAuthStore = create<AuthState>(set => ({
   isAuthenticated: !!initialTokens,
 
   login: (user, tokens) => {
-    StorageService.setItem(STORAGE_KEYS.AUTH_TOKEN, tokens.accessToken);
-    StorageService.setItem(STORAGE_KEYS.AUTH_REFRESH_TOKEN, tokens.refreshToken);
-    StorageService.setItem(STORAGE_KEYS.AUTH_USER, user);
+    StorageService.auth.setItem(STORAGE_KEYS.AUTH_TOKEN, tokens.accessToken);
+    StorageService.auth.setItem(STORAGE_KEYS.AUTH_REFRESH_TOKEN, tokens.refreshToken);
+    StorageService.auth.setItem(STORAGE_KEYS.AUTH_USER, user);
     set({ isAuthenticated: true, tokens, user });
   },
 
   logout: () => {
-    StorageService.removeItem(STORAGE_KEYS.AUTH_TOKEN);
-    StorageService.removeItem(STORAGE_KEYS.AUTH_REFRESH_TOKEN);
-    StorageService.removeItem(STORAGE_KEYS.AUTH_USER);
+    StorageService.auth.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+    StorageService.auth.removeItem(STORAGE_KEYS.AUTH_REFRESH_TOKEN);
+    StorageService.auth.removeItem(STORAGE_KEYS.AUTH_USER);
     set({ isAuthenticated: false, tokens: null, user: null });
   },
 
   setTokens: tokens => {
     if (tokens) {
-      StorageService.setItem(STORAGE_KEYS.AUTH_TOKEN, tokens.accessToken);
-      StorageService.setItem(STORAGE_KEYS.AUTH_REFRESH_TOKEN, tokens.refreshToken);
+      StorageService.auth.setItem(STORAGE_KEYS.AUTH_TOKEN, tokens.accessToken);
+      StorageService.auth.setItem(STORAGE_KEYS.AUTH_REFRESH_TOKEN, tokens.refreshToken);
     } else {
-      StorageService.removeItem(STORAGE_KEYS.AUTH_TOKEN);
-      StorageService.removeItem(STORAGE_KEYS.AUTH_REFRESH_TOKEN);
+      StorageService.auth.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+      StorageService.auth.removeItem(STORAGE_KEYS.AUTH_REFRESH_TOKEN);
     }
     set({ isAuthenticated: tokens !== null, tokens });
   },

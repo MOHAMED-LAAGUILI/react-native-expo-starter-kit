@@ -1,7 +1,7 @@
 import { router, useLocalSearchParams } from "expo-router";
 import LottieView from "lottie-react-native";
 import * as React from "react";
-import { ActivityIndicator, Image, ScrollView, View } from "react-native";
+import { Image, ScrollView, View } from "react-native";
 import { usePublicPost } from "@/api/hooks/usePublicPosts";
 import { Button } from "@/components/ui/Button";
 import { Text } from "@/components/ui/Text";

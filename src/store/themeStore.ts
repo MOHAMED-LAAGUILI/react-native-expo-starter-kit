@@ -14,7 +14,7 @@ interface ThemeState {
 
 function loadMode(): ThemeMode {
   try {
-    const v = StorageService.getItem<string>(STORAGE_KEYS.THEME_MODE);
+    const v = StorageService.theme.getItem<string>(STORAGE_KEYS.THEME_MODE);
     if (v && ["light", "dark", "system"].includes(v)) return v as ThemeMode;
   } catch {}
   return "system";
@@ -22,7 +22,7 @@ function loadMode(): ThemeMode {
 
 function loadPrimaryColor(): string {
   try {
-    const v = StorageService.getItem<string>(STORAGE_KEYS.PRIMARY_COLOR);
+    const v = StorageService.theme.getItem<string>(STORAGE_KEYS.PRIMARY_COLOR);
     if (v) return v;
   } catch {}
   return "blue";
@@ -41,12 +41,12 @@ export const useThemeStore = create<ThemeState>(set => ({
   primaryColor: loadPrimaryColor(),
 
   setMode: (mode: ThemeMode) => {
-    StorageService.setItem(STORAGE_KEYS.THEME_MODE, mode);
+    StorageService.theme.setItem(STORAGE_KEYS.THEME_MODE, mode);
     set({ mode });
   },
 
   setPrimaryColor: (color: string) => {
-    StorageService.setItem(STORAGE_KEYS.PRIMARY_COLOR, color);
+    StorageService.theme.setItem(STORAGE_KEYS.PRIMARY_COLOR, color);
     set({ primaryColor: color });
   },
 }));

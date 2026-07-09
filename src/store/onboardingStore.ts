@@ -10,7 +10,7 @@ interface OnboardingState {
 
 function loadOnboarding(): boolean {
   try {
-    return StorageService.getItem<boolean>(STORAGE_KEYS.ONBOARDING_COMPLETE) ?? false;
+    return StorageService.onboarding.getItem<boolean>(STORAGE_KEYS.ONBOARDING_COMPLETE) ?? false;
   } catch {
     return false;
   }
@@ -18,7 +18,7 @@ function loadOnboarding(): boolean {
 
 export const useOnboardingStore = create<OnboardingState>(set => ({
   complete: () => {
-    StorageService.setItem(STORAGE_KEYS.ONBOARDING_COMPLETE, true);
+    StorageService.onboarding.setItem(STORAGE_KEYS.ONBOARDING_COMPLETE, true);
     set({ isComplete: true });
   },
   hydrate: () => {

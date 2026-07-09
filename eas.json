@@ -28,6 +28,7 @@
       },
       "android": {
         "buildType": "apk",
+        "gradleCommand": "assembleRelease -PreactNativeArchitectures=arm64-v8a,armeabi-v7a",
         "image": "latest"
       },
       "environment": "preview",

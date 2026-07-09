@@ -40,7 +40,7 @@ const apiClient: AxiosInstance = axios.create({
 
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = StorageService.getItem<string>(STORAGE_KEYS.AUTH_TOKEN);
+    const token = StorageService.auth.getItem<string>(STORAGE_KEYS.AUTH_TOKEN);
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -70,7 +70,7 @@ apiClient.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshToken = StorageService.getItem<string>(STORAGE_KEYS.AUTH_REFRESH_TOKEN);
+        const refreshToken = StorageService.auth.getItem<string>(STORAGE_KEYS.AUTH_REFRESH_TOKEN);
         if (!refreshToken) {
           throw new Error("No refresh token available");
         }
@@ -78,9 +78,9 @@ apiClient.interceptors.response.use(
           refreshToken,
         });
         const newToken: string = data.accessToken ?? data.tokens?.accessToken;
-        StorageService.setItem(STORAGE_KEYS.AUTH_TOKEN, newToken);
+        StorageService.auth.setItem(STORAGE_KEYS.AUTH_TOKEN, newToken);
         if (data.refreshToken ?? data.tokens?.refreshToken) {
-          StorageService.setItem(STORAGE_KEYS.AUTH_REFRESH_TOKEN, data.refreshToken ?? data.tokens?.refreshToken);
+          StorageService.auth.setItem(STORAGE_KEYS.AUTH_REFRESH_TOKEN, data.refreshToken ?? data.tokens?.refreshToken);
         }
         processQueue(null, newToken);
         if (originalRequest.headers) {
@@ -89,8 +89,8 @@ apiClient.interceptors.response.use(
         return apiClient(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError, null);
-        StorageService.removeItem(STORAGE_KEYS.AUTH_TOKEN);
-        StorageService.removeItem(STORAGE_KEYS.AUTH_REFRESH_TOKEN);
+        StorageService.auth.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+        StorageService.auth.removeItem(STORAGE_KEYS.AUTH_REFRESH_TOKEN);
         return Promise.reject(new Error("Session expired"));
       } finally {
         isRefreshing = false;

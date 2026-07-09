@@ -1,4 +1,5 @@
 import { router } from "expo-router";
+import LottieView from "lottie-react-native";
 import { Search as SearchIcon } from "lucide-react-native";
 import * as React from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
@@ -32,7 +33,12 @@ function SearchScreen() {
 
       {isLoading ? (
         <View className="flex-1 items-center justify-center">
-          <ActivityIndicator size="large" />
+          <LottieView
+            source={require("@assets/lottie/Loading animation blue.json")}
+            autoPlay
+            loop
+            style={{ height: 70, width: 70 }}
+          />
         </View>
       ) : error ? (
         <View className="flex-1 items-center justify-center px-6">
