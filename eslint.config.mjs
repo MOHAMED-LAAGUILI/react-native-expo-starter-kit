@@ -2,6 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import antfu from '@antfu/eslint-config';
+import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
 import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import reactCompiler from 'eslint-plugin-react-compiler';
 
@@ -16,14 +17,13 @@ export default antfu(
     // Disable JSON processing for translation files (handled by i18n-json plugin)
     jsonc: false,
 
-    
-  // Use ESLint Stylistic for formatting
+    // Use ESLint Stylistic for formatting
     stylistic: {
       indent: 2,
       quotes: 'single',
       semi: true,
     },
-    
+
     // Global ignores
     ignores: [
       'dist/*',
@@ -107,6 +107,19 @@ export default antfu(
       'better-tailwindcss': {
         entryPoint: path.resolve(__dirname, './global.css'),
       },
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({
+          alwaysTryTypes: true, // Always try to resolve types under `<root>@types` directory even if it doesn't contain any source code, like `@types/unist`
+
+          bun: true, // Resolve Bun modules (https://github.com/import-js/eslint-import-resolver-typescript#bun)
+
+          // Choose from one of the "project" configs below or omit to use <root>/tsconfig.json or <root>/jsconfig.json by default
+
+          // Use <root>/path/to/folder/tsconfig.json or <root>/path/to/folder/jsconfig.json
+          project: './tsconfig.json',
+
+        }),
+      ],
     },
     rules: {
       ...betterTailwindcss.configs.recommended.rules,

@@ -21,6 +21,33 @@ const appIconBadgeConfig: AppIconBadgeConfig = {
   enabled: process.env.NODE_ENV !== 'production',
 };
 
+const fontPlugin: ['expo-font', { android: { fonts: Array<{ fontFamily: string; fontDefinitions: Array<{ path: string; weight: number }> }> }; ios: { fonts: string[] } }] = [
+  'expo-font',
+  {
+    android: {
+      fonts: [
+        {
+          fontDefinitions: [
+            { path: 'node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf', weight: 400 },
+            { path: 'node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf', weight: 500 },
+            { path: 'node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf', weight: 600 },
+            { path: 'node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf', weight: 700 },
+          ],
+          fontFamily: 'Inter',
+        },
+      ],
+    },
+    ios: {
+      fonts: [
+        'node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf',
+        'node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf',
+        'node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf',
+        'node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf',
+      ],
+    },
+  },
+];
+
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   android: {
@@ -80,67 +107,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         launchMode: 'most-recent',
       },
     ],
-    [
-      'expo-font',
-      {
-        android: {
-          fonts: [
-            {
-              fontDefinitions: [
-                {
-                  path: 'node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf',
-                  weight: 400,
-                },
-                {
-                  path: 'node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf',
-                  weight: 500,
-                },
-                {
-                  path: 'node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf',
-                  weight: 600,
-                },
-                {
-                  path: 'node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf',
-                  weight: 700,
-                },
-              ],
-              fontFamily: 'Inter',
-            },
-          ],
-        },
-        ios: {
-          fonts: [
-            'node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf',
-            'node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf',
-            'node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf',
-            'node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf',
-          ],
-        },
-      },
-    ],
+    fontPlugin,
     'expo-localization',
     'expo-router',
     ['app-icon-badge', appIconBadgeConfig],
     'expo-status-bar',
     ['react-native-edge-to-edge'],
-    [
-      'expo-dynamic-app-icon',
-      {
-          expo_dark: {
-            android: './assets/images/expo_icon_dark.png',
-                        ios: './assets/images/expo_icon_dark.png',
-
-          },
-          original_dark: {
-            android: './assets/images/react_native_reusables_dark.png',
-                                    ios: './assets/images/expo_icon_dark.png',
-
-            prerendered: true
-
-          },
-      
-      },
-    ],
   ],
   scheme: ExpoEnv.EXPO_PUBLIC_SCHEME,
   slug: ExpoEnv.EXPO_PUBLIC_SLUG,

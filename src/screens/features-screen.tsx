@@ -73,7 +73,7 @@ export function FeaturesScreen() {
               <View className="flex-1 gap-1">
                 <Text variant="label">{feature.title}</Text>
                 <Text
-                  variant="small"
+                  variant="bodySmall"
                   className="leading-5 text-muted-foreground"
                 >
                   {feature.description}

@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button, Text } from '@/components/ui';
 import { useOnboardingStore } from '@/store';
 
-const ANIMATIONS: Record<string, unknown> = {
+const ANIMATIONS: Record<string, any> = {
   hello: require('@assets/lottie/hello.json'),
   people_reading_news_on_phone: require('@assets/lottie/people_reading_news_on_phone.json'),
   welcome: require('@assets/lottie/welcome.json'),

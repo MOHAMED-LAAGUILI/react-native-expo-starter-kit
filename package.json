@@ -15,8 +15,9 @@
     "clean": "bun pm cache rm && rm -rf .expo node_modules android ios build dist bun.lock",
     "login": "eas login",
     "logout": "eas logout",
-    "lint:fix": "npx eslint src/ --fix && npx eslint app/ --fix",
-    "fix:deps": "npx expo install --fix",
+    "deps:fix": "npx expo install --fix",
+    "lint:fix": "eslint . --fix && npx eslint src/ --fix && npx eslint app/ --fix",
+    "type:check": "tsc --noemit",
     "doctor": "npx expo-doctor --verbose",
     "expo:config": "npx expo config --type public",
     "export": "npx expo export --platform web",
@@ -81,7 +82,6 @@
     "expo": "^57.0.0",
     "expo-constants": "~57.0.3",
     "expo-dev-client": "~57.0.5",
-    "expo-dynamic-app-icon": "^1.2.0",
     "expo-font": "~57.0.0",
     "expo-haptics": "~57.0.0",
     "expo-image": "^57.0.0",
@@ -143,6 +143,7 @@
     "cross-env": "^10.1.0",
     "dotenv": "^17.4.2",
     "eslint": "^10.6.0",
+    "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-better-tailwindcss": "^4.6.1",
     "eslint-plugin-i18n-json": "^4.0.1",
     "eslint-plugin-react-compiler": "^19.1.0-rc.2",
@@ -166,5 +167,9 @@
         "react-native-worklets"
       ]
     }
-  }
+  },
+  "trustedDependencies": [
+    "esbuild",
+    "unrs-resolver"
+  ]
 }

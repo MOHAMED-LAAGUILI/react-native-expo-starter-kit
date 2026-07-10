@@ -158,7 +158,7 @@ function LoginScreen() {
           </Text>
         </View>
 
-        <LoginFormFields form={form} isLogin={isLogin} formError={formError} />
+        <LoginFormFields form={form as unknown as ReactFormExtendedApi<RegisterFormData, any, any, any, any, any, any, any, any, any, any, any>} isLogin={isLogin} formError={formError} />
 
         <ToggleModeLink
           isLogin={isLogin}

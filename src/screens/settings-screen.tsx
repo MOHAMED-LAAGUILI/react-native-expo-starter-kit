@@ -2,15 +2,13 @@ import type { BottomSheetOption } from '@/components/ui/bottom-sheet';
 import type { ColorPaletteKey } from '@/config/color-palettes';
 import type { ThemeMode } from '@/store';
 import { useNetInfo } from '@react-native-community/netinfo';
-import { Brush, Check, ExternalLink, Globe, Heart, Info, Monitor, Moon, Share2, Sun, Wifi } from 'lucide-react-native';
+import { Brush, ExternalLink, Globe, Heart, Info, Monitor, Moon, Share2, Sun, Wifi } from 'lucide-react-native';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, ScrollView, Share, TouchableOpacity, View } from 'react-native';
+import { Linking, ScrollView, Share, View } from 'react-native';
 import { SettingRow } from '@/components/common/setting-row';
 import { Text } from '@/components/ui';
 import { BottomSheet } from '@/components/ui/bottom-sheet';
-import { Image } from '@/components/ui/image';
-import { showToast } from '@/components/ui/toast';
 import { COLOR_PALETTES } from '@/config/color-palettes';
 import { useThemeColors } from '@/hooks/use-theme-color';
 import { changeLanguage } from '@/i18n';
@@ -69,17 +67,6 @@ function AppearanceSection({
         />
       </View>
     </View>
-  );
-}
-
-function IconRow({ iconName, label, source, currentIcon, iconColor, onPress }: { iconName: string; label: string; source?: number; currentIcon: string; iconColor: string; onPress: (name: string) => void }) {
-  const isSelected = currentIcon === iconName;
-  return (
-    <TouchableOpacity onPress={() => onPress(iconName)} className="flex-row items-center p-4">
-      {source && <Image source={source} className="mr-3 size-6 rounded-sm" />}
-      <Text variant="body" className="flex-1">{label}</Text>
-      {isSelected && <Check size={18} color={iconColor} />}
-    </TouchableOpacity>
   );
 }
 
@@ -154,45 +141,6 @@ function SupportSection() {
           subtitle={t('settings.developerDescription')}
           onPress={() => Linking.openURL('https://github.com/MOHAMED-LAAGUILI')}
         />
-      </View>
-    </View>
-  );
-}
-
-function AppIconSection() {
-  const { t } = useTranslation();
-  const { icon: iconColor } = useThemeColors();
-  const [currentIcon, setCurrentIcon] = React.useState<string>('default');
-
-  React.useEffect(() => {
-    let mounted = true;
-    import('expo-dynamic-app-icon').then((mod) => {
-      if (mounted)
-        setCurrentIcon(mod.getAppIcon());
-    }).catch(() => {});
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  const handleAppIcon = React.useCallback((iconName: string) => {
-    import('expo-dynamic-app-icon').then((mod) => {
-      mod.setAppIcon(iconName);
-      setCurrentIcon(iconName);
-    }).catch(() => {
-      showToast({ message: t('settings.toastAppIconUnavailable'), title: t('settings.toastAppIconUnavailableTitle'), variant: 'error' });
-    });
-  }, [t]);
-
-  return (
-    <View>
-      <Text variant="label" className="mb-3 tracking-wider text-muted-foreground uppercase">{t('settings.appIcon')}</Text>
-      <View className="overflow-hidden rounded-xl border border-border bg-card">
-        <IconRow iconName="expo_dark" label={t('settings.appIconExpo')} source={require('@assets/images/expo_icon_dark.png')} currentIcon={currentIcon} iconColor={iconColor} onPress={handleAppIcon} />
-        <View className="mx-4 h-px bg-border" />
-        <IconRow iconName="original_dark" label={t('settings.appIconDark')} source={require('@assets/images/react_native_reusables_dark.png')} currentIcon={currentIcon} iconColor={iconColor} onPress={handleAppIcon} />
-        <View className="mx-4 h-px bg-border" />
-        <IconRow iconName="default" label={t('settings.appIconReset')} currentIcon={currentIcon} iconColor={iconColor} onPress={handleAppIcon} />
       </View>
     </View>
   );
@@ -292,7 +240,6 @@ function SettingsScreen() {
           />
           <AppInfoSection />
           <SupportSection />
-          <AppIconSection />
         </View>
       </ScrollView>
 

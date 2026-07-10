@@ -11,7 +11,7 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 | `bun run ios` | `expo start -c --ios` |
 | `bun run web` | `expo start -c --web` |
 | `bun run clean` | `rm -rf .expo node_modules android ios build dist bun.lock && bun install` |
-| `bun run fix:deps` | `npx expo install --fix` |
+| `bun run deps:fix` | `npx expo install --fix` |
 | `bun run doctor` | `npx expo-doctor --verbose` |
 | `bun run prebuild` | `expo prebuild -c` |
 | `bun run lint:fix` | `npx eslint src/ --fix && npx eslint app/ --fix` |

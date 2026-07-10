@@ -22,7 +22,7 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 | `bun run android` | Dev server targeting Android |
 | `bun run web` | Dev server targeting Web |
 | `bun run clean` | Remove `.expo`, `node_modules`, `android`, `ios`, `build`, `dist`, `bun.lock` and reinstall |
-| `bun run fix:deps` | Fix dependency versions via Expo |
+| `bun run deps:fix` | Fix dependency versions via Expo |
 | `bun run doctor` | Run Expo doctor diagnostics |
 | `bun run prebuild` | Prebuild native project |
 | `bun run check` | Lint + auto-fix via Biome |
