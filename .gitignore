@@ -14,6 +14,7 @@ web-build/
 yarn-error.log
 /coverage
 /android
+/ios
 # macOS
 .DS_Store
 .idea

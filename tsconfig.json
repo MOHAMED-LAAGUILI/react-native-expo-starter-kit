@@ -3,15 +3,18 @@
   "compilerOptions": {
     "strict": true,
     "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "customConditions": [],
+     "checkJs": true,
     "paths": {
       "@/*": [
         "./src/*"
+        
       ],
       "@assets/*": [
         "./assets/*"
-      ]
+      ],
     }
   },
   "include": [
@@ -21,5 +24,12 @@
     "*.d.ts",
     "**/*.d.ts",
     "expo-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "android",
+    "ios",
   ]
 }

@@ -4,32 +4,48 @@
 Production-ready Expo + React Native starter with file-based routing, Tailwind v4 (Uniwind), Zustand, TanStack Query, i18n, auth, Drawer + Tabs navigation, and @gorhom/bottom-sheet.
 
 ## Commands
-| Script | Command |
-|--------|---------|
-| `bun dev` | `expo start -c` |
-| `bun run android` | `expo start -c --android` |
-| `bun run ios` | `expo start -c --ios` |
-| `bun run web` | `expo start -c --web` |
-| `bun run clean` | `rm -rf .expo node_modules android ios build dist bun.lock && bun install` |
-| `bun run deps:fix` | `npx expo install --fix` |
-| `bun run doctor` | `npx expo-doctor --verbose` |
-| `bun run prebuild` | `expo prebuild -c` |
-| `bun run lint:fix` | `npx eslint src/ --fix && npx eslint app/ --fix` |
-| `bun run export` | `npx expo export --platform web` |
-| `bun run login` | `eas login` |
-| `bun run logout` | `eas logout` |
-| `bun run start:preview` | `cross-env EXPO_PUBLIC_APP_ENV=preview expo start -c` |
-| `bun run start:production` | `cross-env EXPO_PUBLIC_APP_ENV=production expo start -c` |
-| `bun run prebuild:preview` | `cross-env EXPO_PUBLIC_APP_ENV=preview expo prebuild -c` |
-| `bun run prebuild:production` | `cross-env EXPO_PUBLIC_APP_ENV=production expo prebuild -c` |
+
+| Script                           | Purpose 
+|----------------------------------|--------------------------------------------
+| `bun dev`                        | Start Expo dev server (fresh cache)
+| `bun run ios`                    | Dev server targeting iOS
+| `bun run android`                | Dev server targeting Android
+| `bun run web`                    | Dev server targeting Web
+| `bun run clean`                  | Clean cache, node_modules, native builds, and lockfile
+| `bun run login`                  | EAS login
+| `bun run logout`                 | EAS logout
+| `bun run deps:fix`               | Fix dependency versions via Expo
+| `bun run lint:fix`               | Run ESLint with auto-fix on all source files
+| `bun run type:check`             | Run TypeScript type checking (no emit)
+| `bun run doctor`                 | Run Expo doctor diagnostics
+| `bun run expo:config`            | Print public Expo config
+| `bun run export:web`             | Export web build
+| `bun run prebuild`               | Prebuild native project 
+| `bun run generate-apk`           | Build Android APK and install via ADB
+| `bun run prebuild:development`   | Prebuild native project (development env)
+| `bun run prebuild:preview`       | Prebuild native project (preview env)
+| `bun run prebuild:production`    | Prebuild native project (production env)
+| `bun run prebuild:generate`      | Prebuild native project & generate apk
+| `bun run android:development`    | Android dev server (development env)
+| `bun run ios:development`        | iOS dev server (development env)
+| `bun run android:preview`        | Android dev server (preview env)
+| `bun run ios:preview`            | iOS dev server (preview env)
+| `bun run android:production`     | Android dev server (production env)
+| `bun run ios:production`         | iOS dev server (production env)
+| `bun run workflow:build-ios`     | Trigger EAS workflow to build iOS
+| `bun run workflow:build-android` | Trigger EAS workflow to build Android
+| `bun run workflow:build-all`     | Trigger EAS workflow to build both platforms
+| `bun run submit:android`         | Submit Android build to Play Store
+| `bun run submit:ios`             | Submit iOS build to App Store
+| `bun run deploy`                 | Deploy to EAS Hosting
 
 ### EAS Build Profiles
-| Profile | Distribution | Channel | Use Case |
-|---------|-------------|---------|----------|
-| `development` | Internal | — | Dev client builds for testing |
-| `preview` | Store (APK) | preview | Internal testing / QA |
-| `production` | Store (AAB) | production | App Store / Play Store release |
-| `simulator` | — | — | iOS simulator / Android emulator builds |
+| Profile       | Distribution | Channel     | Use Case |
+|---------------|--------------|-------------|---------------------------
+| `development` | Internal     | development | Dev client builds for local testing 
+| `preview`     | Store (APK)  | preview     | Internal QA builds 
+| `production`  | Store (AAB)  | production  | App Store / Play Store release 
+| `simulator`   | —            | —           | iOS simulator / Android emulator builds 
 
 ## Essentials
 
@@ -134,27 +150,26 @@ How: Essential Rules
 - `React.ComponentProps<typeof Component>` + `React.RefAttributes` for wrapper props
 
 ## Tech Stack
-| Layer | Library |
-|-------|---------|
-| Framework | React 19 + React Native 0.86 |
-| Platform | Expo SDK 57 |
-| Language | TypeScript 6 (strict) |
-| Routing | Expo Router (Stack/Drawer/Tabs) |
-| Styling | Tailwind v4 + Uniwind + `cn()` (clsx + tailwind-merge) |
-| Theme | CSS variables in oklch (light/dark + 7 accent color palettes) |
-| Client State | Zustand 5 (MMKV persistence, lazy hydration) |
-| Server State | TanStack Query 5 + Devtools |
-| Networking | Axios (auth interceptor, refresh queue) |
-| Forms | TanStack Form 1 + Zod 3 |
-| Storage | react-native-mmkv 4 (lazy init, SSR-safe) |
-| i18n | i18next 26 + react-i18next (EN/FR/AR, RTL via RNRestart) |
-| UI Primitives | @rn-primitives 1.5 (Portal, Dialog, Slot, etc.) |
-| Bottom Sheet | @gorhom/bottom-sheet 5 |
-| Icons | lucide-react-native |
-| Animation | react-native-reanimated + gesture-handler |
-| Font | @expo-google-fonts/inter (4 weights via expo-font plugin) |
-| Lint | ESLint 10 + Prettier 3 |
-| Assets Alias | `@assets/*` → `./assets/*` (tsconfig + Metro) |
+| Category      | Library 
+|---------------|-------------------------------
+| Framework     | React 19 + React Native 0.86 
+| Platform      | Expo SDK 57 
+| Language      | TypeScript 6 (strict) 
+| Routing       | Expo Router (Stack/Drawer/Tabs) 
+| Styling       | Tailwind CSS v4 + Uniwind + cn() 
+| Theme         | oklch CSS variables (light/dark + 7 accent color palettes) 
+| Client State  | Zustand 5 (MMKV persistence) 
+| Server State  | TanStack Query 5 + Devtools 
+| Forms         | TanStack Form 1 + Zod 3 
+| Storage       | react-native-mmkv 4 (lazy, SSR-safe) 
+| i18n          | i18next 26 + react-i18next (EN/FR/AR, RTL) 
+| UI Primitives | @rn-primitives 1.5 (Portal, Slot, Dialog, etc.) 
+| Bottom Sheet  | @gorhom/bottom-sheet 5 
+| Icons         | lucide-react-native 
+| HTTP          | Axios (auth interceptor, refresh queue) 
+| Animation     | react-native-reanimated + gesture-handler 
+| Font          | @expo-google-fonts/inter (4 weights, via expo-font plugin) 
+| Linting       | Eslint                                
 
 ## Routing Structure
 ```
@@ -197,6 +212,7 @@ src/
 ├── lib/              — cn() utility, form-helpers (getFieldError)
 ├── utils/            — format utilities, platform helpers
 ├── validation/       — Zod schemas (login, register, forgotPassword)
+assets/
 global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @variant)
 ```
 
@@ -280,7 +296,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - No test framework installed
 - `expo-env.d.ts` and `.expo/types/` are auto-generated — do not edit
 - `src/types/uniwind.d.ts` patches TypeScript 6 compatibility with uniwind types
-- `app.config.ts` inlines all env values (no separate env.js loaded during config resolution to avoid Node ESM `.ts` issues)
+- `app.config.ts` inlines all env values (no separate env.ts loaded during config resolution to avoid Node ESM `.ts` issues)
 - Use `bun` for package management only — don't add `package-lock.json` or `yarn.lock`
 - MMKV storage is lazily initialized with try/catch to prevent SSR crashes during Metro bundling
 - `ActivityIndicator` in Uniwind doesn't support `className` color — use native `color` prop with hex fallback
@@ -308,12 +324,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 
 ### Environment Variables
 - `.env.development`, `.env.preview`, `.env.production` — per-environment values
-- `src/config/env.js` — shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`)
+- `src/config/env.ts` — shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`)
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
 - Android package: `com.rn_template.app` (underscores, not hyphens — Android requirement)
 
-## Planned Features
-- **Expo Observe** — error tracking and performance monitoring via `expo-observe`
-- **Expo Notifications** — push notifications via `expo-notifications` with local + remote notification support
-- **Husky** — git hooks for pre-commit linting and formatting
-- **Maestro** — E2E testing framework for mobile

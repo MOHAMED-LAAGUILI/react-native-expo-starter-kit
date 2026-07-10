@@ -15,25 +15,41 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 
 ## Commands
 
-| Script | Purpose |
-|--------|---------|
-| `bun dev` | Start Expo dev server (fresh cache) |
-| `bun run ios` | Dev server targeting iOS |
-| `bun run android` | Dev server targeting Android |
-| `bun run web` | Dev server targeting Web |
-| `bun run clean` | Remove `.expo`, `node_modules`, `android`, `ios`, `build`, `dist`, `bun.lock` and reinstall |
-| `bun run deps:fix` | Fix dependency versions via Expo |
-| `bun run doctor` | Run Expo doctor diagnostics |
-| `bun run prebuild` | Prebuild native project |
-| `bun run check` | Lint + auto-fix via Biome |
-| `bun run lint:fix` | Lint + format (both) |
-| `bun run export` | Export web build |
-| `bun run login` | EAS login |
-| `bun run logout` | EAS logout |
-| `bun run start:preview` | Dev server with preview env |
-| `bun run start:production` | Dev server with production env |
-| `bun run prebuild:preview` | Prebuild with preview env |
-| `bun run prebuild:production` | Prebuild with production env |
+
+| Script                           | Purpose 
+|----------------------------------|--------------------------------------------
+| `bun dev`                        | Start Expo dev server (fresh cache)
+| `bun run ios`                    | Dev server targeting iOS
+| `bun run android`                | Dev server targeting Android
+| `bun run web`                    | Dev server targeting Web
+| `bun run clean`                  | Clean cache, node_modules, native builds, and lockfile
+| `bun run login`                  | EAS login
+| `bun run logout`                 | EAS logout
+| `bun run deps:fix`               | Fix dependency versions via Expo
+| `bun run lint:fix`               | Run ESLint with auto-fix on all source files
+| `bun run type:check`             | Run TypeScript type checking (no emit)
+| `bun run doctor`                 | Run Expo doctor diagnostics
+| `bun run expo:config`            | Print public Expo config
+| `bun run export:web`             | Export web build
+| `bun run prebuild`               | Prebuild native project 
+| `bun run generate-apk`           | Build Android APK and install via ADB
+| `bun run prebuild:development`   | Prebuild native project (development env)
+| `bun run prebuild:preview`       | Prebuild native project (preview env)
+| `bun run prebuild:production`    | Prebuild native project (production env)
+| `bun run prebuild:generate`      | Prebuild native project & generate apk
+| `bun run android:development`    | Android dev server (development env)
+| `bun run ios:development`        | iOS dev server (development env)
+| `bun run android:preview`        | Android dev server (preview env)
+| `bun run ios:preview`            | iOS dev server (preview env)
+| `bun run android:production`     | Android dev server (production env)
+| `bun run ios:production`         | iOS dev server (production env)
+| `bun run workflow:build-ios`     | Trigger EAS workflow to build iOS
+| `bun run workflow:build-android` | Trigger EAS workflow to build Android
+| `bun run workflow:build-all`     | Trigger EAS workflow to build both platforms
+| `bun run submit:android`         | Submit Android build to Play Store
+| `bun run submit:ios`             | Submit iOS build to App Store
+| `bun run deploy`                 | Deploy to EAS Hosting
+
 
 ## Features
 
@@ -146,26 +162,18 @@ Use [Expo Application Services (EAS)](https://expo.dev/eas) for builds, updates,
 
 ### EAS Build Profiles
 
-| Profile | Distribution | Channel | Use Case |
-|---------|-------------|---------|----------|
-| `development` | Internal | — | Dev client builds for local testing |
-| `preview` | Store (APK) | preview | Internal QA builds |
-| `production` | Store (AAB) | production | App Store / Play Store release |
-| `simulator` | — | — | iOS simulator / Android emulator builds |
-
+| Profile       | Distribution | Channel     | Use Case |
+|---------------|--------------|-------------|---------------------------
+| `development` | Internal     | development | Dev client builds for local testing 
+| `preview`     | Store (APK)  | preview     | Internal QA builds 
+| `production`  | Store (AAB)  | production  | App Store / Play Store release 
+| `simulator`   | —            | —           | iOS simulator / Android emulator builds 
+ 
 ```bash
 # Login to EAS
 bun run login
 
-# Build for preview (QA)
-bun run build:preview:ios
-bun run build:preview:android
-
-# Build for production
-bun run build:production:ios
-bun run build:production:android
-
-# or use workflow instead of Build
+# use workflow instead  Build
 bun run workflow:build-android
 bun run workflow:build-ios
 
@@ -192,18 +200,19 @@ To release, just bump the version in `package.json` and push to `main`.
 
 ### Environment Variables
 
-| File | Purpose |
-|------|---------|
-| `.env.development` | Local dev values |
-| `.env.preview` | Preview/QA builds |
-| `.env.production` | Production builds |
-| `src/config/env.js` | Shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`) |
+| File                | Purpose           
+|---------------------|--------------------------------------
+| `.env.development`  | Local dev values  
+| `.env.preview`      | Preview/QA builds 
+| `.env.production`   | Production builds 
+| `src/config/env.ts` | Shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`) 
 
 - Android package: `com.rn_template.app` (underscores, not hyphens — Android requirement)
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
 
-## Roadmap
+## Planned Features
 - **Expo Observe** — error tracking and performance monitoring via `expo-observe`
-- **Expo Notifications** — Push notifications with local and remote support
-- **Husky** — Git hooks for pre-commit linting and formatting
+- **Expo Notifications** — push notifications via `expo-notifications` with local + remote notification support
+- **Husky** — git hooks for pre-commit linting and formatting
 - **Maestro** — E2E testing framework for mobile
+

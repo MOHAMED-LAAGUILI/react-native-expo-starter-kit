@@ -1,4 +1,4 @@
-const packageJson = require('../../package.json');
+import packageJson from '../../package.json' with { type: 'json' };
 
 const ExpoEnv = {
   EAS_PROJECT_ID: '0c576e76-ecd2-4efb-a5c5-24ea4ec0d5aa',
@@ -18,11 +18,7 @@ const runtimeEnv = {
   IS_DEV: process.env.NODE_ENV !== 'production',
 };
 
-const ENV = {
+export const ENV = {
   ...ExpoEnv,
   ...runtimeEnv,
 };
-
-module.exports = ExpoEnv;
-module.exports.default = ExpoEnv;
-module.exports.ENV = ENV;

@@ -1,8 +1,8 @@
 import type { ConfigContext, ExpoConfig } from '@expo/config';
 import type { AppIconBadgeConfig } from 'app-icon-badge/types';
-import ExpoEnv from './src/config/env.js';
-import 'dotenv/config';
+import { ENV } from './src/config/env.ts';
 
+import 'dotenv/config';
 import 'tsx/cjs';
 
 const appIconBadgeConfig: AppIconBadgeConfig = {
@@ -14,7 +14,7 @@ const appIconBadgeConfig: AppIconBadgeConfig = {
     },
     {
       color: 'white',
-      text: ExpoEnv.EXPO_PUBLIC_VERSION,
+      text: ENV.EXPO_PUBLIC_VERSION,
       type: 'ribbon',
     },
   ],
@@ -55,37 +55,37 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: '#2E3C4B',
       foregroundImage: './assets/images/adaptive_icon.png',
     },
-    package: ExpoEnv.EXPO_PUBLIC_PACKAGE,
+    package: ENV.EXPO_PUBLIC_PACKAGE,
     permissions: ['android.permission.READ_EXTERNAL_STORAGE', 'android.permission.WRITE_EXTERNAL_STORAGE'],
     userInterfaceStyle: 'light',
   },
   assetBundlePatterns: ['**/*'],
   backgroundColor: '#ffffff',
-  description: `${ExpoEnv.EXPO_PUBLIC_NAME} Mobile App`,
+  description: `${ENV.EXPO_PUBLIC_NAME} Mobile App`,
   experiments: {
     typedRoutes: true,
   },
 
   extra: {
     eas: {
-      projectId: ExpoEnv.EAS_PROJECT_ID,
+      projectId: ENV.EAS_PROJECT_ID,
     },
   },
   icon: './assets/images/icon.png',
   ios: {
     backgroundColor: '#ffffff',
-    bundleIdentifier: ExpoEnv.EXPO_PUBLIC_BUNDLE_ID,
+    bundleIdentifier: ENV.EXPO_PUBLIC_BUNDLE_ID,
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
     },
     supportsTablet: true,
   },
 
-  name: ExpoEnv.EXPO_PUBLIC_NAME,
+  name: ENV.EXPO_PUBLIC_NAME,
   // @ts-expect-error - newArchEnabled is valid in Expo SDK 57
   newArchEnabled: true,
   orientation: 'portrait',
-  owner: ExpoEnv.EXPO_ACCOUNT_OWNER,
+  owner: ENV.EXPO_ACCOUNT_OWNER,
   plugins: [
     'expo-system-ui',
     [
@@ -114,13 +114,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-status-bar',
     ['react-native-edge-to-edge'],
   ],
-  scheme: ExpoEnv.EXPO_PUBLIC_SCHEME,
-  slug: ExpoEnv.EXPO_PUBLIC_SLUG,
+  scheme: ENV.EXPO_PUBLIC_SCHEME,
+  slug: ENV.EXPO_PUBLIC_SLUG,
   updates: {
     fallbackToCacheTimeout: 0,
   },
   userInterfaceStyle: 'automatic',
-  version: ExpoEnv.EXPO_PUBLIC_VERSION,
+  version: ENV.EXPO_PUBLIC_VERSION,
   web: {
     bundler: 'metro',
     favicon: './assets/images/favicon.png',
