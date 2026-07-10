@@ -4,7 +4,7 @@ A production-ready [React Native](https://reactnative.dev/) starter built with [
 
 ## Demo Android
 <video controls width="700">
-  <source src="Demo-Android.mp4" type="video/mp4">
+  <source src="./Demo-Android.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
