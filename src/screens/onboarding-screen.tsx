@@ -9,9 +9,9 @@ import { Button, Text } from '@/components/ui';
 import { useOnboardingStore } from '@/store';
 
 const ANIMATIONS: Record<string, unknown> = {
-  'Hello': require('@assets/lottie/Hello.json'),
-  'People reading news on phone': require('@assets/lottie/People reading news on phone.json'),
-  'Welcome': require('@assets/lottie/Welcome.json'),
+  hello: require('@assets/lottie/hello.json'),
+  people_reading_news_on_phone: require('@assets/lottie/people_reading_news_on_phone.json'),
+  welcome: require('@assets/lottie/welcome.json'),
 };
 type Slide = {
   title: string;
@@ -21,17 +21,17 @@ type Slide = {
 
 const SLIDES: Slide[] = [
   {
-    animation: 'Welcome',
+    animation: 'welcome',
     description: 'A production-ready React Native starter with Expo Router, Tailwind v4, Zustand, and more.',
     title: 'Welcome',
   },
   {
-    animation: 'People reading news on phone',
+    animation: 'people_reading_news_on_phone',
     description: 'Navigation, theming, i18n, API client, forms, and reusable UI components out of the box.',
     title: 'Features',
   },
   {
-    animation: 'Hello',
+    animation: 'hello',
     description: 'Tap below to start building your app. You can revisit settings anytime.',
     title: 'Get Started',
   },

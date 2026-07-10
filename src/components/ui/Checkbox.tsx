@@ -15,7 +15,7 @@ function Checkbox({ checked, onCheckedChange, disabled, className }: CheckboxPro
       onPress={() => !disabled && onCheckedChange(!checked)}
       className={cn(
         'size-5 items-center justify-center rounded-sm border',
-        checked ? 'border-primary bg-primary' : 'border-border bg-background',
+        checked ? 'border-primary bg-primary' : 'border-muted-foreground/30 bg-background',
         disabled && 'opacity-50',
         className,
       )}

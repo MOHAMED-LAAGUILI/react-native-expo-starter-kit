@@ -3,11 +3,11 @@ import { DrawerToggleButton } from 'expo-router/drawer';
 import { ArrowLeft } from 'lucide-react-native';
 import { View } from 'react-native';
 import { Button } from '@/components/ui';
-import { useThemeColors } from '@/hooks/use-theme-color';
+
+const HEADER_ICON_COLOR = '#fff';
 
 export function DrawerHeaderLeft() {
   const pathname = usePathname();
-  const { icon } = useThemeColors();
 
   if (pathname.includes('/post/')) {
     return (
@@ -15,10 +15,10 @@ export function DrawerHeaderLeft() {
         <Button
           variant="ghost"
           title=""
-          leftIcon={(
+          leftIcon={() => (
             <ArrowLeft
               size={24}
-              color={icon}
+              color={HEADER_ICON_COLOR}
             />
           )}
           onPress={() => router.back()}
@@ -30,7 +30,7 @@ export function DrawerHeaderLeft() {
 
   return (
     <View className="ml-3">
-      <DrawerToggleButton tintColor={icon} />
+      <DrawerToggleButton tintColor={HEADER_ICON_COLOR} />
     </View>
   );
 }

@@ -44,6 +44,24 @@
     "network": "Network",
     "networkConnected": "{{type}} • Connected",
     "networkDisconnected": "Disconnected",
-    "networkChecking": "Checking..."
+    "networkChecking": "Checking...",
+    "theme": "Theme",
+    "accentColor": "Accent Color",
+    "accentColorSheetTitle": "Accent Color",
+    "language": "Language",
+    "support": "Support",
+    "shareApp": "Share App",
+    "shareAppDescription": "Tell others about this app",
+    "shareMessage": "Check out this app!",
+    "supportFeedback": "Support & Feedback",
+    "supportFeedbackDescription": "Open a GitHub issue",
+    "developer": "Developer",
+    "developerDescription": "View portfolio",
+    "appIcon": "App Icon",
+    "appIconExpo": "Change to expo Icon",
+    "appIconDark": "Change to dark Icon",
+    "appIconReset": "Reset to Default Icon",
+    "toastAppIconUnavailable": "App icon change is only supported on Android.",
+    "toastAppIconUnavailableTitle": "Unsupported"
   }
 }

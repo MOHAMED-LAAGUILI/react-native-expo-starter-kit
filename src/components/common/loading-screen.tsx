@@ -12,7 +12,7 @@ function LoadingScreen() {
       style={{ backgroundColor: background }}
     >
       <LottieView
-        source={require('@assets/lottie/Loading animation blue.json')}
+        source={require('@assets/lottie/loading_animation_blue.json')}
         autoPlay
         loop
       />

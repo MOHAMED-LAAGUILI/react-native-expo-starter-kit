@@ -16,7 +16,7 @@ function Switch({ checked, onCheckedChange, disabled, className }: SwitchProps) 
       disabled={disabled}
       className={cn(
         'h-6 w-11 flex-row items-center rounded-full px-0.5',
-        checked ? 'bg-primary' : 'bg-border',
+        checked ? 'bg-primary' : 'bg-muted-foreground/30',
         disabled && 'opacity-50',
         className,
       )}

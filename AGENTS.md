@@ -47,6 +47,7 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 - **Functions/vars**: camelCase (`setMode`, `changeLanguage`, `hydrate`)
 - **Constants**: UPPER_SNAKE_CASE (`STORAGE_KEYS`, `THEME_OPTIONS`)
 - **Store slices**: camelCase with `Store` suffix (`useAuthStore`, `useThemeStore`)
+- **Assets**: lowercase a-z, numbers 0-9, underscores only (`loading_animation_blue.json`, `expo_icon_dark.png`)
 
 ### Exports
 - **Page components**: default export (`export default function Screen`)

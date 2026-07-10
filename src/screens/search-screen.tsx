@@ -34,7 +34,7 @@ function SearchScreen() {
         ? (
             <View className="flex-1 items-center justify-center">
               <LottieView
-                source={require('@assets/lottie/Loading animation blue.json')}
+                source={require('@assets/lottie/loading_animation_blue.json')}
                 autoPlay
                 loop
                 style={{ height: 70, width: 70 }}

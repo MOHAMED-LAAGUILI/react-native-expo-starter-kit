@@ -26,7 +26,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     adaptiveIcon: {
       backgroundColor: '#2E3C4B',
-      foregroundImage: './assets/images/adaptive-icon.png',
+      foregroundImage: './assets/images/adaptive_icon.png',
     },
     package: ExpoEnv.EXPO_PUBLIC_PACKAGE,
     permissions: ['android.permission.READ_EXTERNAL_STORAGE', 'android.permission.WRITE_EXTERNAL_STORAGE'],
@@ -127,11 +127,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'expo-dynamic-icons',
       {
         icons: {
-          expoDark: {
-            image: './assets/images/expo-icon-dark.png',
+          expo_dark: {
+            image: './assets/images/expo_icon_dark.png',
           },
-          originalDark: {
-            image: './assets/images/react-native-reusables-dark.png',
+          original_dark: {
+            image: './assets/images/react_native_reusables_dark.png',
           },
         },
       },

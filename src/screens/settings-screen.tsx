@@ -8,11 +8,12 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, ScrollView, Share, TouchableOpacity, View } from 'react-native';
 import { SettingRow } from '@/components/common/setting-row';
-import { Text } from '@/components/ui';
+import { Button, Text } from '@/components/ui';
 import { BottomSheet } from '@/components/ui/bottom-sheet';
 import { Image } from '@/components/ui/image';
 import { showToast } from '@/components/ui/toast';
 import { COLOR_PALETTES } from '@/config/color-palettes';
+import { useThemeColors } from '@/hooks/use-theme-color';
 import { changeLanguage } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { useThemeStore } from '@/store';
@@ -41,20 +42,21 @@ function AppearanceSection({
   onColorPress: () => void;
   onLangPress: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <View>
-      <Text variant="label" className="mb-3 tracking-wider text-muted-foreground uppercase">Appearance</Text>
+      <Text variant="label" className="mb-3 tracking-wider text-muted-foreground uppercase">{t('settings.appearance')}</Text>
       <View className="overflow-hidden rounded-xl border border-border bg-card">
         <SettingRow
           icon={mode === 'dark' ? Moon : mode === 'system' ? Monitor : Sun}
-          label="Theme"
+          label={t('settings.theme')}
           subtitle={themeLabels[mode]}
           onPress={onThemePress}
         />
         <View className="mx-4 h-px bg-border" />
         <SettingRow
           icon={Brush}
-          label="Accent Color"
+          label={t('settings.accentColor')}
           subtitle={currentColorLabel}
           rightElement={<View className="mr-2 size-5 rounded-full" style={{ backgroundColor: currentPalette?.color }} />}
           onPress={onColorPress}
@@ -62,7 +64,7 @@ function AppearanceSection({
         <View className="mx-4 h-px bg-border" />
         <SettingRow
           icon={Globe}
-          label="Language"
+          label={t('settings.language')}
           subtitle={currentLangLabel}
           onPress={onLangPress}
         />
@@ -115,28 +117,29 @@ function AppInfoSection() {
 }
 
 function SupportSection() {
+  const { t } = useTranslation();
   return (
     <View>
-      <Text variant="label" className="mb-3 tracking-wider text-muted-foreground uppercase">Support</Text>
+      <Text variant="label" className="mb-3 tracking-wider text-muted-foreground uppercase">{t('settings.support')}</Text>
       <View className="overflow-hidden rounded-xl border border-border bg-card">
         <SettingRow
           icon={Share2}
-          label="Share App"
-          subtitle="Tell others about this app"
-          onPress={() => Share.share({ message: 'Check out this app!', url: 'https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit' })}
+          label={t('settings.shareApp')}
+          subtitle={t('settings.shareAppDescription')}
+          onPress={() => Share.share({ message: t('settings.shareMessage'), url: 'https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit' })}
         />
         <View className="mx-4 h-px bg-border" />
         <SettingRow
           icon={Heart}
-          label="Support & Feedback"
-          subtitle="Open a GitHub issue"
+          label={t('settings.supportFeedback')}
+          subtitle={t('settings.supportFeedbackDescription')}
           onPress={() => Linking.openURL('https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit/issues')}
         />
         <View className="mx-4 h-px bg-border" />
         <SettingRow
           icon={ExternalLink}
-          label="Developer"
-          subtitle="View portfolio"
+          label={t('settings.developer')}
+          subtitle={t('settings.developerDescription')}
           onPress={() => Linking.openURL('https://github.com/MOHAMED-LAAGUILI')}
         />
       </View>
@@ -145,52 +148,50 @@ function SupportSection() {
 }
 
 function AppIconSection() {
+  const { t } = useTranslation();
   const handleAppIcon = React.useCallback((iconName: string) => {
     try {
       setAppIcon(iconName);
     }
     catch {
-      showToast({ message: 'App icon change is only supported on Android.', title: 'Unavailable', variant: 'error' });
+      showToast({ message: t('settings.toastAppIconUnavailable'), title: t('settings.toastAppIconUnavailableTitle'), variant: 'error' });
     }
-  }, []);
+  }, [t]);
 
   return (
     <View>
-      <Text variant="label" className="mb-3 tracking-wider text-muted-foreground uppercase">App Icon</Text>
+      <Text variant="label" className="mb-3 tracking-wider text-muted-foreground uppercase">{t('settings.appIcon')}</Text>
       <View className="overflow-hidden rounded-xl border border-border bg-card">
-        <TouchableOpacity onPress={() => handleAppIcon('expoDark')} className="flex-row items-center p-4">
-          <Image source={require('@assets/images/expo-icon-dark.png')} className="mr-3 size-6 rounded-sm" />
-          <Text variant="body">Change to expo Icon</Text>
+        <TouchableOpacity onPress={() => handleAppIcon('expo_dark')} className="flex-row items-center p-4">
+          <Image source={require('@assets/images/expo_icon_dark.png')} className="mr-3 size-6 rounded-sm" />
+          <Text variant="body">{t('settings.appIconExpo')}</Text>
         </TouchableOpacity>
         <View className="mx-4 h-px bg-border" />
-        <TouchableOpacity onPress={() => handleAppIcon('originalDark')} className="flex-row items-center p-4">
-          <Image source={require('@assets/images/react-native-reusables-dark.png')} className="mr-3 size-6 rounded-sm" />
-          <Text variant="body">Change to dark Icon</Text>
+        <TouchableOpacity onPress={() => handleAppIcon('original_dark')} className="flex-row items-center p-4">
+          <Image source={require('@assets/images/react_native_reusables_dark.png')} className="mr-3 size-6 rounded-sm" />
+          <Text variant="body">{t('settings.appIconDark')}</Text>
         </TouchableOpacity>
         <View className="mx-4 h-px bg-border" />
-        <TouchableOpacity onPress={() => handleAppIcon('default')} className="flex-row items-center p-4">
-          <Text variant="body">Reset to Default Icon</Text>
-        </TouchableOpacity>
+        <Button title={t('settings.appIconReset')} variant="outline" onPress={() => handleAppIcon('default')} className="flex-row items-center p-4" />
       </View>
     </View>
   );
 }
 
-type SheeterProps = { mode: ThemeMode; setMode: (m: ThemeMode) => void; primaryColor: ColorPaletteKey; setPrimaryColor: (c: ColorPaletteKey) => void; colorSheetOpen: boolean; setColorSheetOpen: (v: boolean) => void; themeSheetOpen: boolean; setThemeSheetOpen: (v: boolean) => void; langSheetOpen: boolean; setLangSheetOpen: (v: boolean) => void };
+type SheeterProps = { mode: ThemeMode; setMode: (m: ThemeMode) => void; primaryColor: string; setPrimaryColor: (c: string) => void; colorSheetOpen: boolean; setColorSheetOpen: (v: boolean) => void; themeSheetOpen: boolean; setThemeSheetOpen: (v: boolean) => void; langSheetOpen: boolean; setLangSheetOpen: (v: boolean) => void };
 
 function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, colorSheetOpen, setColorSheetOpen, themeSheetOpen, setThemeSheetOpen, langSheetOpen, setLangSheetOpen }: SheeterProps) {
   const { t, i18n } = useTranslation();
-  const pendingColorRef = React.useRef<ColorPaletteKey | null>(null);
-  const pendingLangRef = React.useRef<string | null>(null);
-  const pendingThemeRef = React.useRef<ThemeMode | null>(null);
+  const { text } = useThemeColors();
+  const iconColor = text;
 
   const themeOptions = React.useMemo<BottomSheetOption<ThemeMode>[]>(
     () => [
-      { label: t('theme.light'), leftElement: <Sun size={22} />, value: 'light' },
-      { label: t('theme.dark'), leftElement: <Moon size={22} />, value: 'dark' },
-      { label: t('theme.system'), leftElement: <Monitor size={22} />, value: 'system' },
+      { label: t('theme.light'), leftElement: <Sun size={22} color={iconColor} />, value: 'light' },
+      { label: t('theme.dark'), leftElement: <Moon size={22} color={iconColor} />, value: 'dark' },
+      { label: t('theme.system'), leftElement: <Monitor size={22} color={iconColor} />, value: 'system' },
     ],
-    [t],
+    [t, iconColor],
   );
 
   const colorOptions = React.useMemo<BottomSheetOption<ColorPaletteKey>[]>(
@@ -206,66 +207,36 @@ function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, co
     <>
       <BottomSheet
         open={colorSheetOpen}
-        onOpenChange={(open) => {
-          if (!open && pendingColorRef.current) {
-            setTimeout(() => {
-              setPrimaryColor(pendingColorRef.current!);
-              pendingColorRef.current = null;
-            }, 50);
-          }
-          else {
-            setColorSheetOpen(open);
-          }
-        }}
-        title="Accent Color"
+        onOpenChange={setColorSheetOpen}
+        title={t('settings.accentColorSheetTitle')}
         options={colorOptions}
         selectedValue={primaryColor}
         onSelect={(value) => {
-          pendingColorRef.current = value;
+          setPrimaryColor(value);
           setColorSheetOpen(false);
         }}
       />
 
       <BottomSheet
         open={themeSheetOpen}
-        onOpenChange={(open) => {
-          if (!open && pendingThemeRef.current) {
-            setTimeout(() => {
-              setMode(pendingThemeRef.current!);
-              pendingThemeRef.current = null;
-            }, 50);
-          }
-          else {
-            setThemeSheetOpen(open);
-          }
-        }}
+        onOpenChange={setThemeSheetOpen}
         title={t('theme.title')}
         options={themeOptions}
         selectedValue={mode}
         onSelect={(value) => {
-          pendingThemeRef.current = value;
+          setMode(value);
           setThemeSheetOpen(false);
         }}
       />
 
       <BottomSheet
         open={langSheetOpen}
-        onOpenChange={(open) => {
-          if (!open && pendingLangRef.current) {
-            setTimeout(() => {
-              changeLanguage(pendingLangRef.current!);
-              pendingLangRef.current = null;
-            }, 50);
-          }
-          else {
-            setLangSheetOpen(open);
-          }
-        }}
+        onOpenChange={setLangSheetOpen}
         title={t('language.title')}
         options={LANGUAGE_OPTIONS}
         selectedValue={i18n.language}
         onSelect={(value) => {
-          pendingLangRef.current = value;
+          changeLanguage(value);
           setLangSheetOpen(false);
         }}
       />

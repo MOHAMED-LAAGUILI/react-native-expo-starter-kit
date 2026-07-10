@@ -142,7 +142,7 @@ export function PreferencesScreen() {
             );
           }}
           title="Clear All Storage"
-          leftIcon={<Trash2 size={16} color="#fff" />}
+          leftIcon={() => <Trash2 size={16} color="#fff" />}
           size="sm"
           className="mt-4"
         />

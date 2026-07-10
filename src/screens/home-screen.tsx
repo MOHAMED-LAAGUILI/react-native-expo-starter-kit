@@ -59,7 +59,7 @@ function ButtonsDemo() {
         <Button
           title="With Icon"
           variant="outline"
-          leftIcon={<Home size={16} className="text-foreground" />}
+          leftIcon={color => <Home size={16} color={color} />}
         />
       </Row>
     </>

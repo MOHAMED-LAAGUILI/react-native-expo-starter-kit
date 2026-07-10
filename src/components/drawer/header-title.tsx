@@ -1,11 +1,9 @@
 import { usePathname } from 'expo-router';
 import { useMemo } from 'react';
 import { Text } from '@/components/ui';
-import { useThemeColors } from '@/hooks/use-theme-color';
 
 export function HeaderTitle() {
   const pathname = usePathname();
-  const { text } = useThemeColors();
 
   const title = useMemo(() => {
     if (pathname.includes('/post/'))
@@ -34,7 +32,7 @@ export function HeaderTitle() {
   return (
     <Text
       variant="h3"
-      style={{ color: text }}
+      style={{ color: '#fff' }}
     >
       {title}
     </Text>

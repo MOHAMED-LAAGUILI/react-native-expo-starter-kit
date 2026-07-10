@@ -91,13 +91,21 @@ export default antfu(
     },
   },
 
+  // Disable type-aware rules for JS files (they use a different parser)
+  {
+    files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
+    rules: {
+      'ts/consistent-type-imports': 'off',
+    },
+  },
+
   // Better TailwindCSS plugin
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ['src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}'],
     ...betterTailwindcss.configs.recommended,
     settings: {
       'better-tailwindcss': {
-        entryPoint: path.resolve(__dirname, './src/global.css'),
+        entryPoint: path.resolve(__dirname, './global.css'),
       },
     },
     rules: {

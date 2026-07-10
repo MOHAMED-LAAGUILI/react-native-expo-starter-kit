@@ -48,7 +48,7 @@ export function AppDrawerContent(props: AppDrawerContentProps) {
               variant={isActive ? 'primary' : 'ghost'}
               title={label}
               size="md"
-              leftIcon={(
+              leftIcon={() => (
                 <Icon
                   size={22}
                   color={isActive ? '#fff' : text}

@@ -11,6 +11,7 @@ export function DrawerHeaderRight() {
           IconComponent={UserCircle2}
           title="Profile"
           iconName="person"
+          color="#fff"
           onPress={() => router.push('/(app)/(tabs)/profile')}
         />
       </HeaderButtons>
