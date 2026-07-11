@@ -23,7 +23,7 @@
     "doctor": "npx expo-doctor --verbose",
     "expo:config": "npx expo config --type public",
     "export:web": "npx expo export --platform web",
-    "generate:apk": "\"C:/Program Files/Git/bin/bash.exe\" script/generate-apk-and-install.sh",
+    "generate:apk": "\"C:/Program Files/Git/bin/bash.exe\" script/generate-apk-and-install",
     "prebuild": "expo prebuild --platform all",
     "prebuild:preview": "cross-env EXPO_PUBLIC_APP_ENV=preview STRICT_ENV_VALIDATION=1 expo prebuild --platform all",
     "prebuild:development": "cross-env EXPO_PUBLIC_APP_ENV=development STRICT_ENV_VALIDATION=1 expo prebuild --platform all",
