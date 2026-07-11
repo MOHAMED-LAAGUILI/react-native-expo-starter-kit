@@ -53,7 +53,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     adaptiveIcon: {
       backgroundColor: '#2E3C4B',
-      foregroundImage: './assets/images/expo_icon_dark.svg',
+      foregroundImage: './assets/images/adaptive_icon.png',
     },
     package: ENV.EXPO_PUBLIC_PACKAGE,
     userInterfaceStyle: 'light',
@@ -70,7 +70,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: ENV.EAS_PROJECT_ID,
     },
   },
-  icon: './assets/images/expo_icon_dark.svg',
+  icon: './assets/images/icon.png',
   ios: {
     backgroundColor: '#ffffff',
     bundleIdentifier: ENV.EXPO_PUBLIC_BUNDLE_ID,
@@ -90,8 +90,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'expo-splash-screen',
       {
-        backgroundColor: '#FFFFFF',
-        image: './assets/images/expo_icon_dark.svg',
+        backgroundColor: '#2E3C4B',
+        image: './assets/images/splash.png',
         imageWidth: 150,
         resizeMode: 'contain',
       },
@@ -122,7 +122,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   version: ENV.EXPO_PUBLIC_VERSION,
   web: {
     bundler: 'metro',
-    favicon: './assets/images/expo_icon_dark.svg',
+    favicon: './assets/images/favicon.png',
     output: 'static',
   },
 });
