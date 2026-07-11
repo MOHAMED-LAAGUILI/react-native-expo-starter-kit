@@ -1,12 +1,8 @@
-# React Native Starter Kit
-<p align="center">
-   ![alt text](/assets/image.png)
-</p>
-
 <h1 align="center">
   React Native Template
-</h1>
-
+</h1><p align="center">
+<img alt="React Native Template Obytes" src="/assets/image.png" width="200" />
+</p>
 
 
 ## Demo Android
@@ -216,3 +212,4 @@ To release, just bump the version in `package.json` and push to `main`.
 - **Expo Notifications** — push notifications via `expo-notifications` with local + remote notification support
 - **Husky** — git hooks for pre-commit linting and formatting
 - **Maestro** — E2E testing framework for mobile
+
