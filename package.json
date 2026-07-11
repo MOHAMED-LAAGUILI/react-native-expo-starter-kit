@@ -21,7 +21,7 @@
     "lint:fix": "eslint . --fix && npx eslint src/ --fix && npx eslint app/ --fix",
     "type:check": "tsc --noemit",
     "doctor": "npx expo-doctor --verbose",
-    "checks":"bun run deps:fix && bun run lint:fix && bun run type:check && bun run doctor",
+    "checks": "bun run deps:fix && bun run lint:fix && bun run type:check && bun run doctor",
     "expo:config": "npx expo config --type public",
     "generate:apk": "\"C:/Program Files/Git/bin/bash.exe\" script/generate-apk-and-install",
     "prebuild": "expo prebuild --platform all",
@@ -41,12 +41,11 @@
     "workflow:build-android:main": "npx eas-cli@latest workflow:run create-build-android-main.yml",
     "submit:android": "eas submit --platform android",
     "submit:ios": "eas submit --platform ios",
-    "eas:update:configure":"eas update:configure",
-    "eas:update:preview":"eas update --channel preview --message 'new update message' --environment preview",
-    "eas:update:production":"eas update --channel production --message 'new update message' --environment production",
+    "eas:update:configure": "eas update:configure",
+    "eas:update:preview": "eas update --channel preview --message 'new update message' --environment preview",
+    "eas:update:production": "eas update --channel production --message 'new update message' --environment production",
     "export:web": "npx expo export --platform web",
     "deploy:web": "eas deploy --prod"
-    
   },
   "dependencies": {
     "@backpackapp-io/react-native-toast": "^0.15.1",
@@ -128,7 +127,7 @@
     "react-native-svg": "15.15.4",
     "react-native-toast-message": "^2.4.0",
     "react-native-web": "^0.21.0",
-    "react-native-worklets": "^0.10.1",
+    "react-native-worklets": "0.10.0",
     "react-navigation-header-buttons": "^13.0.0",
     "react-query-kit": "^3.3.4",
     "tailwind-merge": "^3.4.0",
@@ -175,9 +174,7 @@
       }
     },
     "install": {
-      "exclude": [
-        "react-native-worklets"
-      ]
+      "exclude": []
     }
   },
   "trustedDependencies": [
