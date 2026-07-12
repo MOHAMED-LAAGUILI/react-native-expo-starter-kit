@@ -1,7 +1,35 @@
 <h1 align="center">
-  RN Starter Kit
-</h1><p align="center">
-<img width="1280" height="680" alt="image" src="https://github.com/user-attachments/assets/2e80075b-9131-4e2b-8dcf-42faf9bda0d1" />
+  🚀 RN Starter Kit
+</h1>
+
+<p align="center">
+  <img width="1280" height="680" alt="RN Starter Kit Banner" src="https://github.com/user-attachments/assets/2e80075b-9131-4e2b-8dcf-42faf9bda0d1" />
+</p>
+
+<p align="center">
+
+  <img alt="React 19" src="https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white" />
+  <img alt="React Native 0.86" src="https://img.shields.io/badge/React%20Native-0.86-61DAFB?logo=react&logoColor=black" />
+  <img alt="Expo SDK 57" src="https://img.shields.io/badge/Expo-SDK%2057-000020?logo=expo&logoColor=white" />
+  <img alt="TypeScript 6" src="https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white" />
+  <img alt="Expo Router v5" src="https://img.shields.io/badge/Expo%20Router-v5-000000?logo=expo&logoColor=white" />
+  <img alt="Tailwind CSS v4" src="https://img.shields.io/badge/Tailwind%20CSS-v4-38BDF8?logo=tailwindcss&logoColor=white" />
+  <img alt="Uniwind" src="https://img.shields.io/badge/Uniwind-Latest-06B6D4" />
+  <img alt="Zustand v5" src="https://img.shields.io/badge/Zustand-v5-764ABC" />
+  <img alt="TanStack Query v5" src="https://img.shields.io/badge/TanStack%20Query-v5-FF4154?logo=reactquery&logoColor=white" />
+  <img alt="TanStack Form v1" src="https://img.shields.io/badge/TanStack%20Form-v1-FF4154" />
+  <img alt="Zod v3" src="https://img.shields.io/badge/Zod-v3-3068B7" />
+  <img alt="MMKV v4" src="https://img.shields.io/badge/MMKV-v4-4CAF50" />
+  <img alt="Axios" src="https://img.shields.io/badge/Axios-Latest-5A29E4?logo=axios&logoColor=white" />
+  <img alt="i18next v26" src="https://img.shields.io/badge/i18next-v26-26A69A" />
+  <img alt="Reanimated v4" src="https://img.shields.io/badge/Reanimated-v4-FFCA28" />
+  <img alt="Gesture Handler v2" src="https://img.shields.io/badge/Gesture%20Handler-v2-7C4DFF" />
+  <img alt="Bottom Sheet v5" src="https://img.shields.io/badge/Bottom%20Sheet-v5-0F172A" />
+  <img alt="Lucide Icons" src="https://img.shields.io/badge/Lucide-Icons-F56565" />
+  <img alt="RN Primitives v1.5" src="https://img.shields.io/badge/RN%20Primitives-v1.5-111827" />
+  <img alt="ESLint" src="https://img.shields.io/badge/ESLint-Latest-4B32C3?logo=eslint&logoColor=white" />
+  <img alt="Husky Git Hooks" src="https://img.shields.io/badge/Husky-Git%20Hooks-FF6B35" />
+
 </p>
 
 
