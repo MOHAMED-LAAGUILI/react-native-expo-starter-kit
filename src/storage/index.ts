@@ -1,11 +1,10 @@
+import { createMMKV, existsMMKV } from 'react-native-mmkv';
 import { isWeb } from '@/utils/platform';
 
 type StorageBackend = ReturnType<typeof createMMKVBackend> | ReturnType<typeof createWebBackend> | null;
 
 function createMMKVBackend(id: string) {
   try {
-    const { createMMKV, existsMMKV } = require('react-native-mmkv');
-
     if (!existsMMKV?.(id))
       createMMKV({ id });
 

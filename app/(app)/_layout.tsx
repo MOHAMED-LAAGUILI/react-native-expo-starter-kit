@@ -51,13 +51,7 @@ export default function AppLayout() {
         }}
       />
       <Drawer.Screen
-        name="features"
-        options={{
-          headerShown: true,
-        }}
-      />
-      <Drawer.Screen
-        name="blank"
+        name="expo-ui"
         options={{
           headerShown: true,
         }}

@@ -11,10 +11,8 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 | `bun run ios`                            | Dev server targeting iOS
 | `bun run android`                        | Dev server targeting Android
 | `bun run web`                            | Dev server targeting Web
-| `bun run clean`                          | Clean cache, node_modules, native builds, and lockfile
-| `bun run eas:login`                      | EAS login
-| `bun run eas:logout`                     | EAS logout
-| `bun run eas:id`                         | EAS reveal connected account
+| `bun run clean:app`                      | Clean bun cache, node_modules, native builds, and lockfile
+| `bun run mac:ios`                        | Install pods for iOS
 | `bun run deps:fix`                       | Fix dependency versions via Expo
 | `bun run lint:fix`                       | Run ESLint with auto-fix on all source files
 | `bun run type:check`                     | Run TypeScript type checking (no emit)
@@ -33,14 +31,20 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 | `bun run ios:prev`                       | iOS dev server (preview env)
 | `bun run android:prod`                   | Android dev server (production env)
 | `bun run ios:prod`                       | iOS dev server (production env)
-| `bun run flow:build-ios:prev`            | Trigger EAS workflow to build iOS from github branch named preview
-| `bun run flow:build-android:prev`        | Trigger EAS workflow to build Android from github branch named preview
+| `bun run eas:in`                         | EAS login
+| `bun run eas:out`                        | EAS logout
+| `bun run eas:id`                         | EAS reveal connected account
+| `bun run build:dev:ios`                  | Build development iOS (EAS)
+| `bun run build:dev:android`              | Build development Android (EAS)
+| `bun run build:prev:ios`                 | Build preview iOS (EAS)
+| `bun run build:prev:android`             | Build preview Android (EAS)
+| `bun run build:prod:ios`                 | Build production iOS (EAS)
+| `bun run build:prod:android`             | Build production Android (EAS)
 | `bun run flow:build-ios:main`            | Trigger EAS workflow to build iOS from github branch named main
 | `bun run flow:build-android:main`        | Trigger EAS workflow to build Android from github branch named main
 | `bun run submit:android`                 | Submit Android build to Play Store
 | `bun run submit:ios`                     | Submit iOS build to App Store
 | `bun run eas:update:config`              | Configure EAS Update for the project
-| `bun run eas:update:prev`                | Push OTA update to preview channel
 | `bun run eas:update:prod`                | Push OTA update to production channel
 | `bun run export:web`                     | Export web build locally static files
 | `bun run deploy:web`                     | Deploy web build to production
@@ -225,8 +229,8 @@ app/
 │   └── login.tsx        — Login screen
 └── (app)/
     ├── _layout.tsx      — Drawer (left hamburger via DrawerToggleButton) + auth guard
-    ├── features.tsx     — Features list (drawer-only, no bottom tab)
-    ├── blank.tsx        — Blank page (drawer-only, no bottom tab)
+    ├── expo-ui.tsx      — Expo Universal UI
+    ├── preferences.tsx  — App Preferences 
     └── (tabs)/
         ├── _layout.tsx  — Tabs (Home, Search, Profile, Settings) with lucide icons
         ├── index.tsx    — Home tab
@@ -291,7 +295,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 
 ## Navigation Patterns
 - **Left Drawer**: single `(tabs)` route group, accessible via `DrawerToggleButton` in header (top-left hamburger)
-- **Drawer-only routes**: Features, Blank — registered under `(app)/` (not inside `(tabs)`), no bottom tab
+- **Drawer-only routes**: Features — registered under `(app)/` (not inside `(tabs)`), no bottom tab
 - **Bottom Tabs**: Home, Search, Profile, Settings with lucide icons
 - **Auth guard**: redirect logic in `(app)/_layout.tsx` (check `isAuthenticated`, replace to login if false)
 - **Header**: custom `headerLeft` with `DrawerToggleButton` positioned via `ml-3`

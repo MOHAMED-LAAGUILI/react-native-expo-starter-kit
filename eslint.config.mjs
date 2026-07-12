@@ -39,6 +39,7 @@ export default antfu(
       'cli/',
       'expo-env.d.ts',
       'migration/*',
+      'script/*',
     ],
   },
 

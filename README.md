@@ -1,11 +1,11 @@
 <h1 align="center">
-  React Native Template
+  RN Template
 </h1><p align="center">
 <img width="1280" height="680" alt="image" src="https://github.com/user-attachments/assets/2e80075b-9131-4e2b-8dcf-42faf9bda0d1" />
 </p>
 
 
-## Demo Android
+## Demo Android (Old Build)
 
 https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7481391447850717184?compact=1 
 
@@ -28,10 +28,8 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 | `bun run ios`                            | Dev server targeting iOS
 | `bun run android`                        | Dev server targeting Android
 | `bun run web`                            | Dev server targeting Web
-| `bun run clean`                          | Clean cache, node_modules, native builds, and lockfile
-| `bun run eas:login`                      | EAS login
-| `bun run eas:logout`                     | EAS logout
-| `bun run eas:id`                         | EAS reveal connected account
+| `bun run clean:app`                      | Clean bun cache, node_modules, native builds, and lockfile
+| `bun run mac:ios`                        | Install pods for iOS
 | `bun run deps:fix`                       | Fix dependency versions via Expo
 | `bun run lint:fix`                       | Run ESLint with auto-fix on all source files
 | `bun run type:check`                     | Run TypeScript type checking (no emit)
@@ -50,14 +48,20 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 | `bun run ios:prev`                       | iOS dev server (preview env)
 | `bun run android:prod`                   | Android dev server (production env)
 | `bun run ios:prod`                       | iOS dev server (production env)
-| `bun run flow:build-ios:prev`            | Trigger EAS workflow to build iOS from github branch named preview
-| `bun run flow:build-android:prev`        | Trigger EAS workflow to build Android from github branch named preview
+| `bun run eas:in`                         | EAS login
+| `bun run eas:out`                        | EAS logout
+| `bun run eas:id`                         | EAS reveal connected account
+| `bun run build:dev:ios`                  | Build development iOS (EAS)
+| `bun run build:dev:android`              | Build development Android (EAS)
+| `bun run build:prev:ios`                 | Build preview iOS (EAS)
+| `bun run build:prev:android`             | Build preview Android (EAS)
+| `bun run build:prod:ios`                 | Build production iOS (EAS)
+| `bun run build:prod:android`             | Build production Android (EAS)
 | `bun run flow:build-ios:main`            | Trigger EAS workflow to build iOS from github branch named main
 | `bun run flow:build-android:main`        | Trigger EAS workflow to build Android from github branch named main
 | `bun run submit:android`                 | Submit Android build to Play Store
 | `bun run submit:ios`                     | Submit iOS build to App Store
 | `bun run eas:update:config`              | Configure EAS Update for the project
-| `bun run eas:update:prev`                | Push OTA update to preview channel
 | `bun run eas:update:prod`                | Push OTA update to production channel
 | `bun run export:web`                     | Export web build locally static files
 | `bun run deploy:web`                     | Deploy web build to production
@@ -224,7 +228,8 @@ bun run checks
 # 3. Push code to github
 git push
 
-# 4. Trigger EAS workflow build
+# 4. login and Trigger EAS workflow build
+bun run eas:in
 bun run flow:build-ios:main
 bun run flow:build-android:main
 
@@ -233,30 +238,20 @@ bun run submit:ios
 bun run submit:android
 ```
 
-### Subsequent Updates (OTA)
+
+### Preview / Testing
 
 ```bash
-# 1. Make changes and commit
-bun run checks
-git push
+# 3. Build for preview from local code (doesn't require u to push code cause on build upload from ur machine)
+bun run build:prev:android
+bun run build:prev:ios
 
-# 2. Trigger EAS workflow build
+# 2. Build for preview from main branch (requires u to push code to main cause on build upload from ur main)
 bun run flow:build-ios:main
 bun run flow:build-android:main
 
 # 3. Push OTA update (no resubmission needed)
 bun run eas:update:prod
-```
-
-### Preview / Testing
-
-```bash
-# 1. Build for preview
-bun run flow:build-ios:prev
-bun run flow:build-android:prev
-
-# 2. Push OTA update to preview channel
-bun run eas:update:prev
 ```
 
 ## Deploy
@@ -302,7 +297,8 @@ To release, just bump the version in `package.json` and push to `main`.
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
 
 ## Planned Features
-- **Expo Observe** — error tracking and performance monitoring via `expo-observe`
+- **Consola** - for better developer command experience
+- **Expo Observe / Sentry** — error tracking and performance monitoring via `expo-observe`
 - **Expo Notifications** — push notifications via `expo-notifications` with local + remote notification support
-- **Maestro** — E2E testing framework for mobile
+- **Maestro + Jest** — E2E testing framework for mobile
 

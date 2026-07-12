@@ -1,0 +1,97 @@
+import type { BottomSheetOption } from '@/components/ui/bottom-sheet';
+import type { ColorPaletteKey } from '@/config/color-palettes';
+import type { ThemeMode } from '@/store';
+import { Monitor, Moon, Sun } from 'lucide-react-native';
+import * as React from 'react';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+import { BottomSheet } from '@/components/ui/bottom-sheet';
+import { Image } from '@/components/ui/image';
+import { COLOR_PALETTES } from '@/config/color-palettes';
+import { useThemeColors } from '@/hooks/use-theme-color';
+import { changeLanguage } from '@/i18n';
+import { cn } from '@/lib/utils';
+
+const LANGUAGE_OPTIONS: BottomSheetOption<string>[] = [
+  { label: 'English', value: 'en', leftElement: <Image source={require('@assets/images/en-flag.png')} className="size-6 rounded-full" /> },
+  { label: 'Français', value: 'fr', leftElement: <Image source={require('@assets/images/fr-flag.png')} className="size-6 rounded-full" /> },
+];
+
+type SettingsBottomSheetsProps = {
+  mode: ThemeMode;
+  setMode: (m: ThemeMode) => void;
+  primaryColor: string;
+  setPrimaryColor: (c: string) => void;
+  colorSheetOpen: boolean;
+  setColorSheetOpen: (v: boolean) => void;
+  themeSheetOpen: boolean;
+  setThemeSheetOpen: (v: boolean) => void;
+  langSheetOpen: boolean;
+  setLangSheetOpen: (v: boolean) => void;
+};
+
+function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, colorSheetOpen, setColorSheetOpen, themeSheetOpen, setThemeSheetOpen, langSheetOpen, setLangSheetOpen }: SettingsBottomSheetsProps) {
+  const { t, i18n } = useTranslation();
+  const { text } = useThemeColors();
+  const iconColor = text;
+
+  const themeOptions = React.useMemo<BottomSheetOption<ThemeMode>[]>(
+    () => [
+      { label: t('theme.light'), leftElement: <Sun size={22} color={iconColor} />, value: 'light' },
+      { label: t('theme.dark'), leftElement: <Moon size={22} color={iconColor} />, value: 'dark' },
+      { label: t('theme.system'), leftElement: <Monitor size={22} color={iconColor} />, value: 'system' },
+    ],
+    [t, iconColor],
+  );
+
+  const colorOptions = React.useMemo<BottomSheetOption<ColorPaletteKey>[]>(
+    () => COLOR_PALETTES.map(p => ({
+      label: p.label,
+      leftElement: <View className={cn('size-6 rounded-full', primaryColor === p.key && 'ring-2 ring-primary ring-offset-2')} style={{ backgroundColor: p.color }} />,
+      value: p.key,
+    })),
+    [primaryColor],
+  );
+
+  return (
+    <>
+      <BottomSheet
+        open={colorSheetOpen}
+        onOpenChange={setColorSheetOpen}
+        title={t('settings.accentColorSheetTitle')}
+        options={colorOptions}
+        selectedValue={primaryColor}
+        onSelect={(value) => {
+          setPrimaryColor(value);
+          setColorSheetOpen(false);
+        }}
+      />
+
+      <BottomSheet
+        open={themeSheetOpen}
+        onOpenChange={setThemeSheetOpen}
+        title={t('theme.title')}
+        options={themeOptions}
+        selectedValue={mode}
+        onSelect={(value) => {
+          setMode(value);
+          setThemeSheetOpen(false);
+        }}
+      />
+
+      <BottomSheet
+        open={langSheetOpen}
+        onOpenChange={setLangSheetOpen}
+        title={t('language.title')}
+        options={LANGUAGE_OPTIONS}
+        selectedValue={i18n.language}
+        onSelect={(value) => {
+          changeLanguage(value);
+          setLangSheetOpen(false);
+        }}
+      />
+    </>
+  );
+}
+
+export { LANGUAGE_OPTIONS, SettingsBottomSheets };

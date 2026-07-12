@@ -63,5 +63,24 @@
     "appIconReset": "Reset to Default Icon",
     "toastAppIconUnavailable": "App icon change is only supported on Android.",
     "toastAppIconUnavailableTitle": "Unsupported"
+  },
+  "search": {
+    "placeholder": "Search posts...",
+    "postCount": "{{count}} posts from jsonplaceholder.typicode.com",
+    "error": "Failed to load posts. Make sure you are connected to the internet.",
+    "noResults": "No posts match your search",
+    "startTyping": "Start typing to search posts"
+  },
+  "postDetail": {
+    "error": "Failed to load post.",
+    "backToSearch": "Back to search"
+  },
+  "preferences": {
+    "title": "Stored Preferences",
+    "empty": "No stored preferences found.",
+    "clearAll": "Clear All Storage",
+    "clearAllConfirm": "This will remove all stored preferences including auth tokens, theme, language, and onboarding state. App will need to restart.",
+    "cancel": "Cancel",
+    "clear": "Clear"
   }
 }

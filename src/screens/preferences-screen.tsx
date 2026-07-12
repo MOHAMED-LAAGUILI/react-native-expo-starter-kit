@@ -1,27 +1,12 @@
+import type { Entry } from '@/data/preferences-info';
 import { useFocusEffect } from 'expo-router';
-import { Database, Trash2 } from 'lucide-react-native';
+import { Trash2 } from 'lucide-react-native';
 import * as React from 'react';
 import { Alert, ScrollView, View } from 'react-native';
+import { StorageEntriesList, StoreStatusCards } from '@/components/preferences';
 import { Button, Text } from '@/components/ui';
-import { STORAGE_KEYS } from '@/config/constants';
+import { KEY_LABELS } from '@/data/preferences-info';
 import { StorageService } from '@/storage';
-
-const KEY_LABELS: Record<string, string> = {
-  [STORAGE_KEYS.AUTH_TOKEN]: 'Auth Token',
-  [STORAGE_KEYS.AUTH_REFRESH_TOKEN]: 'Auth Refresh Token',
-  [STORAGE_KEYS.AUTH_USER]: 'Auth User',
-  [STORAGE_KEYS.LANGUAGE]: 'Language',
-  [STORAGE_KEYS.ONBOARDING_COMPLETE]: 'Onboarding Complete',
-  [STORAGE_KEYS.PRIMARY_COLOR]: 'Primary Color',
-  [STORAGE_KEYS.THEME_MODE]: 'Theme Mode',
-};
-
-type Entry = {
-  key: string;
-  label: string;
-  value: string;
-  store: string;
-};
 
 function readAllKeys(): Entry[] {
   const entries: Entry[] = [];
@@ -36,63 +21,6 @@ function readAllKeys(): Entry[] {
     }
   }
   return entries.sort((a, b) => a.label.localeCompare(b.label));
-}
-
-function StoreStatusCards() {
-  const stores = StorageService.getAllStores();
-
-  return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-      {stores.map((store) => {
-        const statusColor = store.status.alive ? '#22c55e' : '#ef4444';
-        return (
-          <View key={store.id} className="flex-wrap gap-5 rounded-xl border border-border bg-card p-3">
-            <View className="mb-1 flex-row items-center gap-2">
-              <Database size={14} color={statusColor} />
-              <Text variant="caption">{store.id.replace('app-', '')}</Text>
-              <View className="size-2 rounded-full" style={{ backgroundColor: statusColor }} />
-            </View>
-            <View className="gap-0.5">
-              <Text variant="caption" className="text-[11px] text-muted-foreground">
-                Driver:
-                {store.status.driver}
-              </Text>
-              <Text variant="caption" className="text-[11px] text-muted-foreground">
-                Alive:
-                {store.status.alive ? 'Yes' : 'No'}
-              </Text>
-              <Text variant="caption" className="text-[11px] text-muted-foreground">
-                Keys:
-                {store.status.keyCount}
-              </Text>
-            </View>
-          </View>
-        );
-      })}
-    </View>
-  );
-}
-
-function StorageEntriesList({ entries }: { entries: Entry[] }) {
-  return (
-    <View className="gap-3">
-      {entries.length > 0 && (
-        <Text variant="label" className="text-xs tracking-wider text-muted-foreground uppercase">Raw Storage</Text>
-      )}
-      {entries.map(entry => (
-        <View key={entry.key} className="rounded-xl border border-border bg-card p-4">
-          <View className="mb-1 flex-row items-center justify-between">
-            <Text variant="caption" className="text-muted-foreground">{entry.label}</Text>
-            <View className="flex-row items-center gap-2">
-              <Text variant="caption" className="font-mono text-[10px] text-muted-foreground/50">{entry.store}</Text>
-              <Text variant="caption" className="font-mono text-[10px] text-muted-foreground/50">{entry.key}</Text>
-            </View>
-          </View>
-          <Text variant="body" className="font-mono text-sm/5" selectable>{entry.value}</Text>
-        </View>
-      ))}
-    </View>
-  );
 }
 
 export function PreferencesScreen() {

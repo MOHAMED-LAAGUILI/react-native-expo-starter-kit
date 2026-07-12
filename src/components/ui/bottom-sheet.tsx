@@ -1,136 +1,118 @@
 import BottomSheetLib, { BottomSheetBackdrop, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { X } from 'lucide-react-native';
 import * as React from 'react';
-import { Pressable, useWindowDimensions, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { useThemeColors } from '@/hooks/use-theme-color';
 import { cn } from '@/lib/utils';
 import { Text } from './text';
 
-const ITEM_HEIGHT = 56;
-const HEADER_HEIGHT = 88;
-const HANDLE_HEIGHT = 24;
-const EXTRA_PADDING = 16;
-
-type BottomSheetOption<T> = {
+type BottomSheetOption<T = string> = {
   label: string;
   value: T;
   leftElement?: React.ReactNode;
 };
 
-type BottomSheetProps<T> = {
+type BottomSheetProps<T = string> = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onCloseEnd?: () => void;
   title: string;
   options: BottomSheetOption<T>[];
-  selectedValue: T;
+  selectedValue?: T;
   onSelect: (value: T) => void;
 };
 
-function BottomSheetInner<T>({
-  open,
-  onOpenChange,
-  onCloseEnd,
-  title,
-  options,
-  selectedValue,
-  onSelect,
-}: BottomSheetProps<T>) {
-  const sheetRef = React.useRef<React.ElementRef<typeof BottomSheetLib>>(null);
-  const mountedRef = React.useRef(false);
-  const { height: screenHeight } = useWindowDimensions();
-  const { muted } = useThemeColors();
+function BottomSheetInner<T>(
+  { open, onOpenChange, title, options, selectedValue, onSelect, ref }: BottomSheetProps<T> & { ref?: React.Ref<{ expand: () => void; close: () => void }> },
+) {
+  const bottomSheetRef = React.useRef<BottomSheetLib>(null);
+  const { background, muted, border } = useThemeColors();
+
+  React.useImperativeHandle(ref, () => ({
+    expand: () => bottomSheetRef.current?.expand(),
+    close: () => bottomSheetRef.current?.close(),
+  }));
 
   React.useEffect(() => {
-    mountedRef.current = true;
-  }, []);
+    if (open) {
+      bottomSheetRef.current?.expand();
+    }
+    else {
+      bottomSheetRef.current?.close();
+    }
+  }, [open]);
 
-  const snapPoints = React.useMemo(() => {
-    const contentHeight = ITEM_HEIGHT * options.length + HEADER_HEIGHT + HANDLE_HEIGHT + EXTRA_PADDING;
-    const snapPercent = Math.max(25, Math.min(55, (contentHeight / screenHeight) * 100));
-    return [`${snapPercent}%`, '80%'];
-  }, [options.length, screenHeight]);
+  const renderBackdrop = React.useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        opacity={0.5}
+        onPress={() => onOpenChange(false)}
+      />
+    ),
+    [onOpenChange],
+  );
 
   return (
     <BottomSheetLib
-      ref={sheetRef}
-      snapPoints={snapPoints}
-      index={open ? 0 : -1}
+      ref={bottomSheetRef}
+      index={-1}
+      snapPoints={['25%', '57%']}
       enablePanDownToClose
       enableOverDrag
-      onChange={(index) => {
-        if (index === -1 && mountedRef.current) {
-          onOpenChange(false);
-          onCloseEnd?.();
-        }
-      }}
-      backgroundComponent={() => <View className="flex-1 rounded-3xl bg-card" />}
-      backdropComponent={props => (
-        <BottomSheetBackdrop
-          {...props}
-          appearsOnIndex={0}
-          disappearsOnIndex={-1}
-          pressBehavior="close"
-        />
-      )}
-      handleComponent={() => (
-        <View className="items-center rounded-t-3xl bg-card pt-3 pb-2">
-          <View className="h-1.5 w-10 rounded-full bg-muted-foreground/30" />
-        </View>
-      )}
+      animateOnMount
+      onChange={index => onOpenChange(index >= 0)}
+      backdropComponent={renderBackdrop}
+      handleIndicatorStyle={{ backgroundColor: border }}
+      backgroundStyle={{ backgroundColor: background }}
     >
-      <BottomSheetScrollView
-        className="flex-1 bg-card px-4"
-        bounces={false}
-      >
-        <View className="mb-4 flex-row items-center justify-between pt-1">
-          <Text
-            variant="h4"
-            className="flex-1"
-          >
-            {title}
-          </Text>
-          <Pressable
-            className="rounded-full p-1 active:bg-accent"
-            onPress={() => onOpenChange(false)}
-          >
-            <X
-              size={20}
-              color={muted}
-            />
-          </Pressable>
-        </View>
-        <View className="overflow-hidden rounded-b-xl border-t border-border bg-card">
-          {options.map((option, index) => (
+      <View className="flex-row items-center justify-between border-b border-border px-4 py-3">
+        <Text variant="body" className="font-semibold">{title}</Text>
+        <Pressable
+          onPress={() => onOpenChange(false)}
+          className="size-8 items-center justify-center rounded-full bg-muted"
+        >
+          <X size={16} color={muted} />
+        </Pressable>
+      </View>
+
+      <BottomSheetScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+        {options.map((option) => {
+          const isSelected = option.value === selectedValue;
+          return (
             <Pressable
               key={String(option.value)}
+              onPress={() => onSelect(option.value)}
               className={cn(
-                'flex-row items-center gap-3 p-4',
-                index < options.length - 1 && 'border-b border-border',
-                selectedValue === option.value && 'bg-primary/20',
+                'flex-row items-center gap-3 border-b border-border px-4 py-3',
+                isSelected && 'bg-primary/10',
               )}
-              onPress={() => {
-                onSelect(option.value);
-                onOpenChange(false);
-              }}
             >
-              {option.leftElement}
-              <Text
-                variant="body"
-                className="flex-1"
-              >
+              {option.leftElement && (
+                <View className="items-center justify-center">
+                  {option.leftElement}
+                </View>
+              )}
+              <Text variant="body" className={cn('flex-1', isSelected && 'font-semibold text-primary')}>
                 {option.label}
               </Text>
-              {selectedValue === option.value && <View className="size-2.5 rounded-full bg-primary" />}
+              {isSelected && (
+                <View className="size-2 rounded-full bg-primary" />
+              )}
             </Pressable>
-          ))}
-        </View>
+          );
+        })}
       </BottomSheetScrollView>
     </BottomSheetLib>
   );
 }
 
-const BottomSheet = React.memo(BottomSheetInner) as typeof BottomSheetInner;
+function BottomSheet<T>(
+  props: BottomSheetProps<T> & { ref?: React.Ref<{ expand: () => void; close: () => void }> },
+) {
+  return <BottomSheetInner {...props} ref={props.ref} />;
+}
 
 export type { BottomSheetOption, BottomSheetProps };
 export { BottomSheet };

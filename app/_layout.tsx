@@ -55,7 +55,7 @@ function StartupScreen({ appReady, startupError, loadingStep }: { appReady: bool
     <View className="flex-1 items-center justify-center bg-background px-6">
       <ActivityIndicator size="large" color="#3b82f6" />
       <Text className="mt-6 text-xl font-bold">
-        {startupError ? 'Startup Failed' : 'Starting Application'}
+        {startupError && 'Startup Failed'}
       </Text>
       <Text className="mt-2 text-center text-muted-foreground">{loadingStep}</Text>
       {startupError && (

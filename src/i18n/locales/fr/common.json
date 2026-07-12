@@ -63,5 +63,24 @@
     "appIconReset": "Réinitialiser l'icône par défaut",
     "toastAppIconUnavailable": "Le changement d'icône est uniquement pris en charge sur Android.",
     "toastAppIconUnavailableTitle": "Non pris en charge"
+  },
+  "search": {
+    "placeholder": "Rechercher des articles...",
+    "postCount": "{{count}} articles de jsonplaceholder.typicode.com",
+    "error": "Échec du chargement des articles. Vérifiez votre connexion internet.",
+    "noResults": "Aucun article ne correspond à votre recherche",
+    "startTyping": "Commencez à taper pour rechercher des articles"
+  },
+  "postDetail": {
+    "error": "Échec du chargement de l'article.",
+    "backToSearch": "Retour à la recherche"
+  },
+  "preferences": {
+    "title": "Préférences enregistrées",
+    "empty": "Aucune préférence enregistrée trouvée.",
+    "clearAll": "Effacer tout le stockage",
+    "clearAllConfirm": "Cela supprimera toutes les préférences stockées, y compris les jetons d'authentification, le thème, la langue et l'état de l'introduction. L'application devra redémarrer.",
+    "cancel": "Annuler",
+    "clear": "Effacer"
   }
 }
