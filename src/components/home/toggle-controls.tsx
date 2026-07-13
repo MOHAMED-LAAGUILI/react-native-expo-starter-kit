@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import { Text } from '@/components/ui';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Switch } from '@/components/ui/switch';
+import { Checkbox, Switch, Text } from '@/components/ui';
 import { Row } from './typography-and-badge';
 
 function SwitchDemo() {

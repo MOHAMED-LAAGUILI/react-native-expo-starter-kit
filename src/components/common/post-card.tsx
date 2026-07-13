@@ -12,7 +12,7 @@ type PostCardProps = {
 export function PostCard({ id, title, body, imageUrl, onPress }: PostCardProps) {
   return (
     <Pressable
-      className="border-border bg-card overflow-hidden rounded-xl border active:opacity-80"
+      className="overflow-hidden rounded-xl border border-border bg-card active:opacity-80"
       onPress={onPress}
     >
       <Image
@@ -23,7 +23,7 @@ export function PostCard({ id, title, body, imageUrl, onPress }: PostCardProps) 
       <View className="p-4">
         <Text
           variant="label"
-          className="text-muted-foreground mb-1"
+          className="mb-1 text-muted-foreground"
         >
           Post #
           {id}

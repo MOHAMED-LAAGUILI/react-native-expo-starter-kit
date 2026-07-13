@@ -1,6 +1,6 @@
 import { Check } from 'lucide-react-native';
 import { Pressable } from 'react-native';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/utils';
 
 type CheckboxProps = {
   checked: boolean;

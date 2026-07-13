@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ScrollView, View } from 'react-native';
 import { InfoCards, ProfileHeader } from '@/components/profile';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { showToast } from '@/components/ui/toast';
 import { COLOR_PALETTES } from '@/config/color-palettes';
 import { PROFILE_INFO_ITEMS } from '@/data/profile-info';
@@ -30,7 +30,7 @@ function ProfileScreen() {
           variant="primary"
           onPress={() => {
             logout();
-            showToast({ message: 'You have been logged out.', title: 'Signed out', variant: 'info' });
+            showToast({ message: 'You have been logged out.', title: 'Signed out', variant: 'success' });
           }}
         />
       </View>

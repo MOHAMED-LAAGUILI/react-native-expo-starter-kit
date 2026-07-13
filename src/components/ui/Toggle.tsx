@@ -1,6 +1,6 @@
 import type * as React from 'react';
 import * as TogglePrimitive from '@rn-primitives/toggle';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/utils';
 import { Text } from './text';
 
 type ToggleProps = {

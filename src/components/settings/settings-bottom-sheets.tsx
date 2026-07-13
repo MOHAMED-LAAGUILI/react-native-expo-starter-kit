@@ -5,12 +5,12 @@ import { Monitor, Moon, Sun } from 'lucide-react-native';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
+import { Image } from '@/components/ui';
 import { BottomSheet } from '@/components/ui/bottom-sheet';
-import { Image } from '@/components/ui/image';
 import { COLOR_PALETTES } from '@/config/color-palettes';
 import { useThemeColors } from '@/hooks/use-theme-color';
 import { changeLanguage } from '@/i18n';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/utils';
 
 const LANGUAGE_OPTIONS: BottomSheetOption<string>[] = [
   { label: 'English', value: 'en', leftElement: <Image source={require('@assets/images/en-flag.png')} style={{ width: 24, height: 24, borderRadius: 12 }} /> },
@@ -47,7 +47,7 @@ function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, co
   const colorOptions = React.useMemo<BottomSheetOption<ColorPaletteKey>[]>(
     () => COLOR_PALETTES.map(p => ({
       label: p.label,
-      leftElement: <View className={cn('size-6 rounded-full', primaryColor === p.key && 'ring-primary ring-2 ring-offset-2')} style={{ backgroundColor: p.color }} />,
+      leftElement: <View className={cn('size-6 rounded-full', primaryColor === p.key && 'ring-2 ring-primary ring-offset-2')} style={{ backgroundColor: p.color }} />,
       value: p.key,
     })),
     [primaryColor],

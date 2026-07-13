@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { showToast } from '@/components/ui/toast';
 import { Row } from './typography-and-badge';
 

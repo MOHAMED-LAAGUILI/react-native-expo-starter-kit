@@ -34,11 +34,13 @@
 
 
 ## Demo Android (Old Build)
+https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7481391447850717184?compact=1
 
-https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7481391447850717184?compact=1 
+## Latest APK File
+**available only for 13 Days to download start from Jul 13, 2026 2:48 PM**
+https://expo.dev/accounts/gopitos-team/projects/rn-template/builds/f3bb082f-af1e-48d6-aea0-174b4c8c3708
 
 ## Quick Start
-
 ```bash
 git clone https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit.git my-react-native-app
 cd my-react-native-app
@@ -95,41 +97,6 @@ Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](http
 | `bun run deploy:web`                     | Deploy web build to production
 
 
-## Git Hooks (Husky)
-
-[Husky](https://typicode.github.io/husky/) v9 enforces code quality and commit conventions.
-
-
-- **`pre-commit`** — Runs `deps:fix` → `lint:fix` → `type:check` → `doctor`. Commit is blocked if any fail.
-- **`commit-msg`** — Validates conventional commit format: `type(scope?): description`. Commit is blocked if format is invalid.
-
-### Allowed Commit Types
-
-| Type       | Purpose 
-|------------|-------------------------------
-| `feat`     | New feature 
-| `fix`      | Bug fix 
-| `update`   | Update existing functionality 
-| `docs`     | Documentation only 
-| `style`    | Code style (formatting, semicolons, etc) 
-| `refactor` | Code refactoring 
-| `perf`     | Performance improvement 
-| `test`     | Adding or fixing tests 
-| `build`    | Build system or dependencies |
-| `ci`       | CI configuration 
-| `chore`    | Maintenance tasks 
-| `revert`   | Revert a previous commit 
-| `improve`  | Improvement without new feature or fix 
-
-### Examples
-
-```bash
-fix: fixed a minor bug in btn
-update: updated login screen layout
-feat(auth): add biometric login
-chore(deps): update dev dependencies
-```
-
 ## Features
 
 - **Expo Router** — File-based routing with Stack, Drawer, and Tab navigators
@@ -149,12 +116,7 @@ chore(deps): update dev dependencies
 - **Splash Screen** — Custom splash with auto-hide after i18n + auth hydration ready
 - **System UI** — Background color synced with theme mode
 - **Cross-platform** — iOS, Android, Web
-- **App Store Connect** — EAS Submit pipeline for App Store and Play Store release
-- **Convex** — Realtime backend with reactive data sync
-- **PostHog** — Product analytics for feature usage and user behavior
-- **LogRocket** — Session replay and frontend performance monitoring
-- **Sentry** — Crash reporting and error tracking
-- **Vexo** — AI-powered in-app chatbot and customer support
+
 
 ## Project Structure
 
@@ -179,7 +141,7 @@ chore(deps): update dev dependencies
 │   ├── api/                    # Axios client + TanStack Query hooks
 │   ├── components/
 │   │   ├── common/             # LoadingScreen, ErrorFallback
-│   │   └── ui/                 # Button, Text, Input, BottomSheet
+│   │   └── ui/                 # Button, Text, Input, BottomSheet ...
 │   ├── config/                 # Constants, env helpers, color-palettes.ts
 │   ├── hooks/                  # Shared hooks
 │   ├── i18n/                   # i18next + locales/{en,fr,ar}
@@ -188,7 +150,7 @@ chore(deps): update dev dependencies
 │   ├── storage/                # MMKV wrapper (SSR-safe, lazy init)
 │   ├── store/                  # Zustand stores (authStore, themeStore)
 │   ├── types/                  # Type declarations (uniwind.d.ts)
-│   ├── utils/                  # cn() utility
+│   ├── utils/                  # cn() utility, date utils, helpers ...
 │   └── validation/             # Zod schemas (login, register, forgotPassword)
 ├── global.css                  # Tailwind v4 + Uniwind entry, oklch CSS vars (light/dark)
 ├── app.config.ts               # Expo config (EAS, plugins, fonts, localization)
@@ -228,12 +190,13 @@ chore(deps): update dev dependencies
 | Animation     | react-native-reanimated + gesture-handler 
 | Font          | @expo-google-fonts/inter (4 weights, via expo-font plugin) 
 | Linting       | Eslint 
-| Husky         | Modern native Git hooks           
+| Git hooks     | Husky
+| Dates         | date-fns
 
 
 ## Learn More
 
-### Documentation
+### Documentation (Currently we don't have our own site yet but will do soon)
 - [React Native Docs](https://reactnative.dev/docs/getting-started)
 - [Expo Docs](https://docs.expo.dev/)
 - [Uniwind Docs](https://docs.uniwind.dev/)
@@ -259,35 +222,44 @@ This project uses [Context7](https://ctx7.ai) to provide AI coding agents with u
 # 1. Development
 bun dev
 
-# 2. Run checks before committing
+# 2. Run checks before committing 
 bun run checks
 
 # 3. Push code to github
 git push
 
-# 4. login and Trigger EAS workflow build
+# 4. login to EAS account
 bun run eas:in
-bun run flow:build-ios:main
-bun run flow:build-android:main
 
-# 5. Submit to stores
-bun run submit:ios
-bun run submit:android
+# 4. logout (only if u exceeded 25 free build and cant pay for pro plan)
+bun run eas:out
+
 ```
 
 
-### Preview / Testing
+### Preview / Testing / Build
 
 ```bash
 # 3. Build for preview from local code (doesn't require u to push code cause on build upload from ur machine)
 bun run build:prev:android
 bun run build:prev:ios
 
-# 2. Build for preview from main branch (requires u to push code to main cause on build upload from ur main)
+# 2. Build for preview from main branch (requires u to push code to main cause on build upload from ur main github branch)
 bun run flow:build-ios:main
 bun run flow:build-android:main
 
-# 3. Push OTA update (no resubmission needed)
+#3. Enable Automatic EAS Builds (Recommended)
+# For a fully automated CI/CD workflow, head to EAS and connect your GitHub repository to your EAS project.
+# Once connected, every push to the main branch will automatically trigger the EAS workflows included in this project.
+# Workflow files are located in:
+# .eas/workflows/
+# This allows EAS to automatically build Android and iOS apps without manually starting builds from the Expo Dashboard or CLI.
+
+# 5. Submit to stores (skip if haven't setup google console account)
+bun run submit:ios
+bun run submit:android
+
+# 4. Push OTA update (no resubmission needed)
 bun run eas:update:prod
 ```
 
@@ -297,12 +269,12 @@ Use [Expo Application Services (EAS)](https://expo.dev/eas) for builds, updates,
 
 ### EAS Build Profiles
 
-| Profile       | Distribution | Channel     | Use Case
-|---------------|--------------|-------------|---------------------------
-| `development` | Internal     | development | Dev client builds for local testing 
-| `preview`     | Store (APK)  | preview     | Internal QA builds 
-| `production`  | Store (AAB)  | production  | App Store / Play Store release 
-| `simulator`   | —            | —           | iOS simulator / Android emulator builds 
+| Profile       | Distribution   | Channel     | Use Case
+|---------------|----------------|-------------|---------------------------
+| `development` | Internal       | development | Dev client builds for local testing (Expo Go)
+| `preview`     | Internal (APK) | preview     | Internal QA builds 
+| `production`  | Store (AAB)    | production  | App Store / Play Store release 
+| `simulator`   | —              | —           | iOS simulator / Android emulator builds 
  
 
 - `autoIncrement: true` on `preview` and `production` — EAS auto-bumps build numbers
@@ -333,9 +305,19 @@ To release, just bump the version in `package.json` and push to `main`.
 - Android package: `com.rn_template.app` (underscores, not hyphens — Android requirement)
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
 
-## Planned Features
+## Planned Features (Need Contributors)
 - **Consola** - for better developer command experience
-- **Expo Observe / Sentry** — error tracking and performance monitoring via `expo-observe`
-- **Expo Notifications** — push notifications via `expo-notifications` with local + remote notification support
+- **Expo Observe** — error tracking and performance monitoring via `expo-observe`
 - **Maestro + Jest** — E2E testing framework for mobile
 - **Expo** [Other Expo Features](https://docs.expo.dev/versions/latest/sdk/expo/)
+- **App Store Connect** — EAS Submit pipeline for App Store and Play Store release
+- **Convex** — Realtime backend with reactive data sync
+- **PostHog** — Product analytics for feature usage and user behavior
+- **LogRocket** — Session replay and frontend performance monitoring
+- **Sentry** — Crash reporting and error tracking
+- **Vexo** — AI-powered in-app chatbot and customer support
+
+## Planned Features (Expected)
+- **Immersive Focus** [Hide Navigation bar](https://docs.expo.dev/versions/latest/sdk/navigation-bar/)
+- **Expo Notifications** — push notifications via `expo-notifications` with local + remote notification support
+

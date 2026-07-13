@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Toggle } from '@/components/ui/toggle';
+import { Toggle } from '@/components/ui';
 import { Row } from './typography-and-badge';
 
 function ToggleDemo() {

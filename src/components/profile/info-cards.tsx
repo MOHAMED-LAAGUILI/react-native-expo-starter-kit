@@ -16,10 +16,10 @@ function InfoCards({ items }: InfoCardsProps) {
   }), [items]);
 
   return (
-    <View className="border-border bg-card overflow-hidden rounded-2xl border">
+    <View className="overflow-hidden rounded-2xl border border-border bg-card">
       {itemsWithHref.map((item, index) => (
         <React.Fragment key={item.label}>
-          {index > 0 && <View className="bg-border mx-4 h-px" />}
+          {index > 0 && <View className="mx-4 h-px bg-border" />}
           <InfoRow
             icon={item.icon}
             label={item.label}

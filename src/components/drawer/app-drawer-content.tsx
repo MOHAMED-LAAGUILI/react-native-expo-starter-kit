@@ -3,12 +3,12 @@ import type { ComponentProps } from 'react';
 import { router, usePathname } from 'expo-router';
 import { DrawerContentScrollView } from 'expo-router/drawer';
 import { View } from 'react-native';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { COLOR_PALETTES } from '@/config/color-palettes';
 import { NAV_ITEMS } from '@/config/navigation';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/lib/utils';
 import { useThemeStore } from '@/store';
+import { cn } from '@/utils/utils';
 import { DrawerProfileHeader } from './drawer-profile-header';
 
 type AppDrawerContentProps = Parameters<NonNullable<ComponentProps<typeof Drawer>['drawerContent']>>[0];

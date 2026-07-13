@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { Input } from '@/components/ui';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 
 function InputDemo() {
   const [email, setEmail] = React.useState('');

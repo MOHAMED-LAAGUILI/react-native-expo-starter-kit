@@ -107,7 +107,7 @@ Examples:
 How: Essential Rules
 
 ### Imports & Modules
-- ✅ DO use absolute imports: `@/components/ui/button`, `@assets/images/expo_icon_dark.svg`
+- ✅ DO use absolute imports: `@/components/ui`, `@assets/images/expo_icon_dark.svg`
 - ✅ DO use `color` prop on lucide icons, never `className` (`color={text}`, `color={muted}`)
 - ✅ DO use `cn()` for className merging (`cn('flex-1', focused && 'bg-primary/10')`)
 - ✅ DO use dynamic `import()` for native modules that may be absent on web (`import('expo-dynamic-app-icon')`)
@@ -266,7 +266,6 @@ src/
 ├── storage/          — MMKV wrapper (lazy, SSR-safe, try/catch fallback)
 ├── store/            — Zustand stores (authStore, themeStore, onboardingStore) with MMKV persist
 ├── types/            — Global type declarations (uniwind.d.ts)
-├── lib/              — cn() utility, form-helpers (getFieldError)
 ├── utils/            — format utilities, platform helpers
 ├── validation/       — Zod schemas (login, register, forgotPassword)
 assets/

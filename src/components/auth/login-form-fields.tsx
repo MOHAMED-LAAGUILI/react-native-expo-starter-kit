@@ -2,7 +2,7 @@ import type { ReactFormExtendedApi } from '@tanstack/react-form';
 import type { RegisterFormData } from '@/validation';
 import { View } from 'react-native';
 import { Button, Input, Text } from '@/components/ui';
-import { getFieldError } from '@/lib/form-helpers';
+import { getFieldError } from '@/utils/form-helpers';
 
 type LoginFormFieldsProps = {
   form: ReactFormExtendedApi<RegisterFormData, any, any, any, any, any, any, any, any, any, any, any>;

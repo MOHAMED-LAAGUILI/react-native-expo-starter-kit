@@ -1,10 +1,9 @@
 import type { Entry } from '@/data/preferences-info';
 import { useFocusEffect } from 'expo-router';
-import { Trash2 } from 'lucide-react-native';
 import * as React from 'react';
-import { Alert, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { StorageEntriesList, StoreStatusCards } from '@/components/preferences';
-import { Button, Text } from '@/components/ui';
+import { Text } from '@/components/ui';
 import { KEY_LABELS } from '@/data/preferences-info';
 import { StorageService } from '@/storage';
 
@@ -33,7 +32,7 @@ export function PreferencesScreen() {
   );
 
   return (
-    <ScrollView className="flex-1 bg-background">
+    <ScrollView className="mb-10 flex-1 bg-background">
       <View className="gap-6 p-6">
         <View className="flex-row items-center justify-between">
           <Text variant="h4">Stored Preferences</Text>
@@ -42,38 +41,11 @@ export function PreferencesScreen() {
         <StoreStatusCards />
 
         {entries.length === 0 && (
-          <Text variant="body" className="text-muted-foreground mt-4 text-center">No stored preferences found.</Text>
+          <Text variant="body" className="mt-4 text-center text-muted-foreground">No stored preferences found.</Text>
         )}
 
         <StorageEntriesList entries={entries} />
 
-        <Button
-          variant="destructive"
-          onPress={() => {
-            Alert.alert(
-              'Clear All Storage',
-              'This will remove all stored preferences including auth tokens, theme, language, and onboarding state. App will need to restart.',
-              [
-                { style: 'cancel', text: 'Cancel' },
-                {
-                  onPress: () => {
-                    StorageService.auth.clearAll();
-                    StorageService.theme.clearAll();
-                    StorageService.i18n.clearAll();
-                    StorageService.onboarding.clearAll();
-                    setEntries([]);
-                  },
-                  style: 'destructive',
-                  text: 'Clear',
-                },
-              ],
-            );
-          }}
-          title="Clear All Storage"
-          leftIcon={() => <Trash2 size={16} color="#fff" />}
-          size="sm"
-          className="mt-4"
-        />
       </View>
     </ScrollView>
   );

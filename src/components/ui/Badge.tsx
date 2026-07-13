@@ -1,7 +1,7 @@
 import type * as React from 'react';
 import { View } from 'react-native';
 import { Text } from '@/components/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/utils';
 
 type BadgeVariant = 'default' | 'primary' | 'secondary' | 'destructive' | 'outline';
 type BadgeSize = 'sm' | 'md' | 'lg';

@@ -9,7 +9,7 @@ const appIconBadgeConfig: AppIconBadgeConfig = {
   badges: [
     {
       color: 'white',
-      text: process.env.NODE_ENV,
+      text: 'preview',
       type: 'banner',
     },
     {
@@ -123,6 +123,27 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ['app-icon-badge', appIconBadgeConfig],
     'expo-status-bar',
     ['react-native-edge-to-edge'],
+    [
+      'expo-navigation-bar',
+      {
+        enforceContrast: true,
+        hidden: false,
+        style: 'light',
+      },
+    ],
+    [
+      'expo-build-properties',
+      {
+        android: {
+          compileSdkVersion: 36,
+          targetSdkVersion: 36,
+          buildToolsVersion: '36.0.0',
+        },
+        ios: {
+          deploymentTarget: '16.4',
+        },
+      },
+    ],
   ],
   scheme: ENV.EXPO_PUBLIC_SCHEME,
   slug: ENV.EXPO_PUBLIC_SLUG,

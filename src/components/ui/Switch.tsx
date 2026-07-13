@@ -1,5 +1,5 @@
 import * as SwitchPrimitives from '@rn-primitives/switch';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/utils';
 
 type SwitchProps = {
   checked: boolean;

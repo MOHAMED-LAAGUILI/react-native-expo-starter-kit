@@ -2,8 +2,8 @@ import type { PressableProps } from 'react-native';
 import * as React from 'react';
 import { ActivityIndicator, Pressable, Text } from 'react-native';
 import { COLOR_PALETTES } from '@/config/color-palettes';
-import { cn } from '@/lib/utils';
 import { useThemeStore } from '@/store/theme-store';
+import { cn } from '@/utils/utils';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
 type ButtonSize = 'sm' | 'md' | 'lg';
@@ -37,13 +37,13 @@ function Button({
   return (
     <Pressable
       className={cn(
-        'flex-row items-center justify-center gap-2 rounded-md',
+        'flex-row items-center justify-center gap-2 rounded-lg',
         size === 'sm' && 'h-9 px-3',
         size === 'md' && 'h-11 px-6',
         size === 'lg' && 'h-12 px-8',
         variant === 'primary' && 'bg-primary active:bg-primary/90',
         variant === 'secondary' && 'bg-primary/10 active:bg-primary/20',
-        variant === 'outline' && 'border-primary active:bg-primary/10 border bg-background',
+        variant === 'outline' && 'border border-primary bg-background active:bg-primary/10',
         variant === 'ghost' && 'active:bg-accent',
         variant === 'destructive' && 'bg-destructive active:bg-destructive/90',
         disabled && 'opacity-50',

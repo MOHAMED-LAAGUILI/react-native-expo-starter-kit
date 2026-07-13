@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { Text } from '../ui';
 
 type ErrorFallbackProps = {
@@ -13,7 +13,7 @@ function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
       <Text variant="h3">Something went wrong</Text>
       <Text
         variant="body"
-        className="text-muted-foreground text-center"
+        className="text-center text-muted-foreground"
       >
         {error.message}
       </Text>

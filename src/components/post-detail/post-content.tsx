@@ -28,7 +28,7 @@ function PostHeader({ post }: { post: Post }) {
 
 function PostBody({ post }: { post: Post }) {
   return (
-    <View className="border-border bg-card rounded-xl border p-5">
+    <View className="rounded-xl border border-border bg-card p-5">
       <Text
         variant="body"
         className="leading-6"

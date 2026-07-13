@@ -1,6 +1,6 @@
 import { View } from 'react-native';
-import { Text } from '@/components/ui';
-import { Image } from '@/components/ui/image';
+import { Image, Text } from '@/components/ui';
+
 import { Row } from './typography-and-badge';
 
 function ImageDemo() {

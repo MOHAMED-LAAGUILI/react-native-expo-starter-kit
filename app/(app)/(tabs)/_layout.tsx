@@ -1,8 +1,7 @@
-import { BlurView } from 'expo-blur';
 import { Tabs, useRouter } from 'expo-router';
 import { Home, Search, Settings, Smartphone, User } from 'lucide-react-native';
 import { useMemo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -27,14 +26,15 @@ function TabItem({
   label,
   href,
   primaryHex,
+  isDark,
 }: {
   focused: boolean;
   icon: typeof Home;
   label: string;
   href: string;
   primaryHex: string;
+  isDark: boolean;
 }) {
-  const { text, muted } = useThemeColors();
   const router = useRouter();
 
   const borderScale = useSharedValue(focused ? 1 : 0);
@@ -49,11 +49,14 @@ function TabItem({
     transform: [{ scaleX: borderScale.value }],
   }));
 
+  const inactiveBg = isDark ? '#000' : '#fff';
+  const inactiveColor = isDark ? '#a1a1aa' : primaryHex;
+
   return (
     <Pressable
       onPress={() => router.push(href as any)}
       className="flex-1 items-center gap-0.5 pt-1 pb-2"
-      style={{ backgroundColor: focused ? `${primaryHex}08` : 'transparent' }}
+      style={{ backgroundColor: focused ? `${primaryHex}10` : inactiveBg }}
     >
       <View className="absolute -top-px h-0.5 w-full items-center justify-center">
         <Animated.View
@@ -69,11 +72,11 @@ function TabItem({
         />
       </View>
       <View className="mt-2">
-        <Icon size={20} color={focused ? text : muted} />
+        <Icon size={20} color={focused ? primaryHex : inactiveColor} />
       </View>
       <Text
         className="text-[10px]"
-        style={{ color: focused ? text : muted }}
+        style={{ color: focused ? primaryHex : inactiveColor }}
       >
         {label}
       </Text>
@@ -82,15 +85,18 @@ function TabItem({
 }
 
 function CustomTabBar({ state }: { state: { routes: Array<{ key: string; name: string }>; index: number }; descriptors: Record<string, { options: Record<string, unknown> }> }) {
-  const { isDark } = useThemeColors();
   const primaryColor = useThemeStore(s => s.primaryColor);
   const primaryHex = useMemo(() => COLOR_PALETTES.find(p => p.key === primaryColor)?.color ?? '#3b82f6', [primaryColor]);
+  const { isDark } = useThemeColors();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
+  const inactiveBg = isDark ? '#000' : '#fff';
+  const inactiveColor = isDark ? '#a1a1aa' : primaryHex;
+
   return (
-    <View className="bg-background" style={{ paddingBottom: insets.bottom }}>
-      <View className="border-border relative flex-row border-t">
+    <View style={{ backgroundColor: inactiveBg, paddingBottom: insets.bottom }}>
+      <View className="relative flex-row border-t border-border">
         {state.routes.map((r, i) => {
           const isFocused = i === state.index;
           const config = TAB_CONFIG[r.name as keyof typeof TAB_CONFIG];
@@ -125,9 +131,7 @@ function CustomTabBar({ state }: { state: { routes: Array<{ key: string; name: s
                       </View>
                     )
                   : (
-                      <BlurView
-                        intensity={25}
-                        tint={isDark ? 'dark' : 'light'}
+                      <View
                         style={{
                           height: 52,
                           width: 52,
@@ -136,17 +140,12 @@ function CustomTabBar({ state }: { state: { routes: Array<{ key: string; name: s
                           justifyContent: 'center',
                           overflow: 'hidden',
                           borderWidth: 1,
-                          borderColor: `${primaryHex}30`,
+                          borderColor: inactiveColor,
+                          backgroundColor: inactiveBg,
                         }}
                       >
-                        <View
-                          style={{
-                            ...StyleSheet.absoluteFill,
-                            backgroundColor: `${primaryHex}10`,
-                          }}
-                        />
-                        <Home size={26} color={primaryHex} />
-                      </BlurView>
+                        <Home size={26} color={inactiveColor} />
+                      </View>
                     )}
               </Pressable>
             );
@@ -160,6 +159,7 @@ function CustomTabBar({ state }: { state: { routes: Array<{ key: string; name: s
               label={config.label}
               href={config.href}
               primaryHex={primaryHex}
+              isDark={isDark}
             />
           );
         })}

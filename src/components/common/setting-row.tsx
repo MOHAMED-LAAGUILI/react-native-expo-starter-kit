@@ -1,7 +1,7 @@
 import { ChevronRight } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/utils';
 import { Text } from '../ui';
 
 type SettingRowProps = {
@@ -17,7 +17,7 @@ export function SettingRow({ icon: Icon, label, subtitle, rightElement, onPress 
 
   return (
     <Pressable
-      className={cn('active:bg-accent flex-row items-center p-4')}
+      className={cn('flex-row items-center p-4 active:bg-accent')}
       onPress={onPress}
       disabled={!onPress}
     >
@@ -30,7 +30,7 @@ export function SettingRow({ icon: Icon, label, subtitle, rightElement, onPress 
         {subtitle && (
           <Text
             variant="caption"
-            className="text-muted-foreground mt-0.5"
+            className="mt-0.5 text-muted-foreground"
           >
             {subtitle}
           </Text>

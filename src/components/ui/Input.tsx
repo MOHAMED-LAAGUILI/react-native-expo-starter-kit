@@ -3,7 +3,7 @@ import { Eye, EyeOff, KeyRound, Mail, Phone, Search, User } from 'lucide-react-n
 import * as React from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/utils';
 import { Text } from './text';
 
 type InputType = 'email' | 'password' | 'phone' | 'search' | 'text' | 'username';
@@ -79,7 +79,7 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
         ? (
             <Text
               variant="label"
-              className="text-muted-foreground mb-0.5"
+              className="mb-0.5 text-muted-foreground"
             >
               {label}
             </Text>
@@ -95,7 +95,7 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
       >
         {showLeftIcon && <View className="items-center justify-center">{showLeftIcon}</View>}
         <TextInput
-          className={cn('text-foreground h-full flex-1 text-base outline-0', className)}
+          className={cn('h-full flex-1 text-base text-foreground outline-0', className)}
           placeholderTextColor="#9CA3AF"
           secureTextEntry={resolvedSecureTextEntry}
           onFocus={(e) => {
@@ -114,7 +114,7 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
         ? (
             <Text
               variant="caption"
-              className="text-destructive mt-0.5"
+              className="mt-0.5 text-destructive"
             >
               {error}
             </Text>

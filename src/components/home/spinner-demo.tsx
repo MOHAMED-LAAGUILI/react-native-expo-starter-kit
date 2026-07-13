@@ -1,5 +1,4 @@
-import { Text } from '@/components/ui';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner, Text } from '@/components/ui';
 import { Row } from './typography-and-badge';
 
 function SpinnerDemo() {

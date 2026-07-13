@@ -2,8 +2,8 @@ import SliderNative from '@react-native-community/slider';
 import { View } from 'react-native';
 import { COLOR_PALETTES } from '@/config/color-palettes';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/lib/utils';
 import { useThemeStore } from '@/store';
+import { cn } from '@/utils/utils';
 
 type SliderProps = {
   value: number;

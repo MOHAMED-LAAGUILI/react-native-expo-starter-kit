@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { Text } from '@/components/ui';
-import { Input } from '@/components/ui/input';
+import { Input, Text } from '@/components/ui';
 
 function SearchHeader({
   query,
@@ -28,7 +27,7 @@ function SearchHeader({
       />
       <Text
         variant="caption"
-        className="text-muted-foreground mt-2 mb-1"
+        className="mt-2 mb-1 text-muted-foreground"
       >
         {isLoading ? t('common.loading') : t('search.postCount', { count })}
       </Text>

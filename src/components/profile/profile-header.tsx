@@ -2,14 +2,14 @@ import { Image } from 'expo-image';
 import { View } from 'react-native';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { Text } from '@/components/ui';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/utils';
 
 type ProfileHeaderProps = {
   gradientColor: string;
   name: string;
 };
 
-const HEADER_HEIGHT = 140;
+const HEADER_HEIGHT = 120;
 
 function ProfileHeader({ gradientColor, name }: ProfileHeaderProps) {
   return (

@@ -34,12 +34,15 @@ export default function AppLayout() {
         headerStyle: { backgroundColor: primaryHex },
         headerTintColor: '#fff',
         headerTitle: HeaderTitle,
+        drawerStyle: { width: '76%' },
+
       }}
     >
       <Drawer.Screen
         name="(tabs)"
         options={{
           drawerItemStyle: { display: 'none' },
+          
           headerShown: true,
         }}
       />

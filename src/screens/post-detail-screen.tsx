@@ -22,7 +22,7 @@ function PostDetailScreen() {
       <View className="flex-1 items-center justify-center bg-background px-6">
         <Text
           variant="body"
-          className="text-destructive mb-4 text-center"
+          className="mb-4 text-center text-destructive"
         >
           {t('postDetail.error')}
         </Text>
@@ -41,13 +41,7 @@ function PostDetailScreen() {
       <View className="gap-4 p-6">
         <PostHeader post={post} />
         <PostBody post={post} />
-        <View className="flex-row justify-between">
-          <Button
-            title={t('postDetail.backToSearch')}
-            variant="outline"
-            onPress={() => router.back()}
-          />
-        </View>
+        
       </View>
     </ScrollView>
   );

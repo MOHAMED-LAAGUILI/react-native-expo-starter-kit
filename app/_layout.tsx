@@ -1,6 +1,7 @@
 import { Toasts } from '@backpackapp-io/react-native-toast';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { PortalHost } from '@rn-primitives/portal';
+import { NavigationBar } from 'expo-navigation-bar';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
@@ -57,10 +58,10 @@ function StartupScreen({ appReady, startupError, loadingStep }: { appReady: bool
       <Text className="mt-6 text-xl font-bold">
         {startupError && 'Startup Failed'}
       </Text>
-      <Text className="text-muted-foreground mt-2 text-center">{loadingStep}</Text>
+      <Text className="mt-2 text-center text-muted-foreground">{loadingStep}</Text>
       {startupError && (
-        <ScrollView className="border-destructive bg-destructive/10 mt-8 max-h-[55%] w-full rounded-xl border p-4">
-          <Text className="text-destructive font-bold">{startupError.name}</Text>
+        <ScrollView className="mt-8 max-h-[55%] w-full rounded-xl border border-destructive bg-destructive/10 p-4">
+          <Text className="font-bold text-destructive">{startupError.name}</Text>
           <Text selectable className="mt-2">{startupError.message}</Text>
           {!!startupError.stack && (
             <>
@@ -136,6 +137,10 @@ export default function RootLayout() {
     const bg = themeMode === 'dark' ? '#000000' : '#ffffff';
 
     SystemUI.setBackgroundColorAsync(bg).catch(console.warn);
+  }, [themeMode]);
+
+  useEffect(() => {
+    NavigationBar.setStyle(themeMode === 'dark' ? 'light' : 'dark');
   }, [themeMode]);
 
   if (!appReady || startupError)

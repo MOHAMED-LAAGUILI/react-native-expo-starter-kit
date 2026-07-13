@@ -116,12 +116,12 @@ function DeviceInfoScreen() {
   return (
     <ScrollView className="flex-1 bg-background">
       <View className="gap-4 p-6 pb-12">
-        <View className="border-border bg-card overflow-hidden rounded-xl border">
+        <View className="overflow-hidden rounded-xl border border-border bg-card">
           {allRows.map((row, index) => (
             <View key={row.label}>
-              {index > 0 && <View className="bg-border mx-4 h-px" />}
+              {index > 0 && <View className="mx-4 h-px bg-border" />}
               <View className="flex-row items-center justify-between px-4 py-3">
-                <Text variant="body" className="text-muted-foreground shrink">{row.label}</Text>
+                <Text variant="body" className="shrink text-muted-foreground">{row.label}</Text>
                 <Text variant="body" className="ml-2 flex-1 text-right font-medium">{row.value}</Text>
               </View>
             </View>

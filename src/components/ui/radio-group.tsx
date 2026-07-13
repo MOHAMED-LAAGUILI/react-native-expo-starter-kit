@@ -1,7 +1,7 @@
 import type * as React from 'react';
 import * as RadioGroupPrimitive from '@rn-primitives/radio-group';
 import { View } from 'react-native';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/utils';
 import { Text } from './text';
 
 type RadioGroupProps = {
@@ -39,9 +39,9 @@ function RadioGroupItem({ value, label, disabled }: RadioGroupItemProps) {
       className="flex-row items-center gap-3"
     >
       <View className={cn('size-5 items-center justify-center rounded-full border', 'border-muted-foreground/30')}>
-        <RadioGroupPrimitive.Indicator className="bg-primary size-3 rounded-full" />
+        <RadioGroupPrimitive.Indicator className="size-3 rounded-full bg-primary" />
       </View>
-      <Text className="text-foreground text-base">{label}</Text>
+      <Text className="text-base text-foreground">{label}</Text>
     </RadioGroupPrimitive.Item>
   );
 }

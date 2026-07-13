@@ -29,15 +29,15 @@ function AppearanceSection({
   const { t } = useTranslation();
   return (
     <View>
-      <Text variant="label" className="text-muted-foreground mb-3 tracking-wider uppercase">{t('settings.appearance')}</Text>
-      <View className="border-border bg-card overflow-hidden rounded-xl border">
+      <Text variant="label" className="mb-3 tracking-wider text-muted-foreground uppercase">{t('settings.appearance')}</Text>
+      <View className="overflow-hidden rounded-xl border border-border bg-card">
         <SettingRow
           icon={mode === 'dark' ? Moon : mode === 'system' ? Monitor : Sun}
           label={t('settings.theme')}
           subtitle={themeLabels[mode]}
           onPress={onThemePress}
         />
-        <View className="bg-border mx-4 h-px" />
+        <View className="mx-4 h-px bg-border" />
         <SettingRow
           icon={Brush}
           label={t('settings.accentColor')}
@@ -45,7 +45,7 @@ function AppearanceSection({
           rightElement={<View className="mr-2 size-5 rounded-full" style={{ backgroundColor: currentPalette?.color }} />}
           onPress={onColorPress}
         />
-        <View className="bg-border mx-4 h-px" />
+        <View className="mx-4 h-px bg-border" />
         <SettingRow
           icon={Globe}
           label={t('settings.language')}

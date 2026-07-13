@@ -3,8 +3,8 @@ import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { COLOR_PALETTES } from '@/config/color-palettes';
-import { cn } from '@/lib/utils';
 import { useAuthStore, useThemeStore } from '@/store';
+import { cn } from '@/utils/utils';
 import { Text } from '../ui';
 
 export function DrawerProfileHeader() {

@@ -1,31 +1,51 @@
-export function formatDate(date: string | Date, locale = 'en'): string {
-  return new Intl.DateTimeFormat(locale, {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  }).format(new Date(date));
+import { format, formatDistanceToNowStrict, isValid } from 'date-fns';
+import { enUS } from 'date-fns/locale';
+
+/*
+const locales = {
+  en: enUS,
+  fr,
+};
+
+const locale = locales[currentLanguage] ?? enUS;
+*/
+
+const DEFAULT_LOCALE = enUS;
+
+function toDate(date: string | Date): Date {
+  return date instanceof Date ? date : new Date(date);
+}
+
+export function formatDate(
+  date: string | Date,
+  pattern = 'dd MMM yyyy',
+): string {
+  const parsedDate = toDate(date);
+
+  if (!isValid(parsedDate)) {
+    return '';
+  }
+
+  return format(parsedDate, pattern, {
+    locale: DEFAULT_LOCALE,
+  });
 }
 
 export function formatRelativeTime(date: string | Date): string {
-  const now = new Date();
-  const diff = now.getTime() - new Date(date).getTime();
-  const minutes = Math.floor(diff / 60000);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
+  const parsedDate = toDate(date);
 
-  if (minutes < 1)
-    return 'just now';
-  if (minutes < 60)
-    return `${minutes}m ago`;
-  if (hours < 24)
-    return `${hours}h ago`;
-  if (days < 7)
-    return `${days}d ago`;
-  return formatDate(date);
+  if (!isValid(parsedDate)) {
+    return '';
+  }
+
+  return formatDistanceToNowStrict(parsedDate, {
+    addSuffix: true,
+    locale: DEFAULT_LOCALE,
+  });
 }
 
-export function truncate(str: string, length: number): string {
-  if (str.length <= length)
-    return str;
-  return `${str.slice(0, length)}...`;
+export function truncate(value: string, maxLength: number): string {
+  return value.length <= maxLength
+    ? value
+    : `${value.slice(0, maxLength).trimEnd()}…`;
 }
