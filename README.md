@@ -247,7 +247,11 @@ bun dev
 
 # 2. Run checks before committing 
 bun run checks
+```
+### Perfect Score
+<img width="592" height="759" alt="image" src="https://github.com/user-attachments/assets/f93166a4-f0d4-4fe6-8968-0de1785fd96d" />
 
+```bash
 # 3. Push code to github
 git push
 

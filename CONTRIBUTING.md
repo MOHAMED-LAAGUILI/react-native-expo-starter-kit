@@ -63,7 +63,9 @@ chore(deps): update dev dependencies
 
 ## perfect score 
 Use `bun run checks` to verify everything
-![alt text](assets/image.png)
+<img width="592" height="759" alt="image" src="https://github.com/user-attachments/assets/f93166a4-f0d4-4fe6-8968-0de1785fd96d" />
+
+
 ## Reporting Bugs
 
 Open an issue with:
