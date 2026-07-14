@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui';
-import { showToast } from '@/components/ui/toast';
+import { showToast } from '@/components/ui/toaster';
 import { useAuthStore } from '@/store';
 
 type DemoLoginButtonProps = {

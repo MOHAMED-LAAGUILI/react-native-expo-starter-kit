@@ -1,7 +1,7 @@
 import type { LoginRequest } from '@/types/auth';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { authApi } from '@/api/endpoints';
-import { showToast } from '@/components/ui/toast';
+import { showToast } from '@/components/ui/toaster';
 import { QUERY_KEYS } from '@/config/constants';
 import { useAuthStore } from '@/store';
 

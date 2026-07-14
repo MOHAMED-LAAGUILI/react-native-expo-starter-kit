@@ -26,5 +26,3 @@ export function showToast({ variant = 'info', title, message }: ToastProps) {
       break;
   }
 }
-
-export { toast };

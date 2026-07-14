@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ScrollView, View } from 'react-native';
 import { InfoCards, ProfileHeader } from '@/components/profile';
 import { Button } from '@/components/ui';
-import { showToast } from '@/components/ui/toast';
+import { showToast } from '@/components/ui/toaster';
 import { PROFILE_INFO_ITEMS } from '@/data/profile-info';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useAuthStore } from '@/store';
