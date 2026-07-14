@@ -74,7 +74,7 @@ To run the app, use a development build instead:
 | `bun run deps:fix`                       | Fix dependency versions via Expo
 | `bun run lint:fix`                       | Run ESLint with auto-fix on all source files
 | `bun run type:check`                     | Run TypeScript type checking (no emit)
-| `bun run doctor`                         | Run Expo doctor diagnostics
+| `bun run doctor`                         | Run Expo doctor diagnostics & React Doctor
 | `bun run checks`                         | Run all checks (deps:fix → lint:fix → type:check → doctor)
 | `bun run expo:config`                    | Print public Expo config
 | `bun run generate:apk`                   | Build Android APK and install via ADB
@@ -242,7 +242,7 @@ This project uses [Context7](https://ctx7.ai) to provide AI coding agents with u
 ### First Release (App Store / Play Store)
 
 ```bash
-# 1. Development
+# 1. Development 
 bun dev
 
 # 2. Run checks before committing 
@@ -251,10 +251,10 @@ bun run checks
 # 3. Push code to github
 git push
 
-# 4. login to EAS account (if u haven't)
+# 4. login to EAS account (if u haven't) this is a one time process
 bun run eas:in
 
-# 4. logout (only if u exceeded 25 free build and cant pay for pro plan and login to different account)
+# 4. logout (only if u exceeded 25 free build and can't pay for pro plan. then u can login to different account)
 bun run eas:out
 
 ```
@@ -265,21 +265,26 @@ bun run eas:out
 ```bash
 # (Option 1)
 # 1. Build for preview from local code (doesn't require u to push code cause on build upload from ur machine)
+# good option before u commit code
 bun run build:prev:android
 bun run build:prev:ios
 
-# (Option 2)
+# (Option 2) same as (Option 1) but with full control from .yml file
 # 2. Build for preview from main branch (requires u to push code to main cause on build upload from ur main github branch)
 bun run flow:build-android:main
 bun run flow:build-ios:main
 
-# (Option 3)
-# 3. Enable Automatic EAS Builds (Recommended)
+# (Option 3-1)
+# 3. Enable Automatic EAS Builds 
 # For a fully automated CI/CD workflow, head to EAS and connect your GitHub repository to your EAS project.
 # Once connected, every push to the main branch will automatically trigger the EAS workflows included in this project.
 # Workflow files are located in:
 # .eas/workflows/
 # This allows EAS to automatically build Android and iOS apps without manually starting builds from the Expo Dashboard or CLI.
+
+# (Option 3-2)
+#  in eas.dev after connecting with github u can also choose repo/branch/channel/env to build from the eas website
+
 
 # 5. Submit to stores for first time only (skip if haven't setup google console account)
 bun run submit:ios
@@ -334,7 +339,6 @@ To release, just bump the version in `package.json` and push to `main`.
 - **Consola** - for better developer command experience
 - **Expo Observe** — error tracking and performance monitoring via `expo-observe`
 - **Maestro + Jest** — E2E testing framework for mobile
-- **Expo** [Other Expo Features](https://docs.expo.dev/versions/latest/sdk/expo/)
 - **App Store Connect** — EAS Submit pipeline for App Store and Play Store release
 - **Convex** — Realtime backend with reactive data sync
 - **PostHog** — Product analytics for feature usage and user behavior
@@ -342,6 +346,8 @@ To release, just bump the version in `package.json` and push to `main`.
 - **Sentry** — Crash reporting and error tracking
 - **Vexo** — AI-powered in-app chatbot and customer support
 
-## Planned Features (Expected)
-- **Immersive Focus** [Hide Navigation bar](https://docs.expo.dev/versions/latest/sdk/navigation-bar/)
+## Planned Features (Expected Soon)
 - **Expo Notifications** — push notifications via `expo-notifications` with local + remote notification support
+- **Expo** [Other Expo Features](https://docs.expo.dev/versions/latest/sdk/expo/)
+- **Immersive Focus** [Hide Navigation bar](https://docs.expo.dev/versions/latest/sdk/navigation-bar/)
+

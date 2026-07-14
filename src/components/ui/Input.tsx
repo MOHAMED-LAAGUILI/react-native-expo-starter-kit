@@ -26,7 +26,7 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
   const isSecure = type === 'password';
   const resolvedSecureTextEntry = isSecure ? !secureVisible : props.secureTextEntry;
 
-  const builtinLeftIcon = React.useMemo(() => {
+  const builtinLeftIcon = (() => {
     const iconProps = { color: iconColor, size: 18 };
     switch (type) {
       case 'search':
@@ -42,33 +42,31 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
       default:
         return null;
     }
-  }, [type, iconColor]);
+  })();
 
-  const builtinRightIcon = React.useMemo(() => {
-    if (!isSecure)
-      return null;
-    return (
-      <Pressable
-        onPress={() => setSecureVisible(v => !v)}
-        hitSlop={8}
-        className="items-center justify-center"
-      >
-        {secureVisible
-          ? (
-              <EyeOff
-                size={18}
-                color={iconColor}
-              />
-            )
-          : (
-              <Eye
-                size={18}
-                color={iconColor}
-              />
-            )}
-      </Pressable>
-    );
-  }, [isSecure, secureVisible, iconColor]);
+  const builtinRightIcon = !isSecure
+    ? null
+    : (
+        <Pressable
+          onPress={() => setSecureVisible(v => !v)}
+          hitSlop={8}
+          className="items-center justify-center"
+        >
+          {secureVisible
+            ? (
+                <EyeOff
+                  size={18}
+                  color={iconColor}
+                />
+              )
+            : (
+                <Eye
+                  size={18}
+                  color={iconColor}
+                />
+              )}
+        </Pressable>
+      );
 
   const showLeftIcon = leftIcon ?? builtinLeftIcon;
   const showRightIcon = isSecure ? builtinRightIcon : rightIcon;

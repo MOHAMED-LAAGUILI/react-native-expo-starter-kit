@@ -1,6 +1,9 @@
+import type { ReactNode } from 'react';
 import { Toasts } from '@backpackapp-io/react-native-toast';
+import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { PortalHost } from '@rn-primitives/portal';
+import * as Font from 'expo-font';
 import { NavigationBar } from 'expo-navigation-bar';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -75,6 +78,24 @@ function StartupScreen({ appReady, startupError, loadingStep }: { appReady: bool
   );
 }
 
+function AppProviders({ children }: { children: ReactNode }) {
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <HeaderButtonsProvider stackType={isWeb ? 'js' : 'native'}>
+          <QueryProvider>
+            <BottomSheetModalProvider>
+              <ThemeProvider>
+                {children}
+              </ThemeProvider>
+            </BottomSheetModalProvider>
+          </QueryProvider>
+        </HeaderButtonsProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
+  );
+}
+
 export default function RootLayout() {
   const [appReady, setAppReady] = useState(false);
   const [loadingStep, setLoadingStep] = useState('Starting...');
@@ -91,6 +112,9 @@ export default function RootLayout() {
 
     const initializeApp = async () => {
       try {
+        setLoadingStep('Loading fonts...');
+        await Font.loadAsync({ Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold });
+
         setLoadingStep('Initializing i18n...');
         await setupI18n();
 
@@ -112,16 +136,15 @@ export default function RootLayout() {
           setStartupError(error as Error);
         }
       }
-      finally {
-        if (mounted) {
-          setAppReady(true);
 
-          try {
-            await SplashScreen.hideAsync();
-          }
-          catch (error) {
-            console.warn(error);
-          }
+      if (mounted) {
+        setAppReady(true);
+
+        try {
+          await SplashScreen.hideAsync();
+        }
+        catch (error) {
+          console.warn(error);
         }
       }
     };
@@ -147,41 +170,31 @@ export default function RootLayout() {
     return <StartupScreen appReady={appReady} startupError={startupError} loadingStep={loadingStep} />;
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <HeaderButtonsProvider stackType={isWeb ? 'js' : 'native'}>
-          <QueryProvider>
-            <BottomSheetModalProvider>
-              <ThemeProvider>
-                <StatusBar
-                  animated
-                  style="auto"
-                  hidden={false}
-                />
+    <AppProviders>
+      <StatusBar
+        animated
+        style="auto"
+        hidden={false}
+      />
 
-                <Stack
-                  screenOptions={{
-                    headerShown: false,
-                  }}
-                />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      />
 
-                <Toasts
-                  overrideDarkMode={themeMode === 'dark'}
-                  defaultStyle={toastDefaultStyle}
-                  globalAnimationType="spring"
-                  globalAnimationConfig={{
-                    dampingRatio: 0.7,
-                    duration: 200,
-                    flingPositionReturnDuration: 200,
-                  }}
-                />
+      <Toasts
+        overrideDarkMode={themeMode === 'dark'}
+        defaultStyle={toastDefaultStyle}
+        globalAnimationType="spring"
+        globalAnimationConfig={{
+          dampingRatio: 0.7,
+          duration: 200,
+          flingPositionReturnDuration: 200,
+        }}
+      />
 
-                <PortalHost />
-              </ThemeProvider>
-            </BottomSheetModalProvider>
-          </QueryProvider>
-        </HeaderButtonsProvider>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
+      <PortalHost />
+    </AppProviders>
   );
 }

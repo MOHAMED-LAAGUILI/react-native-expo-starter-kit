@@ -5,7 +5,6 @@ export {
   CenteredActionDemo,
   CenteredDemo,
   DateTimePickerDemo,
-  MaskedViewDemo,
   MenuDemo,
   QRCodeDemo,
   TextAreaDemo,

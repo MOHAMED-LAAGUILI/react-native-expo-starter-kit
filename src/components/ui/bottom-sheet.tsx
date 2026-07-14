@@ -41,17 +41,14 @@ function BottomSheetInner<T>(
     }
   }, [open]);
 
-  const renderBackdrop = React.useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        opacity={0.5}
-        onPress={() => onOpenChange(false)}
-      />
-    ),
-    [onOpenChange],
+  const renderBackdrop = (props: any) => (
+    <BottomSheetBackdrop
+      {...props}
+      disappearsOnIndex={-1}
+      appearsOnIndex={0}
+      opacity={0.5}
+      onPress={() => onOpenChange(false)}
+    />
   );
 
   return (
@@ -109,9 +106,9 @@ function BottomSheetInner<T>(
 }
 
 function BottomSheet<T>(
-  props: BottomSheetProps<T> & { ref?: React.Ref<{ expand: () => void; close: () => void }> },
+  { ref, ...props }: BottomSheetProps<T> & { ref?: React.Ref<{ expand: () => void; close: () => void }> },
 ) {
-  return <BottomSheetInner {...props} ref={props.ref} />;
+  return <BottomSheetInner {...props} ref={ref} />;
 }
 
 export type { BottomSheetOption, BottomSheetProps };

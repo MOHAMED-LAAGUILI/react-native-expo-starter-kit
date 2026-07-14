@@ -5,7 +5,7 @@ import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useAuthStore } from '@/store';
 import { cn } from '@/utils/utils';
-import { Text } from '../ui';
+import { Text } from '../ui/text';
 
 export function DrawerProfileHeader() {
   const user = useAuthStore(s => s.user);

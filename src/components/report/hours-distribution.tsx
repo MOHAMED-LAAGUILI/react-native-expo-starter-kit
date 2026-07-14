@@ -1,6 +1,6 @@
 import type { pieDataItem } from 'react-native-gifted-charts';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
 import { Text } from '@/components/ui';
@@ -56,22 +56,18 @@ export function HoursDistribution({
 }: HoursDistributionProps) {
   const { background } = useThemeColors();
 
-  const pieChartData = useMemo<pieDataItem[]>(
-    () =>
-      data.map((project: any) => {
-        const percent = Math.round(
-          getProjectPercent(project.hours, totalHours),
-        );
+  const pieChartData: pieDataItem[] = data.map((project: any) => {
+    const percent = Math.round(
+      getProjectPercent(project.hours, totalHours),
+    );
 
-        return {
-          value: project.hours,
-          color: project.color,
-          text: `${percent}%`,
-          tooltipText: `${project.project}: ${project.hours} h`,
-        };
-      }),
-    [data, totalHours],
-  );
+    return {
+      value: project.hours,
+      color: project.color,
+      text: `${percent}%`,
+      tooltipText: `${project.project}: ${project.hours} h`,
+    };
+  });
 
   return (
     <ReportSection

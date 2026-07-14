@@ -1,8 +1,6 @@
 name: Create preview Builds For iOS
 
-on:
-  push:
-    branches: [main]
+branches: [main]
 
 jobs:
   build_android:

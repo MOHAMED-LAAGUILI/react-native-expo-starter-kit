@@ -36,9 +36,9 @@ function createWebBackend(id: string) {
       },
       contains: (key: string) => localStorage.getItem(prefix + key) !== null,
       getAllKeys: () =>
-        Object.keys(localStorage)
-          .filter(k => k.startsWith(prefix))
-          .map(k => k.slice(prefix.length)),
+        Object.keys(localStorage).flatMap(k =>
+          k.startsWith(prefix) ? [k.slice(prefix.length)] : [],
+        ),
       getString: (key: string) => localStorage.getItem(prefix + key) ?? undefined,
       remove: (key: string) => localStorage.removeItem(prefix + key),
       set: (key: string, value: string) => localStorage.setItem(prefix + key, value),

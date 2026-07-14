@@ -14,27 +14,25 @@ type DateTimePickerProps = {
   display?: 'default' | 'spinner' | 'clock' | 'calendar';
 };
 
+function formatDate(date: Date, mode: string) {
+  if (mode === 'time') {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+  return date.toLocaleDateString([], {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+
 function DateTimePickerField({ value, onChange, mode = 'date', label, display }: DateTimePickerProps) {
   const [show, setShow] = React.useState(false);
-  const [internalDate, setInternalDate] = React.useState(value);
 
   const handleChange = (_event: DateTimePickerEvent, selectedDate?: Date) => {
     setShow(Platform.OS === 'ios');
     if (selectedDate) {
-      setInternalDate(selectedDate);
       onChange(selectedDate);
     }
-  };
-
-  const formatDate = (date: Date, mode: string) => {
-    if (mode === 'time') {
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-    return date.toLocaleDateString([], {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
   };
 
   return (
@@ -44,11 +42,11 @@ function DateTimePickerField({ value, onChange, mode = 'date', label, display }:
         onPress={() => setShow(true)}
         className="h-11 flex-row items-center rounded-md border border-border bg-secondary px-3"
       >
-        <Text className="text-foreground">{formatDate(internalDate, mode)}</Text>
+        <Text className="text-foreground">{formatDate(value, mode)}</Text>
       </Pressable>
       {show && (
         <DateTimePicker
-          value={internalDate}
+          value={value}
           mode={mode}
           display={display ?? 'default'}
           onChange={handleChange}

@@ -16,10 +16,10 @@ export const registerSchema = z
     message: 'Passwords do not match',
     path: ['confirmPassword'],
   });
-
-export const forgotPasswordSchema = z.object({
+/*
+const forgotPasswordSchema = z.object({
   email: z.string().email('Invalid email address'),
 });
-
+*/
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;

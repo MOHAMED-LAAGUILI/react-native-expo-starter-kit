@@ -1,5 +1,6 @@
-import { Image, Pressable, View } from 'react-native';
-import { Text } from '../ui';
+import { Image } from 'expo-image';
+import { Pressable, View } from 'react-native';
+import { Text } from '../ui/text';
 
 type PostCardProps = {
   id: number;
@@ -18,7 +19,7 @@ export function PostCard({ id, title, body, imageUrl, onPress }: PostCardProps) 
       <Image
         source={{ uri: imageUrl }}
         className="h-40 w-full"
-        resizeMode="cover"
+        contentFit="cover"
       />
       <View className="p-4">
         <Text

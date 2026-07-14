@@ -1,5 +1,4 @@
 import type { Entry } from '@/data/preferences-info';
-import { useFocusEffect } from 'expo-router';
 import * as React from 'react';
 import { ScrollView, View } from 'react-native';
 import { StorageEntriesList, StoreStatusCards } from '@/components/preferences';
@@ -23,13 +22,7 @@ function readAllKeys(): Entry[] {
 }
 
 export function PreferencesScreen() {
-  const [entries, setEntries] = React.useState<Entry[]>(() => readAllKeys());
-
-  useFocusEffect(
-    React.useCallback(() => {
-      setEntries(readAllKeys());
-    }, []),
-  );
+  const [entries] = React.useState<Entry[]>(() => readAllKeys());
 
   return (
     <ScrollView className="flex-1 bg-background">

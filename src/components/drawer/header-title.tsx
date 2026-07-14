@@ -1,31 +1,25 @@
 import { usePathname } from 'expo-router';
-import { useMemo } from 'react';
 import { Text } from '@/components/ui';
 
 export function HeaderTitle() {
   const pathname = usePathname();
 
-  const title = useMemo(() => {
-    if (pathname.includes('/post/'))
-      return 'Post';
-    const segments = pathname.replace(/\/+$/, '').split('/').filter(Boolean);
-    const currentSegment = segments.at(-1);
+  const segments = pathname.replace(/\/+$/, '').split('/').filter(Boolean);
+  const currentSegment = segments.at(-1);
 
-    switch (currentSegment) {
-      case 'report':
-        return 'Report Graphs';
-      case 'preferences':
-        return 'Preferences';
-      case 'search':
-        return 'Search';
-      case 'profile':
-        return 'Profile';
-      case 'settings':
-        return 'Settings';
-      default:
-        return 'Home';
-    }
-  }, [pathname]);
+  const title = pathname.includes('/post/')
+    ? 'Post'
+    : currentSegment === 'report'
+      ? 'Report Graphs'
+      : currentSegment === 'preferences'
+        ? 'Preferences'
+        : currentSegment === 'search'
+          ? 'Search'
+          : currentSegment === 'profile'
+            ? 'Profile'
+            : currentSegment === 'settings'
+              ? 'Settings'
+              : 'Home';
 
   return (
     <Text

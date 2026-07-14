@@ -31,57 +31,59 @@ type ModalProps = {
 function Modal({ isVisible, onClose, variant = 'bottom-sheet', title, description, icon, actions, children, className }: ModalProps) {
   const { text } = useThemeColors();
   const [show, setShow] = React.useState(isVisible);
+  const [prevVisible, setPrevVisible] = React.useState(isVisible);
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(300);
   const scale = useSharedValue(0.95);
   const isBottomSheet = variant === 'bottom-sheet';
   const isCentered = variant === 'centered' || variant === 'centered-action';
-  const prevVisibleRef = React.useRef(isVisible);
 
-  if (isVisible && !prevVisibleRef.current) {
+  if (isVisible && !prevVisible) {
     setShow(true);
   }
-  prevVisibleRef.current = isVisible;
+  if (isVisible !== prevVisible) {
+    setPrevVisible(isVisible);
+  }
 
   React.useEffect(() => {
     if (show) {
-      opacity.value = withTiming(1, { duration: 250 });
+      opacity.set(withTiming(1, { duration: 250 }));
       if (isBottomSheet) {
-        translateY.value = withTiming(0, { duration: 250, easing: Easing.out(Easing.cubic) });
+        translateY.set(withTiming(0, { duration: 250, easing: Easing.out(Easing.cubic) }));
       }
       else {
-        scale.value = withTiming(1, { duration: 250, easing: Easing.out(Easing.back(1.4)) });
+        scale.set(withTiming(1, { duration: 250, easing: Easing.out(Easing.back(1.4)) }));
       }
     }
   }, [show, isBottomSheet, opacity, translateY, scale]);
 
-  const hide = React.useCallback(() => {
+  const hide = () => {
     setShow(false);
     onClose();
-  }, [onClose]);
+  };
 
-  const animateOut = React.useCallback(() => {
+  const animateOut = () => {
     'worklet';
-    opacity.value = withTiming(0, { duration: 200 });
+    opacity.set(withTiming(0, { duration: 200 }));
     if (isBottomSheet) {
-      translateY.value = withTiming(300, { duration: 200 }, (finished) => {
+      translateY.set(withTiming(300, { duration: 200 }, (finished) => {
         if (finished)
           runOnJS(hide)();
-      });
+      }));
     }
     else {
-      scale.value = withTiming(0.95, { duration: 200 }, (finished) => {
+      scale.set(withTiming(0.95, { duration: 200 }, (finished) => {
         if (finished)
           runOnJS(hide)();
-      });
+      }));
     }
-  }, [hide, isBottomSheet, opacity, translateY, scale]);
+  };
 
-  const handleClose = React.useCallback(() => animateOut(), [animateOut]);
+  const handleClose = () => animateOut();
 
-  const backdropStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
-  const sheetTranslateStyle = useAnimatedStyle(() => ({ transform: [{ translateY: translateY.value }] }));
-  const sheetScaleStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
+  const backdropStyle = useAnimatedStyle(() => ({ opacity: opacity.get() }));
+  const sheetTranslateStyle = useAnimatedStyle(() => ({ transform: [{ translateY: translateY.get() }] }));
+  const sheetScaleStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.get() }] }));
 
   if (!show)
     return null;

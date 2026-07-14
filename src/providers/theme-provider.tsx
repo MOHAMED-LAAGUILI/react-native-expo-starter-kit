@@ -22,10 +22,7 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
   const primaryColor = useThemeStore(s => s.primaryColor);
   const systemScheme = useColorScheme();
 
-  const currentTheme = React.useMemo<'light' | 'dark'>(
-    () => (themeMode === 'system' ? (systemScheme === 'dark' ? 'dark' : 'light') : themeMode),
-    [themeMode, systemScheme],
-  );
+  const currentTheme: 'light' | 'dark' = themeMode === 'system' ? (systemScheme === 'dark' ? 'dark' : 'light') : themeMode;
 
   React.useLayoutEffect(() => {
     Uniwind.setTheme(themeMode);
@@ -39,7 +36,7 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
     Uniwind.updateCSSVariables('dark', palette.dark);
   }, [primaryColor]);
 
-  const navTheme = React.useMemo(() => buildNavTheme(currentTheme, primaryColor), [currentTheme, primaryColor]);
+  const navTheme = buildNavTheme(currentTheme, primaryColor);
 
   return <NavThemeProvider value={navTheme}>{children}</NavThemeProvider>;
 }

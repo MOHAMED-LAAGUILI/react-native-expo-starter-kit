@@ -1,5 +1,6 @@
 import type { PublicPost as Post } from '@/api/types';
-import { Image, View } from 'react-native';
+import { Image } from 'expo-image';
+import { View } from 'react-native';
 import { Text } from '@/components/ui';
 
 function PostHero({ post }: { post: Post }) {
@@ -7,7 +8,7 @@ function PostHero({ post }: { post: Post }) {
     <Image
       source={{ uri: post.imageUrl }}
       className="h-56 w-full"
-      resizeMode="cover"
+      contentFit="cover"
     />
   );
 }

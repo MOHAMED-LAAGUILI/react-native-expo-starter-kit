@@ -18,12 +18,11 @@ export function ReportScreen() {
   const [activeTab, setActiveTab] = React.useState<ReportTab>('daily');
   const primaryHex = usePrimaryHex();
 
-  const tabProjectData = React.useMemo<ReportProject[]>(() => {
-    if (activeTab === 'daily')
-      return projectData;
-    const divisor = { weekly: 7, monthly: 15, yearly: 20 }[activeTab];
-    return projectData.map(p => ({ ...p, hours: Math.round(p.hours / divisor) }));
-  }, [activeTab]);
+  const divisor = { daily: 1, weekly: 7, monthly: 15, yearly: 20 }[activeTab];
+  const tabProjectData: ReportProject[] = projectData.map(p => ({
+    ...p,
+    hours: Math.round(p.hours / divisor),
+  }));
 
   const totalHours = tabProjectData.reduce((s, p) => s + p.hours, 0);
   const overviewCards = [

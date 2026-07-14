@@ -20,23 +20,6 @@ export const authApi = {
     apiClient.post<LoginResponse>(API_ENDPOINTS.AUTH.REGISTER, data).then(r => r.data),
 };
 
-export const usersApi = {
-  getProfile: () => apiClient.get<User>(API_ENDPOINTS.USERS.PROFILE).then(r => r.data),
-
-  updateProfile: (data: Partial<User>) => apiClient.put<User>(API_ENDPOINTS.USERS.UPDATE, data).then(r => r.data),
-};
-
-export const postsApi = {
-  create: (data: unknown) => apiClient.post(API_ENDPOINTS.POSTS.CREATE, data).then(r => r.data),
-
-  delete: (id: string) => apiClient.delete(API_ENDPOINTS.POSTS.DELETE(id)).then(r => r.data),
-
-  detail: (id: string) => apiClient.get(API_ENDPOINTS.POSTS.DETAIL(id)).then(r => r.data),
-  list: (params?: Record<string, unknown>) => apiClient.get(API_ENDPOINTS.POSTS.LIST, { params }).then(r => r.data),
-
-  update: (id: string, data: unknown) => apiClient.put(API_ENDPOINTS.POSTS.UPDATE(id), data).then(r => r.data),
-};
-
 function withImageUrl(post: Omit<PublicPost, 'imageUrl'>): PublicPost {
   return { ...post, imageUrl: `https://picsum.photos/seed/${post.id}/800/400` };
 }

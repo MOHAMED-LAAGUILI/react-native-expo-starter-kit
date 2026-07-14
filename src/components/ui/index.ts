@@ -18,8 +18,6 @@ export { Image } from './image';
 export type { InputProps } from './input';
 export { Input } from './input';
 
-export type { MaskedViewProps } from './masked-view';
-export { MaskedViewWrapper } from './masked-view';
 export type { MenuItem, MenuProps } from './menu';
 export { Menu } from './menu';
 export type { ModalProps } from './modal';

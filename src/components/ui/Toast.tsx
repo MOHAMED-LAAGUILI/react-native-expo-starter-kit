@@ -13,7 +13,7 @@ export const toastDefaultStyle = {
     alignSelf: 'stretch' as const,
     borderRadius: 2,
     marginRight: 12,
-    width: 4,
+    width: 3,
   },
   pressable: {
     backgroundColor: '#ffffff',

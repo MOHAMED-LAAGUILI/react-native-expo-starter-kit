@@ -10,7 +10,6 @@ import {
   DateTimePickerDemo,
   ImageDemo,
   InputDemo,
-  MaskedViewDemo,
   MenuDemo,
   ProgressDemo,
   QRCodeDemo,
@@ -104,9 +103,6 @@ function HomeScreen() {
 
       <SectionTitle>QR Code</SectionTitle>
       <QRCodeDemo />
-
-      <SectionTitle>Masked View</SectionTitle>
-      <MaskedViewDemo />
 
     </ScrollView>
   );

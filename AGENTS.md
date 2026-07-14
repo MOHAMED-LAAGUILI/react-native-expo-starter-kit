@@ -27,7 +27,7 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 | `bun run deps:fix`                       | Fix dependency versions via Expo
 | `bun run lint:fix`                       | Run ESLint with auto-fix on all source files
 | `bun run type:check`                     | Run TypeScript type checking (no emit)
-| `bun run doctor`                         | Run Expo doctor diagnostics
+| `bun run doctor`                         | Run Expo doctor diagnostics & React Doctor
 | `bun run checks`                         | Run all checks (deps:fix → lint:fix → type:check → doctor)
 | `bun run expo:config`                    | Print public Expo config
 | `bun run generate:apk`                   | Build Android APK and install via ADB

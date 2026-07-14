@@ -35,23 +35,17 @@ function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, co
   const { text } = useThemeColors();
   const iconColor = text;
 
-  const themeOptions = React.useMemo<BottomSheetOption<ThemeMode>[]>(
-    () => [
-      { label: t('theme.light'), leftElement: <Sun size={22} color={iconColor} />, value: 'light' },
-      { label: t('theme.dark'), leftElement: <Moon size={22} color={iconColor} />, value: 'dark' },
-      { label: t('theme.system'), leftElement: <Monitor size={22} color={iconColor} />, value: 'system' },
-    ],
-    [t, iconColor],
-  );
+  const themeOptions: BottomSheetOption<ThemeMode>[] = [
+    { label: t('theme.light'), leftElement: <Sun size={22} color={iconColor} />, value: 'light' },
+    { label: t('theme.dark'), leftElement: <Moon size={22} color={iconColor} />, value: 'dark' },
+    { label: t('theme.system'), leftElement: <Monitor size={22} color={iconColor} />, value: 'system' },
+  ];
 
-  const colorOptions = React.useMemo<BottomSheetOption<ColorPaletteKey>[]>(
-    () => COLOR_PALETTES.map(p => ({
-      label: p.label,
-      leftElement: <View className={cn('size-6 rounded-full', primaryColor === p.key && 'ring-2 ring-primary ring-offset-2')} style={{ backgroundColor: p.color }} />,
-      value: p.key,
-    })),
-    [primaryColor],
-  );
+  const colorOptions: BottomSheetOption<ColorPaletteKey>[] = COLOR_PALETTES.map(p => ({
+    label: p.label,
+    leftElement: <View className={cn('size-6 rounded-full', primaryColor === p.key && 'ring-2 ring-primary ring-offset-2')} style={{ backgroundColor: p.color }} />,
+    value: p.key,
+  }));
 
   return (
     <>

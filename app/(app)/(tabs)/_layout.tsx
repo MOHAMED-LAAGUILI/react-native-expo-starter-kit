@@ -1,5 +1,6 @@
 import { Tabs, useRouter } from 'expo-router';
 import { Home, Search, Settings, Smartphone, User } from 'lucide-react-native';
+import * as React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -37,14 +38,16 @@ function TabItem({
 
   const borderScale = useSharedValue(focused ? 1 : 0);
 
-  borderScale.value = withSpring(focused ? 1 : 0, {
-    mass: 0.4,
-    damping: 8,
-    stiffness: 120,
-  });
+  React.useEffect(() => {
+    borderScale.set(withSpring(focused ? 1 : 0, {
+      mass: 0.4,
+      damping: 8,
+      stiffness: 120,
+    }));
+  }, [focused, borderScale]);
 
   const borderStyle = useAnimatedStyle(() => ({
-    transform: [{ scaleX: borderScale.value }],
+    transform: [{ scaleX: borderScale.get() }],
   }));
 
   const inactiveBg = isDark ? '#000' : '#fff';
@@ -114,18 +117,10 @@ function CustomTabBar({ state }: { state: { routes: Array<{ key: string; name: s
                 {isFocused
                   ? (
                       <View
+                        className="size-[52] items-center justify-center rounded-full"
                         style={{
-                          height: 52,
-                          width: 52,
-                          borderRadius: 26,
                           backgroundColor: primaryHex,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          shadowColor: primaryHex,
-                          shadowOffset: { width: 0, height: 2 },
-                          shadowOpacity: 0.6,
-                          shadowRadius: 10,
-                          elevation: 1,
+                          boxShadow: `0px 2px 10px ${primaryHex}99`,
                         }}
                       >
                         <Home size={26} color="#fff" />
@@ -133,13 +128,8 @@ function CustomTabBar({ state }: { state: { routes: Array<{ key: string; name: s
                     )
                   : (
                       <View
+                        className="size-[52] items-center justify-center rounded-full border"
                         style={{
-                          height: 52,
-                          width: 52,
-                          borderRadius: 26,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          borderWidth: 1,
                           borderColor: inactiveBorder,
                           backgroundColor: inactiveBg,
                         }}

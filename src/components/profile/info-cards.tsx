@@ -9,12 +9,12 @@ type InfoCardsProps = {
 };
 
 function InfoCards({ items }: InfoCardsProps) {
-  const itemsWithHref = React.useMemo(() => items.map((item) => {
+  const itemsWithHref = items.map((item) => {
     if (!item.href)
       return item;
     const url = new URL(item.href);
     return { ...item, href: url.href };
-  }), [items]);
+  });
 
   return (
     <View className="overflow-hidden rounded-2xl border border-border bg-card">

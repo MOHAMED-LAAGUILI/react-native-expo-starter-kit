@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import * as React from 'react';
 import { View } from 'react-native';
 import { Divider } from '@/components/common/divider';
 
@@ -8,11 +9,12 @@ type SettingGroupProps = {
 };
 
 function SettingGroup({ children, className }: SettingGroupProps) {
+  const [keys] = React.useState(() => children.map(() => Math.random().toString(36).slice(2, 10)));
+
   return (
     <View className={`overflow-hidden rounded-xl border border-border bg-card ${className ?? ''}`}>
       {children.map((child, i) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <View key={i}>
+        <View key={keys[i]}>
           {child}
           {i < children.length - 1 && <Divider />}
         </View>

@@ -16,6 +16,15 @@ function OnboardingScreen() {
   const isLast = activeIndex === ONBOARDING_SLIDES.length - 1;
   const complete = useOnboardingStore(s => s.complete);
 
+  const handleProgressChange = (_: number, absoluteProgress: number) => {
+    progress.set(absoluteProgress);
+  };
+
+  const handleSnapToItem = (index: number) => {
+    progress.set(index);
+    setActiveIndex(index);
+  };
+
   function completeOnboarding() {
     complete();
     router.replace('/(auth)/login');
@@ -36,13 +45,8 @@ function OnboardingScreen() {
           height={400}
           pagingEnabled
           loop={false}
-          onProgressChange={(_, absoluteProgress) => {
-            progress.value = absoluteProgress;
-          }}
-          onSnapToItem={(index) => {
-            progress.value = index;
-            setActiveIndex(index);
-          }}
+          onProgressChange={handleProgressChange}
+          onSnapToItem={handleSnapToItem}
           renderItem={({ item }) => <OnboardingSlideItem item={item} />}
         />
       </View>

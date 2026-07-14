@@ -61,6 +61,9 @@ chore(deps): update dev dependencies
 - Use `bun run doctor` to check for dependency issues
 - All PRs must pass the pre-commit hooks
 
+## perfect score 
+Use `bun run checks` to verify everything
+![alt text](assets/image.png)
 ## Reporting Bugs
 
 Open an issue with:

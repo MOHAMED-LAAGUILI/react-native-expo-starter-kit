@@ -1,6 +1,6 @@
 import type { LayoutChangeEvent } from 'react-native';
 import type { barDataItem } from 'react-native-gifted-charts';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
 import { useThemeColors } from '@/hooks/use-theme-color';
@@ -24,16 +24,12 @@ export function TopProjectsChart({
   const stepValue = Math.max(Math.ceil(maxHours / 4), 1);
   const maxValue = stepValue * 4;
 
-  const giftedBarData = useMemo<barDataItem[]>(
-    () =>
-      data.map((project: any) => ({
-        value: project.hours,
-        label: project.project.replace('Project ', ''),
-        frontColor: project.color,
-        labelWidth: 54,
-      })),
-    [data],
-  );
+  const giftedBarData: barDataItem[] = data.map((project: any) => ({
+    value: project.hours,
+    label: project.project.replace('Project ', ''),
+    frontColor: project.color,
+    labelWidth: 54,
+  }));
 
   const handleBarChartLayout = ({
     nativeEvent: { layout },

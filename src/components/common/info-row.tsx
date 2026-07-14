@@ -3,7 +3,7 @@ import { ExternalLink } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 import { useThemeColors } from '@/hooks/use-theme-color';
 import { cn } from '@/utils/utils';
-import { Text } from '../ui';
+import { Text } from '../ui/text';
 
 type InfoRowProps = {
   icon: React.ComponentType<{ size?: number; color?: string }>;

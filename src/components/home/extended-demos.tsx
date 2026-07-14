@@ -1,8 +1,8 @@
 import { format } from 'date-fns';
 import { Check, CircleAlert, Info } from 'lucide-react-native';
 import * as React from 'react';
-import { Image, Pressable, View } from 'react-native';
-import { Button, CalendarView, DateTimePickerField, MaskedViewWrapper, Modal, QRCodeView, Text, TextArea, VideoPlayer, WebViewWrapper } from '@/components/ui';
+import { Pressable } from 'react-native';
+import { Button, CalendarView, DateTimePickerField, Modal, QRCodeView, Text, TextArea, VideoPlayer, WebViewWrapper } from '@/components/ui';
 import { Menu } from '@/components/ui/menu';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 
@@ -158,31 +158,12 @@ function QRCodeDemo() {
   );
 }
 
-function MaskedViewDemo() {
-  return (
-    <MaskedViewWrapper
-      mask={(
-        <View className="items-center justify-center" style={{ height: 100 }}>
-          <Text className="text-center text-4xl font-bold">MASKED</Text>
-        </View>
-      )}
-    >
-      <Image
-        source={{ uri: 'https://picsum.photos/400/100' }}
-        style={{ width: '100%', height: 100 }}
-        borderRadius={12}
-      />
-    </MaskedViewWrapper>
-  );
-}
-
 export {
   BottomSheetDemo,
   CalendarDemo,
   CenteredActionDemo,
   CenteredDemo,
   DateTimePickerDemo,
-  MaskedViewDemo,
   MenuDemo,
   QRCodeDemo,
   TextAreaDemo,

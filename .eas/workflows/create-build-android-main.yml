@@ -1,5 +1,7 @@
 name: Create preview Builds For Android
 
+branches: [main]
+
 jobs:
   build_android:
     name: Build Android app
