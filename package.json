@@ -1,5 +1,5 @@
 {
-  "name": "react-native-epo-starter-kit",
+  "name": "react-native-expo-starter-kit",
   "main": "expo-router/entry",
   "version": "2.3.0",
   "packageManager": "bun",
