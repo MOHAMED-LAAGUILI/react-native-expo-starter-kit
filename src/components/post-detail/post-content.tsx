@@ -9,10 +9,9 @@ function PostHero({ post }: { post: Post }) {
       <View className="h-87.5">
         <Image
           source={{ uri: post.imageUrl }}
-          className="h-40 w-full absolute size-full"
+          className="absolute size-full"
           contentFit="cover"
           blurRadius={15}
-        style={{ height: 160, width: '100%' }}
         />
         <LinearGradient
           colors={['transparent', 'rgba(0,0,0,0.85)']}
@@ -29,11 +28,10 @@ function PostHero({ post }: { post: Post }) {
       </View>
       <View className="gap-4 p-6">
         <Image
+          fallback=""
           source={{ uri: post.imageUrl }}
           className="h-64 w-full rounded-xl"
           contentFit="cover"
-          blurRadius={15}
-        style={{ height: 160, width: '100%' }}
         />
         <Text variant="body" className="leading-6">
           {post.body}
