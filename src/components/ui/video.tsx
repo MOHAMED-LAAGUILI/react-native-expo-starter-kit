@@ -25,6 +25,7 @@ function Video({ source, className, style }: VideoProps) {
         style={[{ width: '100%', aspectRatio: 16 / 9 }, style]}
         player={player}
         nativeControls
+        allowsPictureInPicture
       />
       <View className="flex-row justify-center gap-3">
         <Button

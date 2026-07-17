@@ -1,8 +1,8 @@
 import packageJson from '../../package.json' with { type: 'json' };
 
 const ExpoEnv = {
-  EAS_PROJECT_ID: 'c9f5e022-1377-45e6-a3d2-3857b53df48d',
-  EXPO_ACCOUNT_OWNER: 'gopitos-team',
+  EAS_PROJECT_ID: 'a92bfd7e-10cf-4e0e-b840-779b5fa06720',
+  EXPO_ACCOUNT_OWNER: 'sonowols-team',
   EXPO_PUBLIC_BUNDLE_ID: 'com.rntemplate.app',
   EXPO_PUBLIC_NAME: 'rn-template',
   EXPO_PUBLIC_PACKAGE: 'com.rntemplate.app',

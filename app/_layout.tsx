@@ -1,7 +1,5 @@
-import type { ReactNode } from 'react';
 import { Toasts } from '@backpackapp-io/react-native-toast';
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { PortalHost } from '@rn-primitives/portal';
 import * as Font from 'expo-font';
 import { NavigationBar } from 'expo-navigation-bar';
@@ -11,32 +9,21 @@ import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import { useEffect, useState } from 'react';
 import {
-  ActivityIndicator,
-  ScrollView,
-  View,
-} from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import {
   configureReanimatedLogger,
   ReanimatedLogLevel,
 } from 'react-native-reanimated';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { HeaderButtonsProvider } from 'react-navigation-header-buttons/HeaderButtonsProvider';
-import { withUniwind } from 'uniwind';
+
 import { WebErrorBoundary } from '@/components/common/web-error-boundary';
-import { Text } from '@/components/ui';
+import { AppProviders } from '@/components/layout/app-providers';
+import { StartupScreen } from '@/components/layout/startup-screen';
 import { setupI18n } from '@/i18n';
-import { QueryProvider } from '@/providers/query-provider';
-import { ThemeProvider } from '@/providers/theme-provider';
 import {
   useAuthStore,
   useOnboardingStore,
   useThemeStore,
 } from '@/store';
-import { isAndroid, isWeb } from '@/utils/platform';
+import { isAndroid } from '@/utils/platform';
 import '../global.css';
-
-const StyledSafeAreaView = withUniwind(SafeAreaView);
 
 export { ErrorBoundary } from 'expo-router';
 
@@ -53,60 +40,11 @@ configureReanimatedLogger({
   strict: false, // Reanimated runs in strict mode by default
 });
 
-function StartupScreen({ appReady, startupError, loadingStep }: { appReady: boolean; startupError: Error | null; loadingStep: string }) {
-  if (appReady && !startupError)
-    return null;
-
-  return (
-    <View className="flex-1 items-center justify-center bg-background px-6">
-      <ActivityIndicator size="large" color="#3b82f6" />
-      <Text className="mt-6 text-xl font-bold">
-        {startupError && 'Startup Failed'}
-      </Text>
-      <Text className="mt-2 text-center text-muted-foreground">{loadingStep}</Text>
-      {startupError && (
-        <ScrollView className="mt-8 max-h-[55%] w-full rounded-xl border border-destructive bg-destructive/10 p-4">
-          <Text className="font-bold text-destructive">{startupError.name}</Text>
-          <Text selectable className="mt-2">{startupError.message}</Text>
-          {!!startupError.stack && (
-            <>
-              <Text className="mt-4 font-bold">Stack Trace</Text>
-              <Text selectable className="mt-2 text-xs">{startupError.stack}</Text>
-            </>
-          )}
-        </ScrollView>
-      )}
-    </View>
-  );
-}
-
-function AppProviders({ children }: { children: ReactNode }) {
-  return (
-    <GestureHandlerRootView className="flex-1">
-      <SafeAreaProvider>
-        <StyledSafeAreaView className="flex-1 bg-background">
-          <HeaderButtonsProvider stackType={isWeb ? 'js' : 'native'}>
-            <QueryProvider>
-              <BottomSheetModalProvider>
-                <ThemeProvider>
-                  {children}
-                </ThemeProvider>
-              </BottomSheetModalProvider>
-            </QueryProvider>
-          </HeaderButtonsProvider>
-        </StyledSafeAreaView>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
-  );
-}
-
 export default function RootLayout() {
   const [appReady, setAppReady] = useState(false);
   const [loadingStep, setLoadingStep] = useState('Starting...');
   const [startupError, setStartupError] = useState<Error | null>(null);
-
   const themeMode = useThemeStore(s => s.mode);
-
   const hydrateAuth = useAuthStore(s => s.hydrate);
   const hydrateTheme = useThemeStore(s => s.hydrate);
   const hydrateOnboarding = useOnboardingStore(s => s.hydrate);
