@@ -8,6 +8,8 @@ export type { CalendarViewProps } from './calendar';
 export { CalendarView } from './calendar';
 export type { CardProps, CardVariant } from './card';
 export { Card } from './card';
+export type { ChartDataItem, ChartProps, ChartVariant } from './chart';
+export { Chart } from './chart';
 
 export type { CheckboxProps } from './checkbox';
 export { Checkbox } from './checkbox';

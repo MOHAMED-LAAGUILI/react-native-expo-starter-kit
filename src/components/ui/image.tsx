@@ -15,7 +15,15 @@ function Image({ className, fallback, style, ...props }: ImageProps) {
   let resolvedTint: string | undefined;
 
   if (style) {
-    const flat = Array.isArray(style) ? style.reduce((acc, s) => ({ ...acc, ...s }), {} as Record<string, unknown>) : { ...style };
+    const flat = Array.isArray(style)
+      ? style.reduce(
+          (acc, s) => {
+            Object.assign(acc, s);
+            return acc;
+          },
+          {} as Record<string, unknown>,
+        )
+      : { ...style };
     if ('tintColor' in flat) {
       resolvedTint = flat.tintColor as string | undefined;
       const { tintColor: _omit, ...rest } = flat;

@@ -3,8 +3,7 @@ const { withUniwindConfig } = require('uniwind/metro');
 
 const config = getDefaultConfig(__dirname);
 
-//
-config.watchFolders = [__dirname]; // keep it minimal
+config.watchFolders = [__dirname];
 
 module.exports = withUniwindConfig(config, {
   cssEntryFile: './global.css',

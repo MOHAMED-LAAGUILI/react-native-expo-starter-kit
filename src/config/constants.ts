@@ -19,11 +19,13 @@ export const QUERY_KEYS = {
 
 export const API_ENDPOINTS = {
   AUTH: {
+    FORGOT_PASSWORD: '/auth/forgot-password',
     LOGIN: '/auth/login',
     LOGOUT: '/auth/logout',
     ME: '/auth/me',
     REFRESH: '/auth/refresh',
     REGISTER: '/auth/register',
+    VERIFY_OTP: '/auth/verify-otp',
   },
   POSTS: {
     CREATE: '/posts',

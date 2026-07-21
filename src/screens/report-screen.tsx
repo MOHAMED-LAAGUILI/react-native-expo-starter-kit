@@ -5,6 +5,7 @@ import { OverviewCards } from '@/components/home/overview-cards';
 import { AnimatedSection } from '@/components/report/animated-section';
 import { reportRangeLabels, reportTabs } from '@/components/report/constants';
 import { HoursDistribution } from '@/components/report/hours-distribution';
+import { LineTrend } from '@/components/report/line-trend';
 import { ReportTabs } from '@/components/report/report-tabs';
 import { TrendSnapshot } from '@/components/report/trend-snapshot';
 import { UnifiedProjects } from '@/components/report/unified-projects';
@@ -74,6 +75,10 @@ export function ReportScreen() {
 
         <AnimatedSection key={`unified-${activeTab}`} animateOn={activeTab}>
           <UnifiedProjects data={tabProjectData} totalHours={totalHours} />
+        </AnimatedSection>
+
+        <AnimatedSection key={`line-${activeTab}`} animateOn={activeTab}>
+          <LineTrend data={tabProjectData} />
         </AnimatedSection>
       </ScrollView>
     </View>

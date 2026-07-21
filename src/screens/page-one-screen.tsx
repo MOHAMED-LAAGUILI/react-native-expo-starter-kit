@@ -83,7 +83,7 @@ function PageOneControls({ currentStep, direction, progressPosition, onBack, onN
           leftIconComponent={ArrowLeft}
           onPress={onBack}
           disabled={isFirst}
-          className="mt-3 rounded-md border-white hover:bg-white/90"
+          className="mt-3 rounded-md border-white bg-white active:bg-white/90"
         />
 
         {isLast
@@ -94,7 +94,7 @@ function PageOneControls({ currentStep, direction, progressPosition, onBack, onN
                   title="LOGIN"
                   leftIconComponent={LogIn}
                   onPress={() => console.log('Login')}
-                  className="mt-3 rounded-md border-white hover:bg-white/90 focus:bg-white/90"
+                  className="mt-3 rounded-md border-white bg-white active:bg-white/90"
                 />
               </View>
             )
@@ -104,7 +104,7 @@ function PageOneControls({ currentStep, direction, progressPosition, onBack, onN
                 title="NEXT"
                 rightIconComponent={ArrowRight}
                 onPress={onNext}
-                className="mt-3 rounded-md border-white hover:bg-white/90"
+                className="mt-3 rounded-md border-white bg-white active:bg-white/90"
               />
             )}
 
@@ -115,7 +115,7 @@ function PageOneControls({ currentStep, direction, progressPosition, onBack, onN
           rightIconComponent={SkipForward}
           onPress={onSkip}
           disabled={isLast}
-          className="mt-3 rounded-md border-white hover:bg-white/90"
+          className="mt-3 rounded-md border-white bg-white active:bg-white/90"
         />
       </View>
     </View>

@@ -1,2 +1,2 @@
-export type { LoginFormData, RegisterFormData } from './auth';
-export { loginSchema, registerSchema } from './auth';
+export type { ForgotPasswordFormData, LoginFormData, RegisterFormData, VerifyOtpFormData } from './auth';
+export { forgotPasswordSchema, loginSchema, registerSchema, verifyOtpSchema } from './auth';

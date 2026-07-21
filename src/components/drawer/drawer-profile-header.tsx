@@ -1,5 +1,6 @@
 import { Image } from 'expo-image';
-import { View } from 'react-native';
+import { router } from 'expo-router';
+import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
@@ -43,13 +44,16 @@ export function DrawerProfileHeader() {
         className="absolute inset-x-0 flex-row items-center px-4"
         style={{ bottom: 0, top: safeTop }}
       >
-        <View className={cn('overflow-hidden rounded-full border-2 border-white/30', 'size-17')}>
+        <Pressable
+          onPress={() => router.push('/(app)/(tabs)/profile')}
+          className={cn('overflow-hidden rounded-full border-2 border-white/30', 'size-17')}
+        >
           <Image
             source={require('@assets/images/react-logo.png')}
             style={{ width: '100%', height: '100%' }}
             contentFit="cover"
           />
-        </View>
+        </Pressable>
 
         <View className="ml-4 flex-1">
           <Text variant="h4" className="text-white">

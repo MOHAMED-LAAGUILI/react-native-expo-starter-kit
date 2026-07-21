@@ -4,7 +4,11 @@ import { API_ENDPOINTS, PUBLIC_API_BASE } from '@/config/constants';
 import { apiClient } from './client';
 
 export const authApi = {
+  forgotPassword: (data: { email: string }) =>
+    apiClient.post<{ message: string }>(API_ENDPOINTS.AUTH.FORGOT_PASSWORD, data).then(r => r.data),
+
   getMe: () => apiClient.get<User>(API_ENDPOINTS.AUTH.ME).then(r => r.data),
+
   login: (data: LoginRequest) => apiClient.post<LoginResponse>(API_ENDPOINTS.AUTH.LOGIN, data).then(r => r.data),
 
   logout: () => apiClient.post(API_ENDPOINTS.AUTH.LOGOUT),
@@ -18,6 +22,9 @@ export const authApi = {
 
   register: (data: { email: string; password: string; name: string }) =>
     apiClient.post<LoginResponse>(API_ENDPOINTS.AUTH.REGISTER, data).then(r => r.data),
+
+  verifyOtp: (data: { email: string; otp: string; newPassword: string }) =>
+    apiClient.post<{ message: string }>(API_ENDPOINTS.AUTH.VERIFY_OTP, data).then(r => r.data),
 };
 
 function withImageUrl(post: Omit<PublicPost, 'imageUrl'>): PublicPost {

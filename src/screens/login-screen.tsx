@@ -4,7 +4,7 @@ import { useForm } from '@tanstack/react-form';
 import * as React from 'react';
 import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { useLogin, useRegister } from '@/api/hooks/use-auth';
-import { DemoLoginButton, LoginFormFields, ToggleModeLink } from '@/components/auth';
+import { DemoLoginButton, ForgotPasswordLink, LoginFormFields, ToggleModeLink } from '@/components/auth';
 import { Text } from '@/components/ui';
 import { loginSchema, registerSchema } from '@/validation';
 
@@ -43,6 +43,8 @@ function LoginScreen() {
         </View>
 
         <LoginFormFields form={form as unknown as ReactFormExtendedApi<RegisterFormData, any, any, any, any, any, any, any, any, any, any, any>} isLogin={isLogin} formError={formError} />
+
+        {isLogin && <ForgotPasswordLink />}
 
         <ToggleModeLink
           isLogin={isLogin}

@@ -42,3 +42,29 @@ export function useRegister() {
     },
   });
 }
+
+export function useForgotPassword() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: { email: string }) => authApi.forgotPassword(data),
+    onError: () => {
+      showToast({ message: 'Please check your email and try again.', title: 'Failed to send OTP', variant: 'error' });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.USER });
+      showToast({ message: 'Check your email for the OTP code.', title: 'OTP sent', variant: 'success' });
+    },
+  });
+}
+
+export function useVerifyOtp() {
+  return useMutation({
+    mutationFn: (data: { email: string; otp: string; newPassword: string }) => authApi.verifyOtp(data),
+    onError: () => {
+      showToast({ message: 'Invalid OTP or expired. Please try again.', title: 'Verification failed', variant: 'error' });
+    },
+    onSuccess: () => {
+      showToast({ message: 'Password reset successful. Please login.', title: 'Password reset', variant: 'success' });
+    },
+  });
+}
