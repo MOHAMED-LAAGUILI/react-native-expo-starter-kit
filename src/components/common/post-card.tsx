@@ -18,7 +18,7 @@ export function PostCard({ id, title, body, imageUrl, onPress }: PostCardProps) 
 
   return (
 
-    <Pressable onPress={handlePress} className="border-border bg-card overflow-hidden rounded-xl border">
+    <Pressable onPress={handlePress} className="overflow-hidden rounded-xl border border-border bg-card">
       <Image
         source={{ uri: imageUrl }}
         className="h-40 w-full"
@@ -28,7 +28,7 @@ export function PostCard({ id, title, body, imageUrl, onPress }: PostCardProps) 
       <View className="p-4">
         <Text
           variant="label"
-          className="text-muted-foreground mb-1"
+          className="mb-1 text-muted-foreground"
         >
           Post #
           {id}

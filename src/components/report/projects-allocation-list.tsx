@@ -53,7 +53,7 @@ export function ProjectsAllocationList({
               </Text>
             </View>
 
-            <View className="bg-muted h-2 rounded-full">
+            <View className="h-2 rounded-full bg-muted">
               <View
                 className="h-2 rounded-full"
                 style={{

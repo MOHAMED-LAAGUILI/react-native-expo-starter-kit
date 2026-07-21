@@ -96,12 +96,12 @@ export function HoursDistribution({
 
           centerLabelComponent={() => (
             <View className="items-center">
-              <Text variant="caption" className="text-muted-foreground mb-1">
+              <Text variant="caption" className="mb-1 text-muted-foreground">
                 Total
               </Text>
               <Text variant="h2" className="font-bold">
                 {totalHours}
-                <Text variant="caption" className="text-muted-foreground ml-0.5">
+                <Text variant="caption" className="ml-0.5 text-muted-foreground">
                   h
                 </Text>
               </Text>

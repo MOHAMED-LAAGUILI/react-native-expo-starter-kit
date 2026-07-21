@@ -29,7 +29,7 @@ export function TrendSnapshot({
                 {project.hours}
                 h
               </Text>
-              <View className="bg-muted h-36 w-full justify-end overflow-hidden rounded-md px-1 pb-1">
+              <View className="h-36 w-full justify-end overflow-hidden rounded-md bg-muted px-1 pb-1">
                 <View
                   className="w-full rounded-lg"
                   style={{
@@ -40,7 +40,7 @@ export function TrendSnapshot({
               </View>
               <Text
                 variant="caption"
-                className={cn('text-muted-foreground text-center')}
+                className={cn('text-center text-muted-foreground')}
                 numberOfLines={2}
               >
                 {project.project.replace('Project ', '')}

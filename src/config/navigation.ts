@@ -1,5 +1,5 @@
 import type { Href } from 'expo-router';
-import { Book, Database, FileText, Home, Search, Settings, Smartphone, Sparkles, User } from 'lucide-react-native';
+import { Book, Database, Home, Search, Settings, Smartphone, Sparkles, User } from 'lucide-react-native';
 
 export type NavItem = {
   href: Href;

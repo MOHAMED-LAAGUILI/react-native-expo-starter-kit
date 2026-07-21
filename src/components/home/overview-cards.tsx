@@ -9,7 +9,7 @@ type OverviewCardsProps = {
 
 function OverviewCard({ card }: { card: any }) {
   return (
-    <View className="border-border bg-card rounded-xl border p-4">
+    <View className="rounded-xl border border-border bg-card p-4">
       <View className="flex-row items-center gap-2">
         <View
           className="size-2 rounded-full"
@@ -20,7 +20,7 @@ function OverviewCard({ card }: { card: any }) {
         </Text>
       </View>
       <Text className="mt-3 text-2xl font-semibold">{card.value}</Text>
-      <Text variant="caption" className="text-muted-foreground mt-1">
+      <Text variant="caption" className="mt-1 text-muted-foreground">
         {card.subtitle}
       </Text>
     </View>

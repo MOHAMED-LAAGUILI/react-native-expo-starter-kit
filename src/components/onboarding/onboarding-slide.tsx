@@ -23,7 +23,7 @@ function OnboardingSlideItem({ item }: OnboardingSlideItemProps) {
       <Text variant="h2" className="mb-3 text-center">
         {item.title}
       </Text>
-      <Text variant="body" className="text-muted-foreground text-center leading-6">
+      <Text variant="body" className="text-center leading-6 text-muted-foreground">
         {item.description}
       </Text>
     </View>

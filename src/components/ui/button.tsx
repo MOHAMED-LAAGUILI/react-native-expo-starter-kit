@@ -65,7 +65,7 @@ function Button({
         size === 'lg' && 'h-12 px-8',
         variant === 'primary' && 'bg-primary active:bg-primary/90',
         variant === 'secondary' && 'bg-primary/10 active:bg-primary/20',
-        variant === 'outline' && 'border-primary active:bg-primary/10 border bg-background',
+        variant === 'outline' && 'border border-primary bg-background active:bg-primary/10',
         variant === 'ghost' && 'active:bg-accent',
         variant === 'destructive' && 'bg-destructive active:bg-destructive/90',
         disabled && 'opacity-50',

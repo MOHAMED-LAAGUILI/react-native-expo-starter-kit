@@ -19,11 +19,11 @@ export function InfoRow({ icon: Icon, label, value, href, onPress }: InfoRowProp
 
   return (
     <Pressable
-      className="active:bg-accent flex-row items-center p-4"
+      className="flex-row items-center p-4 active:bg-accent"
       onPress={isLink ? onPress : undefined}
       disabled={!isLink}
     >
-      <View className="bg-muted mr-3 size-10 items-center justify-center rounded-full">
+      <View className="mr-3 size-10 items-center justify-center rounded-full bg-muted">
         <Icon
           size={20}
           color={muted}

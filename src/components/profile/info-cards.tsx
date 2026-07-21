@@ -17,7 +17,7 @@ function InfoCards({ items }: InfoCardsProps) {
   });
 
   return (
-    <View className="border-border bg-card overflow-hidden rounded-2xl border">
+    <View className="overflow-hidden rounded-2xl border border-border bg-card">
       {itemsWithHref.map((item, index) => (
         <React.Fragment key={item.label}>
           {index > 0 && <Divider />}

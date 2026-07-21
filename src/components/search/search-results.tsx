@@ -63,7 +63,7 @@ function SearchResults({
                         <SearchX size={48} color={muted} />
                         <Text
                           variant="body"
-                          className="text-muted-foreground mt-4 text-center"
+                          className="mt-4 text-center text-muted-foreground"
                         >
                           {t('search.noResults')}
                         </Text>
@@ -74,7 +74,7 @@ function SearchResults({
                         <Search size={48} color={muted} />
                         <Text
                           variant="body"
-                          className="text-muted-foreground mt-4 text-center"
+                          className="mt-4 text-center text-muted-foreground"
                         >
                           {t('search.startTyping')}
                         </Text>

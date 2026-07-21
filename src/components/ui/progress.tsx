@@ -8,9 +8,9 @@ type ProgressProps = {
 
 function Progress({ value, className }: ProgressProps) {
   return (
-    <ProgressPrimitive.Root className={cn('bg-border h-2 overflow-hidden rounded-full', className)}>
+    <ProgressPrimitive.Root className={cn('h-2 overflow-hidden rounded-full bg-border', className)}>
       <ProgressPrimitive.Indicator
-        className="bg-primary h-full rounded-full transition-all duration-300"
+        className="h-full rounded-full bg-primary transition-all duration-300"
         style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
       />
     </ProgressPrimitive.Root>

@@ -21,7 +21,7 @@ function PostDetailScreen() {
       <View className="flex-1 items-center justify-center bg-background px-6">
         <Text
           variant="body"
-          className="text-destructive mb-4 text-center"
+          className="mb-4 text-center text-destructive"
         >
           {t('postDetail.error')}
         </Text>
