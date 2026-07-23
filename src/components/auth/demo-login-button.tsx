@@ -13,7 +13,7 @@ function DemoLoginButton({ isLogin }: DemoLoginButtonProps) {
       variant="ghost"
       onPress={() => {
         useAuthStore.getState().login(
-          { createdAt: new Date().toISOString(), email: 'demo@example.com', id: '1', name: 'Demo User' },
+          { createdAt: new Date().toISOString(), email: 'demo@example.com', id: '1', name: 'Demo User', role: 'Administrator' },
           { accessToken: 'demo-token', refreshToken: 'demo-refresh' },
         );
         showToast({ message: 'You are now logged in as Demo User.', title: 'Welcome!', variant: 'success' });

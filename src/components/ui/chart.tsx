@@ -225,6 +225,7 @@ function ChartLine({
           maxValue={computedMaxValue}
           stepValue={computedStepValue}
           yAxisLabelSuffix="h"
+          endSpacing={12}
           disableScroll
           isAnimated
           animationDuration={800}
@@ -284,6 +285,7 @@ function ChartBars({
           barBorderTopRightRadius={6}
           initialSpacing={12}
           spacing={12}
+          endSpacing={12}
           hideRules={false}
           rulesColor={axisColor}
           yAxisTextStyle={{
@@ -334,7 +336,7 @@ function Chart({
   height = 200,
   maxValue,
   stepValue,
-  showLegend = true,
+  showLegend = false,
   showTooltip = true,
   donut = false,
   radius = 92,

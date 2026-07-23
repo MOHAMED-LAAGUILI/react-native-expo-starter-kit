@@ -29,7 +29,9 @@
     "preferences": "Preferences",
     "deviceInfo": "Device Info",
     "charts": "Charts",
-    "post": "Post"
+    "post": "Post",
+    "onboarding":"Onboarding"
+
   },
   "theme": {
     "light": "Light",

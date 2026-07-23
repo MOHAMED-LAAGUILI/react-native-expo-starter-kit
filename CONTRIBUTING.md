@@ -44,6 +44,7 @@ fix: fixed a minor bug in btn
 update: updated login screen layout
 feat(auth): add biometric login
 chore(deps): update dev dependencies
+docs: changes in md files
 ```
 
 ## Pull Requests
@@ -54,15 +55,9 @@ chore(deps): update dev dependencies
 4. Push to the branch (`git push origin feat/my-feature`)
 5. Open a Pull Request
 
-## Code Style
-
-- Use `bun run lint:fix` to auto-fix lint issues
-- Use `bun run type:check` to verify types
-- Use `bun run doctor` to check for dependency issues
-- All PRs must pass the pre-commit hooks
 
 ## perfect score 
-Use `bun run checks` to verify everything
+Use `bun run checks` to verify everything lint/format/checks/doctor
 <img width="592" height="759" alt="image" src="https://github.com/user-attachments/assets/f93166a4-f0d4-4fe6-8968-0de1785fd96d" />
 
 

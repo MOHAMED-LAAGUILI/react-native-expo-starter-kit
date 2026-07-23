@@ -21,6 +21,12 @@ type ButtonProps = {
   rightIconComponent?: LucideIcon;
 } & PressableProps;
 
+const SHADOW_COLORS: Record<string, string | undefined> = {
+  primary: undefined, // set dynamically via primaryHex
+  destructive: '#ef4444',
+  success: '#16a34a',
+};
+
 function Button({
   variant = 'primary',
   size = 'md',
@@ -37,6 +43,18 @@ function Button({
   const [pressed, setPressed] = React.useState(false);
   const primaryHex = usePrimaryHex();
   const { isDark } = useThemeColors();
+
+  const shadowColor = variant === 'primary' ? primaryHex : SHADOW_COLORS[variant];
+
+  const shadowStyle = !disabled && shadowColor
+    ? {
+        elevation: 6,
+        shadowColor,
+        shadowOffset: { height: 4, width: 0 },
+        shadowOpacity: 0.4,
+        shadowRadius: 12,
+      }
+    : undefined;
 
   const iconColor = variant === 'primary' || variant === 'destructive' || variant === 'success'
     ? '#fff'
@@ -74,6 +92,7 @@ function Button({
         pressed && !disabled && 'opacity-80',
         className,
       )}
+      style={shadowStyle}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
       disabled={disabled || loading}

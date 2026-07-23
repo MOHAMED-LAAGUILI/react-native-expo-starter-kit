@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Platform, View } from 'react-native';
-import { Chart, Spinner } from '@/components/ui';
+import React from 'react';
+import { Platform } from 'react-native';
+import { Chart } from '@/components/ui';
+import { ProjectsAllocationList } from './projects-allocation-list';
 import { ReportSection } from './report-section';
 
 type HoursDistributionProps = {
@@ -16,13 +17,6 @@ export function HoursDistribution({
   data,
   totalHours,
 }: HoursDistributionProps) {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(setIsLoading, 100, false);
-    return () => clearTimeout(timer);
-  }, [data]);
-
   const chartData = data.map((project: any) => {
     const percent = Math.round(getProjectPercent(project.hours, totalHours));
 
@@ -42,24 +36,20 @@ export function HoursDistribution({
       subtitle="Donut chart"
       bodyClassName="p-5"
     >
-      {isLoading
-        ? (
-            <View className="h-[200px] items-center justify-center">
-              <Spinner size="lg" />
-            </View>
-          )
-        : (
-            <Chart
-              variant="pie"
-              data={chartData}
-              donut
-              radius={92}
-              innerRadius={62}
-              showTooltip
-              centerLabel={`${totalHours}h`}
-              centerSubtitle="Total"
-            />
-          )}
+      <Chart
+        variant="pie"
+        data={chartData}
+        donut
+        radius={92}
+        innerRadius={62}
+        showTooltip
+        centerLabel={`${totalHours}h`}
+        centerSubtitle="Total"
+      />
+      <ProjectsAllocationList
+        data={data}
+        totalHours={totalHours}
+      />
     </ReportSection>
   );
 }

@@ -28,9 +28,10 @@ function ForgotPasswordScreen() {
       <ScrollView contentContainerClassName="flex-grow justify-center px-6" keyboardShouldPersistTaps="handled">
         <View className="mb-8 items-center gap-2">
           <Image
-            source={require('@assets/images/icon.png')}
-            className="mb-2 size-20 rounded-2xl"
-            style={{ height: 80, width: 80 }}
+            source={require('@assets/images/react-logo.png')}
+            className="mb-2 size-20 overflow-hidden rounded-full"
+            style={{ height: 80, width: 80, borderRadius: '100px' }}
+            contentFit="cover"
           />
           <Text variant="h1">Forgot Password</Text>
           <Text variant="body" className="text-center text-muted-foreground">
@@ -71,7 +72,7 @@ function ForgotPasswordScreen() {
 
         <Button
           title="Back to Login"
-          variant="ghost"
+          variant="outline"
           onPress={() => router.back()}
           size="lg"
         />

@@ -30,7 +30,7 @@ function OverviewCard({ card }: { card: any }) {
 export function OverviewCards({ cards }: OverviewCardsProps) {
   return (
     <View className="mb-8">
-      <Text variant="h4" className="mb-4">Overview</Text>
+      <Text variant="h4" className="my-4">Overview</Text>
       <View className="gap-3">
         <View className="flex-row gap-3">
           {cards[0] && (

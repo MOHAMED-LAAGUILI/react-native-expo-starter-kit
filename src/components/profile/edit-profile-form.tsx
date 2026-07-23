@@ -10,13 +10,37 @@ type EditProfileFormProps = {
   onCancel?: () => void;
 };
 
+type FieldErrors = {
+  email?: string;
+  name?: string;
+  role?: string;
+};
+
 export function EditProfileForm({ onCancel }: EditProfileFormProps) {
   const user = useAuthStore(s => s.user);
   const updateProfile = useAuthStore(s => s.updateProfile);
 
   const [name, setName] = React.useState(user?.name ?? '');
   const [email, setEmail] = React.useState(user?.email ?? '');
-  const [role, setRole] = React.useState(user?.role ?? '');
+  const [role, setRole] = React.useState(user?.role || 'Administrator');
+  const [errors, setErrors] = React.useState<FieldErrors>({});
+
+  const clearError = (field: keyof FieldErrors) => {
+    setErrors(prev => ({ ...prev, [field]: undefined }));
+  };
+
+  const handleNameChange = (v: string) => {
+    setName(v);
+    clearError('name');
+  };
+  const handleEmailChange = (v: string) => {
+    setEmail(v);
+    clearError('email');
+  };
+  const handleRoleChange = (v: string) => {
+    setRole(v);
+    clearError('role');
+  };
 
   const handleSave = () => {
     const result = editProfileSchema.safeParse({
@@ -26,14 +50,17 @@ export function EditProfileForm({ onCancel }: EditProfileFormProps) {
     });
 
     if (!result.success) {
-      const message = result.error.issues.map(i => i.message).join('\n');
-      showToast({ title: 'Validation Error', message, variant: 'error' });
+      const fieldErrors: FieldErrors = {};
+      for (const issue of result.error.issues) {
+        const field = issue.path[0] as keyof FieldErrors;
+        fieldErrors[field] = issue.message;
+      }
+      setErrors(fieldErrors);
       return;
     }
 
-    const { ...data } = result.data;
-
-    updateProfile(data);
+    setErrors({});
+    updateProfile(result.data);
     showToast({ title: 'Profile Updated', message: 'Your profile has been updated successfully', variant: 'success' });
     onCancel?.();
   };
@@ -44,26 +71,29 @@ export function EditProfileForm({ onCancel }: EditProfileFormProps) {
         label="Name"
         placeholder="Enter your name"
         value={name}
-        onChangeText={setName}
+        onChangeText={handleNameChange}
         type="username"
+        error={errors.name}
       />
       <Input
         label="Email"
         placeholder="Enter your email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={handleEmailChange}
         type="email"
         keyboardType="email-address"
         autoCapitalize="none"
+        error={errors.email}
       />
 
       <Input
         label="Role"
         placeholder="Enter your role"
-        value={role}
-        onChangeText={setRole}
+        value={role ?? 'Administrator'}
+        onChangeText={handleRoleChange}
         leftIcon={<Icon as={Shield} className="size-[18px] text-muted-foreground" />}
         autoCapitalize="none"
+        error={errors.role}
       />
 
       <View className="flex-row gap-3">

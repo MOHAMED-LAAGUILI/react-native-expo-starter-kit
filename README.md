@@ -34,11 +34,11 @@
 
 
 ## Demo Android (Old Build)
-[Demo.mp4](https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7481391447850717184?compact=1)
+[Demo.mp4](https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7483079364788613120?compact=1)
 
 ## Latest APK File
 **available only for 13 Days to download starting from Jul 13, 2026 2:48 PM**
-[Download APK](https://expo.dev/accounts/gopitos-team/projects/rn-template/builds/2cfcd5d9-83cd-45fd-8b2f-086241053d77)
+[Download APK](https://expo.dev/accounts/sonowols-team/projects/rn-template/builds/b35eaad1-6e65-4288-872a-a96ddbfdbb65)
 
 ## Quick Start
 ```bash

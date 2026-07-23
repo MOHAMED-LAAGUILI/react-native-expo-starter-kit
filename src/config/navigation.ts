@@ -6,6 +6,7 @@ import {
   Settings,
   Smartphone,
   Sparkles,
+  StepForward,
   User,
 } from 'lucide-react-native';
 
@@ -64,11 +65,18 @@ const BASE_NAV_ITEMS: NavItem[] = [
 
 const DEV_NAV_ITEMS: NavItem[] = [
   {
-    href: '/(app)/preferences' as Href,
+    href: '/(app)/dev-preferences' as Href,
     icon: Database,
     label: 'Preferences',
     translationKey: 'navigation.preferences',
     match: ['/preferences'],
+  },
+  {
+    href: '/(app)/dev-onboarding' as Href,
+    icon: StepForward,
+    label: 'Onboarding',
+    translationKey: 'navigation.onboarding',
+    match: ['/onboarding'],
   },
 ];
 
