@@ -7,7 +7,7 @@ function SectionTitle({ children }: { children: string }) {
   return (
     <View className="mt-6 mb-3 first:mt-0">
       <Text variant="h3">{children}</Text>
-      <View className="mt-2 h-px bg-border" />
+      <View className="bg-border mt-2 h-px" />
     </View>
   );
 }
@@ -18,7 +18,7 @@ function Row({ children }: { children: React.ReactNode }) {
 
 function TypographyDemo() {
   return (
-    <View className="gap-1 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-1 rounded-xl border p-4">
       <Text variant="h1">Heading h1</Text>
       <Text variant="h2">Heading h2</Text>
       <Text variant="h3">Heading h3</Text>
@@ -35,7 +35,7 @@ function TypographyDemo() {
 function BadgeDemo() {
   return (
     <>
-      <Text variant="label" className="mb-1 text-muted-foreground">Variants</Text>
+      <Text variant="label" className="text-muted-foreground mb-1">Variants</Text>
       <Row>
         <Badge variant="default">default</Badge>
         <Badge variant="primary">primary</Badge>
@@ -47,7 +47,7 @@ function BadgeDemo() {
         <Badge variant="info">info</Badge>
       </Row>
 
-      <Text variant="label" className="mt-4 mb-1 text-muted-foreground">With Icons</Text>
+      <Text variant="label" className="text-muted-foreground mt-4 mb-1">With Icons</Text>
       <Row>
         <Badge variant="success" icon={Check}>Completed</Badge>
         <Badge variant="destructive" icon={X}>Error</Badge>
@@ -56,7 +56,7 @@ function BadgeDemo() {
         <Badge variant="primary" icon={Check}>Verified</Badge>
       </Row>
 
-      <Text variant="label" className="mt-4 mb-1 text-muted-foreground">Sizes</Text>
+      <Text variant="label" className="text-muted-foreground mt-4 mb-1">Sizes</Text>
       <Row>
         <Badge variant="primary" size="sm" icon={Check}>Small</Badge>
         <Badge variant="primary" size="md" icon={Check}>Medium</Badge>

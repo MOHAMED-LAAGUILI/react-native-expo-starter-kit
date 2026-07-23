@@ -43,7 +43,7 @@ function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, co
 
   const colorOptions: BottomSheetOption<ColorPaletteKey>[] = COLOR_PALETTES.map(p => ({
     label: p.label,
-    leftElement: <View className={cn('size-6 rounded-full', primaryColor === p.key && 'ring-2 ring-primary ring-offset-2')} style={{ backgroundColor: p.color }} />,
+    leftElement: <View className={cn('size-6 rounded-full', primaryColor === p.key && 'ring-primary ring-2 ring-offset-2')} style={{ backgroundColor: p.color }} />,
     value: p.key,
   }));
 

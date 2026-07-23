@@ -34,7 +34,7 @@ export function PreferencesScreen() {
         <StoreStatusCards />
 
         {entries.length === 0 && (
-          <Text variant="body" className="mt-4 text-center text-muted-foreground">No stored preferences found.</Text>
+          <Text variant="body" className="text-muted-foreground mt-4 text-center">No stored preferences found.</Text>
         )}
 
         <StorageEntriesList entries={entries} />

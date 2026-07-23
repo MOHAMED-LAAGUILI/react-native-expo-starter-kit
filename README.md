@@ -129,11 +129,11 @@ To run the app, use a development build instead:
 - **System UI** — Background color synced with theme mode
 - **Charts** — Interactive donut and bar charts via `react-native-gifted-charts` for report screens
 - **Calendar** — Date picking via `react-native-calendars` with marked dates
-- **Video** — Cross-platform video player (`react-native-video` on native, HTML `<video>` on web)
+- **Video** — Cross-platform video player (`expo-video` on native, HTML `<video>` on web)
 - **WebView** — Embed web content via `react-native-webview`
 - **QR Code** — QR code generation via `react-native-qrcode-svg`
-- **Carousel** — Reanimated-driven carousel via `react-native-reanimated-carousel`
 - **Cross-platform** — iOS, Android, Web
+- **Expo Observe** — error tracking and performance monitoring via `expo-observe`
 
 
 ## Project Structure
@@ -222,10 +222,9 @@ To run the app, use a development build instead:
 | Dates           | date-fns
 | Charts          | react-native-gifted-charts (PieChart, BarChart)
 | Calendar        | react-native-calendars
-| Video           | react-native-video (native) / HTML `<video>` (web)
+| Video           | expo-video (native) / HTML `<video>` (web)
 | WebView         | react-native-webview
 | QR Code         | react-native-qrcode-svg
-| Carousel        | react-native-reanimated-carousel
 | Animation Extras| moti
 
 
@@ -369,7 +368,6 @@ To release, just bump the version in `package.json` and push to `main`.
 
 ## Planned Features (Need Contributors)
 - **Consola** - for better developer command experience
-- **Expo Observe** — error tracking and performance monitoring via `expo-observe`
 - **Maestro + Jest** — E2E testing framework for mobile
 - **App Store Connect** — EAS Submit pipeline for App Store and Play Store release
 - **Convex** — Realtime backend with reactive data sync

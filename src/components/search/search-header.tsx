@@ -27,7 +27,7 @@ function SearchHeader({
       />
       <Text
         variant="caption"
-        className="mt-2 mb-1 text-muted-foreground"
+        className="text-muted-foreground mt-2 mb-1"
       >
         {isLoading ? t('common.loading') : t('search.postCount', { count })}
       </Text>

@@ -11,10 +11,10 @@ export function StartupScreen({ appReady, startupError, loadingStep }: { appRead
       <Text className="mt-6 text-xl font-bold">
         {startupError && 'Startup Failed'}
       </Text>
-      <Text className="mt-2 text-center text-muted-foreground">{loadingStep}</Text>
+      <Text className="text-muted-foreground mt-2 text-center">{loadingStep}</Text>
       {startupError && (
-        <ScrollView className="mt-8 max-h-[55%] w-full rounded-xl border border-destructive bg-destructive/10 p-4">
-          <Text className="font-bold text-destructive">{startupError.name}</Text>
+        <ScrollView className="border-destructive bg-destructive/10 mt-8 max-h-[55%] w-full rounded-xl border p-4">
+          <Text className="text-destructive font-bold">{startupError.name}</Text>
           <Text selectable className="mt-2">{startupError.message}</Text>
           {!!startupError.stack && (
             <>

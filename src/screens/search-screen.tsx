@@ -13,7 +13,7 @@ function SearchScreen() {
   if (error) {
     return (
       <View className="flex-1 items-center justify-center px-6">
-        <Text variant="body" className="text-center text-destructive">{t('search.error')}</Text>
+        <Text variant="body" className="text-destructive text-center">{t('search.error')}</Text>
       </View>
     );
   }

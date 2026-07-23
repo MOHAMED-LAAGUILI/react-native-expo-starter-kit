@@ -34,7 +34,7 @@ function ForgotPasswordScreen() {
             contentFit="cover"
           />
           <Text variant="h1">Forgot Password</Text>
-          <Text variant="body" className="text-center text-muted-foreground">
+          <Text variant="body" className="text-muted-foreground text-center">
             Enter your email address and we'll send you an OTP code to reset your password
           </Text>
         </View>

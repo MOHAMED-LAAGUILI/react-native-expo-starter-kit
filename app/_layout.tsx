@@ -3,6 +3,7 @@ import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } f
 import { PortalHost } from '@rn-primitives/portal';
 import * as Font from 'expo-font';
 import { NavigationBar } from 'expo-navigation-bar';
+import { ObserveRoot } from 'expo-observe';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
@@ -28,7 +29,7 @@ SplashScreen.setOptions({
   duration: 500,
 });
 
-export default function RootLayout() {
+function RootLayout() {
   const [appReady, setAppReady] = useState(false);
   const [loadingStep, setLoadingStep] = useState('Starting...');
   const [startupError, setStartupError] = useState<Error | null>(null);
@@ -114,6 +115,7 @@ export default function RootLayout() {
                   duration: 200,
                   flingPositionReturnDuration: 200,
                 }}
+                
               />
 
               <PortalHost />
@@ -122,3 +124,6 @@ export default function RootLayout() {
     </AppProviders>
   );
 }
+
+// eslint-disable-next-line react-refresh/only-export-components
+export default ObserveRoot.wrap(RootLayout);

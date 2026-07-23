@@ -64,11 +64,11 @@ function BottomSheetInner<T>(
       handleIndicatorStyle={{ backgroundColor: border }}
       backgroundStyle={{ backgroundColor: background }}
     >
-      <View className="flex-row items-center justify-between border-b border-border px-4 py-3">
+      <View className="border-border flex-row items-center justify-between border-b px-4 py-3">
         <Text variant="body" className="font-semibold">{title}</Text>
         <Pressable
           onPress={() => onOpenChange(false)}
-          className="size-8 items-center justify-center rounded-full bg-muted"
+          className="bg-muted size-8 items-center justify-center rounded-full"
         >
           <X size={16} color={muted} />
         </Pressable>
@@ -82,7 +82,7 @@ function BottomSheetInner<T>(
               key={String(option.value)}
               onPress={() => onSelect(option.value)}
               className={cn(
-                'flex-row items-center gap-3 border-b border-border px-4 py-3',
+                'border-border flex-row items-center gap-3 border-b px-4 py-3',
                 isSelected && 'bg-primary/10',
               )}
             >
@@ -91,11 +91,11 @@ function BottomSheetInner<T>(
                   {option.leftElement}
                 </View>
               )}
-              <Text variant="body" className={cn('flex-1', isSelected && 'font-semibold text-primary')}>
+              <Text variant="body" className={cn('flex-1', isSelected && 'text-primary font-semibold')}>
                 {option.label}
               </Text>
               {isSelected && (
-                <View className="size-2 rounded-full bg-primary" />
+                <View className="bg-primary size-2 rounded-full" />
               )}
             </Pressable>
           );

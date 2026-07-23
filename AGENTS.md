@@ -233,10 +233,9 @@ How: Essential Rules
 | Dates           | date-fns
 | Charts          | react-native-gifted-charts (PieChart, BarChart)
 | Calendar        | react-native-calendars
-| Video           | react-native-video (native) / HTML `<video>` (web)
+| Video           | expo-video (native) / HTML `<video>` (web)
 | WebView         | react-native-webview
 | QR Code         | react-native-qrcode-svg
-| Carousel        | react-native-reanimated-carousel
 | Animation Extras| moti
        
              
@@ -351,7 +350,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `Modal` — custom modal with 3 variants: `bottom-sheet` (slides up), `centered` (scales in with icon/title/description), `centered-action` (centered + action buttons). Uses `react-native-reanimated` for enter/exit animations. Backdrop fades, sheet slides/scales independently.
 - `Calendar` — date picker built on `react-native-calendars` with marked dates
 - `DateTimePicker` — date/time field built on `@react-native-community/datetimepicker`
-- `VideoPlayer` — video player using `react-native-video` (native) or `<video>` HTML element (web)
+- `VideoPlayer` — video player using `expo-video` (native) or `<video>` HTML element (web)
 - `WebViewWrapper` — webview wrapper using `react-native-webview`
 - `QRCodeView` — QR code generator using `react-native-qrcode-svg`
 - `Menu` — context/popup menu using `@react-native-menu/menu`
@@ -379,7 +378,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `react-native-restart-newarch` — app restart on RTL language change
 - `react-native-edge-to-edge` — edge-to-edge display
 - `react-native-reanimated` + `react-native-gesture-handler` — animations + gestures
-- `react-native-video` — video player
+- `expo-video` — video player
 - `react-native-webview` — webview component
 - `react-native-qrcode-svg` — QR code generation
 - `react-native-calendars` — calendar date picker
@@ -388,7 +387,6 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `@react-native-community/masked-view` — text masking
 - `@react-native-menu/menu` — context/popup menu
 - `moti` — animation primitives
-- `react-native-reanimated-carousel` — carousel component
 
 ## Notes
 - No test framework installed

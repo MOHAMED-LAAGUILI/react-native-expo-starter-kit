@@ -20,8 +20,8 @@ export function ReportTabs({
   const { muted } = useThemeColors();
 
   return (
-    <View className="border-b border-border px-1 py-2">
-      <View className="flex-row justify-center rounded-md bg-muted p-1">
+    <View className="border-border border-b px-1 py-2">
+      <View className="bg-muted flex-row justify-center rounded-md p-1">
         {tabs.map(tab => (
           <Pressable
             key={tab.key}

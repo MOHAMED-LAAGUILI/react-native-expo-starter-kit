@@ -13,7 +13,7 @@ function Text({ variant = 'body', className, ...props }: TextProps) {
   return (
     <RNText
       className={cn(
-        'text-base text-foreground',
+        'text-foreground text-base',
         variant === 'h1' && 'text-4xl font-extrabold tracking-tight',
         variant === 'h2' && 'text-3xl font-semibold tracking-tight',
         variant === 'h3' && 'text-2xl font-semibold tracking-tight',

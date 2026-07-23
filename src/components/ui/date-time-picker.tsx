@@ -44,7 +44,7 @@ function DateTimePickerField({ value, onChange, mode = 'date', label, display }:
       {label && <Text variant="label" className="text-muted-foreground">{label}</Text>}
       <Pressable
         onPress={() => setShow(true)}
-        className="h-11 flex-row items-center rounded-md border border-border bg-secondary px-3"
+        className="border-border bg-secondary h-11 flex-row items-center rounded-md border px-3"
       >
         <Text className="text-foreground">{formatDate(value, mode)}</Text>
       </Pressable>

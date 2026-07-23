@@ -9,7 +9,7 @@ function ProgressDemo() {
   const isWeb = Platform.OS === 'web';
 
   return (
-    <View className="gap-5 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-5 rounded-xl border p-4">
       <View className="gap-2">
         <Text variant="caption" className="text-muted-foreground">Bar</Text>
         <Progress.Bar progress={0.3} width={200} color={primaryHex} unfilledColor={muted} />

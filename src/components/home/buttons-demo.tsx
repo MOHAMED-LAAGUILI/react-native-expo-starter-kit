@@ -5,7 +5,7 @@ import { Row } from './typography-and-badge';
 function ButtonsDemo() {
   return (
     <>
-      <Text variant="label" className="mb-1 text-muted-foreground">Variants</Text>
+      <Text variant="label" className="text-muted-foreground mb-1">Variants</Text>
       <Row>
         <Button title="Primary" variant="primary" size="sm" />
         <Button title="Secondary" variant="secondary" size="sm" />
@@ -15,14 +15,14 @@ function ButtonsDemo() {
         <Button title="Success" variant="success" size="sm" />
       </Row>
 
-      <Text variant="label" className="mb-1 text-muted-foreground">Sizes</Text>
+      <Text variant="label" className="text-muted-foreground mb-1">Sizes</Text>
       <Row>
         <Button title="Small" size="sm" />
         <Button title="Medium" size="md" />
         <Button title="Large" size="lg" />
       </Row>
 
-      <Text variant="label" className="mb-1 text-muted-foreground">States</Text>
+      <Text variant="label" className="text-muted-foreground mb-1">States</Text>
       <Row>
         <Button title="Loading" loading />
         <Button title="Disabled" disabled />

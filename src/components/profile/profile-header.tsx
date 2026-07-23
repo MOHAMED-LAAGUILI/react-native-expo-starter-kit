@@ -16,7 +16,7 @@ function ProfileHeader({ gradientColor: _gradientColor, name: _name }: ProfileHe
 
   return (
     <View className="relative -mx-4 mb-2">
-      <View className="absolute inset-0 bg-primary" />
+      <View className="bg-primary absolute inset-0" />
 
       <View
         className="flex-row items-center px-6"

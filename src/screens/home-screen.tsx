@@ -35,7 +35,7 @@ function HomeScreen() {
     <ScrollView className="flex-1 bg-background" contentContainerClassName="p-6 gap-2">
 
       <Text variant="h2" className="mb-2">Component Demo</Text>
-      <Text variant="body" className="mb-2 text-muted-foreground">All UI components with available variants.</Text>
+      <Text variant="body" className="text-muted-foreground mb-2">All UI components with available variants.</Text>
 
       <SectionTitle>Card</SectionTitle>
       <CardsDemo />
