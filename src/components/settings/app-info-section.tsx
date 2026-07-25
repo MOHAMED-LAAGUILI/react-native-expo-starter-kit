@@ -24,7 +24,6 @@ function AppInfoSection() {
           <View className="flex-1">
             <Text variant="body">{ENV.EXPO_PUBLIC_NAME}</Text>
             <Text variant="caption" className="mt-0.5 text-muted-foreground">{t('app.version', { version: ENV.EXPO_PUBLIC_VERSION })}</Text>
-            <Text variant="caption" className="text-muted-foreground">{t('app.description')}</Text>
           </View>
         </View>
         <SettingRow

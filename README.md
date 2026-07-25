@@ -33,12 +33,13 @@
 </p>
 
 
-## Demo Android (Old Build)
+## Demo Android (Old Build Demo)
+**Wanna See Magic Star & Clone Repo**
 [Demo.mp4](https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7483079364788613120?compact=1)
 
 ## Latest APK File
-**available only for 13 Days to download starting from Jul 13, 2026 2:48 PM**
-[Download APK](https://expo.dev/accounts/sonowols-team/projects/rn-template/builds/b35eaad1-6e65-4288-872a-a96ddbfdbb65)
+**available only for 13 Days to download starting from Jul 23, 2026**
+[Download APK](https://expo.dev/accounts/zacvasbs-team/projects/rn-template/builds/fcb1c2f3-e330-4b8a-b6ad-78da1b3934dd)
 
 ## Quick Start
 ```bash
@@ -130,10 +131,12 @@ To run the app, use a development build instead:
 - **Charts** — Interactive donut and bar charts via `react-native-gifted-charts` for report screens
 - **Calendar** — Date picking via `react-native-calendars` with marked dates
 - **Video** — Cross-platform video player (`expo-video` on native, HTML `<video>` on web)
-- **WebView** — Embed web content via `react-native-webview`
 - **QR Code** — QR code generation via `react-native-qrcode-svg`
 - **Cross-platform** — iOS, Android, Web
 - **Expo Observe** — error tracking and performance monitoring via `expo-observe`
+- **Permissions** — centralized permission management for Notifications, Camera, and Location via `react-native-permissions`, `expo-notifications`, `expo-image-picker`, `expo-location`
+- **Settings Permissions Section** — "App Permissions" toggle rows with `Badge` status indicators + `Switch` controls in the settings screen
+- **Home Permission Cards** — demo cards on the home screen to trigger test notification, take a photo, and get GPS coordinates
 
 
 ## Project Structure
@@ -162,8 +165,6 @@ To run the app, use a development build instead:
 │       └── device-info.tsx
 ├── src/
 │   ├── api/                    # Axios client + TanStack Query hooks
-│   ├── style/
-│   │   └── global.css          # Tailwind v4 + Uniwind entry, oklch CSS vars (light/dark)
 │   ├── components/
 │   │   ├── common/             # LoadingScreen, ErrorFallback
 │   │   ├── drawer/             # DrawerHeaderLeft, AppDrawerContent, etc.
@@ -174,6 +175,7 @@ To run the app, use a development build instead:
 │   ├── data/                   # Mock data (report.ts)
 │   ├── hooks/                  # Shared hooks (useThemeColors, usePrimaryHex, useDebounce, useRefreshOnFocus)
 │   ├── i18n/                   # i18next + locales/{en,fr}
+│   ├── permissions/            # Permission hooks + utils (usePermissionsStatus, loadExpoLocation, etc.)
 │   ├── providers/              # QueryProvider, ThemeProvider, AuthProvider
 │   ├── screens/                # Screen components (HomeScreen, ReportScreen, etc.)
 │   ├── storage/                # MMKV wrapper (SSR-safe, lazy init)
@@ -188,6 +190,7 @@ To run the app, use a development build instead:
 ├── eslint.config.mjs           # eslint config
 ├── tsconfig.json
 ├── package.json
+├── global.css                  # Tailwind v4 + Uniwind entry, oklch CSS vars (light/dark)
 └── .eas/
     └── workflows/
         └── create-build-all.yml         # Eas Actions: auto-build apk
@@ -214,6 +217,7 @@ To run the app, use a development build instead:
 | i18n            | i18next 26 + react-i18next (EN/FR) 
 | UI Primitives   | @rn-primitives 1.5 (Portal, Slot, Dialog, etc.) 
 | Bottom Sheet    | @gorhom/bottom-sheet 5 
+| Permissions     | react-native-permissions (Notifications, Camera, Location) 
 | Icons           | lucide-react-native 
 | HTTP            | Axios (auth interceptor, refresh queue) 
 | Animation       | react-native-reanimated + gesture-handler 
@@ -224,7 +228,6 @@ To run the app, use a development build instead:
 | Charts          | react-native-gifted-charts (PieChart, BarChart)
 | Calendar        | react-native-calendars
 | Video           | expo-video (native) / HTML `<video>` (web)
-| WebView         | react-native-webview
 | QR Code         | react-native-qrcode-svg
 | Animation Extras| moti
 

@@ -1,12 +1,12 @@
-import { ActivityIndicator, Platform, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { Progress, Text } from '@/components/ui';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { isWeb } from '@/utils/platform';
 
 function ProgressDemo() {
   const primaryHex = usePrimaryHex();
   const { muted } = useThemeColors();
-  const isWeb = Platform.OS === 'web';
 
   return (
     <View className="gap-5 rounded-xl border border-border bg-card p-4">

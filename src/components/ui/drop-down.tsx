@@ -13,6 +13,7 @@ import {
 import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
 import { Icon } from '@/components/ui/icon';
 import { TextClassContext } from '@/components/ui/text';
+import { isIOS, isWeb } from '@/utils/platform';
 import { cn } from '@/utils/utils';
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
@@ -39,7 +40,7 @@ function DropdownMenuSubTrigger({
   inset?: boolean;
 }) {
   const { open } = DropdownMenuPrimitive.useSubContext();
-  const icon = Platform.OS === 'web' ? ChevronRight : open ? ChevronUp : ChevronDown;
+  const icon = isWeb ? ChevronRight : open ? ChevronUp : ChevronDown;
   return (
     <TextClassContext
       value={cn(
@@ -86,7 +87,7 @@ function DropdownMenuSubContent({
   );
 }
 
-const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment;
+const FullWindowOverlay = isIOS ? RNFullWindowOverlay : React.Fragment;
 
 function DropdownMenuContent({
   className,

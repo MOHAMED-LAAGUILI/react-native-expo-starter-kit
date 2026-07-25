@@ -1,9 +1,10 @@
 import type { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as React from 'react';
-import { Platform, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeStore } from '@/store/theme-store';
+import { isAndroid, isIOS } from '@/utils/platform';
 import { Text } from './text';
 
 type DateTimePickerMode = 'date' | 'time' | 'datetime';
@@ -33,7 +34,7 @@ function DateTimePickerField({ value, onChange, mode = 'date', label, display }:
   const themeMode = useThemeStore(s => s.mode);
 
   const handleChange = (_event: DateTimePickerEvent, selectedDate?: Date) => {
-    setShow(Platform.OS === 'ios');
+    setShow(isIOS);
     if (selectedDate) {
       onChange(selectedDate);
     }
@@ -56,7 +57,7 @@ function DateTimePickerField({ value, onChange, mode = 'date', label, display }:
           onChange={handleChange}
           accentColor={primaryHex}
           themeVariant={themeMode === 'system' ? undefined : themeMode}
-          {...(Platform.OS === 'android' && {
+          {...(isAndroid && {
             positiveButton: { label: 'OK', textColor: primaryHex },
           })}
         />

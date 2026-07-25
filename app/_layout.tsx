@@ -1,14 +1,20 @@
 import { Toasts } from '@backpackapp-io/react-native-toast';
-import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold } from '@expo-google-fonts/inter';
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from '@expo-google-fonts/inter';
 import { PortalHost } from '@rn-primitives/portal';
 import * as Font from 'expo-font';
 import { NavigationBar } from 'expo-navigation-bar';
-import { ObserveRoot } from 'expo-observe';
-import { Stack } from 'expo-router';
+import { ErrorBoundary as ExpoErrorBoundary, Stack } from 'expo-router';
+
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import { useEffect, useState } from 'react';
+
 import { AppProviders } from '@/components/layout/app-providers';
 import { StartupScreen } from '@/components/layout/startup-screen';
 import { setupI18n } from '@/i18n';
@@ -18,9 +24,8 @@ import {
   useThemeStore,
 } from '@/store';
 import { isAndroid } from '@/utils/platform';
-import '../global.css';
 
-export { ErrorBoundary } from 'expo-router';
+import '../global.css';
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -30,100 +35,84 @@ SplashScreen.setOptions({
 });
 
 function RootLayout() {
-  const [appReady, setAppReady] = useState(false);
-  const [loadingStep, setLoadingStep] = useState('Starting...');
-  const [startupError, setStartupError] = useState<Error | null>(null);
+  const [ready, setReady] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
   const themeMode = useThemeStore(s => s.mode);
-  const hydrateAuth = useAuthStore(s => s.hydrate);
-  const hydrateTheme = useThemeStore(s => s.hydrate);
-  const hydrateOnboarding = useOnboardingStore(s => s.hydrate);
 
   useEffect(() => {
     let mounted = true;
 
-    const initializeApp = async () => {
-      try {
-        setLoadingStep('Initializing application...');
-        await Promise.all([
-          Font.loadAsync({ Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold }),
-          setupI18n(),
-          Promise.resolve(hydrateAuth()),
-          Promise.resolve(hydrateTheme()),
-          Promise.resolve(hydrateOnboarding()),
-        ]);
-      }
-      catch (error) {
-        console.error('Startup Error:', error);
-
+    Promise.all([
+      Font.loadAsync({
+        Inter_400Regular,
+        Inter_500Medium,
+        Inter_600SemiBold,
+        Inter_700Bold,
+      }),
+      setupI18n(),
+      useAuthStore.getState().hydrate(),
+      useThemeStore.getState().hydrate(),
+      useOnboardingStore.getState().hydrate(),
+    ])
+      .catch((e) => {
+        console.error('Startup Error:', e);
+        if (mounted)
+          setError(e as Error);
+      })
+      .then(() => {
         if (mounted) {
-          setStartupError(error as Error);
+          setReady(true);
+          SplashScreen.hideAsync().catch(() => {});
         }
-      }
-
-      if (mounted) {
-        setAppReady(true);
-
-        try {
-          await SplashScreen.hideAsync();
-        }
-        catch (error) {
-          console.warn(error);
-        }
-      }
-    };
-
-    initializeApp();
+      });
 
     return () => {
       mounted = false;
     };
-  }, [hydrateAuth, hydrateTheme, hydrateOnboarding]);
+  }, []);
 
   useEffect(() => {
-    const bg = themeMode === 'dark' ? '#000000' : '#ffffff';
+    const isDark = themeMode === 'dark';
+    const bg = isDark ? '#000000' : '#ffffff';
 
-    SystemUI.setBackgroundColorAsync(bg).catch(console.warn);
-  }, [themeMode]);
+    SystemUI.setBackgroundColorAsync(bg).catch(() => {});
 
-  useEffect(() => {
     if (isAndroid) {
-      NavigationBar.setStyle(themeMode === 'dark' ? 'light' : 'dark');
+      NavigationBar.setStyle(isDark ? 'light' : 'dark');
     }
   }, [themeMode]);
 
+  if (!ready || error) {
+    return (
+      <StartupScreen
+        appReady={ready}
+        startupError={error}
+      />
+    );
+  }
+
   return (
     <AppProviders>
-      <StatusBar
-        animated
-        style="auto"
-        hidden={false}
+      <StatusBar animated style="auto" />
+
+      <Stack screenOptions={{ headerShown: false }} />
+
+      <Toasts
+        overrideDarkMode={themeMode === 'dark'}
+        globalAnimationType="spring"
+        globalAnimationConfig={{
+          dampingRatio: 0.7,
+          duration: 180,
+        }}
       />
 
-      {(!appReady || startupError)
-        ? (
-            <StartupScreen appReady={appReady} startupError={startupError} loadingStep={loadingStep} />
-          )
-        : (
-            <>
-              <Stack screenOptions={{ headerShown: false }} />
-
-              <Toasts
-                overrideDarkMode={themeMode === 'dark'}
-                globalAnimationType="spring"
-                globalAnimationConfig={{
-                  dampingRatio: 0.7,
-                  duration: 200,
-                  flingPositionReturnDuration: 200,
-                }}
-
-              />
-
-              <PortalHost />
-            </>
-          )}
+      <PortalHost />
     </AppProviders>
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export default ObserveRoot.wrap(RootLayout);
+// ✅ Attach instead of exporting (fixes Fast Refresh warning)
+(RootLayout as any).ErrorBoundary = ExpoErrorBoundary;
+
+export default RootLayout;

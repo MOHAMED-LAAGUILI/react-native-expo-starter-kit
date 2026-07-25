@@ -12,7 +12,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { isIOS } from '@/utils/platform';
 import { cn } from '@/utils/utils';
 import { Button } from './button';
 import { Icon } from './icon';
@@ -42,14 +41,6 @@ type ModalProps = {
   className?: string;
 };
 
-function hapticFeedback(style: 'Soft' | 'Light') {
-  if (!isIOS)
-    return;
-  import('expo-haptics').then(({ impactAsync, ImpactFeedbackStyle }) => {
-    impactAsync(ImpactFeedbackStyle[style]).catch(() => {});
-  }).catch(() => {});
-}
-
 function useModalEntry({ show, isBottomSheet }: { show: boolean; isBottomSheet: boolean }) {
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(300);
@@ -58,7 +49,6 @@ function useModalEntry({ show, isBottomSheet }: { show: boolean; isBottomSheet: 
   React.useEffect(() => {
     if (!show)
       return;
-    hapticFeedback('Soft');
     opacity.set(withTiming(1, { duration: BACKDROP_DURATION }));
     if (isBottomSheet) {
       translateY.set(withSpring(0, SPRING_CONFIG));
@@ -124,7 +114,6 @@ function Modal({ isVisible, onClose, variant = 'bottom-sheet', title, descriptio
   };
 
   const handleClose = () => {
-    hapticFeedback('Light');
     animateOut();
   };
 

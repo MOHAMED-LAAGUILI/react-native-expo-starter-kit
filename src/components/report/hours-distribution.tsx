@@ -1,6 +1,6 @@
 import React from 'react';
-import { Platform } from 'react-native';
 import { Chart } from '@/components/ui';
+import { isWeb } from '@/utils/platform';
 import { ProjectsAllocationList } from './projects-allocation-list';
 import { ReportSection } from './report-section';
 
@@ -25,7 +25,7 @@ export function HoursDistribution({
       label: project.project,
       color: project.color,
       // Slice labels overlap the donut's center summary on narrow native screens.
-      text: Platform.OS === 'web' ? `${percent}%` : undefined,
+      text: isWeb ? `${percent}%` : undefined,
       tooltipText: `${project.project}: ${project.hours} h`,
     };
   });

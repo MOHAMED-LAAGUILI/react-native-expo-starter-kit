@@ -20,7 +20,7 @@ function ProfileHeader({ gradientColor: _gradientColor, name: _name }: ProfileHe
 
       <View
         className="flex-row items-center px-6"
-        style={{ paddingTop: insets.top + 8, paddingBottom: 16 }}
+        style={{ paddingTop: insets.top + 6, paddingBottom: 16 }}
       >
         <View
           className={cn(

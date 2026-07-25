@@ -2,7 +2,7 @@ import type { ThemeMode } from '@/store';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
-import { AppearanceSection, AppInfoSection, LANGUAGE_OPTIONS, SettingsBottomSheets, SupportSection } from '@/components/settings';
+import { AppearanceSection, AppInfoSection, LANGUAGE_OPTIONS, PermissionSection, SettingsBottomSheets, SupportSection } from '@/components/settings';
 import { COLOR_PALETTES } from '@/config/color-palettes';
 import { useThemeStore } from '@/store';
 
@@ -35,8 +35,10 @@ function SettingsScreen() {
             onColorPress={() => setColorSheetOpen(true)}
             onLangPress={() => setLangSheetOpen(true)}
           />
+          <PermissionSection />
           <AppInfoSection />
           <SupportSection />
+
         </View>
       </ScrollView>
 

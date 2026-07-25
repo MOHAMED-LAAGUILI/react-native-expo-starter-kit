@@ -53,7 +53,7 @@ export default antfu(
       'react/no-inline-styles': 'off',
       'react/destructuring-assignment': 'off',
       'react/require-default-props': 'off',
-      'react-refresh/only-export-components': 'warn', // Too strict for React Native
+      'react-refresh/only-export-components': ['warn', { extraHOCs: ['ObserveRoot.wrap'] }],
       'unicorn/filename-case': [
         'error',
         {

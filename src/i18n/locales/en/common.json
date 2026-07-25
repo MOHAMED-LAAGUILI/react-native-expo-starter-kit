@@ -30,7 +30,8 @@
     "deviceInfo": "Device Info",
 
     "post": "Post",
-    "onboarding":"Onboarding"
+    "onboarding":"Onboarding",
+    "test": "Test"
 
   },
   "theme": {

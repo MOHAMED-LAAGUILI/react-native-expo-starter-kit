@@ -14,6 +14,7 @@ export { IconDemo } from './icon-demo';
 export { ImageCardDemo } from './image-card-demo';
 export { ImageDemo } from './image-demo';
 export { InputDemo } from './input-demo';
+export { PermissionCards } from './permission-cards';
 export { ProgressDemo } from './progress-demo';
 export { RadioGroupDemo } from './radio-group-demo';
 export { SliderDemo } from './slider-demo';

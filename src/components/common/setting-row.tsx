@@ -17,7 +17,7 @@ export function SettingRow({ icon: Icon, label, subtitle, rightElement, onPress 
 
   return (
     <Pressable
-      className={cn('flex-row items-center p-4 active:bg-accent')}
+      className={cn('flex-row items-center p-3 active:bg-accent')}
       onPress={onPress}
       disabled={!onPress}
     >

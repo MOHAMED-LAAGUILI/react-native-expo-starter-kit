@@ -1,25 +1,8 @@
 import type { ConfigContext, ExpoConfig } from '@expo/config';
-import type { AppIconBadgeConfig } from 'app-icon-badge/types';
 import { ENV } from './src/config/env.ts';
 
 import 'dotenv/config';
 import 'tsx/cjs';
-
-const appIconBadgeConfig: AppIconBadgeConfig = {
-  badges: [
-    {
-      color: 'white',
-      text: process.env.NODE_ENV,
-      type: 'banner',
-    },
-    {
-      color: 'white',
-      text: ENV.EXPO_PUBLIC_VERSION,
-      type: 'ribbon',
-    },
-  ],
-  enabled: process.env.NODE_ENV !== 'production',
-};
 
 const plugins: ExpoConfig['plugins'] = [
   'expo-system-ui',
@@ -48,7 +31,6 @@ const plugins: ExpoConfig['plugins'] = [
   ],
   'expo-localization',
   'expo-router',
-  ['app-icon-badge', appIconBadgeConfig],
   'expo-status-bar',
   ['react-native-edge-to-edge'],
   [
@@ -79,6 +61,24 @@ const plugins: ExpoConfig['plugins'] = [
       supportsPictureInPicture: true,
     },
   ],
+  [
+    'expo-notifications',
+    {
+      icon: './assets/images/icon.png',
+      color: '#ffffff',
+      defaultChannel: 'default',
+      sounds: [],
+      enableBackgroundRemoteNotifications: false,
+    },
+  ],
+  ['expo-image-picker'],
+  [
+    'expo-location',
+    {
+      locationAlwaysAndWhenInUsePermission: 'Allow $(PRODUCT_NAME) to use your location.',
+    },
+  ],
+
 ];
 
 export default ({ config }: ConfigContext): ExpoConfig => ({

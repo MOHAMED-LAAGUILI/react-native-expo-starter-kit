@@ -14,6 +14,7 @@ import {
   ImageDemo,
   InputDemo,
   MenuDemo,
+  PermissionCards,
   ProgressDemo,
   QRCodeDemo,
   RadioGroupDemo,
@@ -114,6 +115,9 @@ function HomeScreen() {
 
       <SectionTitle>QR Code</SectionTitle>
       <QRCodeDemo />
+
+      <SectionTitle>Permission Demos</SectionTitle>
+      <PermissionCards />
 
     </ScrollView>
   );

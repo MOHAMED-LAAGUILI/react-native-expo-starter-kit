@@ -2,6 +2,7 @@ import type { Href } from 'expo-router';
 import {
   BarChart3,
   Database,
+  FlaskConical,
   Home,
   Search,
   Settings,
@@ -87,6 +88,14 @@ const BASE_NAV_ITEMS: NavItem[] = [
     match: ['/dev-onboarding'],
     segment: 'dev-onboarding',
   },
+  {
+    href: '/(app)/dev-test' as Href,
+    icon: FlaskConical,
+    label: 'Test',
+    translationKey: 'navigation.test',
+    match: ['/dev-test'],
+    segment: 'dev-test',
+  },
 ];
 
 const DEV_NAV_ITEMS: NavItem[] = [
@@ -98,6 +107,7 @@ const DEV_NAV_ITEMS: NavItem[] = [
     match: ['/dev-preferences'],
     segment: 'dev-preferences',
   },
+
 ];
 
 // Final export

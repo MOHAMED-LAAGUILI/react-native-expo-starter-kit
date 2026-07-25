@@ -30,7 +30,8 @@
     "deviceInfo": "Info appareil",
 
     "post": "Article",
-    "onboarding":"Onboarding"
+    "onboarding":"Onboarding",
+    "test": "Test"
   },
   "theme": {
     "light": "Clair",

@@ -198,6 +198,7 @@ How: Essential Rules
 - URL polyfill (entry): `import 'react-native-url-polyfill/auto'`
 - Store selectors for perf: `useAuthStore((s) => s.isAuthenticated)`
 - Navigation config: `import { NAV_ITEMS, NAV_TITLE_MAP, NAV_TAB_ITEMS } from '@/config/navigation'`
+- Permission module: `import { usePermissionsStatus, checkAllPermissions } from '@/permissions'`
 
 ### TypeScript
 - Strict mode, TSX for components, `.ts` for utilities
@@ -233,7 +234,6 @@ How: Essential Rules
 | Charts          | react-native-gifted-charts (PieChart, BarChart)
 | Calendar        | react-native-calendars
 | Video           | expo-video (native) / HTML `<video>` (web)
-| WebView         | react-native-webview
 | QR Code         | react-native-qrcode-svg
 | Animation Extras| moti
        
@@ -267,6 +267,7 @@ app/
 ## File Organization
 ```
 src/
+├── permissions/       — Centralized permission hooks + utils (usePermissionsStatus, loadExpoNotifications, etc.)
 ├── api/              — Axios client, typed hooks (useLogin, usePosts, etc.)
 ├── components/
 │   ├── common/       — LoadingScreen, ErrorFallback, SettingRow, InfoRow, PostCard
@@ -350,12 +351,12 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `Calendar` — date picker built on `react-native-calendars` with marked dates
 - `DateTimePicker` — date/time field built on `@react-native-community/datetimepicker`
 - `VideoPlayer` — video player using `expo-video` (native) or `<video>` HTML element (web)
-- `WebViewWrapper` — webview wrapper using `react-native-webview`
 - `QRCodeView` — QR code generator using `react-native-qrcode-svg`
 - `Menu` — context/popup menu using `@react-native-menu/menu`
 - `TextArea` — multiline text input with character count
-- `MaskedViewWrapper` — masked view using `@react-native-community/masked-view`
 - `Moti` — animation components using `moti`
+- `PermissionSection` — settings section with toggle rows for Notification, Camera, Location permissions; uses `SettingGroup`/`SettingRow` pattern with `Badge` + `Switch` in right-element area
+- `PermissionCards` — home screen demo cards for permission usage: send test notification, take camera photo, get GPS coordinates
 
 ## Important Packages
 - `@gorhom/bottom-sheet` (v5) — native gesture-driven bottom sheet with snap points
@@ -368,7 +369,6 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `i18next` (v26) + `react-i18next` — i18n
 - `lucide-react-native` — icons
 - `axios` — HTTP client with interceptors
-- `expo-haptics` — haptic feedback
 - `expo-splash-screen` — splash screen lifecycle
 - `expo-system-ui` — system background color sync
 - `expo-status-bar` — status bar component
@@ -378,12 +378,10 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `react-native-edge-to-edge` — edge-to-edge display
 - `react-native-reanimated` + `react-native-gesture-handler` — animations + gestures
 - `expo-video` — video player
-- `react-native-webview` — webview component
 - `react-native-qrcode-svg` — QR code generation
 - `react-native-calendars` — calendar date picker
 - `react-native-gifted-charts` — chart library (PieChart, BarChart)
 - `@react-native-community/datetimepicker` — native date/time picker
-- `@react-native-community/masked-view` — text masking
 - `@react-native-menu/menu` — context/popup menu
 - `moti` — animation primitives
 
