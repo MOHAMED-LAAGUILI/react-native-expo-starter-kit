@@ -1,8 +1,8 @@
 import packageJson from '../../package.json' with { type: 'json' };
 
 const ExpoEnv = {
-  EAS_PROJECT_ID: 'f694ab33-a127-4d40-849a-25cc77a37ef1',
-  EXPO_ACCOUNT_OWNER: 'zacvasbs-team',
+  EAS_PROJECT_ID: '9acc1e55-38a1-49b7-9b81-7071a4635ebf',
+  EXPO_ACCOUNT_OWNER: 'jeniys-team',
   EXPO_PUBLIC_BUNDLE_ID: 'com.rntemplate.app',
   EXPO_PUBLIC_NAME: `Expo App`,
   EXPO_PUBLIC_PACKAGE: 'com.rntemplate.app',
