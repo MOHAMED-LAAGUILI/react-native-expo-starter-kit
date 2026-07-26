@@ -29,5 +29,5 @@ When using this starter kit:
 - Never commit API keys, secrets, or tokens to version control
 - Use environment variables for sensitive configuration
 - Enable code signing for production builds
-- Keep dependencies updated (`bun run deps:fix`)
-- Run `bun run checks` to check for known vulnerabilities
+- Keep dependencies updated (`pnpm run deps:fix`)
+- Run `pnpm run checks` to check for known vulnerabilities

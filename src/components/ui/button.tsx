@@ -1,13 +1,14 @@
 import type { LucideIcon } from 'lucide-react-native';
 import type { PressableProps } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import * as React from 'react';
-import { ActivityIndicator, Pressable, Text } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
 import { cn } from '@/utils/utils';
 import { Icon } from './icon';
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success';
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'primary-gradient';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 type ButtonProps = {
@@ -22,10 +23,60 @@ type ButtonProps = {
 } & PressableProps;
 
 const SHADOW_COLORS: Record<string, string | undefined> = {
-  primary: undefined, // set dynamically via primaryHex
-  destructive: '#ef4444',
-  success: '#16a34a',
+  'primary': undefined,
+  'primary-gradient': undefined,
+  'destructive': '#ef4444',
+  'success': '#16a34a',
 };
+
+const BG_CLASS: Record<string, string> = {
+  'primary': 'bg-primary active:bg-primary/90',
+  'primary-gradient': 'bg-transparent',
+  'secondary': 'bg-primary/10 active:bg-primary/20',
+  'outline': 'border border-primary bg-background active:bg-primary/10',
+  'ghost': 'active:bg-accent',
+  'destructive': 'bg-destructive active:bg-destructive/90',
+  'success': 'bg-green-600 active:bg-green-700',
+};
+
+const TEXT_CLASS: Record<string, string> = {
+  'primary': 'text-white!',
+  'primary-gradient': 'text-white',
+  'secondary': 'text-primary',
+  'outline': 'text-primary',
+  'ghost': 'text-foreground',
+  'destructive': 'text-destructive-foreground',
+  'success': 'text-white',
+};
+
+const ICON_CLASS: Record<string, string> = {
+  'primary': 'text-primary-foreground',
+  'primary-gradient': 'text-white',
+  'secondary': 'text-primary',
+  'outline': 'text-primary',
+  'ghost': 'text-foreground',
+  'destructive': 'text-destructive-foreground',
+  'success': 'text-white',
+};
+
+function GradientBackground({
+  variant,
+  primaryHex,
+}: {
+  variant: string;
+  primaryHex: string;
+}) {
+  if (variant !== 'primary-gradient')
+    return null;
+  return (
+    <LinearGradient
+      colors={[primaryHex, `${primaryHex}CC`]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={[StyleSheet.absoluteFill, { borderRadius: 8 }]}
+    />
+  );
+}
 
 function Button({
   variant = 'primary',
@@ -44,7 +95,9 @@ function Button({
   const primaryHex = usePrimaryHex();
   const { isDark } = useThemeColors();
 
-  const shadowColor = variant === 'primary' ? primaryHex : SHADOW_COLORS[variant];
+  const isLightStyle = variant === 'primary' || variant === 'primary-gradient' || variant === 'destructive' || variant === 'success';
+
+  const shadowColor = variant === 'primary' || variant === 'primary-gradient' ? primaryHex : SHADOW_COLORS[variant];
 
   const shadowStyle = !disabled && shadowColor
     ? {
@@ -56,7 +109,7 @@ function Button({
       }
     : undefined;
 
-  const iconColor = variant === 'primary' || variant === 'destructive' || variant === 'success'
+  const iconColor = isLightStyle
     ? '#fff'
     : variant === 'secondary' || variant === 'outline'
       ? primaryHex
@@ -67,13 +120,11 @@ function Button({
   const iconClassName = cn(
     size === 'sm' && 'size-4',
     size !== 'sm' && 'size-5',
-    variant === 'primary' && 'text-primary-foreground',
-    variant === 'secondary' && 'text-primary',
-    variant === 'outline' && 'text-primary',
-    variant === 'ghost' && 'text-foreground',
-    variant === 'destructive' && 'text-destructive-foreground',
-    variant === 'success' && 'text-white',
+    ICON_CLASS[variant],
   );
+
+  const bgClass = BG_CLASS[variant];
+  const textClass = TEXT_CLASS[variant];
 
   return (
     <Pressable
@@ -82,12 +133,7 @@ function Button({
         size === 'sm' && 'h-9 px-3',
         size === 'md' && 'h-11 px-6',
         size === 'lg' && 'h-12 px-8',
-        variant === 'primary' && 'bg-primary active:bg-primary/90',
-        variant === 'secondary' && 'bg-primary/10 active:bg-primary/20',
-        variant === 'outline' && 'border border-primary bg-background active:bg-primary/10',
-        variant === 'ghost' && 'active:bg-accent',
-        variant === 'destructive' && 'bg-destructive active:bg-destructive/90',
-        variant === 'success' && 'bg-green-600 active:bg-green-700',
+        bgClass,
         disabled && 'opacity-50',
         pressed && !disabled && 'opacity-80',
         className,
@@ -98,11 +144,12 @@ function Button({
       disabled={disabled || loading}
       {...props}
     >
+      <GradientBackground {...{ variant, primaryHex }} />
       {loading
         ? (
             <ActivityIndicator
               size="small"
-              color={variant === 'primary' || variant === 'destructive' || variant === 'success' ? '#ffffff' : undefined}
+              color={isLightStyle ? '#ffffff' : undefined}
             />
           )
         : (
@@ -113,12 +160,7 @@ function Button({
               <Text
                 className={cn(
                   'font-semibold',
-                  variant === 'primary' && 'text-white!',
-                  variant === 'secondary' && 'text-primary',
-                  variant === 'outline' && 'text-primary',
-                  variant === 'ghost' && 'text-foreground',
-                  variant === 'destructive' && 'text-destructive-foreground',
-                  variant === 'success' && 'text-white',
+                  textClass,
                   size === 'sm' && 'text-sm',
                   size === 'md' && 'text-base',
                   size === 'lg' && 'text-lg',

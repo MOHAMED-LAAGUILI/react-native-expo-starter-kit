@@ -9,7 +9,7 @@ import { isWeb } from '@/utils/platform';
 
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
-    <GestureHandlerRootView className="flex-1">
+    <GestureHandlerRootView className="flex-1 bg-background">
       <SafeAreaProvider>
         <HeaderButtonsProvider stackType={isWeb ? 'js' : 'native'}>
           <QueryProvider>

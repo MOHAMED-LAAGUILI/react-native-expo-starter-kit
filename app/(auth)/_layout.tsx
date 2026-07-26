@@ -1,5 +1,6 @@
 import { Stack, useRouter } from 'expo-router';
 import { useEffect } from 'react';
+import { View } from 'react-native';
 import { useAuthStore, useOnboardingStore } from '@/store';
 
 export default function AuthLayout() {
@@ -18,6 +19,10 @@ export default function AuthLayout() {
       router.replace('/onboarding');
     }
   }, [isAuthenticated, isOnboarded, router]);
+
+  if (isAuthenticated) {
+    return <View className="flex-1 bg-background" />;
+  }
 
   return (
     <Stack screenOptions={{ headerShown: false }}>

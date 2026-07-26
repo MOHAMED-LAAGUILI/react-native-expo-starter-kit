@@ -7,8 +7,8 @@ Thank you for considering contributing! Here's how to get started.
 ```bash
 git clone https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit.git
 cd react-native-starter-kit
-bun install
-bun dev
+pnpm install
+pnpm dev
 ```
 
 ## Commit Convention
@@ -57,7 +57,7 @@ docs: changes in md files
 
 
 ## perfect score 
-Use `bun run checks` to verify everything lint/format/checks/doctor
+Use `pnpm run checks` to verify everything lint/format/checks/doctor
 <img width="592" height="759" alt="image" src="https://github.com/user-attachments/assets/f93166a4-f0d4-4fe6-8968-0de1785fd96d" />
 
 

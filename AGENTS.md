@@ -18,52 +18,52 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 
 | Script                                   | Purpose 
 |------------------------------------------|--------------------------------------------
-| `bun dev`                                | Start Expo dev server (fresh cache)
-| `bun run ios`                            | Dev server targeting iOS
-| `bun run android`                        | Dev server targeting Android
-| `bun run web`                            | Dev server targeting Web
-| `bun run clean:app`                      | Clean bun cache, node_modules, native builds, and lockfile
-| `bun run mac:ios`                        | Install pods for iOS
-| `bun run deps:fix`                       | Fix dependency versions via Expo
-| `bun run lint:fix`                       | Run ESLint with auto-fix on all source files
-| `bun run type:check`                     | Run TypeScript type checking (no emit)
-| `bun run doctor`                         | Run Expo doctor diagnostics & React Doctor
-| `bun run checks`                         | Run all checks (deps:fix → lint:fix → type:check → doctor)
-| `bun run expo:config`                    | Print public Expo config
-| `bun run generate:apk`                   | Build Android APK and install via ADB
-| `bun run prebuild`                       | Prebuild native project (all platforms)
-| `bun run prebuild:dev`                   | Prebuild native project (development env)
-| `bun run prebuild:prev`                  | Prebuild native project (preview env)
-| `bun run prebuild:prod`                  | Prebuild native project (production env)
-| `bun run prebuild:generate`              | Prebuild native project & generate APK
-| `bun run android:dev`                    | Android dev server (development env)
-| `bun run ios:dev`                        | iOS dev server (development env)
-| `bun run android:prev`                   | Android dev server (preview env)
-| `bun run ios:prev`                       | iOS dev server (preview env)
-| `bun run android:prod`                   | Android dev server (production env)
-| `bun run ios:prod`                       | iOS dev server (production env)
-| `bun run eas:in`                         | EAS login
-| `bun run eas:out`                        | EAS logout
-| `bun run eas:id`                         | EAS reveal connected account
-| `bun run build:dev:ios`                  | Build development iOS (EAS)
-| `bun run build:dev:android`              | Build development Android (EAS)
-| `bun run build:prev:ios`                 | Build preview iOS (EAS)
-| `bun run build:prev:android`             | Build preview Android (EAS)
-| `bun run build:prod:ios`                 | Build production iOS (EAS)
-| `bun run build:prod:android`             | Build production Android (EAS)
-| `bun run flow:build-ios:main`            | Trigger EAS workflow to build iOS from github branch named main
-| `bun run flow:build-android:main`        | Trigger EAS workflow to build Android from github branch named main
-| `bun run submit:android`                 | Submit Android build to Play Store
-| `bun run submit:ios`                     | Submit iOS build to App Store
-| `bun run eas:update:config`              | Configure EAS Update for the project
-| `bun run eas:update:prod`                | Push OTA update to production channel
-| `bun run export:web`                     | Export web build locally static files
-| `bun run deploy:web`                     | Deploy web build to production
+| `pnpm dev`                                | Start Expo dev server (fresh cache)
+| `pnpm run ios`                            | Dev server targeting iOS
+| `pnpm run android`                        | Dev server targeting Android
+| `pnpm run web`                            | Dev server targeting Web
+| `pnpm run clean:app`                      | Clean pnpm cache, node_modules, native builds, and lockfile
+| `pnpm run mac:ios`                        | Install pods for iOS
+| `pnpm run deps:fix`                       | Fix dependency versions via Expo
+| `pnpm run lint:fix`                       | Run ESLint with auto-fix on all source files
+| `pnpm run type:check`                     | Run TypeScript type checking (no emit)
+| `pnpm run doctor`                         | Run Expo doctor diagnostics & React Doctor
+| `pnpm run checks`                         | Run all checks (deps:fix → lint:fix → type:check → doctor)
+| `pnpm run expo:config`                    | Print public Expo config
+| `pnpm run generate:apk`                   | Build Android APK and install via ADB
+| `pnpm run prebuild`                       | Prebuild native project (all platforms)
+| `pnpm run prebuild:dev`                   | Prebuild native project (development env)
+| `pnpm run prebuild:prev`                  | Prebuild native project (preview env)
+| `pnpm run prebuild:prod`                  | Prebuild native project (production env)
+| `pnpm run prebuild:generate`              | Prebuild native project & generate APK
+| `pnpm run android:dev`                    | Android dev server (development env)
+| `pnpm run ios:dev`                        | iOS dev server (development env)
+| `pnpm run android:prev`                   | Android dev server (preview env)
+| `pnpm run ios:prev`                       | iOS dev server (preview env)
+| `pnpm run android:prod`                   | Android dev server (production env)
+| `pnpm run ios:prod`                       | iOS dev server (production env)
+| `pnpm run eas:in`                         | EAS login
+| `pnpm run eas:out`                        | EAS logout
+| `pnpm run eas:id`                         | EAS reveal connected account
+| `pnpm run build:dev:ios`                  | Build development iOS (EAS)
+| `pnpm run build:dev:android`              | Build development Android (EAS)
+| `pnpm run build:prev:ios`                 | Build preview iOS (EAS)
+| `pnpm run build:prev:android`             | Build preview Android (EAS)
+| `pnpm run build:prod:ios`                 | Build production iOS (EAS)
+| `pnpm run build:prod:android`             | Build production Android (EAS)
+| `pnpm run flow:build-ios:main`            | Trigger EAS workflow to build iOS from github branch named main
+| `pnpm run flow:build-android:main`        | Trigger EAS workflow to build Android from github branch named main
+| `pnpm run submit:android`                 | Submit Android build to Play Store
+| `pnpm run submit:ios`                     | Submit iOS build to App Store
+| `pnpm run eas:update:config`              | Configure EAS Update for the project
+| `pnpm run eas:update:prod`                | Push OTA update to production channel
+| `pnpm run export:web`                     | Export web build locally static files
+| `pnpm run deploy:web`                     | Deploy web build to production
 
 ### Git Hooks (Husky)
 - **`pre-commit`**: runs `deps:fix` → `lint:fix` → `type:check` → `doctor`; blocks on failure
 - **`commit-msg`**: validates format `type(scope?): description` (types: `feat`, `fix`, `update`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`, `improve`)
-- Auto-installs via `prepare` script after `bun install`
+- Auto-installs via `prepare` script after `pnpm install`
 
 ### Commit Message Format
 
@@ -80,19 +80,19 @@ Examples:
 ### EAS Lifecycle
 
 **First Release (App Store / Play Store):**
-1. `bun run checks` — verify everything passes
+1. `pnpm run checks` — verify everything passes
 2. `git push` — push code to github
-3. `bun run flow:build-ios:main` / `bun run flow:build-android:main` — trigger EAS workflow build
-4. `bun run submit:ios` / `bun run submit:android` — submit build to stores
+3. `pnpm run flow:build-ios:main` / `pnpm run flow:build-android:main` — trigger EAS workflow build
+4. `pnpm run submit:ios` / `pnpm run submit:android` — submit build to stores
 
 **Subsequent Updates (OTA — no resubmission):**
-1. `bun run checks` → `git push`
-2. `bun run flow:build-ios:main` / `bun run flow:build-android:main`
-3. `bun run eas:update:prod` — push OTA update
+1. `pnpm run checks` → `git push`
+2. `pnpm run flow:build-ios:main` / `pnpm run flow:build-android:main`
+3. `pnpm run eas:update:prod` — push OTA update
 
 **Preview / Testing:**
-1. `bun run flow:build-ios:prev` / `bun run flow:build-android:prev`
-2. `bun run eas:update:prev` — push OTA update to preview channel
+1. `pnpm run flow:build-ios:prev` / `pnpm run flow:build-android:prev`
+2. `pnpm run eas:update:prev` — push OTA update to preview channel
 
 ### EAS Build Profiles
 | Profile       | Distribution  | Channel     | Use Case 
@@ -139,7 +139,7 @@ How: Essential Rules
 
 ### Build & Config
 - ✅ DO set `process.env.EXPO_ROUTER_APP_ROOT = './app'` and `EXPO_ROUTER_IMPORT_MODE = 'sync'` at the top of `metro.config.js`
-- ✅ DO use `bun` for package management (no `package-lock.json` or `yarn.lock`)
+- ✅ DO use `pnpm` for package management (no `package-lock.json` or `yarn.lock`)
 - ❌ DO NOT edit `expo-env.d.ts` or `.expo/types/` — they are auto-generated
 
 ### Relaxed Rules (allowed by config)
@@ -390,8 +390,8 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `expo-env.d.ts` and `.expo/types/` are auto-generated — do not edit
 - `src/types/uniwind.d.ts` patches TypeScript 6 compatibility with uniwind types
 - `app.config.ts` inlines all env values (no separate env.ts loaded during config resolution to avoid Node ESM `.ts` issues)
-- Use `bun` for package management only — don't add `package-lock.json` or `yarn.lock`
-- MMKV storage is lazily initialized with try/catch to prevent SSR crashes during Metro bundling
+- Use `pnpm` for package management only — don't add `package-lock.json` or `yarn.lock`
+- MMKV storage is lazily initialized with try/catch to prevent SSR crashes during Metro pnpmdling
 - `ActivityIndicator` in Uniwind doesn't support `className` color — use native `color` prop with hex fallback
 
 ## CI/CD
@@ -407,7 +407,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `autoIncrement: true` on `preview` and `production` — EAS auto-bumps build numbers
 - `appVersionSource: "remote"` — version numbers managed by EAS
 - Environment variables set per-profile via `env` in `eas.json`
-- Build commands: `bun run build:preview:ios`, `bun run build:production:android`, etc.
+- Build commands: `pnpm run build:preview:ios`, `pnpm run build:production:android`, etc.
 
 ### GitHub Actions Release (`.github/workflows/release.yml`)
 - Triggers on **push to `main`**

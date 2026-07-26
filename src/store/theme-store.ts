@@ -35,16 +35,10 @@ function loadPrimaryColor(): string {
 
 export const useThemeStore = create<ThemeState>(set => ({
   hydrate: () => {
-    try {
-      const mode = loadMode();
-      set({ mode });
-      const color = loadPrimaryColor();
-      set({ primaryColor: color });
-    }
-    catch {}
+    set({ mode: loadMode(), primaryColor: loadPrimaryColor() });
   },
-  mode: loadMode(),
-  primaryColor: loadPrimaryColor(),
+  mode: 'system',
+  primaryColor: 'blue',
 
   setMode: (mode: ThemeMode) => {
     StorageService.theme.setItem(STORAGE_KEYS.THEME_MODE, mode);

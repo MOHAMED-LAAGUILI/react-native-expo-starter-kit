@@ -8,15 +8,15 @@ import {
 import { PortalHost } from '@rn-primitives/portal';
 import * as Font from 'expo-font';
 import { NavigationBar } from 'expo-navigation-bar';
-import { ErrorBoundary as ExpoErrorBoundary, Stack } from 'expo-router';
-
+import { ErrorBoundary as ExpoErrorBoundary, Stack, useRootNavigationState } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 
 import { AppProviders } from '@/components/layout/app-providers';
-import { StartupScreen } from '@/components/layout/startup-screen';
+import { Text } from '@/components/ui';
 import { setupI18n } from '@/i18n';
 import {
   useAuthStore,
@@ -27,22 +27,17 @@ import { isAndroid } from '@/utils/platform';
 
 import '../global.css';
 
-void SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync();
 
-SplashScreen.setOptions({
-  fade: true,
-  duration: 500,
-});
-
-function RootLayout() {
-  const [ready, setReady] = useState(false);
+export default function RootLayout() {
+  const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const navigationState = useRootNavigationState();
+  const navigationReady = navigationState?.key !== undefined;
 
   const themeMode = useThemeStore(s => s.mode);
 
   useEffect(() => {
-    let mounted = true;
-
     Promise.all([
       Font.loadAsync({
         Inter_400Regular,
@@ -57,20 +52,18 @@ function RootLayout() {
     ])
       .catch((e) => {
         console.error('Startup Error:', e);
-        if (mounted)
-          setError(e as Error);
+        setError(e as Error);
       })
-      .then(() => {
-        if (mounted) {
-          setReady(true);
-          SplashScreen.hideAsync().catch(() => {});
-        }
+      .finally(() => {
+        setIsReady(true);
       });
-
-    return () => {
-      mounted = false;
-    };
   }, []);
+
+  useEffect(() => {
+    if (isReady && navigationReady) {
+      SplashScreen.hideAsync();
+    }
+  }, [isReady, navigationReady]);
 
   useEffect(() => {
     const isDark = themeMode === 'dark';
@@ -83,12 +76,20 @@ function RootLayout() {
     }
   }, [themeMode]);
 
-  if (!ready || error) {
+  if (!isReady) {
+    return null;
+  }
+
+  if (error) {
     return (
-      <StartupScreen
-        appReady={ready}
-        startupError={error}
-      />
+      <AppProviders>
+        <View className="flex-1 items-center justify-center bg-background p-8">
+          <Text variant="h3" className="text-destructive">Startup Error</Text>
+          <Text variant="body" className="mt-2 text-center text-muted-foreground">
+            {error.message}
+          </Text>
+        </View>
+      </AppProviders>
     );
   }
 
@@ -112,7 +113,4 @@ function RootLayout() {
   );
 }
 
-// ✅ Attach instead of exporting (fixes Fast Refresh warning)
 (RootLayout as any).ErrorBoundary = ExpoErrorBoundary;
-
-export default RootLayout;

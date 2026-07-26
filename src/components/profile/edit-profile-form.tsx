@@ -20,35 +20,46 @@ export function EditProfileForm({ onCancel }: EditProfileFormProps) {
   const user = useAuthStore(s => s.user);
   const updateProfile = useAuthStore(s => s.updateProfile);
 
-  const [name, setName] = React.useState(user?.name ?? '');
-  const [email, setEmail] = React.useState(user?.email ?? '');
-  const [role, setRole] = React.useState(user?.role || 'Administrator');
+  const initialName = user?.name ?? '';
+  const initialEmail = user?.email ?? '';
+  const initialRole = user?.role ?? 'Administrator';
+
+  const [name, setName] = React.useState(initialName);
+  const [email, setEmail] = React.useState(initialEmail);
+  const [role, setRole] = React.useState(initialRole);
   const [errors, setErrors] = React.useState<FieldErrors>({});
 
-  const clearError = (field: keyof FieldErrors) => {
-    setErrors(prev => ({ ...prev, [field]: undefined }));
+  const isDirty = name !== initialName || email !== initialEmail || role !== initialRole;
+  const hasErrors = !!errors.name || !!errors.email || !!errors.role;
+
+  const validateField = (field: keyof FieldErrors, value: string) => {
+    const fieldSchema = editProfileSchema.shape[field];
+    const result = fieldSchema.safeParse(value.trim() || value);
+    if (!result.success) {
+      setErrors(prev => ({ ...prev, [field]: result.error.issues[0]?.message }));
+    }
+    else {
+      setErrors(prev => ({ ...prev, [field]: undefined }));
+    }
   };
 
   const handleNameChange = (v: string) => {
     setName(v);
-    clearError('name');
+    validateField('name', v);
   };
   const handleEmailChange = (v: string) => {
     setEmail(v);
-    clearError('email');
+    validateField('email', v);
   };
   const handleRoleChange = (v: string) => {
     setRole(v);
-    clearError('role');
+    validateField('role', v);
   };
 
   const handleSave = () => {
-    const result = editProfileSchema.safeParse({
-      email: email.trim(),
-      name: name.trim(),
-      role: role.trim(),
-    });
+    const trimmed = { email: email.trim(), name: name.trim(), role: role.trim() };
 
+    const result = editProfileSchema.safeParse(trimmed);
     if (!result.success) {
       const fieldErrors: FieldErrors = {};
       for (const issue of result.error.issues) {
@@ -101,6 +112,7 @@ export function EditProfileForm({ onCancel }: EditProfileFormProps) {
           variant="primary"
           title="Save Changes"
           onPress={handleSave}
+          disabled={!isDirty || hasErrors}
           className="flex-1"
         />
       </View>

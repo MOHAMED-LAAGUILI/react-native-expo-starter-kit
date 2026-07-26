@@ -45,8 +45,8 @@
 ```bash
 git clone https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit.git my-react-native-app
 cd my-react-native-app
-bun install
-bun dev
+pnpm install
+pnpm dev
 ```
 
 Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](https://expo.dev/go).
@@ -66,47 +66,47 @@ To run the app, use a development build instead:
 
 | Script                                   | Purpose 
 |------------------------------------------|--------------------------------------------
-| `bun dev`                                | Start Expo dev server (fresh cache)
-| `bun run ios`                            | Dev server targeting iOS
-| `bun run android`                        | Dev server targeting Android
-| `bun run web`                            | Dev server targeting Web
-| `bun run clean:app`                      | Clean bun cache, node_modules, native builds, and lockfile
-| `bun run mac:ios`                        | Install pods for iOS
-| `bun run deps:fix`                       | Fix dependency versions via Expo
-| `bun run lint:fix`                       | Run ESLint with auto-fix on all source files
-| `bun run type:check`                     | Run TypeScript type checking (no emit)
-| `bun run doctor`                         | Run Expo doctor diagnostics & React Doctor
-| `bun run checks`                         | Run all checks (deps:fix → lint:fix → type:check → doctor)
-| `bun run expo:config`                    | Print public Expo config
-| `bun run generate:apk`                   | Build Android APK and install via ADB
-| `bun run prebuild`                       | Prebuild native project (all platforms)
-| `bun run prebuild:dev`                   | Prebuild native project (development env)
-| `bun run prebuild:prev`                  | Prebuild native project (preview env)
-| `bun run prebuild:prod`                  | Prebuild native project (production env)
-| `bun run prebuild:generate`              | Prebuild native project & generate APK
-| `bun run android:dev`                    | Android dev server (development env)
-| `bun run ios:dev`                        | iOS dev server (development env)
-| `bun run android:prev`                   | Android dev server (preview env)
-| `bun run ios:prev`                       | iOS dev server (preview env)
-| `bun run android:prod`                   | Android dev server (production env)
-| `bun run ios:prod`                       | iOS dev server (production env)
-| `bun run eas:in`                         | EAS login
-| `bun run eas:out`                        | EAS logout
-| `bun run eas:id`                         | EAS reveal connected account
-| `bun run build:dev:ios`                  | Build development iOS (EAS)
-| `bun run build:dev:android`              | Build development Android (EAS)
-| `bun run build:prev:ios`                 | Build preview iOS (EAS)
-| `bun run build:prev:android`             | Build preview Android (EAS)
-| `bun run build:prod:ios`                 | Build production iOS (EAS)
-| `bun run build:prod:android`             | Build production Android (EAS)
-| `bun run flow:build-ios:main`            | Trigger EAS workflow to build iOS from github branch named main
-| `bun run flow:build-android:main`        | Trigger EAS workflow to build Android from github branch named main
-| `bun run submit:android`                 | Submit Android build to Play Store
-| `bun run submit:ios`                     | Submit iOS build to App Store
-| `bun run eas:update:config`              | Configure EAS Update for the project
-| `bun run eas:update:prod`                | Push OTA update to production channel
-| `bun run export:web`                     | Export web build locally static files
-| `bun run deploy:web`                     | Deploy web build to production
+| `pnpm dev`                                | Start Expo dev server (fresh cache)
+| `pnpm run ios`                            | Dev server targeting iOS
+| `pnpm run android`                        | Dev server targeting Android
+| `pnpm run web`                            | Dev server targeting Web
+| `pnpm run clean:app`                      | Clean pnpm cache, node_modules, native builds, and lockfile
+| `pnpm run mac:ios`                        | Install pods for iOS
+| `pnpm run deps:fix`                       | Fix dependency versions via Expo
+| `pnpm run lint:fix`                       | Run ESLint with auto-fix on all source files
+| `pnpm run type:check`                     | Run TypeScript type checking (no emit)
+| `pnpm run doctor`                         | Run Expo doctor diagnostics & React Doctor
+| `pnpm run checks`                         | Run all checks (deps:fix → lint:fix → type:check → doctor)
+| `pnpm run expo:config`                    | Print public Expo config
+| `pnpm run generate:apk`                   | Build Android APK and install via ADB
+| `pnpm run prebuild`                       | Prebuild native project (all platforms)
+| `pnpm run prebuild:dev`                   | Prebuild native project (development env)
+| `pnpm run prebuild:prev`                  | Prebuild native project (preview env)
+| `pnpm run prebuild:prod`                  | Prebuild native project (production env)
+| `pnpm run prebuild:generate`              | Prebuild native project & generate APK
+| `pnpm run android:dev`                    | Android dev server (development env)
+| `pnpm run ios:dev`                        | iOS dev server (development env)
+| `pnpm run android:prev`                   | Android dev server (preview env)
+| `pnpm run ios:prev`                       | iOS dev server (preview env)
+| `pnpm run android:prod`                   | Android dev server (production env)
+| `pnpm run ios:prod`                       | iOS dev server (production env)
+| `pnpm run eas:in`                         | EAS login
+| `pnpm run eas:out`                        | EAS logout
+| `pnpm run eas:id`                         | EAS reveal connected account
+| `pnpm run build:dev:ios`                  | Build development iOS (EAS)
+| `pnpm run build:dev:android`              | Build development Android (EAS)
+| `pnpm run build:prev:ios`                 | Build preview iOS (EAS)
+| `pnpm run build:prev:android`             | Build preview Android (EAS)
+| `pnpm run build:prod:ios`                 | Build production iOS (EAS)
+| `pnpm run build:prod:android`             | Build production Android (EAS)
+| `pnpm run flow:build-ios:main`            | Trigger EAS workflow to build iOS from github branch named main
+| `pnpm run flow:build-android:main`        | Trigger EAS workflow to build Android from github branch named main
+| `pnpm run submit:android`                 | Submit Android build to Play Store
+| `pnpm run submit:ios`                     | Submit iOS build to App Store
+| `pnpm run eas:update:config`              | Configure EAS Update for the project
+| `pnpm run eas:update:prod`                | Push OTA update to production channel
+| `pnpm run export:web`                     | Export web build locally static files
+| `pnpm run deploy:web`                     | Deploy web build to production
 
 
 ## Features
@@ -257,10 +257,10 @@ This project uses [Context7](https://ctx7.ai) to provide AI coding agents with u
 
 ```bash
 # 1. Development 
-bun dev
+pnpm dev
 
 # 2. Run checks before committing 
-bun run checks
+pnpm run checks
 ```
 ### Perfect Score
 [![React Doctor](https://www.react.doctor/share/badge?p=react-native-expo-starter-kit&s=100&w=0&f=0)](https://www.react.doctor/share?p=react-native-expo-starter-kit&s=100&w=0&f=0)
@@ -274,10 +274,10 @@ bun run checks
 git push
 
 # Login to EAS (one-time)
-bun run eas:in
+pnpm run eas:in
 
 # Logout (optional, e.g. switch accounts)
-bun run eas:out
+pnpm run eas:out
 ```
 
 ## Build Options
@@ -287,8 +287,8 @@ bun run eas:out
 Build directly from your local code. No need to push to GitHub.
 
 ```bash
-bun run build:prev:android
-bun run build:prev:ios
+pnpm run build:prev:android
+pnpm run build:prev:ios
 ```
 
 ### Option 2 — Build from `main`
@@ -298,8 +298,8 @@ Build using the latest code on the `main` branch via the EAS workflow.
 > Requires pushing your changes first.
 
 ```bash
-bun run flow:build-android:main
-bun run flow:build-ios:main
+pnpm run flow:build-android:main
+pnpm run flow:build-ios:main
 ```
 
 ### Option 3 — Automatic CI/CD
@@ -323,7 +323,7 @@ After connecting your GitHub repository, you can manage builds, updates, and dep
 Publish JavaScript/asset updates without submitting a new app version.
 
 ```bash
-bun run eas:update:prod
+pnpm run eas:update:prod
 ```
 
 ## Store Submission (First Time Only)
@@ -331,8 +331,8 @@ bun run eas:update:prod
 Only needed after configuring your App Store Connect / Google Play accounts.
 
 ```bash
-bun run submit:ios
-bun run submit:android
+pnpm run submit:ios
+pnpm run submit:android
 ```
 
 ## Deploy / Build / Test / Monitor / Updates ...

@@ -35,18 +35,15 @@ function loadUser(): User | null {
   }
 }
 
-const initialTokens = loadTokens();
-const initialUser = loadUser();
-
 export const useAuthStore = create<AuthState>(set => ({
   hydrate: () => {
     const tokens = loadTokens();
     const user = loadUser();
-    if (tokens) {
-      set({ isAuthenticated: true, tokens, user: user ?? null });
-    }
+    set({ isAuthenticated: !!tokens, tokens, user });
   },
-  isAuthenticated: !!initialTokens,
+  isAuthenticated: false,
+  tokens: null,
+  user: null,
 
   login: (user, tokens) => {
     StorageService.auth.setItem(STORAGE_KEYS.AUTH_TOKEN, tokens.accessToken);
@@ -85,7 +82,4 @@ export const useAuthStore = create<AuthState>(set => ({
       return { user: updatedUser };
     });
   },
-
-  tokens: initialTokens,
-  user: initialUser,
 }));

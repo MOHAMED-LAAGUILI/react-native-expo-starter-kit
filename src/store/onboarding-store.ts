@@ -23,8 +23,7 @@ export const useOnboardingStore = create<OnboardingState>(set => ({
     set({ isComplete: true });
   },
   hydrate: () => {
-    const done = loadOnboarding();
-    set({ isComplete: done });
+    set({ isComplete: loadOnboarding() });
   },
-  isComplete: loadOnboarding(),
+  isComplete: false,
 }));
