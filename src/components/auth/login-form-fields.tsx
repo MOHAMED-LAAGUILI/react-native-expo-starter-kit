@@ -86,6 +86,7 @@ function LoginFormFields({ form, isLogin, formError }: LoginFormFieldsProps) {
             loading={isSubmitting}
             onPress={() => form.handleSubmit()}
             size="lg"
+            variant="primary-gradient"
             className="mt-2"
           />
         )}

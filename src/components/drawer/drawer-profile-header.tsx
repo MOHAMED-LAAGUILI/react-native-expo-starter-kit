@@ -50,7 +50,7 @@ export function DrawerProfileHeader() {
           className={cn('overflow-hidden rounded-full border-2 border-white/30', 'size-17')}
         >
           <Image
-            source={require('@assets/images/react-logo.png')}
+            source={require('@assets/images/logo.png')}
             style={{ width: '100%', height: '100%' }}
             contentFit="cover"
           />

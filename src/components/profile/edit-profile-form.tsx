@@ -109,7 +109,7 @@ export function EditProfileForm({ onCancel }: EditProfileFormProps) {
 
       <View className="flex-row gap-3">
         <Button
-          variant="primary"
+          variant="primary-gradient"
           title="Save Changes"
           onPress={handleSave}
           disabled={!isDirty || hasErrors}

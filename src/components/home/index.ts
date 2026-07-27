@@ -1,3 +1,4 @@
+export { ExpoAudioCards } from './audio-cards-expo';
 export { ButtonsDemo } from './buttons-demo';
 export { CardListDemo } from './card-list-demo';
 export { DropdownDemo } from './drop-down-demo';

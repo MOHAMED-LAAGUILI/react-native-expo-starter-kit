@@ -12,7 +12,6 @@ function CardsDemo() {
         subtitle="2 commandes"
         icon={BarChart3}
       />
-
       <Card
         variant="stats"
         title="Total des ventes"

@@ -1,5 +1,5 @@
 import type { PermissionLabel } from '@/hooks/use-permissions-status';
-import { Bell, Camera, MapPin } from 'lucide-react-native';
+import { Bell, Camera, MapPin, Mic } from 'lucide-react-native';
 import { useCallback } from 'react';
 import { View } from 'react-native';
 import { openSettings, RESULTS } from 'react-native-permissions';
@@ -13,9 +13,10 @@ const ICONS: Record<PermissionLabel, React.ComponentType<{ size?: number; color?
   Notifications: Bell,
   Camera,
   Location: MapPin,
+  Microphone: Mic,
 };
 
-const PERMISSION_LABELS_STATIC: PermissionLabel[] = ['Notifications', 'Camera', 'Location'];
+const PERMISSION_LABELS_STATIC: PermissionLabel[] = ['Notifications', 'Camera', 'Location', 'Microphone'];
 
 function getStatusLabel(status: string | null): string {
   switch (status) {

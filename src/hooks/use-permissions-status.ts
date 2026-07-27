@@ -3,9 +3,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { check, checkNotifications, openSettings, PERMISSIONS, request, requestNotifications, RESULTS } from 'react-native-permissions';
 
-export type PermissionLabel = 'Notifications' | 'Camera' | 'Location';
+export type PermissionLabel = 'Notifications' | 'Camera' | 'Location' | 'Microphone';
 
-export const PERMISSION_LABELS: PermissionLabel[] = ['Notifications', 'Camera', 'Location'];
+export const PERMISSION_LABELS: PermissionLabel[] = ['Notifications', 'Camera', 'Location', 'Microphone'];
 
 type PermConfig = {
   permission: Permission | null;
@@ -20,6 +20,10 @@ const PERM_CONFIGS: Record<PermissionLabel, PermConfig> = {
   },
   Location: {
     permission: Platform.select({ ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE, android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION }) ?? null,
+    isNotification: false,
+  },
+  Microphone: {
+    permission: Platform.select({ ios: PERMISSIONS.IOS.MICROPHONE, android: PERMISSIONS.ANDROID.RECORD_AUDIO }) ?? null,
     isNotification: false,
   },
 };

@@ -64,7 +64,7 @@ const plugins: ExpoConfig['plugins'] = [
   [
     'expo-notifications',
     {
-      icon: './assets/images/icon.png',
+      icon: './assets/images/favicon.png',
       color: '#ffffff',
       defaultChannel: 'default',
       sounds: [],
@@ -78,13 +78,21 @@ const plugins: ExpoConfig['plugins'] = [
       locationAlwaysAndWhenInUsePermission: 'Allow $(PRODUCT_NAME) to use your location.',
     },
   ],
+  [
+    'expo-audio',
+    {
+      microphonePermission: 'Allow $(PRODUCT_NAME) to access your microphone.',
+      enableBackgroundPlayback: true,
+      enableBackgroundRecording: false,
+    },
+  ],
+  ['expo-asset'],
 
 ];
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   android: {
-
     adaptiveIcon: {
       backgroundColor: '#ffffff',
       foregroundImage: './assets/images/adaptive-icon.png',
@@ -100,20 +108,18 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   runtimeVersion: {
     policy: 'appVersion',
   },
-
   assetBundlePatterns: ['**/*'],
   backgroundColor: '#ffffff',
   description: `${ENV.EXPO_PUBLIC_NAME} Mobile App`,
   experiments: {
     typedRoutes: true,
   },
-
   extra: {
     eas: {
       projectId: ENV.EAS_PROJECT_ID,
     },
   },
-  icon: './assets/images/icon.png',
+  icon: './assets/images/favicon.png',
   ios: {
     // @ts-expect-error - newArchEnabled && jsEngine is valid in Expo SDK 57
     jsEngine: 'jsc',
@@ -124,9 +130,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     supportsTablet: true,
   },
-
   name: ENV.EXPO_PUBLIC_NAME,
-
   jsEngine: 'hermes',
   newArchEnabled: true,
   orientation: 'portrait',
@@ -134,7 +138,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   plugins,
   scheme: ENV.EXPO_PUBLIC_SCHEME,
   slug: ENV.EXPO_PUBLIC_SLUG,
-
   version: ENV.EXPO_PUBLIC_VERSION,
   web: {
     bundler: 'metro',

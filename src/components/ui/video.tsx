@@ -30,7 +30,7 @@ function Video({ source, className, style }: VideoProps) {
       <View className="flex-row justify-center gap-3">
         <Button
           title={isPlaying ? 'Pause' : 'Play'}
-          variant="primary"
+          variant="primary-gradient"
           onPress={() => {
             if (isPlaying) {
               player.pause();

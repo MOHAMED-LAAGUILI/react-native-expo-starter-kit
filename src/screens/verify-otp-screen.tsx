@@ -29,7 +29,7 @@ function VerifyOtpScreen() {
       <ScrollView contentContainerClassName="flex-grow justify-center px-6" keyboardShouldPersistTaps="handled">
         <View className="mb-8 items-center gap-2">
           <Image
-            source={require('@assets/images/react-logo.png')}
+            source={require('@assets/images/logo.png')}
             className="mb-2 size-20 overflow-hidden rounded-full"
             style={{ height: 80, width: 80, borderRadius: '100px' }}
             contentFit="cover"
@@ -98,6 +98,7 @@ function VerifyOtpScreen() {
                 onPress={() => form.handleSubmit()}
                 size="lg"
                 className="mt-2"
+                variant="primary-gradient"
               />
             )}
           </form.Subscribe>
@@ -108,6 +109,7 @@ function VerifyOtpScreen() {
           variant="ghost"
           onPress={() => router.back()}
           size="lg"
+
         />
       </ScrollView>
     </KeyboardAvoidingView>

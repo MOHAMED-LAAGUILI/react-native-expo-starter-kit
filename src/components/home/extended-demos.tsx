@@ -76,7 +76,7 @@ function CenteredDemo() {
         description="Please review the changes before proceeding. This action cannot be undone."
         icon={<Info size={36} color={primaryHex} />}
       >
-        <Button title="Got it" variant="primary" onPress={() => setVisible(false)} />
+        <Button title="Got it" variant="primary-gradient" onPress={() => setVisible(false)} />
       </Modal>
     </>
   );

@@ -9,6 +9,7 @@ import {
   CheckboxDemo,
   DateTimePickerDemo,
   DropdownDemo,
+  ExpoAudioCards,
   IconDemo,
   ImageCardDemo,
   ImageDemo,
@@ -115,6 +116,9 @@ function HomeScreen() {
 
       <SectionTitle>QR Code</SectionTitle>
       <QRCodeDemo />
+
+      <SectionTitle>Audio Demos</SectionTitle>
+      <ExpoAudioCards />
 
       <SectionTitle>Permission Demos</SectionTitle>
       <PermissionCards />

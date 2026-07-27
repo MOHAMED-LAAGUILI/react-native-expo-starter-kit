@@ -8,6 +8,7 @@ import { DrawerHeaderRight } from '@/components/drawer/drawer-header-right';
 import { HeaderTitle } from '@/components/drawer/header-title';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useAuthStore } from '@/store';
+import { ArrowBigLeftDash } from 'lucide-react-native';
 
 export default function AppLayout() {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
@@ -33,7 +34,7 @@ export default function AppLayout() {
         headerStyle: { backgroundColor: primaryHex },
         headerTintColor: '#fff',
         headerTitle: HeaderTitle,
-        drawerStyle: { width: '75%' },
+        drawerStyle: { width: '80%' },
       }}
     />
   );

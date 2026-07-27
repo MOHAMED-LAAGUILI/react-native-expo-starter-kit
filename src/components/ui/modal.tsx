@@ -4,14 +4,13 @@ import * as React from 'react';
 import { Pressable, Modal as RNModal, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
-  runOnJS,
-
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { scheduleOnRN } from 'react-native-worklets';
 import { cn } from '@/utils/utils';
 import { Button } from './button';
 import { Icon } from './icon';
@@ -75,7 +74,7 @@ function createPanGesture({ isBottomSheet, show, translateY, handleClose }: {
     })
     .onEnd(({ translationY, velocityY }) => {
       if (translationY > 120 || velocityY > 500) {
-        runOnJS(handleClose)();
+        scheduleOnRN(handleClose);
       }
       else {
         translateY.set(withSpring(0, SPRING_CONFIG));
@@ -102,13 +101,13 @@ function Modal({ isVisible, onClose, variant = 'bottom-sheet', title, descriptio
     if (isBottomSheet) {
       translateY.set(withTiming(300, { duration: 180 }, (finished) => {
         if (finished)
-          runOnJS(dismiss)();
+          scheduleOnRN(dismiss);
       }));
     }
     else {
       scale.set(withTiming(0.92, { duration: 180 }, (finished) => {
         if (finished)
-          runOnJS(dismiss)();
+          scheduleOnRN(dismiss);
       }));
     }
   };

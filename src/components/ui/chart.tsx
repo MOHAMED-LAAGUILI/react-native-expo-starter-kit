@@ -3,9 +3,9 @@ import type { barDataItem, lineDataItem, pieDataItem } from 'react-native-gifted
 import * as React from 'react';
 import { View } from 'react-native';
 import { BarChart, LineChart, PieChart } from 'react-native-gifted-charts';
-import { Text } from '@/components/ui';
 import { useThemeColors } from '@/hooks/use-theme-color';
 import { cn } from '@/utils/utils';
+import { Text } from './text';
 
 type ChartVariant = 'bar-vertical' | 'bar-horizontal' | 'pie' | 'trend' | 'line';
 

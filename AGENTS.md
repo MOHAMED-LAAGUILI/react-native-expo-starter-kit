@@ -235,6 +235,7 @@ How: Essential Rules
 | Calendar        | react-native-calendars
 | Video           | expo-video (native) / HTML `<video>` (web)
 | QR Code         | react-native-qrcode-svg
+| Audio           | expo-audio (playback + recording)
 | Animation Extras| moti
        
              
@@ -285,6 +286,7 @@ src/
 ├── store/            — Zustand stores (authStore, themeStore, onboardingStore) with MMKV persist
 ├── types/            — Global type declarations (uniwind.d.ts)
 ├── utils/            — cn utility, format helpers, platform helpers
+├── widgets/          — android/ios widget
 ├── validation/       — Zod schemas (login, register, forgotPassword)
 assets/
 global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @variant)
@@ -346,11 +348,11 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `Image` — expo-image wrapper with fallback
 - `Progress` — progress bar with primary color fill
 - `Toggle` — pressed-state toggle button (on/off)
-- `Toast` — wrapper around `@backpackapp-io/react-native-toast` with `showToast({ variant, title, message })`, variants: `success`/`error`/`info`. Mounted in root layout, callable from anywhere.
+- `Toast` — wrapper around `react-native-toast-message-ts` with `showToast({ variant, title, message })`, variants: `success`/`error`/`info`. Mounted in root layout, callable from anywhere.
 - `Modal` — custom modal with 3 variants: `bottom-sheet` (slides up), `centered` (scales in with icon/title/description), `centered-action` (centered + action buttons). Uses `react-native-reanimated` for enter/exit animations. Backdrop fades, sheet slides/scales independently.
 - `Calendar` — date picker built on `react-native-calendars` with marked dates
 - `DateTimePicker` — date/time field built on `@react-native-community/datetimepicker`
-- `VideoPlayer` — video player using `expo-video` (native) or `<video>` HTML element (web)
+- `VideoPlayer` — video player using `expo-video` (native) or `<video>` HTML element (web); `react-native-video` removed due to Android media3 version conflict — use `expo-video` for all video needs
 - `QRCodeView` — QR code generator using `react-native-qrcode-svg`
 - `Menu` — context/popup menu using `@react-native-menu/menu`
 - `TextArea` — multiline text input with character count
@@ -378,6 +380,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `react-native-edge-to-edge` — edge-to-edge display
 - `react-native-reanimated` + `react-native-gesture-handler` — animations + gestures
 - `expo-video` — video player
+- `expo-audio` — audio playback + recording
 - `react-native-qrcode-svg` — QR code generation
 - `react-native-calendars` — calendar date picker
 - `react-native-gifted-charts` — chart library (PieChart, BarChart)
@@ -420,7 +423,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `.env.development`, `.env.preview`, `.env.production` — per-environment values
 - `src/config/env.ts` — shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`)
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
-- Android package: `com.rn_template.app` (underscores, not hyphens — Android requirement)
+- Android package: `com.rntemplate.app` (underscores, not hyphens — Android requirement)
 
 ## Resources
 

@@ -1,4 +1,3 @@
-import { Toasts } from '@backpackapp-io/react-native-toast';
 import {
   Inter_400Regular,
   Inter_500Medium,
@@ -14,6 +13,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { ToastContainer } from 'react-native-toast-message-ts';
 
 import { AppProviders } from '@/components/layout/app-providers';
 import { Text } from '@/components/ui';
@@ -99,14 +99,7 @@ export default function RootLayout() {
 
       <Stack screenOptions={{ headerShown: false }} />
 
-      <Toasts
-        overrideDarkMode={themeMode === 'dark'}
-        globalAnimationType="spring"
-        globalAnimationConfig={{
-          dampingRatio: 0.7,
-          duration: 180,
-        }}
-      />
+      <ToastContainer />
 
       <PortalHost />
     </AppProviders>

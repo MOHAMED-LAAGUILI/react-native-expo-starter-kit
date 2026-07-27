@@ -32,6 +32,8 @@
 
 </p>
 
+[![Made by MOHAMED LAAGUILI (MOLI)](https://img.shields.io/badge/Made%20by-DigitalPro-blue)](https://digitalpro.dev)
+![Version](https://img.shields.io/badge/Version-2.7.0-blue)
 
 ## Demo Android (Old Build Demo)
 **Wanna See Magic Star & Clone Repo**
@@ -123,7 +125,7 @@ To run the app, use a development build instead:
 - **Drawer + Tabs** — Left drawer with PanelLeftOpen header button, bottom tab bar (Search, Report, Home, Settings, Device Info) sorted by centralized config
 - **Bottom Sheet** — Reusable bottom sheet component via `@gorhom/bottom-sheet` with snap points, backdrop, pan-to-close
 - **Modal** — Three variants: bottom-sheet (slide-up), centered (scale-in with icon/title/description), centered-action (with action buttons). Uses Reanimated for enter/exit animations.
-- **Toast** — Notification toasts via `@backpackapp-io/react-native-toast` with success/error/info variants, callable from anywhere via `showToast()`
+- **Toast** — Notification toasts via `react-native-toast-message-ts` with success/error/info variants, callable from anywhere via `showToast()`
 - **Dark/Light/System theme** — CSS variables in oklch, persisted preference, follows system
 - **Accent Color System** — 8 color palettes (blue, purple, green, orange, red, teal, pink) switchable at runtime; all screens react instantly via `Uniwind.updateCSSVariables()`
 - **Splash Screen** — Custom splash with auto-hide after i18n + auth hydration ready
@@ -182,6 +184,7 @@ To run the app, use a development build instead:
 │   ├── store/                  # Zustand stores (authStore, themeStore, onboardingStore)
 │   ├── types/                  # Type declarations (uniwind.d.ts)
 │   ├── utils/                  # cn() utility, format helpers, platform helpers
+│   ├── widgets/                # android/ios widget
 │   └── validation/             # Zod schemas (login, register, forgotPassword)
 ├── app.config.ts               # Expo config (EAS, plugins, fonts, localization)
 ├── metro.config.js             # Expo + Uniwind Metro plugin
@@ -373,7 +376,7 @@ To release, just bump the version in `package.json` and push to `main`.
 | `.env.production`   | Production builds 
 | `src/config/env.ts` | Shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`) 
 
-- Android package: `com.rn_template.app` (underscores, not hyphens — Android requirement)
+- Android package: `com.rntemplate.app` (underscores, not hyphens — Android requirement)
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
 
 ## Planned Features (Need Contributors)
