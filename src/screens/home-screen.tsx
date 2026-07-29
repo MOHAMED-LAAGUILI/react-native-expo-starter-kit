@@ -150,7 +150,7 @@ function HomeScreen() {
             <Image
               source={{ uri: selectedCard.imageUrl }}
               className="h-64 w-full"
-               contentFit="cover"
+              contentFit="cover"
               style={{ height: '100%', width: '100%' }}
             />
             <View className="gap-2 p-4">
