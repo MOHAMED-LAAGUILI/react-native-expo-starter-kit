@@ -13,6 +13,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
+
 import { ToastContainer } from 'react-native-toast-message-ts';
 
 import { AppProviders } from '@/components/layout/app-providers';
@@ -96,11 +97,8 @@ export default function RootLayout() {
   return (
     <AppProviders>
       <StatusBar animated style="auto" />
-
       <Stack screenOptions={{ headerShown: false }} />
-
       <ToastContainer />
-
       <PortalHost />
     </AppProviders>
   );

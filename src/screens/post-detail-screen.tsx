@@ -7,6 +7,7 @@ import { PostHero } from '@/components/post-detail';
 import { Button, Text } from '@/components/ui';
 
 function PostDetailScreen() {
+  const { t: tPost } = useTranslation('post-detail');
   const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
   const postId = Number(id);
@@ -23,7 +24,7 @@ function PostDetailScreen() {
           variant="body"
           className="mb-4 text-center text-destructive"
         >
-          {t('postDetail.error')}
+          {tPost('error')}
         </Text>
         <Button
           title={t('common.back')}
@@ -41,4 +42,5 @@ function PostDetailScreen() {
   );
 }
 
+export default PostDetailScreen;
 export { PostDetailScreen };

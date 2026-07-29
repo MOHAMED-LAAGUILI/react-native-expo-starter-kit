@@ -1,0 +1,16 @@
+{
+  "playerDemo": "Lecteur audio",
+  "playerDemoDescription": "Lire un échantillon audio à distance",
+  "recorderDemo": "Enregistreur audio",
+  "recorderDemoDescription": "Enregistrer et écouter l'audio",
+  "play": "Lire",
+  "pause": "Pause",
+  "stop": "Arrêter",
+  "startRecording": "Commencer l'enregistrement",
+  "stopRecording": "Arrêter l'enregistrement",
+  "recording": "Enregistrement…",
+  "loading": "Chargement…",
+  "savedPath": "Enregistré dans : {{path}}",
+  "noRecording": "Aucun enregistrement",
+  "notSupported": "Audio non disponible sur le web"
+}

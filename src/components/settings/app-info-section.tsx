@@ -11,13 +11,14 @@ import { useThemeColors } from '@/hooks/use-theme-color';
 import { cn } from '@/utils/utils';
 
 function AppInfoSection() {
+  const { t: tSettings } = useTranslation('settings');
   const { t } = useTranslation();
   const { type, isConnected } = useNetInfo();
   const { icon } = useThemeColors();
 
   return (
     <View>
-      <SectionHeader label={t('settings.info')} />
+      <SectionHeader label={tSettings('info')} />
       <SettingGroup>
         <View className="flex-row items-center p-4">
           <Info size={22} color={icon} style={{ marginRight: 12 }} />
@@ -28,13 +29,13 @@ function AppInfoSection() {
         </View>
         <SettingRow
           icon={Wifi}
-          label={t('settings.network')}
+          label={tSettings('network')}
           subtitle={
             isConnected == null
-              ? t('settings.networkChecking')
+              ? tSettings('networkChecking')
               : isConnected
-                ? t('settings.networkConnected', { type })
-                : t('settings.networkDisconnected')
+                ? tSettings('networkConnected', { type })
+                : tSettings('networkDisconnected')
           }
           rightElement={(
             <View

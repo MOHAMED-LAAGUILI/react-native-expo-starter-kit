@@ -1,0 +1,8 @@
+{
+  "title": "Stored Preferences",
+  "empty": "No stored preferences found.",
+  "clearAll": "Clear All Storage",
+  "clearAllConfirm": "This will remove all stored preferences including auth tokens, theme, language, and onboarding state. App will need to restart.",
+  "cancel": "Cancel",
+  "clear": "Clear"
+}

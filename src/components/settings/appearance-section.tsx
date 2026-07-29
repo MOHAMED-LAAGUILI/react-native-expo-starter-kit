@@ -27,27 +27,27 @@ function AppearanceSection({
   onColorPress: () => void;
   onLangPress: () => void;
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('settings');
   return (
     <View>
-      <SectionHeader label={t('settings.appearance')} />
+      <SectionHeader label={t('appearance')} />
       <SettingGroup>
         <SettingRow
           icon={mode === 'dark' ? Moon : mode === 'system' ? Monitor : Sun}
-          label={t('settings.theme')}
+          label={t('theme')}
           subtitle={themeLabels[mode]}
           onPress={onThemePress}
         />
         <SettingRow
           icon={Brush}
-          label={t('settings.accentColor')}
+          label={t('accentColor')}
           subtitle={currentColorLabel}
           rightElement={<View className="mr-2 size-5 rounded-full" style={{ backgroundColor: currentPalette?.color }} />}
           onPress={onColorPress}
         />
         <SettingRow
           icon={Globe}
-          label={t('settings.language')}
+          label={t('language')}
           subtitle={currentLangLabel}
           rightElement={currentLangFlag}
           onPress={onLangPress}

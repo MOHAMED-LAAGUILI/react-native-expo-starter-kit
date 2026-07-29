@@ -1,0 +1,7 @@
+{
+  "placeholder": "Rechercher des articles...",
+  "postCount": "{{count}} articles de jsonplaceholder.typicode.com",
+  "error": "Échec du chargement des articles. Vérifiez votre connexion internet.",
+  "noResults": "Aucun article ne correspond à votre recherche",
+  "startTyping": "Commencez à taper pour rechercher des articles"
+}

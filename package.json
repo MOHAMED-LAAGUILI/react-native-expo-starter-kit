@@ -1,7 +1,7 @@
 {
   "name": "react-native-expo-starter-kit",
   "main": "expo-router/entry",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "packageManager": "pnpm@10.12.3",
   "keywords": [
     "react-native",
@@ -30,15 +30,15 @@
     "clean:cache": "pnpm store prune",
     "clean:app": "pnpm run clean:cache && rm -rf .expo node_modules android ios build dist pnpm-lock.yaml",
     "deps:fix": "expo install --fix",
-    "lint:fix": "eslint . --fix && eslint src/ --fix && eslint app/ --fix",
+    "lint:fix": "eslint . --fix && eslint src/ --fix && eslint app/ --fix && pnpm expo lint --fix",
     "type:check": "tsc --noemit",
     "doctor": "npx expo-doctor@latest --verbose && npx react-doctor@latest --verbose",
     "checks": "pnpm run deps:fix && pnpm run lint:fix && pnpm run type:check && pnpm run doctor",
     "expo:config": "expo config --type public",
     "generate:apk": "\"C:/Program Files/Git/bin/bash.exe\" script/generate-apk-and-install.sh",
     "prebuild": "expo prebuild --platform all",
-    "prebuild:prev": "cross-env EXPO_PUBLIC_APP_ENV=preview STRICT_ENV_VALIDATION=1 expo prebuild --platform all",
     "prebuild:dev": "cross-env EXPO_PUBLIC_APP_ENV=development STRICT_ENV_VALIDATION=1 expo prebuild --platform all",
+    "prebuild:prev": "cross-env EXPO_PUBLIC_APP_ENV=preview STRICT_ENV_VALIDATION=1 expo prebuild --platform all",
     "prebuild:prod": "cross-env EXPO_PUBLIC_APP_ENV=production STRICT_ENV_VALIDATION=1 expo prebuild --platform all",
     "prebuild:generate": "pnpm run prebuild && pnpm run generate:apk",
     "android:dev": "cross-env EXPO_PUBLIC_APP_ENV=development pnpm run android",
@@ -63,7 +63,8 @@
     "eas:update:config": "eas update:configure",
     "eas:update:prod": "eas update --channel production --message 'new update message' --environment production",
     "export:web": "npx expo export --platform web",
-    "deploy:web": "eas deploy --prod"
+    "deploy:web": "eas deploy --prod",
+    "lint": "expo lint"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.2",
@@ -151,6 +152,7 @@
     "cross-env": "^10.1.0",
     "dotenv": "^17.4.2",
     "eslint": "^10.6.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-better-tailwindcss": "^4.6.1",
     "eslint-plugin-i18n-json": "^4.0.1",
@@ -158,7 +160,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "husky": "^9.1.7",
-    "prettier": "^3.8.3",
+    "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "react-doctor": "^0.7.8",
     "tsx": "^4.23.0",

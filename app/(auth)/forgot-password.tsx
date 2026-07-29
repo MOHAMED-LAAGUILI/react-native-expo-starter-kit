@@ -1,3 +1,1 @@
-import { ForgotPasswordScreen } from '@/screens/forgot-password-screen';
-
-export default ForgotPasswordScreen;
+export { ForgotPasswordScreen as default } from '@/screens/forgot-password-screen';

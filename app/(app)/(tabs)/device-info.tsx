@@ -1,3 +1,1 @@
-import { DeviceInfoScreen } from '@/screens/device-info-screen';
-
-export default DeviceInfoScreen;
+export { DeviceInfoScreen as default } from '@/screens/device-info-screen';

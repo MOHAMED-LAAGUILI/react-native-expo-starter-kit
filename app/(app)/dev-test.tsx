@@ -1,3 +1,1 @@
-import { TestScreen } from '@/screens/test-screen';
-
-export default TestScreen;
+export { TestScreen as default } from '@/screens/test-screen';

@@ -18,6 +18,7 @@
     "search": "Search",
     "noResults": "No results found",
     "pullToRefresh": "Pull to refresh",
+    "back": "Back",
     "close": "Close"
   },
   "navigation": {
@@ -28,11 +29,9 @@
     "reportGraphs": "Graphs",
     "preferences": "Preferences",
     "deviceInfo": "Device Info",
-
     "post": "Post",
-    "onboarding":"Onboarding",
+    "onboarding": "Onboarding",
     "test": "Test"
-
   },
   "theme": {
     "light": "Light",
@@ -44,67 +43,5 @@
   "language": {
     "title": "Language",
     "description": "Select your preferred language"
-  },
-  "settings": {
-    "appearance": "Appearance",
-    "about": "About",
-    "info": "App Info",
-    "network": "Network",
-    "networkConnected": "{{type}} • Connected",
-    "networkDisconnected": "Disconnected",
-    "networkChecking": "Checking...",
-    "theme": "Theme",
-    "accentColor": "Accent Color",
-    "accentColorSheetTitle": "Accent Color",
-    "language": "Language",
-    "support": "Support",
-    "shareApp": "Share App",
-    "shareAppDescription": "Tell others about this app",
-    "shareMessage": "Check out this app!",
-    "supportFeedback": "Support & Feedback",
-    "supportFeedbackDescription": "Open a GitHub issue",
-    "developer": "Developer",
-    "developerDescription": "View portfolio",
-    "appIcon": "App Icon",
-    "appIconExpo": "Change to expo Icon",
-    "appIconDark": "Change to dark Icon",
-    "appIconReset": "Reset to Default Icon",
-    "toastAppIconUnavailable": "App icon change is only supported on Android.",
-    "toastAppIconUnavailableTitle": "Unsupported"
-  },
-  "search": {
-    "placeholder": "Search posts...",
-    "postCount": "{{count}} posts from jsonplaceholder.typicode.com",
-    "error": "Failed to load posts. Make sure you are connected to the internet.",
-    "noResults": "No posts match your search",
-    "startTyping": "Start typing to search posts"
-  },
-  "postDetail": {
-    "error": "Failed to load post.",
-    "backToSearch": "Back to search"
-  },
-  "preferences": {
-    "title": "Stored Preferences",
-    "empty": "No stored preferences found.",
-    "clearAll": "Clear All Storage",
-    "clearAllConfirm": "This will remove all stored preferences including auth tokens, theme, language, and onboarding state. App will need to restart.",
-    "cancel": "Cancel",
-    "clear": "Clear"
-  },
-  "audio": {
-    "playerDemo": "Audio Player",
-    "playerDemoDescription": "Play a remote audio sample",
-    "recorderDemo": "Audio Recorder",
-    "recorderDemoDescription": "Record and play back audio",
-    "play": "Play",
-    "pause": "Pause",
-    "stop": "Stop",
-    "startRecording": "Start Recording",
-    "stopRecording": "Stop Recording",
-    "recording": "Recording…",
-    "loading": "Loading…",
-    "savedPath": "Saved to: {{path}}",
-    "noRecording": "No recording yet",
-    "notSupported": "Audio not available on web"
   }
 }

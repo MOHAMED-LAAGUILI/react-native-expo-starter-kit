@@ -31,6 +31,7 @@ type SettingsBottomSheetsProps = {
 };
 
 function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, colorSheetOpen, setColorSheetOpen, themeSheetOpen, setThemeSheetOpen, langSheetOpen, setLangSheetOpen }: SettingsBottomSheetsProps) {
+  const { t: tSettings } = useTranslation('settings');
   const { t, i18n } = useTranslation();
   const { text } = useThemeColors();
   const iconColor = text;
@@ -52,9 +53,10 @@ function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, co
       <BottomSheet
         open={colorSheetOpen}
         onOpenChange={setColorSheetOpen}
-        title={t('settings.accentColorSheetTitle')}
+        title={tSettings('accentColorSheetTitle')}
         options={colorOptions}
         selectedValue={primaryColor}
+        snapPoints={['40%', '65%']}
         onSelect={(value) => {
           setPrimaryColor(value);
           setColorSheetOpen(false);
@@ -67,6 +69,7 @@ function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, co
         title={t('theme.title')}
         options={themeOptions}
         selectedValue={mode}
+        snapPoints={['30%', '50%']}
         onSelect={(value) => {
           setMode(value);
           setThemeSheetOpen(false);
@@ -79,6 +82,7 @@ function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, co
         title={t('language.title')}
         options={LANGUAGE_OPTIONS}
         selectedValue={i18n.language}
+        snapPoints={['30%', '45%']}
         onSelect={(value) => {
           changeLanguage(value);
           setLangSheetOpen(false);

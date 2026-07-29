@@ -1,0 +1,16 @@
+{
+  "playerDemo": "Audio Player",
+  "playerDemoDescription": "Play a remote audio sample",
+  "recorderDemo": "Audio Recorder",
+  "recorderDemoDescription": "Record and play back audio",
+  "play": "Play",
+  "pause": "Pause",
+  "stop": "Stop",
+  "startRecording": "Start Recording",
+  "stopRecording": "Stop Recording",
+  "recording": "Recording…",
+  "loading": "Loading…",
+  "savedPath": "Saved to: {{path}}",
+  "noRecording": "No recording yet",
+  "notSupported": "Audio not available on web"
+}

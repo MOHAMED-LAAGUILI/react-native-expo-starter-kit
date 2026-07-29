@@ -6,14 +6,14 @@ import { SearchHeader, SearchResults } from '@/components/search';
 import { Text } from '@/components/ui';
 
 function SearchScreen() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('search');
   const [query, setQuery] = React.useState('');
   const { data: posts, isLoading, error } = usePublicPosts(query);
 
   if (error) {
     return (
       <View className="flex-1 items-center justify-center px-6">
-        <Text variant="body" className="text-center text-destructive">{t('search.error')}</Text>
+        <Text variant="body" className="text-center text-destructive">{t('error')}</Text>
       </View>
     );
   }
@@ -26,4 +26,5 @@ function SearchScreen() {
   );
 }
 
+export default SearchScreen;
 export { SearchScreen };

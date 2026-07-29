@@ -12,7 +12,6 @@ async function ensureNotificationHandler() {
   const mod = await loadExpoNotifications();
   await mod.setNotificationHandler({
     handleNotification: async () => ({
-      shouldShowAlert: true,
       shouldPlaySound: true,
       shouldSetBadge: false,
       shouldShowBanner: true,

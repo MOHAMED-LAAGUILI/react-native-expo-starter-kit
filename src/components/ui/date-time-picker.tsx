@@ -1,10 +1,10 @@
-import type { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import type { DateTimePickerChangeEvent } from '@react-native-community/datetimepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as React from 'react';
 import { Pressable, View } from 'react-native';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeStore } from '@/store/theme-store';
-import { isAndroid, isIOS } from '@/utils/platform';
+import { isAndroid } from '@/utils/platform';
 import { Text } from './text';
 
 type DateTimePickerMode = 'date' | 'time' | 'datetime';
@@ -33,11 +33,12 @@ function DateTimePickerField({ value, onChange, mode = 'date', label, display }:
   const primaryHex = usePrimaryHex();
   const themeMode = useThemeStore(s => s.mode);
 
-  const handleChange = (_event: DateTimePickerEvent, selectedDate?: Date) => {
-    setShow(isIOS);
-    if (selectedDate) {
-      onChange(selectedDate);
-    }
+  const handleValueChange = (_event: DateTimePickerChangeEvent, selectedDate: Date) => {
+    onChange(selectedDate);
+  };
+
+  const handleDismiss = () => {
+    setShow(false);
   };
 
   return (
@@ -54,7 +55,8 @@ function DateTimePickerField({ value, onChange, mode = 'date', label, display }:
           value={value}
           mode={mode}
           display={display ?? 'default'}
-          onChange={handleChange}
+          onValueChange={handleValueChange}
+          onDismiss={handleDismiss}
           accentColor={primaryHex}
           themeVariant={themeMode === 'system' ? undefined : themeMode}
           {...(isAndroid && {

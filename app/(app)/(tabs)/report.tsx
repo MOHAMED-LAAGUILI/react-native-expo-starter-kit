@@ -1,3 +1,1 @@
-import { ReportScreen } from '@/screens/report-screen';
-
-export default ReportScreen;
+export { ReportScreen as default } from '@/screens/report-screen';

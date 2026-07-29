@@ -20,7 +20,7 @@ function SearchResults({
   query: string;
   isLoading: boolean;
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('search');
   const primaryHex = usePrimaryHex();
   const { muted } = useThemeColors();
 
@@ -67,7 +67,7 @@ function SearchResults({
                           variant="body"
                           className="mt-4 text-center text-muted-foreground"
                         >
-                          {t('search.noResults')}
+                          {t('noResults')}
                         </Text>
                       </>
                     )
@@ -78,7 +78,7 @@ function SearchResults({
                           variant="body"
                           className="mt-4 text-center text-muted-foreground"
                         >
-                          {t('search.startTyping')}
+                          {t('startTyping')}
                         </Text>
                       </>
                     )}

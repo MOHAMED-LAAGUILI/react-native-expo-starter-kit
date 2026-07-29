@@ -1,3 +1,5 @@
+import type { CardData } from '@/components/home/image-card-demo';
+import * as React from 'react';
 import { ScrollView, View } from 'react-native';
 import {
   BadgeDemo,
@@ -30,12 +32,11 @@ import {
   VideoDemo,
 } from '@/components/home';
 import { CardsDemo } from '@/components/home/cards-demo';
-import { Text } from '@/components/ui';
+import { BottomSheet, Image, Text } from '@/components/ui';
 
-function HomeScreen() {
+function DemoSections({ onCardSelect }: { onCardSelect: (card: CardData) => void }) {
   return (
-    <ScrollView className="flex-1 bg-background" contentContainerClassName="p-6 gap-2">
-
+    <>
       <Text variant="h2" className="mb-2">Component Demo</Text>
       <Text variant="body" className="mb-2 text-muted-foreground">All UI components with available variants.</Text>
 
@@ -46,7 +47,7 @@ function HomeScreen() {
       <CardListDemo />
 
       <SectionTitle>Image Cards</SectionTitle>
-      <ImageCardDemo />
+      <ImageCardDemo onCardSelect={onCardSelect} />
 
       <SectionTitle>Typography</SectionTitle>
       <TypographyDemo />
@@ -122,8 +123,49 @@ function HomeScreen() {
 
       <SectionTitle>Permission Demos</SectionTitle>
       <PermissionCards />
+    </>
+  );
+}
 
-    </ScrollView>
+function HomeScreen() {
+  const [selectedCard, setSelectedCard] = React.useState<CardData | null>(null);
+
+  return (
+    <View className="flex-1 bg-background">
+      <ScrollView contentContainerClassName="p-6 gap-2">
+        <DemoSections onCardSelect={setSelectedCard} />
+      </ScrollView>
+
+      <BottomSheet
+        open={selectedCard !== null}
+        onOpenChange={(v) => {
+          if (!v)
+            setSelectedCard(null);
+        }}
+        title={selectedCard?.title ?? ''}
+        snapPoints={['50%', '75%']}
+      >
+        {selectedCard && (
+          <>
+            <Image
+              source={{ uri: selectedCard.imageUrl }}
+              className="h-64 w-full"
+               contentFit="cover"
+              style={{ height: '100%', width: '100%' }}
+            />
+            <View className="gap-2 p-4">
+              <Text variant="h4">{selectedCard.title}</Text>
+              <Text variant="body" className="text-muted-foreground">{selectedCard.subtitle}</Text>
+              <Text variant="caption" className="text-muted-foreground">
+                Orientation:
+                {' '}
+                {selectedCard.orientation}
+              </Text>
+            </View>
+          </>
+        )}
+      </BottomSheet>
+    </View>
   );
 }
 

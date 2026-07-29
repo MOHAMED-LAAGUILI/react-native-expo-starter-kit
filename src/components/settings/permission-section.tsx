@@ -1,6 +1,7 @@
 import type { PermissionLabel } from '@/hooks/use-permissions-status';
 import { Bell, Camera, MapPin, Mic } from 'lucide-react-native';
 import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { openSettings, RESULTS } from 'react-native-permissions';
 import { SectionHeader } from '@/components/common/section-header';
@@ -18,17 +19,6 @@ const ICONS: Record<PermissionLabel, React.ComponentType<{ size?: number; color?
 
 const PERMISSION_LABELS_STATIC: PermissionLabel[] = ['Notifications', 'Camera', 'Location', 'Microphone'];
 
-function getStatusLabel(status: string | null): string {
-  switch (status) {
-    case RESULTS.GRANTED: return 'Granted';
-    case RESULTS.DENIED: return 'Denied';
-    case RESULTS.BLOCKED: return 'Blocked';
-    case RESULTS.UNAVAILABLE: return 'Unavailable';
-    case RESULTS.LIMITED: return 'Limited';
-    default: return 'Checking…';
-  }
-}
-
 function getBadgeVariant(status: string | null): 'default' | 'secondary' | 'outline' | 'destructive' {
   switch (status) {
     case RESULTS.GRANTED:
@@ -39,7 +29,19 @@ function getBadgeVariant(status: string | null): 'default' | 'secondary' | 'outl
   }
 }
 
+function getStatusLabel(t: (key: string) => string, status: string | null): string {
+  switch (status) {
+    case RESULTS.GRANTED: return t('granted');
+    case RESULTS.DENIED: return t('denied');
+    case RESULTS.BLOCKED: return t('blocked');
+    case RESULTS.UNAVAILABLE: return t('unavailable');
+    case RESULTS.LIMITED: return t('limited');
+    default: return t('checking');
+  }
+}
+
 function PermissionSection() {
+  const { t } = useTranslation('settings');
   const { statuses, loading, requestPermission, isGranted } = usePermissionsStatus();
 
   const handleToggle = useCallback(async (label: PermissionLabel) => {
@@ -52,7 +54,7 @@ function PermissionSection() {
 
   return (
     <View>
-      <SectionHeader label="App Permissions" />
+      <SectionHeader label={t('appPermissions')} />
       <SettingGroup>
         {PERMISSION_LABELS_STATIC.map((label) => {
           const status = statuses[label] ?? null;
@@ -64,11 +66,11 @@ function PermissionSection() {
             <SettingRow
               key={label}
               icon={Icon}
-              label={label}
+              label={t(label.toLowerCase())}
               rightElement={(
                 <View className="flex-row items-center gap-2">
                   <Badge variant={getBadgeVariant(status)} size="sm">
-                    {getStatusLabel(status)}
+                    {getStatusLabel(t, status)}
                   </Badge>
                   <Switch
                     checked={granted}

@@ -1,0 +1,8 @@
+{
+  "title": "Préférences enregistrées",
+  "empty": "Aucune préférence enregistrée trouvée.",
+  "clearAll": "Effacer tout le stockage",
+  "clearAllConfirm": "Cela supprimera toutes les préférences stockées, y compris les jetons d'authentification, le thème, la langue et l'état de l'introduction. L'application devra redémarrer.",
+  "cancel": "Annuler",
+  "clear": "Effacer"
+}

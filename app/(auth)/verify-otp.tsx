@@ -1,3 +1,1 @@
-import { VerifyOtpScreen } from '@/screens/verify-otp-screen';
-
-export default VerifyOtpScreen;
+export { VerifyOtpScreen as default } from '@/screens/verify-otp-screen';

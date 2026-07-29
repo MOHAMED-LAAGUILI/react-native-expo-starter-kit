@@ -13,12 +13,13 @@ function SearchHeader({
   count: number;
   isLoading: boolean;
 }) {
+  const { t: tSearch } = useTranslation('search');
   const { t } = useTranslation();
 
   return (
     <View className="p-6 pb-0">
       <Input
-        placeholder={t('search.placeholder')}
+        placeholder={tSearch('placeholder')}
         value={query}
         onChangeText={onQueryChange}
         autoCapitalize="none"
@@ -29,7 +30,7 @@ function SearchHeader({
         variant="caption"
         className="mt-2 mb-1 text-muted-foreground"
       >
-        {isLoading ? t('common.loading') : t('search.postCount', { count })}
+        {isLoading ? t('common.loading') : tSearch('postCount', { count })}
       </Text>
     </View>
   );

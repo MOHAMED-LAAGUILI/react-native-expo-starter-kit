@@ -6,28 +6,28 @@ import { SettingGroup } from '@/components/common/setting-group';
 import { SettingRow } from '@/components/common/setting-row';
 
 function SupportSection() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('settings');
 
   return (
     <View>
-      <SectionHeader label={t('settings.support')} />
+      <SectionHeader label={t('support')} />
       <SettingGroup>
         <SettingRow
           icon={Share2}
-          label={t('settings.shareApp')}
-          subtitle={t('settings.shareAppDescription')}
-          onPress={() => Share.share({ message: t('settings.shareMessage'), url: 'https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit' })}
+          label={t('shareApp')}
+          subtitle={t('shareAppDescription')}
+          onPress={() => Share.share({ message: t('shareMessage'), url: 'https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit' })}
         />
         <SettingRow
           icon={Heart}
-          label={t('settings.supportFeedback')}
-          subtitle={t('settings.supportFeedbackDescription')}
+          label={t('supportFeedback')}
+          subtitle={t('supportFeedbackDescription')}
           onPress={() => Linking.openURL('https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit')}
         />
         <SettingRow
           icon={ExternalLink}
-          label={t('settings.developer')}
-          subtitle={t('settings.developerDescription')}
+          label={t('developer')}
+          subtitle={t('developerDescription')}
           onPress={() => Linking.openURL('https://mohamedlaaguili-v2.vercel.app')}
         />
       </SettingGroup>

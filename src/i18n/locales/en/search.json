@@ -1,0 +1,7 @@
+{
+  "placeholder": "Search posts...",
+  "postCount": "{{count}} posts from jsonplaceholder.typicode.com",
+  "error": "Failed to load posts. Make sure you are connected to the internet.",
+  "noResults": "No posts match your search",
+  "startTyping": "Start typing to search posts"
+}

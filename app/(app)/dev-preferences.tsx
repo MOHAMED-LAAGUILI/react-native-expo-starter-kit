@@ -1,3 +1,1 @@
-import { PreferencesScreen } from '@/screens/preferences-screen';
-
-export default PreferencesScreen;
+export { PreferencesScreen as default } from '@/screens/preferences-screen';

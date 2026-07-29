@@ -188,6 +188,7 @@ How: Essential Rules
 - **Drawer/Header**: drawer header buttons need explicit margins (`ml-3`, `mr-3`) on native
 - **ScrollViews**: use `contentContainerStyle` not `className` for background colors on scroll containers
 - **SVG**: hardcoded hex colors (`#ffffff`) won't follow theme — use `useThemeColors()` or CSS variables for dynamic theming
+- **Image**: always include `contentFit` prop and `style={{ height: '100%', width: '100%' }}` — without these, the image only renders on web and shows blank on native
 - **BottomSheet**: `@gorhom/bottom-sheet` needs `GestureHandlerRootView` wrapper — already in root layout
 - **RTL**: not supported — Arabic removed from language options
 

@@ -1,3 +1,1 @@
-import { Unmatched } from 'expo-router';
-
-export default Unmatched;
+export { Unmatched as default } from 'expo-router';
