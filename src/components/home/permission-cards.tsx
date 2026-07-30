@@ -44,7 +44,7 @@ function NotificationCard() {
   const granted = status === RESULTS.GRANTED || status === RESULTS.LIMITED;
 
   return (
-    <View className="gap-2 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-2 rounded-xl border p-4">
       <View className="flex-row items-center justify-between">
         <Text className="font-semibold">Notifications</Text>
         <Badge variant={granted ? 'default' : 'outline'} size="sm">{granted ? 'Granted' : 'Not Granted'}</Badge>
@@ -90,7 +90,7 @@ function CameraCard() {
 
   if (isWeb) {
     return (
-      <View className="gap-2 rounded-xl border border-border bg-card p-4">
+      <View className="border-border bg-card gap-2 rounded-xl border p-4">
         <Text className="font-semibold">Camera</Text>
         <Text variant="caption" className="text-muted-foreground">Not available on web</Text>
       </View>
@@ -98,7 +98,7 @@ function CameraCard() {
   }
 
   return (
-    <View className="gap-2 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-2 rounded-xl border p-4">
       <View className="flex-row items-center justify-between">
         <Text className="font-semibold">Camera</Text>
         <Badge variant={granted ? 'default' : 'outline'} size="sm">{granted ? 'Granted' : 'Not Granted'}</Badge>
@@ -141,7 +141,7 @@ function LocationCard() {
   }
 
   return (
-    <View className="gap-2 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-2 rounded-xl border p-4">
       <View className="flex-row items-center justify-between">
         <Text className="font-semibold">Location</Text>
         <Badge variant={granted ? 'default' : 'outline'} size="sm">{granted ? 'Granted' : 'Not Granted'}</Badge>

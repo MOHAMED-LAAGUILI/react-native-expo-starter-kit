@@ -25,7 +25,7 @@ export function EditProfileForm({ onCancel }: EditProfileFormProps) {
   const initialRole = user?.role ?? 'Administrator';
 
   const [name, setName] = React.useState(initialName);
-  const [email, setEmail] = React.useState(initialEmail);
+  const [email] = React.useState(initialEmail);
   const [role, setRole] = React.useState(initialRole);
   const [errors, setErrors] = React.useState<FieldErrors>({});
 
@@ -46,10 +46,6 @@ export function EditProfileForm({ onCancel }: EditProfileFormProps) {
   const handleNameChange = (v: string) => {
     setName(v);
     validateField('name', v);
-  };
-  const handleEmailChange = (v: string) => {
-    setEmail(v);
-    validateField('email', v);
   };
   const handleRoleChange = (v: string) => {
     setRole(v);
@@ -90,10 +86,10 @@ export function EditProfileForm({ onCancel }: EditProfileFormProps) {
         label="Email"
         placeholder="Enter your email"
         value={email}
-        onChangeText={handleEmailChange}
         type="email"
         keyboardType="email-address"
         autoCapitalize="none"
+        editable={false}
         error={errors.email}
       />
 
@@ -102,7 +98,7 @@ export function EditProfileForm({ onCancel }: EditProfileFormProps) {
         placeholder="Enter your role"
         value={role ?? 'Administrator'}
         onChangeText={handleRoleChange}
-        leftIcon={<Icon as={Shield} className="size-[18px] text-muted-foreground" />}
+        leftIcon={<Icon as={Shield} className="text-muted-foreground size-[18px]" />}
         autoCapitalize="none"
         error={errors.role}
       />

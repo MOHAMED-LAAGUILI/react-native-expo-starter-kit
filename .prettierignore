@@ -1,0 +1,16 @@
+node_modules/*
+dist
+build
+.expo
+.expo-shared
+android
+ios
+.vscode
+docs/
+cli/
+expo-env.d.ts
+uniwind-types.d.ts
+migration/*
+script/*
+.agents/
+.github/

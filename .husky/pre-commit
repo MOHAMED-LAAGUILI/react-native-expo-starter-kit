@@ -1,28 +1,28 @@
 echo "🔍 Running pre-commit checks..."
 
 echo "📦 deps:fix..."
-bun run deps:fix
+pnpm run deps:fix
 if [ $? -ne 0 ]; then
   echo "❌ deps:fix failed"
   exit 1
 fi
 
 echo "🧹 lint:fix..."
-bun run lint:fix
+pnpm run lint:fix
 if [ $? -ne 0 ]; then
   echo "❌ lint:fix failed"
   exit 1
 fi
 
 echo "✅ type:check..."
-bun run type:check
+pnpm run type:check
 if [ $? -ne 0 ]; then
   echo "❌ type:check failed"
   exit 1
 fi
 
 echo "🏥 doctor..."
-bun run doctor
+pnpm run doctor
 if [ $? -ne 0 ]; then
   echo "❌ doctor failed"
   exit 1

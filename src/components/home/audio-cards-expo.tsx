@@ -13,6 +13,8 @@ import { View } from 'react-native';
 import { RESULTS } from 'react-native-permissions';
 
 import { Badge, Button, Text } from '@/components/ui';
+import { showToast } from '@/components/ui/toaster';
+import { saveAudioRecording } from '@/hooks/permission-utils';
 import { usePermissionsStatus } from '@/hooks/use-permissions-status';
 import { isWeb } from '@/utils/platform';
 
@@ -29,13 +31,13 @@ function ExpoAudioPlayerCard() {
   const status = useAudioPlayerStatus(player);
 
   return (
-    <View className="gap-2 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-2 rounded-xl border p-4">
       <View className="flex-row items-center justify-between">
         <Text className="font-semibold">Audio Player (expo-audio)</Text>
         {status.isBuffering && <Badge variant="outline" size="sm">Buffering…</Badge>}
       </View>
       <Text variant="caption" className="text-muted-foreground">Play a remote audio sample via expo-audio</Text>
-      <Text variant="body" className="text-center font-mono text-primary">
+      <Text variant="body" className="text-primary text-center font-mono">
         {formatTime(status.currentTime)}
         {' / '}
         {formatTime(status.duration)}
@@ -73,6 +75,24 @@ function ExpoAudioPlayerCard() {
 function RecordingPlayback({ uri }: { uri: string }) {
   const player = useAudioPlayer(uri, { updateInterval: 100 });
   const status = useAudioPlayerStatus(player);
+  const [saving, setSaving] = useState(false);
+
+  function handleSave() {
+    setSaving(true);
+    saveAudioRecording(uri)
+      .then((result) => {
+        if (result === 'saved') {
+          showToast({ title: 'Saved', message: 'Audio recording saved to device', variant: 'success' });
+        }
+        else {
+          showToast({ title: 'Permission Denied', message: 'Media library access is required to save recordings', variant: 'error' });
+        }
+      })
+      .catch(() => {
+        showToast({ title: 'Save Failed', message: 'Could not save audio recording', variant: 'error' });
+      })
+      .finally(() => setSaving(false));
+  }
 
   return (
     <View className="mt-2 gap-2">
@@ -93,8 +113,16 @@ function RecordingPlayback({ uri }: { uri: string }) {
           variant="destructive"
           className="flex-1"
         />
+        <Button
+          title={saving ? 'Saving…' : 'Save'}
+          onPress={handleSave}
+          size="sm"
+          variant="outline"
+          className="shrink-0"
+          disabled={saving}
+        />
       </View>
-      <Text variant="caption" className="truncate text-muted-foreground">
+      <Text variant="caption" className="text-muted-foreground truncate">
         Recorded:
         {uri}
       </Text>
@@ -160,7 +188,7 @@ function ExpoAudioRecorderCard() {
 
   if (isWeb) {
     return (
-      <View className="gap-2 rounded-xl border border-border bg-card p-4">
+      <View className="border-border bg-card gap-2 rounded-xl border p-4">
         <Text className="font-semibold">Audio Recorder (expo-audio)</Text>
         <Text variant="caption" className="text-muted-foreground">Audio recording not available on web</Text>
       </View>
@@ -168,7 +196,7 @@ function ExpoAudioRecorderCard() {
   }
 
   return (
-    <View className="gap-2 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-2 rounded-xl border p-4">
       <View className="flex-row items-center justify-between">
         <Text className="font-semibold">Audio Recorder (expo-audio)</Text>
         <Badge variant={micGranted ? 'default' : 'outline'} size="sm">
@@ -176,7 +204,7 @@ function ExpoAudioRecorderCard() {
         </Badge>
       </View>
       <Text variant="caption" className="text-muted-foreground">Record and play back audio via expo-audio</Text>
-      <Text variant="body" className="text-center font-mono text-primary">
+      <Text variant="body" className="text-primary text-center font-mono">
         {formatTime(state.durationMillis / 1000)}
       </Text>
       {error && (

@@ -27,7 +27,7 @@ export default antfu(
     // Global ignores
     ignores: [
       'dist/*',
-      'node_modules',
+      'node_modules/**',
       '__tests__/',
       'coverage',
       '.expo',
@@ -113,7 +113,7 @@ export default antfu(
         createTypeScriptImportResolver({
           alwaysTryTypes: true, // Always try to resolve types under `<root>@types` directory even if it doesn't contain any source code, like `@types/unist`
 
-          bun: true, // Resolve Bun modules (https://github.com/import-js/eslint-import-resolver-typescript#bun)
+          // bun: true, // Resolve Bun modules (https://github.com/import-js/eslint-import-resolver-typescript#bun)
 
           // Choose from one of the "project" configs below or omit to use <root>/tsconfig.json or <root>/jsconfig.json by default
 

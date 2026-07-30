@@ -17,3 +17,13 @@ export async function loadExpoMediaLibrary() {
 export async function loadExpoLocation() {
   return import('expo-location');
 }
+
+export async function saveAudioRecording(uri: string): Promise<'saved' | 'permission-denied'> {
+  const lib = await loadExpoMediaLibrary();
+  const { status: perm } = await lib.requestPermissionsAsync(true);
+  if (perm !== 'granted')
+    return 'permission-denied';
+  const asset = await lib.Asset.create(uri);
+  await asset.getUri();
+  return 'saved';
+}

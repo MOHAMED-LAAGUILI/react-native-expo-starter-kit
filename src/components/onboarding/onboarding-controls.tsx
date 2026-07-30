@@ -6,7 +6,7 @@ import { usePrimaryHex } from '@/hooks/use-primary-hex';
 
 type OnboardingControlsProps = {
   currentStep: number;
-  steps: { image: any; title: string; description: string }[];
+  steps: readonly { name: string; title: string; description: string }[];
   onBack: () => void;
   onNext: () => void;
   onSkip: () => void;
@@ -31,7 +31,7 @@ export function OnboardingControls({
       <Pressable
         onPress={onBack}
         disabled={isFirst}
-        className="size-12 items-center justify-center rounded-full border bg-muted"
+        className="bg-muted size-12 items-center justify-center rounded-full border"
         style={{ opacity: isFirst ? 0.3 : 1, borderColor: primaryHex }}
       >
         <ArrowLeft size={20} color={primaryHex} />
@@ -43,7 +43,7 @@ export function OnboardingControls({
         className="px-4 py-2"
         style={{ opacity: isLast ? 0.3 : 1 }}
       >
-        <Text className="text-sm font-semibold text-muted-foreground">SKIP</Text>
+        <Text className="text-muted-foreground text-sm font-semibold">SKIP</Text>
       </Pressable>
 
       <Pressable

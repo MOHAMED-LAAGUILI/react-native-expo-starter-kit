@@ -38,7 +38,7 @@ function DemoSections({ onCardSelect }: { onCardSelect: (card: CardData) => void
   return (
     <>
       <Text variant="h2" className="mb-2">Component Demo</Text>
-      <Text variant="body" className="mb-2 text-muted-foreground">All UI components with available variants.</Text>
+      <Text variant="body" className="text-muted-foreground mb-2">All UI components with available variants.</Text>
 
       <SectionTitle>Card</SectionTitle>
       <CardsDemo />

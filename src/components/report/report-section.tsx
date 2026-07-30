@@ -27,7 +27,7 @@ export function ReportSection({
           </Text>
         )}
       </View>
-      <View className={`rounded-xl border border-border bg-card ${bodyClassName ?? ''}`}>
+      <View className={`border-border bg-card rounded-xl border ${bodyClassName ?? ''}`}>
         {children}
       </View>
     </View>
