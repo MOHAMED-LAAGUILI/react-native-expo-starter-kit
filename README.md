@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-  <img width="1280" height="680" alt="RN Starter Kit Banner" src="https://github.com/user-attachments/assets/2e80075b-9131-4e2b-8dcf-42faf9bda0d1" />
+   <img width="1024" height="559" alt="RN Expo Starter Kit Banner" src="https://github.com/user-attachments/assets/3e80f416-300e-4260-80de-8595affd1082" />
 </p>
 
 <p align="center">
