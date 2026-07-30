@@ -10,7 +10,7 @@ function ForgotPasswordLink() {
       <Text variant="body" className="text-muted-foreground">
         Forgot your password?
         {' '}
-        <Text variant="body" className="text-primary font-semibold">
+        <Text variant="body" className="font-semibold text-primary">
           Reset it
         </Text>
       </Text>

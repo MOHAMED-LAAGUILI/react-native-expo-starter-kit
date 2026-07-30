@@ -108,7 +108,7 @@ function CustomTabBar({ state }: { state: { routes: Array<{ key: string; name: s
 
   return (
     <View style={{ backgroundColor: inactiveBg, paddingBottom: insets.bottom }}>
-      <View className="border-border relative flex-row border-t">
+      <View className="relative flex-row border-t border-border">
         {state.routes.map((r, i) => {
           const isFocused = i === state.index;
           const config = TAB_CONFIG[r.name as keyof typeof TAB_CONFIG];

@@ -51,7 +51,7 @@ function CalendarDemo() {
         markedDates={selected ? { [selected]: { selected: true } } : {}}
       />
       {selected && (
-        <Text variant="caption" className="text-muted-foreground mt-1 text-center">
+        <Text variant="caption" className="mt-1 text-center text-muted-foreground">
           Selected:
           {' '}
           {format(new Date(selected), 'PPP')}
@@ -117,7 +117,7 @@ function MenuDemo() {
         ]}
         onPress={key => setSelected(key)}
       >
-        <Pressable className="border-border bg-secondary h-11 flex-row items-center justify-between rounded-md border px-3">
+        <Pressable className="h-11 flex-row items-center justify-between rounded-md border border-border bg-secondary px-3">
           <Text className="text-foreground">press for Native menu</Text>
           <Text variant="caption" className="text-muted-foreground">{selected}</Text>
         </Pressable>

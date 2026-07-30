@@ -35,7 +35,7 @@ function Card({
   return (
     <View
       className={cn(
-        'border-border overflow-hidden rounded-2xl border',
+        'overflow-hidden rounded-2xl border border-border',
         isLightSolid && 'border-transparent',
         variant === 'secondary' && 'border-transparent',
         variant === 'stats' && 'bg-card',

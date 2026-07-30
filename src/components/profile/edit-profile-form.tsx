@@ -98,7 +98,7 @@ export function EditProfileForm({ onCancel }: EditProfileFormProps) {
         placeholder="Enter your role"
         value={role ?? 'Administrator'}
         onChangeText={handleRoleChange}
-        leftIcon={<Icon as={Shield} className="text-muted-foreground size-[18px]" />}
+        leftIcon={<Icon as={Shield} className="size-[18px] text-muted-foreground" />}
         autoCapitalize="none"
         error={errors.role}
       />

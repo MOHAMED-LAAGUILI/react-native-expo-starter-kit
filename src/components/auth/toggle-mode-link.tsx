@@ -11,7 +11,7 @@ function ToggleModeLink({ isLogin, onPress }: ToggleModeLinkProps) {
     <Pressable className="items-center py-2" onPress={onPress}>
       <Text variant="body" className="text-muted-foreground">
         {isLogin ? 'Don\'t have an account? ' : 'Already have an account? '}
-        <Text variant="body" className="text-primary font-semibold">
+        <Text variant="body" className="font-semibold text-primary">
           {isLogin ? 'Sign Up' : 'Sign In'}
         </Text>
       </Text>

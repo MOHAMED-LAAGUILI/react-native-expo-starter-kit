@@ -27,15 +27,15 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
   const builtinLeftIcon = (() => {
     switch (type) {
       case 'search':
-        return <Icon as={Search} className="text-muted-foreground size-[18px]" />;
+        return <Icon as={Search} className="size-[18px] text-muted-foreground" />;
       case 'phone':
-        return <Icon as={Phone} className="text-muted-foreground size-[18px]" />;
+        return <Icon as={Phone} className="size-[18px] text-muted-foreground" />;
       case 'username':
-        return <Icon as={User} className="text-muted-foreground size-[18px]" />;
+        return <Icon as={User} className="size-[18px] text-muted-foreground" />;
       case 'password':
-        return <Icon as={KeyRound} className="text-muted-foreground size-[18px]" />;
+        return <Icon as={KeyRound} className="size-[18px] text-muted-foreground" />;
       case 'email':
-        return <Icon as={Mail} className="text-muted-foreground size-[18px]" />;
+        return <Icon as={Mail} className="size-[18px] text-muted-foreground" />;
       default:
         return null;
     }
@@ -51,10 +51,10 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
         >
           {secureVisible
             ? (
-                <Icon as={EyeOff} className="text-muted-foreground size-[18px]" />
+                <Icon as={EyeOff} className="size-[18px] text-muted-foreground" />
               )
             : (
-                <Icon as={Eye} className="text-muted-foreground size-[18px]" />
+                <Icon as={Eye} className="size-[18px] text-muted-foreground" />
               )}
         </Pressable>
       );
@@ -68,7 +68,7 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
         ? (
             <Text
               variant="label"
-              className="text-muted-foreground mb-0.5"
+              className="mb-0.5 text-muted-foreground"
             >
               {label}
             </Text>
@@ -84,7 +84,7 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
       >
         {showLeftIcon && <View className="items-center justify-center">{showLeftIcon}</View>}
         <TextInput
-          className={cn('text-foreground h-full flex-1 text-base outline-0', className)}
+          className={cn('h-full flex-1 text-base text-foreground outline-0', className)}
           placeholderTextColor="#9CA3AF"
           secureTextEntry={resolvedSecureTextEntry}
           onFocus={(e) => {
@@ -103,7 +103,7 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
         ? (
             <Text
               variant="caption"
-              className="text-destructive mt-0.5"
+              className="mt-0.5 text-destructive"
             >
               {error}
             </Text>

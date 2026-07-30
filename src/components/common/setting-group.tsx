@@ -12,7 +12,7 @@ function SettingGroup({ children, className }: SettingGroupProps) {
   const [keys] = React.useState(() => children.map(() => Math.random().toString(36).slice(2, 10)));
 
   return (
-    <View className={`border-border bg-card overflow-hidden rounded-xl border ${className ?? ''}`}>
+    <View className={`overflow-hidden rounded-xl border border-border bg-card ${className ?? ''}`}>
       {children.map((child, i) => (
         <View key={keys[i]}>
           {child}

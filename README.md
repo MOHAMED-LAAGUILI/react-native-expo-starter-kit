@@ -243,15 +243,14 @@ This project uses [Context7](https://ctx7.ai) to provide AI coding agents with u
 
 ### Icon Generators
 - [Expo Assets Generator](https://expo-assets-generator.vercel.app/) — Generate splash, adaptive icon, favicon, and icon for Expo projects
-- [BuildIcon](https://buildicon.netlify.app/) — Generate mobile app icons for iOS, Android, and web
 
 ### SVG Illustration 
-[undraw](https://undraw.co/illustrations)
-[flowbite](https://flowbite.com/illustrations/)
+- [undraw](https://undraw.co/illustrations)
+- [flowbite](https://flowbite.com/illustrations/)
 
 ### Temp Mails for Eas Accounts
-[10minemail](https://10minemail.com/fr/)
-[10minutemail](https://10minutemail.one/)
+- [10minemail](https://10minemail.com/fr/)
+- [10minutemail](https://10minutemail.one/)
 
 
 ## EAS Lifecycle

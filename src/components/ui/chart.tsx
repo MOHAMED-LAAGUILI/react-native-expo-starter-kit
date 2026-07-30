@@ -112,7 +112,7 @@ function ChartPie({
         centerLabelComponent={() => (
           <View className="items-center">
             {centerSubtitle && (
-              <Text variant="caption" className="text-muted-foreground mb-1">
+              <Text variant="caption" className="mb-1 text-muted-foreground">
                 {centerSubtitle}
               </Text>
             )}
@@ -143,7 +143,7 @@ function ChartTrend({ data, className, onLayout }: ChartProps) {
               {item.value}
               h
             </Text>
-            <View className="bg-muted h-36 w-full justify-end overflow-hidden rounded-md px-1 pb-1">
+            <View className="h-36 w-full justify-end overflow-hidden rounded-md bg-muted px-1 pb-1">
               <View
                 className="w-full rounded-lg"
                 style={{
@@ -154,7 +154,7 @@ function ChartTrend({ data, className, onLayout }: ChartProps) {
             </View>
             <Text
               variant="caption"
-              className={cn('text-muted-foreground text-center')}
+              className={cn('text-center text-muted-foreground')}
               numberOfLines={2}
             >
               {item.label}

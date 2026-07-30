@@ -35,7 +35,7 @@ function VerifyOtpScreen() {
             contentFit="cover"
           />
           <Text variant="h1">Verify OTP</Text>
-          <Text variant="body" className="text-muted-foreground text-center">
+          <Text variant="body" className="text-center text-muted-foreground">
             Enter the 6-digit code sent to
             {' '}
             {email}
