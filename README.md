@@ -7,15 +7,12 @@
 </p>
 
 <p align="center">
-
-### Core
+   
 <img alt="React 19.2.3" src="https://img.shields.io/badge/React-19.2.3-149ECA?logo=react&logoColor=white" />
 <img alt="React Native 0.86.2" src="https://img.shields.io/badge/React%20Native-0.86.2-61DAFB?logo=react&logoColor=black" />
 <img alt="Expo SDK 57.0.10" src="https://img.shields.io/badge/Expo-SDK%2057.0.10-000020?logo=expo&logoColor=white" />
 <img alt="TypeScript 6.0.3" src="https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript&logoColor=white" />
 <img alt="Expo Router 57.0.10" src="https://img.shields.io/badge/Expo%20Router-57.0.10-000000?logo=expo&logoColor=white" />
-
-### UX/UX & Styling 
 <img alt="Tailwind CSS 4.2.1" src="https://img.shields.io/badge/Tailwind%20CSS-4.2.1-38BDF8?logo=tailwindcss&logoColor=white" />
 <img alt="Uniwind 1.10.0" src="https://img.shields.io/badge/Uniwind-1.10.0-06B6D4" />
 <img alt="CVA 0.7.1" src="https://img.shields.io/badge/CVA-0.7.1-000000" />
@@ -26,27 +23,19 @@
 <img alt="Keyboard Controller 1.21.9" src="https://img.shields.io/badge/Keyboard%20Controller-1.21.9-6366F1" />
 <img alt="Safe Area Context 5.7.0" src="https://img.shields.io/badge/Safe%20Area-5.7.0-0EA5E9" />
 <img alt="Screens 4.26.0" src="https://img.shields.io/badge/RN%20Screens-4.26.0-0EA5E9" />
-
-### State / Data Persistence
 <img alt="Zustand 5" src="https://img.shields.io/badge/Zustand-5-764ABC" />
 <img alt="TanStack Query 5" src="https://img.shields.io/badge/TanStack%20Query-5-FF4154?logo=reactquery&logoColor=white" />
 <img alt="TanStack Form 1" src="https://img.shields.io/badge/TanStack%20Form-1-FF4154" />
 <img alt="Zod 3" src="https://img.shields.io/badge/Zod-3-3068B7" />
 <img alt="Axios 1.18.1" src="https://img.shields.io/badge/Axios-1.18.1-5A29E4?logo=axios&logoColor=white" />
-
-### i18n Localization
 <img alt="i18next 26.3.4" src="https://img.shields.io/badge/i18next-26.3.4-26A69A" />
 <img alt="react-i18next 17.0.8" src="https://img.shields.io/badge/react--i18next-17.0.8-26A69A" />
-
-### Native / Performance
 <img alt="MMKV 4.3.2" src="https://img.shields.io/badge/MMKV-4.3.2-4CAF50" />
 <img alt="Reanimated 4.5.1" src="https://img.shields.io/badge/Reanimated-4.5.1-FFCA28" />
 <img alt="Gesture Handler 2.28.0" src="https://img.shields.io/badge/Gesture%20Handler-2.28.0-7C4DFF" />
 <img alt="Bottom Sheet 5" src="https://img.shields.io/badge/Bottom%20Sheet-5-0F172A" />
 <img alt="Worklets 0.10.1" src="https://img.shields.io/badge/Worklets-0.10.1-F59E0B" />
 <img alt="Nitro Modules 0.36.1" src="https://img.shields.io/badge/Nitro%20Modules-0.36.1-10B981" />
-
-### Expo Modules
 <img alt="Expo Dev Client 57.0.9" src="https://img.shields.io/badge/Expo%20Dev%20Client-57.0.9-000020?logo=expo&logoColor=white" />
 <img alt="Expo Updates 57.0.12" src="https://img.shields.io/badge/Expo%20Updates-57.0.12-000020?logo=expo&logoColor=white" />
 <img alt="Expo Notifications 57.0.7" src="https://img.shields.io/badge/Expo%20Notifications-57.0.7-000020?logo=expo&logoColor=white" />
@@ -54,8 +43,6 @@
 <img alt="Expo Video 57.0.2" src="https://img.shields.io/badge/Expo%20Video-57.0.2-000020?logo=expo&logoColor=white" />
 <img alt="Expo Audio 57.0.3" src="https://img.shields.io/badge/Expo%20Audio-57.0.3-000020?logo=expo&logoColor=white" />
 <img alt="Expo Location 57.0.6" src="https://img.shields.io/badge/Expo%20Location-57.0.6-000020?logo=expo&logoColor=white" />
-
-### Dev / Tooling
 <img alt="ESLint 10.6.0" src="https://img.shields.io/badge/ESLint-10.6.0-4B32C3?logo=eslint&logoColor=white" />
 <img alt="Prettier 3.9.6" src="https://img.shields.io/badge/Prettier-3.9.6-F7B93E?logo=prettier&logoColor=black" />
 <img alt="Husky 9.1.7" src="https://img.shields.io/badge/Husky-9.1.7-FF6B35" />
@@ -63,8 +50,6 @@
 <img alt="React Doctor 0.7.8" src="https://img.shields.io/badge/React%20Doctor-0.7.8-0EA5E9" />
 <img alt="TanStack Devtools 5" src="https://img.shields.io/badge/TanStack%20Devtools-5-FF4154?logo=reactquery&logoColor=white" />
 <img alt="Expo Doctor" src="https://img.shields.io/badge/Expo%20Doctor-Enabled-000020?logo=expo&logoColor=white" />
-
-### Platform
 <img alt="React Native Web 0.21.0" src="https://img.shields.io/badge/RN%20Web-0.21.0-61DAFB" />
 <img alt="Cross Platform" src="https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20Web-000000" />
 <img alt="New Architecture" src="https://img.shields.io/badge/RN-New%20Architecture-61DAFB" />
