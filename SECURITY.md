@@ -4,8 +4,8 @@
 
 | Version | Supported          |
 |---------|--------------------|
-| 2.5.x   | :white_check_mark: |
-| < 2.5   | :x:                |
+| 2.9.x   | :white_check_mark: |
+| < 2.9   | :x:                |
 
 ## Reporting a Vulnerability
 

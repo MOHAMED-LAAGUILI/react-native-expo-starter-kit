@@ -22,9 +22,9 @@ const bgStyles: Record<BadgeVariant, string> = {
   outline: 'bg-transparent border border-primary',
   primary: 'bg-primary',
   secondary: 'bg-primary/20',
-  success: 'bg-green-500',
-  warning: 'bg-yellow-500',
-  info: 'bg-blue-500',
+  success: 'bg-green-700',
+  warning: 'bg-yellow-700',
+  info: 'bg-blue-700',
 };
 
 const textStyles: Record<BadgeVariant, string> = {

@@ -1,5 +1,4 @@
 import { Redirect } from 'expo-router';
-import { View } from 'react-native';
 import { useAuthStore, useOnboardingStore } from '@/store';
 
 export default function Index() {
@@ -12,9 +11,5 @@ export default function Index() {
       ? '/(app)/(tabs)'
       : '/(auth)/login';
 
-  return (
-    <View className="flex-1 bg-background">
-      <Redirect href={target} />
-    </View>
-  );
+  return <Redirect href={target} />;
 }

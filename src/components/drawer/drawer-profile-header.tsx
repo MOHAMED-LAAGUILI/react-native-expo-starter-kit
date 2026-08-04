@@ -47,6 +47,8 @@ export function DrawerProfileHeader() {
       >
         <Pressable
           onPress={() => router.push('/(app)/(tabs)/profile')}
+          accessibilityRole="button"
+          accessibilityLabel={user?.name ?? 'James Martin'}
           className={cn('overflow-hidden rounded-full border-2 border-white/30', 'size-17')}
         >
           <Image

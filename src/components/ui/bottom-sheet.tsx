@@ -1,13 +1,24 @@
-import BottomSheetLib, {
+import {
   BottomSheetBackdrop,
+  BottomSheetModal,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
 import { X } from 'lucide-react-native';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
+import { FullWindowOverlay } from 'react-native-screens';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { isIOS } from '@/utils/platform';
 import { cn } from '@/utils/utils';
 import { Text } from './text';
+
+const FullWindowContainer
+  = isIOS
+    ? ({ children }: { children?: React.ReactNode }) => (
+        <FullWindowOverlay>{children}</FullWindowOverlay>
+      )
+    : undefined;
 
 type BottomSheetOption<T = string> = {
   label: string;
@@ -30,7 +41,7 @@ type BottomSheetProps<T = string> = {
   onSelect?: (value: T) => void;
   snapPoints?: string[];
   enableDynamicSizing?: boolean;
-  bottomSheetRef?: React.Ref<BottomSheetRef>; // ✅ React 19 style
+  bottomSheetRef?: React.Ref<BottomSheetRef>;
 };
 
 /* ----------------------------- Header ----------------------------- */
@@ -44,6 +55,8 @@ function BottomSheetHeader({
   onClose: () => void;
   muted: string;
 }) {
+  const { t } = useTranslation();
+
   return (
     <View className="flex-row items-center justify-between border-b border-border px-4 py-3">
       <Text variant="body" className="font-semibold">
@@ -52,6 +65,9 @@ function BottomSheetHeader({
 
       <Pressable
         onPress={onClose}
+        accessibilityRole="button"
+        accessibilityLabel={t('common.close')}
+        hitSlop={8}
         className="size-8 items-center justify-center rounded-full bg-muted"
       >
         <X size={16} color={muted} />
@@ -80,6 +96,8 @@ function BottomSheetOptions<T>({
           <Pressable
             key={String(option.value)}
             onPress={() => onSelect?.(option.value)}
+            accessibilityRole="button"
+            accessibilityState={{ selected: isSelected }}
             className={cn(
               'flex-row items-center gap-3 border-b border-border px-4 py-3',
               isSelected && 'bg-primary/10',
@@ -125,22 +143,31 @@ function BottomSheet<T>({
   enableDynamicSizing,
   bottomSheetRef,
 }: BottomSheetProps<T>) {
-  const sheetRef = React.useRef<BottomSheetLib>(null);
+  const modalRef = React.useRef<React.ComponentRef<typeof BottomSheetModal>>(null);
   const prevOpenRef = React.useRef(open);
+  const isPresentedRef = React.useRef(false);
   const { background, muted, border } = useThemeColors();
 
   // expose imperative API
   React.useImperativeHandle(bottomSheetRef, () => ({
-    expand: () => sheetRef.current?.expand(),
-    close: () => sheetRef.current?.close(),
+    expand: () => {
+      isPresentedRef.current = true;
+      modalRef.current?.present();
+    },
+    close: () => {
+      if (isPresentedRef.current)
+        modalRef.current?.dismiss();
+    },
   }));
 
   React.useEffect(() => {
     if (open && !prevOpenRef.current) {
-      sheetRef.current?.expand();
+      isPresentedRef.current = true;
+      modalRef.current?.present();
     }
-    else if (!open && prevOpenRef.current) {
-      sheetRef.current?.close();
+    else if (!open && prevOpenRef.current && isPresentedRef.current) {
+      isPresentedRef.current = false;
+      modalRef.current?.dismiss();
     }
     prevOpenRef.current = open;
   }, [open]);
@@ -159,10 +186,11 @@ function BottomSheet<T>({
   );
 
   return (
-    <BottomSheetLib
-      ref={sheetRef}
-      index={-1}
-      snapPoints={snapPoints ?? ['30%', '60%']}
+    <BottomSheetModal
+      ref={modalRef}
+      index={0}
+      stackBehavior="replace"
+      snapPoints={snapPoints ?? ['40%', '100%']}
       enableDynamicSizing={enableDynamicSizing}
       enableBlurKeyboardOnGesture
       enableContentPanningGesture
@@ -171,9 +199,14 @@ function BottomSheet<T>({
       enableOverDrag
       animateOnMount
       onChange={index => onOpenChange(index >= 0)}
+      onDismiss={() => {
+        isPresentedRef.current = false;
+        onOpenChange(false);
+      }}
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={{ backgroundColor: border }}
       backgroundStyle={{ backgroundColor: background }}
+      containerComponent={FullWindowContainer}
     >
       <BottomSheetHeader
         title={title}
@@ -190,7 +223,7 @@ function BottomSheet<T>({
           />
         )}
       </BottomSheetScrollView>
-    </BottomSheetLib>
+    </BottomSheetModal>
   );
 }
 

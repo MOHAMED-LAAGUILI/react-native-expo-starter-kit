@@ -25,6 +25,7 @@ function TypographyDemo() {
       <Text variant="h4">Heading h4</Text>
       <Text variant="bodyLarge">Body Large text</Text>
       <Text variant="body">Body - the quick brown fox jumps over the lazy dog.</Text>
+      <Text variant="blockquote">Blockquote - a short meaningful quote about design.</Text>
       <Text variant="bodySmall">Body Small text</Text>
       <Text variant="caption">Caption text</Text>
       <Text variant="label">Label text</Text>

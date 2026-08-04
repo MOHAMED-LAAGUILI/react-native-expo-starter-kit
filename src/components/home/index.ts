@@ -7,7 +7,6 @@ export {
   CenteredActionDemo,
   CenteredDemo,
   DateTimePickerDemo,
-  MenuDemo,
   QRCodeDemo,
   TextAreaDemo,
 } from './extended-demos';
@@ -16,6 +15,17 @@ export { ImageCardDemo } from './image-card-demo';
 export { ImageDemo } from './image-demo';
 export { InputDemo } from './input-demo';
 export { PermissionCards } from './permission-cards';
+export {
+  AccordionDemo,
+  AlertDemo,
+  MenubarDemo,
+  PopoverDemo,
+  SelectDemo,
+  SeparatorDemo,
+  SkeletonDemo,
+  TabsDemo,
+  TooltipDemo,
+} from './primitives-demos';
 export { ProgressDemo } from './progress-demo';
 export { RadioGroupDemo } from './radio-group-demo';
 export { SliderDemo } from './slider-demo';

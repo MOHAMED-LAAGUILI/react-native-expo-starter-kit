@@ -4,6 +4,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, Text, View } from 'react-native';
 import Animated, {
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -53,6 +54,7 @@ function TabItem({
       mass: 0.4,
       damping: 8,
       stiffness: 120,
+      reduceMotion: ReduceMotion.System,
     }));
   }, [focused, borderScale]);
 
@@ -66,6 +68,8 @@ function TabItem({
   return (
     <Pressable
       onPress={() => router.push(href as any)}
+      accessibilityRole="tab"
+      accessibilityState={{ selected: focused }}
       className="flex-1 items-center gap-0.5 pt-1 pb-2"
       style={{ backgroundColor: focused ? `${primaryHex}10` : inactiveBg }}
     >
@@ -122,6 +126,9 @@ function CustomTabBar({ state }: { state: { routes: Array<{ key: string; name: s
               <Pressable
                 key={r.key}
                 onPress={() => router.push('/')}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: isFocused }}
+                accessibilityLabel={t('navigation.home')}
                 className="flex-1 items-center justify-center"
                 style={{ marginTop: -24 }}
               >

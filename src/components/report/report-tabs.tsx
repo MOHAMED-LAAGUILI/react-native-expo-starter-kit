@@ -26,6 +26,8 @@ export function ReportTabs({
           <Pressable
             key={tab.key}
             onPress={() => onTabChange(tab.key)}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: activeTab === tab.key }}
             className={cn(
               'flex-1 flex-row items-center justify-center gap-2 rounded-sm p-1',
               activeTab === tab.key ? 'bg-primary' : 'bg-transparent',

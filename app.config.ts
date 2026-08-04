@@ -87,6 +87,7 @@ const plugins: ExpoConfig['plugins'] = [
     },
   ],
   ['expo-asset'],
+  ['expo-image'],
 
 ];
 
@@ -110,7 +111,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   assetBundlePatterns: ['**/*'],
   backgroundColor: '#ffffff',
-  description: `${ENV.EXPO_PUBLIC_NAME} Mobile App`,
+  description: `${ENV.EXPO_PUBLIC_NAME} is a cross-platform mobile application engineered with modern technologies, optimized for performance, scalability, and maintainability.`,
   experiments: {
     typedRoutes: true,
   },

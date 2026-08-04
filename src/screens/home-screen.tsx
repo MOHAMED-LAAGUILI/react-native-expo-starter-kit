@@ -2,6 +2,8 @@ import type { CardData } from '@/components/home/image-card-demo';
 import * as React from 'react';
 import { ScrollView, View } from 'react-native';
 import {
+  AccordionDemo,
+  AlertDemo,
   BadgeDemo,
   ButtonsDemo,
   CalendarDemo,
@@ -16,23 +18,62 @@ import {
   ImageCardDemo,
   ImageDemo,
   InputDemo,
-  MenuDemo,
+  MenubarDemo,
   PermissionCards,
+  PopoverDemo,
   ProgressDemo,
   QRCodeDemo,
   RadioGroupDemo,
   SectionTitle,
+  SelectDemo,
+  SeparatorDemo,
+  SkeletonDemo,
   SliderDemo,
   SpinnerDemo,
   SwitchDemo,
+  TabsDemo,
   TextAreaDemo,
   ToastDemo,
   ToggleDemo,
+  TooltipDemo,
   TypographyDemo,
   VideoDemo,
 } from '@/components/home';
 import { CardsDemo } from '@/components/home/cards-demo';
 import { BottomSheet, Image, Text } from '@/components/ui';
+
+function PrimitiveSections() {
+  return (
+    <>
+      <SectionTitle>Accordion</SectionTitle>
+      <AccordionDemo />
+
+      <SectionTitle>Alert</SectionTitle>
+      <AlertDemo />
+
+      <SectionTitle>Tabs</SectionTitle>
+      <TabsDemo />
+
+      <SectionTitle>Select</SectionTitle>
+      <SelectDemo />
+
+      <SectionTitle>Separator</SectionTitle>
+      <SeparatorDemo />
+
+      <SectionTitle>Skeleton</SectionTitle>
+      <SkeletonDemo />
+
+      <SectionTitle>Popover</SectionTitle>
+      <PopoverDemo />
+
+      <SectionTitle>Menubar</SectionTitle>
+      <MenubarDemo />
+
+      <SectionTitle>Tooltip</SectionTitle>
+      <TooltipDemo />
+    </>
+  );
+}
 
 function DemoSections({ onCardSelect }: { onCardSelect: (card: CardData) => void }) {
   return (
@@ -54,6 +95,8 @@ function DemoSections({ onCardSelect }: { onCardSelect: (card: CardData) => void
 
       <SectionTitle>Icons</SectionTitle>
       <IconDemo />
+
+      <PrimitiveSections />
 
       <SectionTitle>Buttons</SectionTitle>
       <ButtonsDemo />
@@ -112,9 +155,6 @@ function DemoSections({ onCardSelect }: { onCardSelect: (card: CardData) => void
         <CenteredActionDemo />
       </View>
 
-      <SectionTitle>Context Menu</SectionTitle>
-      <MenuDemo />
-
       <SectionTitle>QR Code</SectionTitle>
       <QRCodeDemo />
 
@@ -143,7 +183,6 @@ function HomeScreen() {
             setSelectedCard(null);
         }}
         title={selectedCard?.title ?? ''}
-        snapPoints={['50%', '75%']}
       >
         {selectedCard && (
           <>

@@ -4,7 +4,6 @@ import { ScrollView, View } from 'react-native';
 import { OverviewCards } from '@/components/home/overview-cards';
 import { reportRangeLabels, reportTabs } from '@/components/report/constants';
 import { HoursDistribution } from '@/components/report/hours-distribution';
-import { LineTrend } from '@/components/report/line-trend';
 import { ReportTabs } from '@/components/report/report-tabs';
 import { TrendSnapshot } from '@/components/report/trend-snapshot';
 import { UnifiedProjects } from '@/components/report/unified-projects';
@@ -72,7 +71,6 @@ export function ReportScreen() {
 
         <UnifiedProjects key={`unified-${activeTab}`} data={tabProjectData} totalHours={totalHours} />
 
-        <LineTrend key={`line-${activeTab}`} data={tabProjectData} />
       </ScrollView>
     </View>
   );

@@ -1,9 +1,11 @@
 import type { SharedValue } from 'react-native-reanimated';
 import { X } from 'lucide-react-native';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, Modal as RNModal, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -16,7 +18,7 @@ import { Button } from './button';
 import { Icon } from './icon';
 import { Text } from './text';
 
-const SPRING_CONFIG = { damping: 20, stiffness: 260, mass: 1 };
+const SPRING_CONFIG = { damping: 20, stiffness: 260, mass: 1, reduceMotion: ReduceMotion.System };
 const BACKDROP_DURATION = 220;
 
 type ModalVariant = 'bottom-sheet' | 'centered' | 'centered-action';
@@ -48,7 +50,7 @@ function useModalEntry({ show, isBottomSheet }: { show: boolean; isBottomSheet: 
   React.useEffect(() => {
     if (!show)
       return;
-    opacity.set(withTiming(1, { duration: BACKDROP_DURATION }));
+    opacity.set(withTiming(1, { duration: BACKDROP_DURATION, reduceMotion: ReduceMotion.System }));
     if (isBottomSheet) {
       translateY.set(withSpring(0, SPRING_CONFIG));
     }
@@ -86,6 +88,7 @@ function createPanGesture({ isBottomSheet, show, translateY, handleClose }: {
 
 function Modal({ isVisible, onClose, variant = 'bottom-sheet', title, description, icon, actions, children, className }: ModalProps) {
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
   const isBottomSheet = variant === 'bottom-sheet';
   const isCentered = variant === 'centered' || variant === 'centered-action';
 
@@ -97,15 +100,15 @@ function Modal({ isVisible, onClose, variant = 'bottom-sheet', title, descriptio
 
   const animateOut = () => {
     'worklet';
-    opacity.set(withTiming(0, { duration: 180 }));
+    opacity.set(withTiming(0, { duration: 180, reduceMotion: ReduceMotion.System }));
     if (isBottomSheet) {
-      translateY.set(withTiming(300, { duration: 180 }, (finished) => {
+      translateY.set(withTiming(300, { duration: 180, reduceMotion: ReduceMotion.System }, (finished) => {
         if (finished)
           scheduleOnRN(dismiss);
       }));
     }
     else {
-      scale.set(withTiming(0.92, { duration: 180 }, (finished) => {
+      scale.set(withTiming(0.92, { duration: 180, reduceMotion: ReduceMotion.System }, (finished) => {
         if (finished)
           scheduleOnRN(dismiss);
       }));
@@ -131,7 +134,7 @@ function Modal({ isVisible, onClose, variant = 'bottom-sheet', title, descriptio
         style={backdropStyle}
         className={cn('flex-1 bg-black/40', isCentered ? 'items-center justify-center px-8' : 'justify-end')}
       >
-        <Pressable className="absolute inset-0" onPress={handleClose} />
+        <Pressable className="absolute inset-0" onPress={handleClose} accessibilityRole="button" accessibilityLabel={t('common.close')} />
 
         {isBottomSheet && (
           <GestureDetector gesture={panGesture}>
@@ -175,6 +178,8 @@ function BottomSheetBody({ title, className, onClose, sheetTranslateStyle, child
   children: React.ReactNode;
   bottomInset: number;
 }) {
+  const { t } = useTranslation();
+
   return (
     <Animated.View
       style={[sheetTranslateStyle, { marginTop: SHEET_MIN_Y, marginBottom: bottomInset > 0 ? bottomInset : 0 }]}
@@ -185,7 +190,7 @@ function BottomSheetBody({ title, className, onClose, sheetTranslateStyle, child
         {title && (
           <View className="w-full flex-row items-center justify-between">
             <Text variant="h3">{title}</Text>
-            <Pressable onPress={onClose} hitSlop={12}>
+            <Pressable onPress={onClose} hitSlop={12} accessibilityRole="button" accessibilityLabel={t('common.close')}>
               <View className="size-8 items-center justify-center rounded-full bg-foreground/10">
                 <Icon as={X} className="size-4 text-foreground/60" />
               </View>
@@ -208,13 +213,15 @@ function CenteredBody({ title, description, icon, actions, className, onClose, s
   sheetScaleStyle: object;
   children: React.ReactNode;
 }) {
+  const { t } = useTranslation();
+
   return (
     <Animated.View
       style={sheetScaleStyle}
       className={cn('w-full max-w-sm rounded-[28px] bg-background p-6', className)}
     >
       <View className="mb-2 items-end">
-        <Pressable onPress={onClose} hitSlop={12}>
+        <Pressable onPress={onClose} hitSlop={12} accessibilityRole="button" accessibilityLabel={t('common.close')}>
           <View className="size-8 items-center justify-center rounded-full bg-foreground/10">
             <Icon as={X} className="size-4 text-foreground/60" />
           </View>

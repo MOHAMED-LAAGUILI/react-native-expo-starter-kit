@@ -12,7 +12,7 @@ function TestScreen() {
       contentInset={{ bottom: insets.bottom }}
     >
       <View className="gap-8 p-6">
-        <Text variant="h2">Test Page</Text>
+        <Text>Test Page</Text>
 
       </View>
     </ScrollView>

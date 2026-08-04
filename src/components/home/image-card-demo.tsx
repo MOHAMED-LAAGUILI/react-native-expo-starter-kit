@@ -73,7 +73,7 @@ function ImageCardDemo({ onCardSelect }: { onCardSelect?: (card: CardData) => vo
           contentContainerClassName="gap-3"
         >
           {VERTICAL_CARDS.map(card => (
-            <ImageCard key={card.title} {...card} onPress={() => onCardSelect?.(card)} />
+            <ImageCard key={card.title} {...card} onPress={() => onCardSelect?.({ ...card })} />
           ))}
         </ScrollView>
       </View>
@@ -82,7 +82,7 @@ function ImageCardDemo({ onCardSelect }: { onCardSelect?: (card: CardData) => vo
         <Text variant="h3" className="mb-3">Horizontal Cards</Text>
         <View className="gap-3">
           {HORIZONTAL_CARDS.map(card => (
-            <ImageCard key={card.title} {...card} onPress={() => onCardSelect?.(card)} />
+            <ImageCard key={card.title} {...card} onPress={() => onCardSelect?.({ ...card })} />
           ))}
         </View>
       </View>

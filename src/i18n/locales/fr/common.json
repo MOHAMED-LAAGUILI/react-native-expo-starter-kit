@@ -19,7 +19,13 @@
     "noResults": "Aucun résultat trouvé",
     "pullToRefresh": "Tirez pour actualiser",
     "back": "Retour",
-    "close": "Fermer"
+    "close": "Fermer",
+    "openMenu": "Ouvrir le menu",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "next": "Suivant",
+    "skip": "Passer",
+    "finish": "Terminer"
   },
   "navigation": {
     "home": "Accueil",

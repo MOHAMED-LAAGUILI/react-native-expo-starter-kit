@@ -11,6 +11,7 @@ import enPostDetail from './locales/en/post-detail.json';
 import enPreferences from './locales/en/preferences.json';
 import enSearch from './locales/en/search.json';
 import enSettings from './locales/en/settings.json';
+import enUserMenu from './locales/en/user-menu.json';
 import frAudio from './locales/fr/audio.json';
 import frAuth from './locales/fr/auth.json';
 import frCommon from './locales/fr/common.json';
@@ -18,10 +19,11 @@ import frPostDetail from './locales/fr/post-detail.json';
 import frPreferences from './locales/fr/preferences.json';
 import frSearch from './locales/fr/search.json';
 import frSettings from './locales/fr/settings.json';
+import frUserMenu from './locales/fr/user-menu.json';
 
 const resources = {
-  en: { 'audio': enAudio, 'auth': enAuth, 'common': enCommon, 'post-detail': enPostDetail, 'preferences': enPreferences, 'search': enSearch, 'settings': enSettings },
-  fr: { 'audio': frAudio, 'auth': frAuth, 'common': frCommon, 'post-detail': frPostDetail, 'preferences': frPreferences, 'search': frSearch, 'settings': frSettings },
+  en: { 'audio': enAudio, 'auth': enAuth, 'common': enCommon, 'post-detail': enPostDetail, 'preferences': enPreferences, 'search': enSearch, 'settings': enSettings, 'user-menu': enUserMenu },
+  fr: { 'audio': frAudio, 'auth': frAuth, 'common': frCommon, 'post-detail': frPostDetail, 'preferences': frPreferences, 'search': frSearch, 'settings': frSettings, 'user-menu': frUserMenu },
 };
 
 function getDeviceLanguage(): string {
@@ -68,7 +70,7 @@ export async function setupI18n(): Promise<void> {
     fallbackLng: 'en',
     interpolation: { escapeValue: false },
     lng: initialLanguage,
-    ns: ['common', 'auth', 'audio', 'post-detail', 'preferences', 'search', 'settings'],
+    ns: ['common', 'auth', 'audio', 'post-detail', 'preferences', 'search', 'settings', 'user-menu'],
     resources,
   });
 }

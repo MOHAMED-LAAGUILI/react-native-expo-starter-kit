@@ -8,32 +8,72 @@
 
 <p align="center">
 
-  <img alt="React 19" src="https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white" />
-  <img alt="React Native 0.86" src="https://img.shields.io/badge/React%20Native-0.86-61DAFB?logo=react&logoColor=black" />
-  <img alt="Expo SDK 57" src="https://img.shields.io/badge/Expo-SDK%2057-000020?logo=expo&logoColor=white" />
-  <img alt="TypeScript 6" src="https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white" />
-  <img alt="Expo Router v5" src="https://img.shields.io/badge/Expo%20Router-v5-000000?logo=expo&logoColor=white" />
-  <img alt="Tailwind CSS v4" src="https://img.shields.io/badge/Tailwind%20CSS-v4-38BDF8?logo=tailwindcss&logoColor=white" />
-  <img alt="Uniwind" src="https://img.shields.io/badge/Uniwind-Latest-06B6D4" />
-  <img alt="Zustand v5" src="https://img.shields.io/badge/Zustand-v5-764ABC" />
-  <img alt="TanStack Query v5" src="https://img.shields.io/badge/TanStack%20Query-v5-FF4154?logo=reactquery&logoColor=white" />
-  <img alt="TanStack Form v1" src="https://img.shields.io/badge/TanStack%20Form-v1-FF4154" />
-  <img alt="Zod v3" src="https://img.shields.io/badge/Zod-v3-3068B7" />
-  <img alt="MMKV v4" src="https://img.shields.io/badge/MMKV-v4-4CAF50" />
-  <img alt="Axios" src="https://img.shields.io/badge/Axios-Latest-5A29E4?logo=axios&logoColor=white" />
-  <img alt="i18next v26" src="https://img.shields.io/badge/i18next-v26-26A69A" />
-  <img alt="Reanimated v4" src="https://img.shields.io/badge/Reanimated-v4-FFCA28" />
-  <img alt="Gesture Handler v2" src="https://img.shields.io/badge/Gesture%20Handler-v2-7C4DFF" />
-  <img alt="Bottom Sheet v5" src="https://img.shields.io/badge/Bottom%20Sheet-v5-0F172A" />
-  <img alt="Lucide Icons" src="https://img.shields.io/badge/Lucide-Icons-F56565" />
-  <img alt="RN Primitives v1.5" src="https://img.shields.io/badge/RN%20Primitives-v1.5-111827" />
-  <img alt="ESLint" src="https://img.shields.io/badge/ESLint-Latest-4B32C3?logo=eslint&logoColor=white" />
-  <img alt="Husky Git Hooks" src="https://img.shields.io/badge/Husky-Git%20Hooks-FF6B35" />
+### Core
+<img alt="React 19.2.3" src="https://img.shields.io/badge/React-19.2.3-149ECA?logo=react&logoColor=white" />
+<img alt="React Native 0.86.2" src="https://img.shields.io/badge/React%20Native-0.86.2-61DAFB?logo=react&logoColor=black" />
+<img alt="Expo SDK 57.0.10" src="https://img.shields.io/badge/Expo-SDK%2057.0.10-000020?logo=expo&logoColor=white" />
+<img alt="TypeScript 6.0.3" src="https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript&logoColor=white" />
+<img alt="Expo Router 57.0.10" src="https://img.shields.io/badge/Expo%20Router-57.0.10-000000?logo=expo&logoColor=white" />
+
+### UX/UX & Styling 
+<img alt="Tailwind CSS 4.2.1" src="https://img.shields.io/badge/Tailwind%20CSS-4.2.1-38BDF8?logo=tailwindcss&logoColor=white" />
+<img alt="Uniwind 1.10.0" src="https://img.shields.io/badge/Uniwind-1.10.0-06B6D4" />
+<img alt="CVA 0.7.1" src="https://img.shields.io/badge/CVA-0.7.1-000000" />
+<img alt="Tailwind Merge 3.4.0" src="https://img.shields.io/badge/tailwind--merge-3.4.0-38BDF8" />
+<img alt="Lucide 1.21.0" src="https://img.shields.io/badge/Lucide-1.21.0-F56565" />
+<img alt="RN Primitives 1.5.2" src="https://img.shields.io/badge/RN%20Primitives-1.5.2-111827" />
+<img alt="React Native SVG 15.15.4" src="https://img.shields.io/badge/RN%20SVG-15.15.4-FF6B6B" />
+<img alt="Keyboard Controller 1.21.9" src="https://img.shields.io/badge/Keyboard%20Controller-1.21.9-6366F1" />
+<img alt="Safe Area Context 5.7.0" src="https://img.shields.io/badge/Safe%20Area-5.7.0-0EA5E9" />
+<img alt="Screens 4.26.0" src="https://img.shields.io/badge/RN%20Screens-4.26.0-0EA5E9" />
+
+### State / Data Persistence
+<img alt="Zustand 5" src="https://img.shields.io/badge/Zustand-5-764ABC" />
+<img alt="TanStack Query 5" src="https://img.shields.io/badge/TanStack%20Query-5-FF4154?logo=reactquery&logoColor=white" />
+<img alt="TanStack Form 1" src="https://img.shields.io/badge/TanStack%20Form-1-FF4154" />
+<img alt="Zod 3" src="https://img.shields.io/badge/Zod-3-3068B7" />
+<img alt="Axios 1.18.1" src="https://img.shields.io/badge/Axios-1.18.1-5A29E4?logo=axios&logoColor=white" />
+
+### i18n Localization
+<img alt="i18next 26.3.4" src="https://img.shields.io/badge/i18next-26.3.4-26A69A" />
+<img alt="react-i18next 17.0.8" src="https://img.shields.io/badge/react--i18next-17.0.8-26A69A" />
+
+### Native / Performance
+<img alt="MMKV 4.3.2" src="https://img.shields.io/badge/MMKV-4.3.2-4CAF50" />
+<img alt="Reanimated 4.5.1" src="https://img.shields.io/badge/Reanimated-4.5.1-FFCA28" />
+<img alt="Gesture Handler 2.28.0" src="https://img.shields.io/badge/Gesture%20Handler-2.28.0-7C4DFF" />
+<img alt="Bottom Sheet 5" src="https://img.shields.io/badge/Bottom%20Sheet-5-0F172A" />
+<img alt="Worklets 0.10.1" src="https://img.shields.io/badge/Worklets-0.10.1-F59E0B" />
+<img alt="Nitro Modules 0.36.1" src="https://img.shields.io/badge/Nitro%20Modules-0.36.1-10B981" />
+
+### Expo Modules
+<img alt="Expo Dev Client 57.0.9" src="https://img.shields.io/badge/Expo%20Dev%20Client-57.0.9-000020?logo=expo&logoColor=white" />
+<img alt="Expo Updates 57.0.12" src="https://img.shields.io/badge/Expo%20Updates-57.0.12-000020?logo=expo&logoColor=white" />
+<img alt="Expo Notifications 57.0.7" src="https://img.shields.io/badge/Expo%20Notifications-57.0.7-000020?logo=expo&logoColor=white" />
+<img alt="Expo Image 57.0.2" src="https://img.shields.io/badge/Expo%20Image-57.0.2-000020?logo=expo&logoColor=white" />
+<img alt="Expo Video 57.0.2" src="https://img.shields.io/badge/Expo%20Video-57.0.2-000020?logo=expo&logoColor=white" />
+<img alt="Expo Audio 57.0.3" src="https://img.shields.io/badge/Expo%20Audio-57.0.3-000020?logo=expo&logoColor=white" />
+<img alt="Expo Location 57.0.6" src="https://img.shields.io/badge/Expo%20Location-57.0.6-000020?logo=expo&logoColor=white" />
+
+### Dev / Tooling
+<img alt="ESLint 10.6.0" src="https://img.shields.io/badge/ESLint-10.6.0-4B32C3?logo=eslint&logoColor=white" />
+<img alt="Prettier 3.9.6" src="https://img.shields.io/badge/Prettier-3.9.6-F7B93E?logo=prettier&logoColor=black" />
+<img alt="Husky 9.1.7" src="https://img.shields.io/badge/Husky-9.1.7-FF6B35" />
+<img alt="React Compiler RC" src="https://img.shields.io/badge/React%20Compiler-19.1.0--rc.2-149ECA?logo=react&logoColor=white" />
+<img alt="React Doctor 0.7.8" src="https://img.shields.io/badge/React%20Doctor-0.7.8-0EA5E9" />
+<img alt="TanStack Devtools 5" src="https://img.shields.io/badge/TanStack%20Devtools-5-FF4154?logo=reactquery&logoColor=white" />
+<img alt="Expo Doctor" src="https://img.shields.io/badge/Expo%20Doctor-Enabled-000020?logo=expo&logoColor=white" />
+
+### Platform
+<img alt="React Native Web 0.21.0" src="https://img.shields.io/badge/RN%20Web-0.21.0-61DAFB" />
+<img alt="Cross Platform" src="https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20Web-000000" />
+<img alt="New Architecture" src="https://img.shields.io/badge/RN-New%20Architecture-61DAFB" />
+<img alt="OTA Updates" src="https://img.shields.io/badge/OTA-Enabled-10B981" />
 
 </p>
 
-![Made by MOHAMED LAAGUILI (MOLI)](https://img.shields.io/badge/Made%20by-Mohamed_LAAGUILI-blue)
-![Version](https://img.shields.io/badge/Version-2.9.0-blue)
+![Made by](https://img.shields.io/badge/Made%20by-Mohamed_LAAGUILI-blue)
+![Version](https://img.shields.io/badge/Version-3.0.0-blue)
 
 ## Demo Android (Old Build Demo)
 **Wanna See Magic Star & Clone Repo**
@@ -171,7 +211,7 @@ To run the app, use a development build instead:
 │   │   ├── common/             # LoadingScreen, ErrorFallback
 │   │   ├── drawer/             # DrawerHeaderLeft, AppDrawerContent, etc.
 │   │   ├── home/               # Demo components (cards-demo, extended-demos, overview-cards, etc.)
-│   │   ├── report/             # ReportTabs, ReportSection, TrendSnapshot, HoursDistribution, LineTrend, UnifiedProjects, ProjectAllocation
+│   │   ├── report/             # ReportTabs, ReportSection, TrendSnapshot, HoursDistribution, UnifiedProjects, ProjectAllocation
 │   │   └── ui/                 # Button, Text, Input, BottomSheet, Modal, Calendar, Video, WebView, QRCode, Menu, ...
 │   ├── config/                 # Constants, env helpers, color-palettes.ts
 │   ├── data/                   # Mock data (report.ts)
@@ -264,10 +304,6 @@ pnpm dev
 # 2. Run checks before committing 
 pnpm run checks
 ```
-### Perfect Score
-[![React Doctor](https://www.react.doctor/share/badge?p=react-native-expo-starter-kit&s=100&w=0&f=0)](https://www.react.doctor/share?p=react-native-expo-starter-kit&s=100&w=0&f=0)
-
-<img width="592" height="759" alt="image" src="https://github.com/user-attachments/assets/f93166a4-f0d4-4fe6-8968-0de1785fd96d" />
 
 ## Git & EAS
 
@@ -382,18 +418,16 @@ To release, just bump the version in `package.json` and push to `main`.
 - **Consola** - for better developer command experience
 - **Maestro + Jest** — E2E testing framework for mobile
 - **App Store Connect** — EAS Submit pipeline for App Store and Play Store release
-- **Convex** — Realtime backend with reactive data sync
-- **PostHog** — Product analytics for feature usage and user behavior
-- **LogRocket** — Session replay and frontend performance monitoring
 - **Sentry** — Crash reporting and error tracking
 - **Vexo** — AI-powered in-app chatbot and customer support
 
 ## Planned Features (Expected Soon)
 - **Backend Service** - Supabase / Convex
-- **Expo Notifications** — push notifications via `expo-notifications` with local + remote notification support
 - **Expo** [Other Expo Features](https://docs.expo.dev/versions/latest/sdk/expo/)
 - **Immersive Focus** [Hide Navigation bar](https://docs.expo.dev/versions/latest/sdk/navigation-bar/)
 - **Expo Widget** [Android Widgets](https://github.com/sAleksovski/react-native-android-widget)
+- **Accessible RN Primitive Components** - RN-Primitives
+
 
 
 

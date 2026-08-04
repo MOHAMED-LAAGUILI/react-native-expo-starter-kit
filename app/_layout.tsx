@@ -7,7 +7,7 @@ import {
 import { PortalHost } from '@rn-primitives/portal';
 import * as Font from 'expo-font';
 import { NavigationBar } from 'expo-navigation-bar';
-import { ErrorBoundary as ExpoErrorBoundary, Stack, useRootNavigationState } from 'expo-router';
+import { ErrorBoundary as ExpoErrorBoundary, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
@@ -33,8 +33,6 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const navigationState = useRootNavigationState();
-  const navigationReady = navigationState?.key !== undefined;
 
   const themeMode = useThemeStore(s => s.mode);
 
@@ -61,10 +59,10 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    if (isReady && navigationReady) {
-      SplashScreen.hideAsync();
+    if (isReady) {
+      void SplashScreen.hideAsync().catch(() => {});
     }
-  }, [isReady, navigationReady]);
+  }, [isReady]);
 
   useEffect(() => {
     const isDark = themeMode === 'dark';

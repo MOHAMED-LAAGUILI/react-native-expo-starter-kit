@@ -1,6 +1,7 @@
 import type { TextInputProps, ViewStyle } from 'react-native';
 import { Eye, EyeOff, KeyRound, Mail, Phone, Search, User } from 'lucide-react-native';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, TextInput, View } from 'react-native';
 import { cn } from '@/utils/utils';
 import { Icon } from './icon';
@@ -20,6 +21,7 @@ type InputProps = {
 function Input({ label, error, leftIcon, rightIcon, containerStyle, className, type = 'text', ...props }: InputProps) {
   const [focused, setFocused] = React.useState(false);
   const [secureVisible, setSecureVisible] = React.useState(false);
+  const { t } = useTranslation();
 
   const isSecure = type === 'password';
   const resolvedSecureTextEntry = isSecure ? !secureVisible : props.secureTextEntry;
@@ -27,15 +29,15 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
   const builtinLeftIcon = (() => {
     switch (type) {
       case 'search':
-        return <Icon as={Search} className="size-[18px] text-muted-foreground" />;
+        return <Icon as={Search} className="size-4.5 text-muted-foreground" />;
       case 'phone':
-        return <Icon as={Phone} className="size-[18px] text-muted-foreground" />;
+        return <Icon as={Phone} className="size-4.5 text-muted-foreground" />;
       case 'username':
-        return <Icon as={User} className="size-[18px] text-muted-foreground" />;
+        return <Icon as={User} className="size-4.5 text-muted-foreground" />;
       case 'password':
-        return <Icon as={KeyRound} className="size-[18px] text-muted-foreground" />;
+        return <Icon as={KeyRound} className="size-4.5 text-muted-foreground" />;
       case 'email':
-        return <Icon as={Mail} className="size-[18px] text-muted-foreground" />;
+        return <Icon as={Mail} className="size-4.5 text-muted-foreground" />;
       default:
         return null;
     }
@@ -47,14 +49,17 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
         <Pressable
           onPress={() => setSecureVisible(v => !v)}
           hitSlop={8}
+          accessibilityRole="button"
+          accessibilityLabel={secureVisible ? t('common.hidePassword') : t('common.showPassword')}
+          accessibilityState={{ selected: secureVisible }}
           className="items-center justify-center"
         >
           {secureVisible
             ? (
-                <Icon as={EyeOff} className="size-[18px] text-muted-foreground" />
+                <Icon as={EyeOff} className="size-4.5 text-muted-foreground" />
               )
             : (
-                <Icon as={Eye} className="size-[18px] text-muted-foreground" />
+                <Icon as={Eye} className="size-4.5 text-muted-foreground" />
               )}
         </Pressable>
       );

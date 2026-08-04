@@ -19,7 +19,13 @@
     "noResults": "No results found",
     "pullToRefresh": "Pull to refresh",
     "back": "Back",
-    "close": "Close"
+    "close": "Close",
+    "openMenu": "Open menu",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "next": "Next",
+    "skip": "Skip",
+    "finish": "Finish"
   },
   "navigation": {
     "home": "Home",

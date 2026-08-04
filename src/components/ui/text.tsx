@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Platform, Text as RNText } from 'react-native';
 import { cn } from '@/utils/utils';
 
-type TextVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'bodyLarge' | 'bodySmall' | 'caption' | 'label';
+type TextVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'bodyLarge' | 'bodySmall' | 'caption' | 'label' | 'blockquote';
 
 type TextProps = {
   variant?: TextVariant;
@@ -22,6 +22,7 @@ function Text({ variant = 'body', className, ...props }: TextProps) {
         variant === 'bodySmall' && 'text-sm',
         variant === 'caption' && 'text-xs',
         variant === 'label' && 'text-sm font-medium',
+        variant === 'blockquote' && 'border-l-2 border-border pl-3 text-muted-foreground italic',
         Platform.select({ web: 'select-text' }),
         className,
       )}

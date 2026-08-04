@@ -3,6 +3,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as React from 'react';
 import { Pressable, View } from 'react-native';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
+import { useThemeColors } from '@/hooks/use-theme-color';
 import { useThemeStore } from '@/store/theme-store';
 import { isAndroid } from '@/utils/platform';
 import { Text } from './text';
@@ -32,9 +33,11 @@ function DateTimePickerField({ value, onChange, mode = 'date', label, display }:
   const [show, setShow] = React.useState(false);
   const primaryHex = usePrimaryHex();
   const themeMode = useThemeStore(s => s.mode);
+  const { muted, text } = useThemeColors();
 
   const handleValueChange = (_event: DateTimePickerChangeEvent, selectedDate: Date) => {
     onChange(selectedDate);
+    setShow(false);
   };
 
   const handleDismiss = () => {
@@ -46,6 +49,8 @@ function DateTimePickerField({ value, onChange, mode = 'date', label, display }:
       {label && <Text variant="label" className="text-muted-foreground">{label}</Text>}
       <Pressable
         onPress={() => setShow(true)}
+        accessibilityRole="button"
+        accessibilityLabel={label ? `${label}: ${formatDate(value, mode)}` : formatDate(value, mode)}
         className="h-11 flex-row items-center rounded-md border border-border bg-secondary px-3"
       >
         <Text className="text-foreground">{formatDate(value, mode)}</Text>
@@ -58,9 +63,15 @@ function DateTimePickerField({ value, onChange, mode = 'date', label, display }:
           onValueChange={handleValueChange}
           onDismiss={handleDismiss}
           accentColor={primaryHex}
+          textColor={text}
           themeVariant={themeMode === 'system' ? undefined : themeMode}
           {...(isAndroid && {
             positiveButton: { label: 'OK', textColor: primaryHex },
+            negativeButton: { label: 'Cancel', textColor: muted },
+          })}
+
+          {...(isAndroid && {
+            textColor: text,
           })}
         />
       )}

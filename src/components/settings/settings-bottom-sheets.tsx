@@ -56,7 +56,6 @@ function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, co
         title={tSettings('accentColorSheetTitle')}
         options={colorOptions}
         selectedValue={primaryColor}
-        snapPoints={['40%', '65%']}
         onSelect={(value) => {
           setPrimaryColor(value);
           setColorSheetOpen(false);
@@ -69,7 +68,6 @@ function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, co
         title={t('theme.title')}
         options={themeOptions}
         selectedValue={mode}
-        snapPoints={['30%', '50%']}
         onSelect={(value) => {
           setMode(value);
           setThemeSheetOpen(false);
@@ -82,7 +80,6 @@ function SettingsBottomSheets({ mode, setMode, primaryColor, setPrimaryColor, co
         title={t('language.title')}
         options={LANGUAGE_OPTIONS}
         selectedValue={i18n.language}
-        snapPoints={['30%', '45%']}
         onSelect={(value) => {
           changeLanguage(value);
           setLangSheetOpen(false);
