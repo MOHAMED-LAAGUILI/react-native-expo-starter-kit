@@ -1,5 +1,5 @@
 <h1 align="center">
-   React Native Expo Starter Kit
+   RN Expo Starter Kit
 </h1>
 
 <p align="center">
