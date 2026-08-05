@@ -1,13 +1,13 @@
 import type { LayoutChangeEvent } from 'react-native';
-import type { barDataItem, lineDataItem, pieDataItem } from 'react-native-gifted-charts';
+import type { barDataItem, pieDataItem } from 'react-native-gifted-charts';
 import * as React from 'react';
 import { View } from 'react-native';
-import { BarChart, LineChart, PieChart } from 'react-native-gifted-charts';
+import { BarChart, PieChart } from 'react-native-gifted-charts';
 import { useThemeColors } from '@/hooks/use-theme-color';
 import { cn } from '@/utils/utils';
 import { Text } from './text';
 
-type ChartVariant = 'bar-vertical' | 'bar-horizontal' | 'pie' | 'trend' | 'line';
+type ChartVariant = 'bar-vertical' | 'bar-horizontal' | 'pie' | 'trend';
 
 type ChartDataItem = {
   value: number;
@@ -166,94 +166,6 @@ function ChartTrend({ data, className, onLayout }: ChartProps) {
   );
 }
 
-function ChartLine({
-  data,
-  width,
-  height,
-  maxValue,
-  stepValue,
-  className,
-  onLayout,
-  hideLabels,
-}: ChartProps) {
-  const { isDark, background, muted } = useThemeColors();
-
-  const axisColor = isDark ? '#404040' : '#e5e5e5';
-  const computedMaxValue = maxValue ?? Math.max(...data.map(d => d.value), 1);
-  const computedStepValue = stepValue ?? Math.max(Math.ceil(computedMaxValue / 4), 1);
-
-  const lineChartData: lineDataItem[] = data.map((item) => {
-    const base: lineDataItem = {
-      value: item.value,
-      dataPointColor: item.color,
-      dataPointRadius: 4,
-      customDataPoint: () => (
-        <View
-          className="rounded-full"
-          style={{
-            width: 8,
-            height: 8,
-            backgroundColor: item.color,
-          }}
-        />
-      ),
-    };
-    if (!hideLabels) {
-      base.label = item.label ?? '';
-    }
-    return base;
-  });
-
-  return (
-    <View className={cn('w-full overflow-hidden rounded-xl', className)} onLayout={onLayout}>
-      {width != null && width > 0 && (
-        <LineChart
-          data={lineChartData}
-          width={width}
-          adjustToWidth
-          height={height}
-          hideRules={false}
-          rulesColor={axisColor}
-          yAxisTextStyle={{
-            color: muted,
-            fontSize: 11,
-            fontWeight: '500',
-          }}
-          xAxisLabelTextStyle={{
-            color: muted,
-            fontSize: 11,
-            fontWeight: '500',
-            textAlign: 'center',
-          }}
-          xAxisColor={axisColor}
-          yAxisColor={axisColor}
-          noOfSections={4}
-          maxValue={computedMaxValue}
-          stepValue={computedStepValue}
-          yAxisLabelSuffix="h"
-          endSpacing={12}
-          disableScroll
-          isAnimated
-          animationDuration={800}
-          yAxisThickness={1}
-          xAxisThickness={1}
-          rulesThickness={1}
-          backgroundColor={background}
-          thickness={2}
-          curved
-          curveType={0}
-          areaChart
-          color={data[0]?.color}
-          startFillColor={data[0]?.color}
-          startOpacity={0.3}
-          endFillColor={data[0]?.color}
-          endOpacity={0}
-        />
-      )}
-    </View>
-  );
-}
-
 function ChartBars({
   data,
   variant,
@@ -378,10 +290,6 @@ function Chart({
 
   if (variant === 'trend') {
     return <ChartTrend {...shared} />;
-  }
-
-  if (variant === 'line') {
-    return <ChartLine {...shared} />;
   }
 
   return <ChartBars {...shared} variant={variant} />;

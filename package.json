@@ -1,7 +1,7 @@
 {
   "name": "react-native-expo-starter-kit",
   "main": "expo-router/entry",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "packageManager": "pnpm@10.12.3",
   "keywords": [
     "react-native",
@@ -11,7 +11,7 @@
     "mobile",
     "starter-kit",
     "template",
-    "typescript"
+    "SDK"
   ],
   "author": "MOHAMED-LAAGUILI <mohamed.dev.2001@gmail.com>",
   "license": "MIT",

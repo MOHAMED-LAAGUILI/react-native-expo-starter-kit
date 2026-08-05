@@ -51,7 +51,7 @@ export function UnifiedProjects({
       <View className="gap-1">
         {isLoading
           ? (
-              <View className="h-[200px] items-center justify-center">
+              <View className="h-50 items-center justify-center">
                 <Spinner size="lg" />
               </View>
             )

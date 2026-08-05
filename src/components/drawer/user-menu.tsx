@@ -4,7 +4,7 @@ import { LogOutIcon, SettingsIcon, UserIcon } from 'lucide-react-native';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { Button, Image, Text } from '@/components/ui';
+import { Button, Image, Separator, Text } from '@/components/ui';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { showToast } from '@/components/ui/toaster';
 import { useAuthStore } from '@/store';
@@ -63,8 +63,8 @@ export function UserMenu() {
         />
       </PopoverTrigger>
       <PopoverContent align="center" side="bottom" className="w-56 max-w-[calc(100vw-2rem)] p-0 sm:w-56">
-        <View className="gap-3 p-3">
-          <View className="flex-row items-center gap-3">
+        <View className="p-3">
+          <View className="mb-3 flex-row items-center gap-3">
             <UserAvatar className="size-10" />
             <View className="flex-1">
               <Text className="leading-5 font-medium" numberOfLines={1}>{user?.name ?? 'Guest'}</Text>
@@ -77,7 +77,8 @@ export function UserMenu() {
                 : null}
             </View>
           </View>
-          <View className="flex-col gap-1 py-0.5">
+          <Separator className="mb-2" />
+          <View className="flex-col gap-1">
             <Button
               variant="ghost"
               size="sm"
@@ -86,6 +87,7 @@ export function UserMenu() {
               className="h-11 justify-start gap-3 px-2"
               onPress={() => onNavigate('/(app)/(tabs)/profile')}
             />
+            <Separator className="my-0.5" />
             <Button
               variant="ghost"
               size="sm"
@@ -94,6 +96,7 @@ export function UserMenu() {
               className="h-11 justify-start gap-3 px-2"
               onPress={() => onNavigate('/(app)/(tabs)/settings')}
             />
+            <Separator className="my-0.5" />
             <Button
               variant="ghost"
               size="sm"

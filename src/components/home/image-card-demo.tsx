@@ -24,8 +24,10 @@ function ImageCard({ title, subtitle, imageUrl, orientation = 'vertical', onPres
   return (
     <Pressable
       onPress={onPress}
+      accessibilityRole="button"
+      hitSlop={8}
       className={cn(
-        'overflow-hidden rounded-xl',
+        'relative overflow-hidden rounded-xl',
         isVertical ? 'h-64 w-48' : 'h-32 w-full',
       )}
     >
@@ -34,12 +36,15 @@ function ImageCard({ title, subtitle, imageUrl, orientation = 'vertical', onPres
         contentFit="cover"
         style={{ height: '100%', width: '100%' }}
         className="absolute inset-0 size-full"
+        pointerEvents="none"
       />
-      <View className="absolute inset-0 bg-black/40" />
-      <View className={cn(
-        'absolute p-4',
-        isVertical ? 'inset-x-0 bottom-0' : 'inset-0 flex-row items-center justify-between',
-      )}
+      <View pointerEvents="none" className="absolute inset-0 bg-black/40" />
+      <View
+        pointerEvents="none"
+        className={cn(
+          'absolute p-4',
+          isVertical ? 'inset-x-0 bottom-0' : 'inset-0 flex-row items-center justify-between',
+        )}
       >
         <View className={isVertical ? '' : 'flex-1'}>
           <Text variant="h4" className="mb-1 text-white">{title}</Text>

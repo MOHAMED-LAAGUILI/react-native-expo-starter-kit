@@ -1,6 +1,6 @@
 import * as AccordionPrimitive from '@rn-primitives/accordion';
 import { ChevronDown } from 'lucide-react-native';
-import { Platform, Pressable, View } from 'react-native';
+import { Platform, Pressable } from 'react-native';
 import Animated, {
   FadeOutUp,
   LayoutAnimationConfig,
@@ -60,8 +60,6 @@ function AccordionItem({
   );
 }
 
-const Trigger = isWeb ? View : Pressable;
-
 function AccordionTrigger({
   className,
   children,
@@ -90,8 +88,8 @@ function AccordionTrigger({
       )}
     >
       <AccordionPrimitive.Header>
-        <AccordionPrimitive.Trigger {...props} asChild={isWeb}>
-          <Trigger
+        <AccordionPrimitive.Trigger {...props} asChild>
+          <Pressable
             className={cn(
               'flex-row items-start justify-between gap-4 rounded-md py-4 disabled:opacity-50',
               Platform.select({
@@ -113,7 +111,7 @@ function AccordionTrigger({
                 )}
               />
             </Animated.View>
-          </Trigger>
+          </Pressable>
         </AccordionPrimitive.Trigger>
       </AccordionPrimitive.Header>
     </TextClassContext>

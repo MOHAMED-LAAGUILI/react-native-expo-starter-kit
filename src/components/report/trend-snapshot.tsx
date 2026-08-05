@@ -30,7 +30,7 @@ export function TrendSnapshot({
     <ReportSection title="Trend Snapshot" subtitle={rangeLabel} bodyClassName="p-4">
       {isLoading
         ? (
-            <View className="h-[150px] items-center justify-center">
+            <View className="h-37.5 items-center justify-center">
               <Spinner size="lg" />
             </View>
           )

@@ -58,7 +58,7 @@
 </p>
 
 ![Made by](https://img.shields.io/badge/Made%20by-Mohamed_LAAGUILI-blue)
-![Version](https://img.shields.io/badge/Version-3.0.0-blue)
+![Version](https://img.shields.io/badge/Version-3.1.0-blue)
 
 ## Demo Android (Old Build Demo)
 **Wanna See Magic Star & Clone Repo**

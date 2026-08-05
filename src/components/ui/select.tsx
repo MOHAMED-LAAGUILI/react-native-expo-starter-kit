@@ -123,7 +123,7 @@ function SelectContent({
                     'p-1',
                     position === 'popper'
                     && cn(
-                      'w-full',
+                      'w-(--radix-select-trigger-width)',
                       Platform.select({
                         web: 'h-(--radix-select-trigger-height) min-w-(--radix-select-trigger-width)',
                       }),

@@ -43,7 +43,7 @@ function TooltipContent({
             exiting={FadeOut.reduceMotion(ReduceMotion.System)}
             as="Pressable"
           >
-            <TextClassContext value="text-xs text-primary-foreground">
+            <TextClassContext value="text-xs text-white">
               <TooltipPrimitive.Content
                 sideOffset={sideOffset}
                 className={cn(
