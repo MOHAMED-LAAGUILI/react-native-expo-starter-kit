@@ -8,6 +8,8 @@ export function useThemeColors() {
   return {
     background: isDark ? '#000' : '#fff',
     border: isDark ? '#3f3f46' : '#d4d4d8',
+    card: isDark ? '#18181b' : '#fff',
+    destructive: isDark ? '#ef4444' : '#dc2626',
     icon: isDark ? '#fff' : '#000',
     isDark,
     muted: isDark ? '#a1a1aa' : '#71717a',

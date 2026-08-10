@@ -172,17 +172,14 @@ function BottomSheet<T>({
     prevOpenRef.current = open;
   }, [open]);
 
-  const renderBackdrop = React.useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        opacity={0.5}
-        onPress={() => onOpenChange(false)}
-      />
-    ),
-    [onOpenChange],
+  const renderBackdrop = (props: any) => (
+    <BottomSheetBackdrop
+      {...props}
+      disappearsOnIndex={-1}
+      appearsOnIndex={0}
+      opacity={0.5}
+      onPress={() => onOpenChange(false)}
+    />
   );
 
   return (
@@ -214,7 +211,11 @@ function BottomSheet<T>({
         muted={muted}
       />
 
-      <BottomSheetScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+      <BottomSheetScrollView contentContainerStyle={{
+        paddingBottom: 100,
+        paddingTop: 10,
+      }}
+      >
         {children || (
           <BottomSheetOptions
             options={options}

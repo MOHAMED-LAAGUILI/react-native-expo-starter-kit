@@ -23,6 +23,7 @@
     "openMenu": "Ouvrir le menu",
     "showPassword": "Afficher le mot de passe",
     "hidePassword": "Masquer le mot de passe",
+    "clear": "Effacer",
     "next": "Suivant",
     "skip": "Passer",
     "finish": "Terminer"
@@ -36,8 +37,13 @@
     "preferences": "Préférences",
     "deviceInfo": "Info appareil",
     "post": "Article",
-    "onboarding": "Onboarding",
-    "test": "Test"
+                       "charts":  "Graphiques",
+                       "onboarding":  "Onboarding",
+                       "test":  "Test",
+                       "test2":  "Test 2",
+                       "test3":  "Test 3",
+                       "test4":  "Test 4",
+                       "parallax":  "Parallaxe"
   },
   "theme": {
     "light": "Clair",

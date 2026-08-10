@@ -88,7 +88,14 @@ const plugins: ExpoConfig['plugins'] = [
   ],
   ['expo-asset'],
   ['expo-image'],
-
+  [
+    'expo-camera',
+    {
+      cameraPermission: 'Allow $(PRODUCT_NAME) to access your camera',
+      microphonePermission: 'Allow $(PRODUCT_NAME) to access your microphone',
+      recordAudioAndroid: true,
+    },
+  ],
 ];
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
@@ -114,6 +121,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   description: `${ENV.EXPO_PUBLIC_NAME} is a cross-platform mobile application engineered with modern technologies, optimized for performance, scalability, and maintainability.`,
   experiments: {
     typedRoutes: true,
+    reactCompiler: true,
   },
   extra: {
     eas: {

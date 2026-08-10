@@ -1,5 +1,5 @@
 import type { TextInputProps, ViewStyle } from 'react-native';
-import { Eye, EyeOff, KeyRound, Mail, Phone, Search, User } from 'lucide-react-native';
+import { Eye, EyeOff, KeyRound, Mail, Phone, Search, User, X } from 'lucide-react-native';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, TextInput, View } from 'react-native';
@@ -18,54 +18,95 @@ type InputProps = {
   type?: InputType;
 } & TextInputProps;
 
-function Input({ label, error, leftIcon, rightIcon, containerStyle, className, type = 'text', ...props }: InputProps) {
+const BUILTIN_LEFT_ICONS: Partial<Record<InputType, React.ReactNode>> = {
+  search: <Icon as={Search} className="size-4.5 text-muted-foreground" />,
+  phone: <Icon as={Phone} className="size-4.5 text-muted-foreground" />,
+  username: <Icon as={User} className="size-4.5 text-muted-foreground" />,
+  password: <Icon as={KeyRound} className="size-4.5 text-muted-foreground" />,
+  email: <Icon as={Mail} className="size-4.5 text-muted-foreground" />,
+};
+
+function PasswordToggle({
+  visible,
+  onToggle,
+}: {
+  visible: boolean;
+  onToggle: () => void;
+}) {
+  const { t } = useTranslation();
+
+  return (
+    <Pressable
+      onPress={onToggle}
+      hitSlop={8}
+      accessibilityRole="button"
+      accessibilityLabel={visible ? t('common.hidePassword') : t('common.showPassword')}
+      accessibilityState={{ selected: visible }}
+      className="items-center justify-center"
+    >
+      {visible
+        ? (
+            <Icon as={EyeOff} className="size-4.5 text-muted-foreground" />
+          )
+        : (
+            <Icon as={Eye} className="size-4.5 text-muted-foreground" />
+          )}
+    </Pressable>
+  );
+}
+
+function ClearButton({ onClear }: { onClear: () => void }) {
+  const { t } = useTranslation();
+
+  return (
+    <Pressable
+      onPress={onClear}
+      hitSlop={8}
+      accessibilityRole="button"
+      accessibilityLabel={t('common.clear')}
+      className="items-center justify-center"
+    >
+      <Icon as={X} className="size-4.5 text-muted-foreground" />
+    </Pressable>
+  );
+}
+
+function Input({
+  label,
+  error,
+  leftIcon,
+  rightIcon,
+  containerStyle,
+  className,
+  type = 'text',
+  value,
+  onChangeText,
+  ...props
+}: InputProps) {
   const [focused, setFocused] = React.useState(false);
   const [secureVisible, setSecureVisible] = React.useState(false);
-  const { t } = useTranslation();
+  const [textValue, setTextValue] = React.useState(value ?? '');
 
   const isSecure = type === 'password';
   const resolvedSecureTextEntry = isSecure ? !secureVisible : props.secureTextEntry;
+  const displayValue = value ?? textValue;
+  const hasText = displayValue.length > 0;
 
-  const builtinLeftIcon = (() => {
-    switch (type) {
-      case 'search':
-        return <Icon as={Search} className="size-4.5 text-muted-foreground" />;
-      case 'phone':
-        return <Icon as={Phone} className="size-4.5 text-muted-foreground" />;
-      case 'username':
-        return <Icon as={User} className="size-4.5 text-muted-foreground" />;
-      case 'password':
-        return <Icon as={KeyRound} className="size-4.5 text-muted-foreground" />;
-      case 'email':
-        return <Icon as={Mail} className="size-4.5 text-muted-foreground" />;
-      default:
-        return null;
-    }
-  })();
+  const handleChangeText = (text: string) => {
+    setTextValue(text);
+    onChangeText?.(text);
+  };
 
-  const builtinRightIcon = !isSecure
-    ? null
-    : (
-        <Pressable
-          onPress={() => setSecureVisible(v => !v)}
-          hitSlop={8}
-          accessibilityRole="button"
-          accessibilityLabel={secureVisible ? t('common.hidePassword') : t('common.showPassword')}
-          accessibilityState={{ selected: secureVisible }}
-          className="items-center justify-center"
-        >
-          {secureVisible
-            ? (
-                <Icon as={EyeOff} className="size-4.5 text-muted-foreground" />
-              )
-            : (
-                <Icon as={Eye} className="size-4.5 text-muted-foreground" />
-              )}
-        </Pressable>
-      );
+  const handleClear = () => {
+    setTextValue('');
+    onChangeText?.('');
+  };
 
-  const showLeftIcon = leftIcon ?? builtinLeftIcon;
-  const showRightIcon = isSecure ? builtinRightIcon : rightIcon;
+  const showLeftIcon = leftIcon ?? BUILTIN_LEFT_ICONS[type];
+  const showRightIcon = isSecure
+    ? <PasswordToggle visible={secureVisible} onToggle={() => setSecureVisible(v => !v)} />
+    : rightIcon;
+  const showClearButton = hasText && props.editable !== false;
 
   return (
     <View className={cn('gap-1', containerStyle)}>
@@ -92,6 +133,8 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
           className={cn('h-full flex-1 text-base text-foreground outline-0', className)}
           placeholderTextColor="#9CA3AF"
           secureTextEntry={resolvedSecureTextEntry}
+          value={displayValue}
+          onChangeText={handleChangeText}
           onFocus={(e) => {
             setFocused(true);
             props.onFocus?.(e);
@@ -102,6 +145,7 @@ function Input({ label, error, leftIcon, rightIcon, containerStyle, className, t
           }}
           {...props}
         />
+        {showClearButton && <ClearButton onClear={handleClear} />}
         {showRightIcon && <View className="items-center justify-center">{showRightIcon}</View>}
       </View>
       {error

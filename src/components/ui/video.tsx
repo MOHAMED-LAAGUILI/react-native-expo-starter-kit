@@ -13,8 +13,26 @@ type VideoProps = {
 
 function Video({ source, className, style }: VideoProps) {
   const player = useVideoPlayer(source, (player) => {
+  // Playback behavior
     player.loop = true;
-    player.muted = true;
+    player.muted = false;
+    player.playbackRate = 1.0; // 0.5 - 2.0+
+    player.preservesPitch = true;
+
+    // Background / system integration
+    player.showNowPlayingNotification = true;
+    player.staysActiveInBackground = true;
+
+    // Audio behavior
+    player.volume = 1.0; // 0 - 1
+
+    // Buffering / performance
+
+    // iOS-specific optimizations
+    player.allowsExternalPlayback = true;
+
+    // Start behavior
+    // player.play();
   });
 
   const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
@@ -26,6 +44,7 @@ function Video({ source, className, style }: VideoProps) {
         player={player}
         nativeControls
         allowsPictureInPicture
+        fullscreenOptions={{ enable: true }}
       />
       <View className="flex-row justify-center gap-3">
         <Button

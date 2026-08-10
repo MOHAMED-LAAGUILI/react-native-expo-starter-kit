@@ -1,5 +1,4 @@
 import { Image } from 'expo-image';
-import { useCallback } from 'react';
 import { Pressable, View } from 'react-native';
 import { Text } from '../ui/text';
 
@@ -12,9 +11,9 @@ type PostCardProps = {
 };
 
 export function PostCard({ id, title, body, imageUrl, onPress }: PostCardProps) {
-  const handlePress = useCallback(() => {
+  const handlePress = () => {
     onPress(id);
-  }, [id, onPress]);
+  };
 
   return (
 

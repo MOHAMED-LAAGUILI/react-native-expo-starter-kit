@@ -23,6 +23,7 @@
     ".expo/types/**/*.ts",
     "*.d.ts",
     "**/*.d.ts",
+    "src/types/*.d.ts",
     "expo-env.d.ts",
     "uniwind-types.d.ts",
 

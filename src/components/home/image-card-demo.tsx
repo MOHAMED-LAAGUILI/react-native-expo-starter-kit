@@ -22,10 +22,7 @@ function ImageCard({ title, subtitle, imageUrl, orientation = 'vertical', onPres
   const isVertical = orientation === 'vertical';
 
   return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      hitSlop={8}
+    <View
       className={cn(
         'relative overflow-hidden rounded-xl',
         isVertical ? 'h-64 w-48' : 'h-32 w-full',
@@ -51,7 +48,12 @@ function ImageCard({ title, subtitle, imageUrl, orientation = 'vertical', onPres
           <Text variant="caption" className="text-white/80">{subtitle}</Text>
         </View>
       </View>
-    </Pressable>
+      <Pressable
+        onPress={onPress}
+        accessibilityRole="button"
+        className="absolute inset-0"
+      />
+    </View>
   );
 }
 

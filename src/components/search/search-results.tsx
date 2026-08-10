@@ -1,8 +1,6 @@
-import type { ListRenderItem } from 'react-native';
 import type { PublicPost as Post } from '@/api/types';
 import { router } from 'expo-router';
 import { Search, SearchX } from 'lucide-react-native';
-import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, FlatList, View } from 'react-native';
 
@@ -24,24 +22,21 @@ function SearchResults({
   const primaryHex = usePrimaryHex();
   const { muted } = useThemeColors();
 
-  const handlePress = useCallback((id: number) => {
+  const handlePress = (id: number) => {
     router.push({
       pathname: '/(app)/post/[id]',
       params: { id: String(id) },
     });
-  }, []);
+  };
 
-  const renderItem = useCallback<ListRenderItem<Post>>(
-    ({ item }) => (
-      <PostCard
-        id={item.id}
-        title={item.title}
-        body={item.body}
-        imageUrl={item.imageUrl}
-        onPress={handlePress}
-      />
-    ),
-    [handlePress],
+  const renderItem = ({ item }: { item: Post }) => (
+    <PostCard
+      id={item.id}
+      title={item.title}
+      body={item.body}
+      imageUrl={item.imageUrl}
+      onPress={handlePress}
+    />
   );
 
   return (

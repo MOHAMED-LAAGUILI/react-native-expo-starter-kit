@@ -171,3 +171,7 @@ export const COLOR_PALETTES = [
 ] as const;
 
 export type ColorPaletteKey = (typeof COLOR_PALETTES)[number]['key'];
+
+export function getPaletteColor(key: ColorPaletteKey): string {
+  return COLOR_PALETTES.find(palette => palette.key === key)?.color ?? '#0958e9';
+}

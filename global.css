@@ -34,6 +34,8 @@
     --color-border:  oklch(0.922 0 0);
     --color-input:  oklch(0.922 0 0);
     --color-ring:  oklch(0.708 0 0);
+    --color-shadcn:  oklch(0.145 0 0);
+    --color-shadcn-foreground:  oklch(1 0 0);
     }
 
     @variant dark {
@@ -56,6 +58,8 @@
       --color-border:  oklch(1 0 0 / 10%);
       --color-input:  oklch(1 0 0 / 15%);
       --color-ring:  oklch(0.556 0 0);
+      --color-shadcn:  oklch(0.985 0 0);
+      --color-shadcn-foreground:  oklch(0.145 0 0);
     }
   }
 }

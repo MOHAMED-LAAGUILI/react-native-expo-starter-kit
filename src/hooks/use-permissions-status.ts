@@ -1,5 +1,5 @@
 import type { Permission, PermissionStatus } from 'react-native-permissions';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { check, checkNotifications, openSettings, PERMISSIONS, request, requestNotifications, RESULTS } from 'react-native-permissions';
 
@@ -57,7 +57,7 @@ export function usePermissionsStatus() {
     checkAllPermissions().then(setStatuses);
   }, []);
 
-  const requestPermission = useCallback(async (label: PermissionLabel) => {
+  const requestPermission = async (label: PermissionLabel) => {
     setLoading(prev => ({ ...prev, [label]: true }));
     try {
       const cfg = PERM_CONFIGS[label];
@@ -74,7 +74,7 @@ export function usePermissionsStatus() {
     }
     catch { /* fail */ }
     setLoading(prev => ({ ...prev, [label]: false }));
-  }, []);
+  };
 
   return {
     statuses,

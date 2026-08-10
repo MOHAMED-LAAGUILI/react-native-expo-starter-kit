@@ -1,9 +1,13 @@
 import type { Href } from 'expo-router';
 import {
   BarChart3,
+  ChartPie,
   Database,
   FlaskConical,
+  Grid3X3,
   Home,
+  Mountain,
+  PanelRightOpen,
   Search,
   Settings,
   Smartphone,
@@ -81,6 +85,14 @@ const BASE_NAV_ITEMS: NavItem[] = [
     tab: { name: 'device-info', icon: Smartphone, order: 4 },
   },
   {
+    href: '/(app)/charts' as Href,
+    icon: ChartPie,
+    label: 'Charts',
+    translationKey: 'navigation.charts',
+    match: ['/charts'],
+    segment: 'charts',
+  },
+  {
     href: '/(app)/dev-onboarding' as Href,
     icon: StepForward,
     label: 'Onboarding',
@@ -95,6 +107,38 @@ const BASE_NAV_ITEMS: NavItem[] = [
     translationKey: 'navigation.test',
     match: ['/dev-test'],
     segment: 'dev-test',
+  },
+  {
+    href: '/(app)/parallax' as Href,
+    icon: Mountain,
+    label: 'Parallax',
+    translationKey: 'navigation.parallax',
+    match: ['/parallax'],
+    segment: 'parallax',
+  },
+  {
+    href: '/(app)/dev-test-2' as Href,
+    icon: PanelRightOpen,
+    label: 'Test 2',
+    translationKey: 'navigation.test2',
+    match: ['/dev-test-2'],
+    segment: 'dev-test-2',
+  },
+  {
+    href: '/(app)/dev-test-3' as Href,
+    icon: Grid3X3,
+    label: 'Test 3',
+    translationKey: 'navigation.test3',
+    match: ['/dev-test-3'],
+    segment: 'dev-test-3',
+  },
+  {
+    href: '/(app)/dev-test-4' as Href,
+    icon: Grid3X3,
+    label: 'Test 4',
+    translationKey: 'navigation.test4',
+    match: ['/dev-test-4'],
+    segment: 'dev-test-4',
   },
 ];
 

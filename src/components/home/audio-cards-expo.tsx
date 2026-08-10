@@ -8,7 +8,7 @@ import {
   useAudioRecorder,
   useAudioRecorderState,
 } from 'expo-audio';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { RESULTS } from 'react-native-permissions';
 
@@ -138,7 +138,7 @@ function ExpoAudioRecorderCard() {
   const [recordedUri, setRecordedUri] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const recorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY, useCallback((recStatus: { url: SetStateAction<string | null>; hasError: any; error: SetStateAction<string | null>; isFinished: any }) => {
+  const recorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY, (recStatus: { url: SetStateAction<string | null>; hasError: any; error: SetStateAction<string | null>; isFinished: any }) => {
     if (recStatus.url) {
       setRecordedUri(recStatus.url);
     }
@@ -148,7 +148,7 @@ function ExpoAudioRecorderCard() {
     if (recStatus.isFinished) {
       setRecorderState('idle');
     }
-  }, []));
+  });
   const state = useAudioRecorderState(recorder);
 
   useEffect(() => {

@@ -8,7 +8,7 @@ import { useThemeColors } from '@/hooks/use-theme-color';
 import { cn } from '@/utils/utils';
 import { Icon } from './icon';
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'primary-gradient';
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'success' | 'primary-gradient' | 'shadcn';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 type ButtonProps = {
@@ -16,6 +16,7 @@ type ButtonProps = {
   size?: ButtonSize;
   loading?: boolean;
   title: string;
+  iconOnly?: boolean;
   leftIcon?: (color: string) => React.ReactNode;
   rightIcon?: (color: string) => React.ReactNode;
   leftIconComponent?: LucideIcon;
@@ -37,6 +38,7 @@ const BG_CLASS: Record<string, string> = {
   'ghost': 'active:bg-accent',
   'destructive': 'bg-destructive active:bg-destructive/90',
   'success': 'bg-green-600 active:bg-green-700',
+  'shadcn': 'bg-shadcn active:bg-shadcn/90',
 };
 
 const TEXT_CLASS: Record<string, string> = {
@@ -47,6 +49,7 @@ const TEXT_CLASS: Record<string, string> = {
   'ghost': 'text-foreground',
   'destructive': 'text-destructive-foreground',
   'success': 'text-white',
+  'shadcn': 'text-shadcn-foreground',
 };
 
 const ICON_CLASS: Record<string, string> = {
@@ -57,6 +60,7 @@ const ICON_CLASS: Record<string, string> = {
   'ghost': 'text-foreground',
   'destructive': 'text-destructive-foreground',
   'success': 'text-white',
+  'shadcn': 'text-shadcn-foreground',
 };
 
 function GradientBackground({
@@ -83,6 +87,7 @@ function Button({
   size = 'md',
   loading = false,
   title,
+  iconOnly = false,
   leftIcon,
   rightIcon,
   leftIconComponent,
@@ -93,7 +98,7 @@ function Button({
 }: ButtonProps) {
   const [pressed, setPressed] = React.useState(false);
   const primaryHex = usePrimaryHex();
-  const { isDark } = useThemeColors();
+  const { background, isDark } = useThemeColors();
 
   const isLightStyle = variant === 'primary' || variant === 'primary-gradient' || variant === 'destructive' || variant === 'success';
 
@@ -109,13 +114,15 @@ function Button({
       }
     : undefined;
 
-  const iconColor = isLightStyle
-    ? '#fff'
-    : variant === 'secondary' || variant === 'outline'
-      ? primaryHex
-      : isDark
-        ? '#fff'
-        : '#000';
+  const iconColor = variant === 'shadcn'
+    ? background
+    : isLightStyle
+      ? '#fff'
+      : variant === 'secondary' || variant === 'outline'
+        ? primaryHex
+        : isDark
+          ? '#fff'
+          : '#000';
 
   const iconClassName = cn(
     size === 'sm' && 'size-4',
@@ -130,9 +137,9 @@ function Button({
     <Pressable
       className={cn(
         'flex-row items-center justify-center gap-2 rounded-lg',
-        size === 'sm' && 'h-9 px-3',
-        size === 'md' && 'h-11 px-6',
-        size === 'lg' && 'h-12 px-8',
+        size === 'sm' && (iconOnly ? 'size-9 p-0' : 'h-9 px-3'),
+        size === 'md' && (iconOnly ? 'size-11 p-0' : 'h-11 px-6'),
+        size === 'lg' && (iconOnly ? 'size-12 p-0' : 'h-12 px-8'),
         bgClass,
         disabled && 'opacity-50',
         pressed && !disabled && 'opacity-80',
@@ -142,6 +149,8 @@ function Button({
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
       disabled={disabled || loading}
+      accessibilityRole="button"
+      accessibilityLabel={title}
       {...props}
     >
       <GradientBackground {...{ variant, primaryHex }} />
@@ -149,30 +158,36 @@ function Button({
         ? (
             <ActivityIndicator
               size="small"
-              color={isLightStyle ? '#ffffff' : undefined}
+              color={variant === 'shadcn' ? background : isLightStyle ? '#ffffff' : undefined}
             />
           )
-        : (
-            <>
-              {leftIconComponent
+        : iconOnly
+          ? (
+              leftIconComponent
                 ? <Icon as={leftIconComponent} className={iconClassName} color={iconColor} />
-                : leftIcon?.(iconColor)}
-              <Text
-                className={cn(
-                  'font-semibold',
-                  textClass,
-                  size === 'sm' && 'text-sm',
-                  size === 'md' && 'text-base',
-                  size === 'lg' && 'text-lg',
-                )}
-              >
-                {title}
-              </Text>
-              {rightIconComponent
-                ? <Icon as={rightIconComponent} className={iconClassName} color={iconColor} />
-                : rightIcon?.(iconColor)}
-            </>
-          )}
+                : leftIcon?.(iconColor)
+            )
+          : (
+              <>
+                {leftIconComponent
+                  ? <Icon as={leftIconComponent} className={iconClassName} color={iconColor} />
+                  : leftIcon?.(iconColor)}
+                <Text
+                  className={cn(
+                    'font-semibold',
+                    textClass,
+                    size === 'sm' && 'text-sm',
+                    size === 'md' && 'text-base',
+                    size === 'lg' && 'text-lg',
+                  )}
+                >
+                  {title}
+                </Text>
+                {rightIconComponent
+                  ? <Icon as={rightIconComponent} className={iconClassName} color={iconColor} />
+                  : rightIcon?.(iconColor)}
+              </>
+            )}
     </Pressable>
   );
 }
