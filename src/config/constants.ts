@@ -25,7 +25,6 @@ export const API_ENDPOINTS = {
     ME: '/auth/me',
     REFRESH: '/auth/refresh',
     REGISTER: '/auth/register',
-    VERIFY_OTP: '/auth/verify-otp',
   },
   POSTS: {
     CREATE: '/posts',

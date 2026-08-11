@@ -13,10 +13,10 @@ import {
 } from 'react-native';
 import { FadeIn, ReduceMotion } from 'react-native-reanimated';
 import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
-import { NativeOnlyAnimatedView } from '@/components/ui/native-only-animated-view';
 import { isIOS, isWeb } from '@/utils/platform';
 import { cn } from '@/utils/utils';
 import { Icon } from './icon';
+import { NativeOnlyAnimatedView } from './native-only-animated-view';
 import { TextClassContext } from './text';
 
 const MenubarMenu = MenubarPrimitive.Menu;

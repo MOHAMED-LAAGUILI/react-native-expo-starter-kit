@@ -4,6 +4,13 @@
 > Grounded in the real tokens defined in `global.css`, `src/config/color-palettes.ts`, `src/components/ui/*`.
 > Read this before designing anything new, then let it drive the implementation.
 
+**Where things live (current layout):**
+- UI primitives + advanced components → `src/components/ui/` (barrel export from `@/components/ui`)
+- Demo/section components → `src/components/demos/` (barrel from `@/components/demos`)
+- Mock data → `src/data/` (`cards.ts`, `charts.ts`, `employees.ts`, `forms.tsx`, `gallery-images.ts`, `home.ts`, `onboarding-steps.ts`, `preferences-info.ts`, `report.ts`)
+- Screens → `src/screens/` (thin orchestrators; sub-sections co-located in the same file)
+- Routes → thin wrappers: `app/(app)/dev-*.tsx` re-exports a screen (`export { UiComponentsScreen as default } from '@/screens/...'`)
+
 ## 1. Visual Theme & Atmosphere
 
 A **balanced, daily-use application** with a clinical-but-warm neutral base and a single configurable accent. Density sits at **4–6** (comfortable tap targets, generous section rhythm, nothing cockpit-dense). Variance is **4–6** — asymmetric where it matters (floating home tab button, drawer offset, mixed dashboard grids) but never chaotic. Motion is **5–7** — spring-physics micro-interactions and staggered reveals, no cinematic choreography.
@@ -63,7 +70,7 @@ Defined in `src/config/color-palettes.ts`. Each palette sets `--color-primary`, 
 
 ### Icon color convention
 
-lucide icons use the `color` prop with a hex from `useThemeColors()` (`text`, `muted`, `background`, `border`, `isDark`), NEVER `className` for color — `className` colors silently fail on native.
+lucide icons use the `color` prop with a hex from `useThemeColors()` (`text`, `muted`, `background`, `border`, `isDark`), NEVER `className` for color — `className` colors silently fail on native. Prefer the wrapped `Icon` component (`src/components/ui/icon.tsx`) when you need a themed, sizeable icon — it centralizes this convention.
 
 ## 3. Typography
 
@@ -98,6 +105,7 @@ lucide icons use the `color` prop with a hex from `useThemeColors()` (`text`, `m
   - Buttons, inputs, list rows: `rounded-md`/`rounded-lg`.
   - Cards and surfaces: `rounded-xl`.
   - Badges/pills/avatars: `rounded-md` at small sizes, full capsule only for dots and handles.
+  - Edge-anchored overlays (side `Sheet`, `ActionSheet`, `BottomSheet`) use a larger inner corner (`rounded-t-2xl` = 24px) where they meet the screen edge.
 - **Elevation:** tinted shadows for emphasis. Primary/success/destructive buttons carry a soft colored shadow (`elevation: 6`, `shadowOpacity: 0.4`, 12px radius, 4px offset) in the accent hue. Cards rely on surface color + hairline borders instead of heavy drop shadows.
 - **Spacing:** 4px base grid via Tailwind. Prefer `gap-*` over margins; prefer padding over margin. Section rhythm: `px-4` page gutters, `py-4`/`py-6` between groups, `gap-4`/`gap-6` between cards.
 - **Hairlines:** `border-border` dividers (1px) separate rows and groups — never use two competing border colors in one view.
@@ -106,7 +114,7 @@ lucide icons use the `color` prop with a hex from `useThemeColors()` (`text`, `m
 ## 5. Component Behaviors
 
 ### Button (`button.tsx`)
-7 variants: `primary`, `primary-gradient` (LinearGradient accent), `secondary` (`bg-primary/10`), `outline` (accent border + transparent fill), `ghost`, `destructive`, `success`. 3 sizes: `sm` h-9 / `md` h-11 / `lg` h-12. Icon slots: `leftIcon`/`rightIcon` (render-prop) or `leftIconComponent`/`rightIconComponent` (lucide). `loading` swaps content for a spinner. Pressed → `opacity-80`, disabled → `opacity-50`. Text is always `font-semibold`.
+7 variants: `primary`, `primary-gradient` (LinearGradient accent), `secondary` (`bg-primary/10`), `outline` (accent border + transparent fill), `ghost`, `destructive`, `success`. 3 sizes: `sm` h-9 / `md` h-11 / `lg` h-12. Icon slots: `leftIcon`/`rightIcon` (render-prop) or `leftIconComponent`/`rightIconComponent` (lucide). `iconOnly` renders a square icon button (used by Table pagination). `loading` swaps content for a spinner. Pressed → `opacity-80`, disabled → `opacity-50`. Text is always `font-semibold`.
 
 ### Badge (`badge.tsx`)
 8 variants (`default`, `primary`, `secondary`, `destructive`, `outline`, `success`, `warning`, `info`), 3 sizes (`sm`/`md`/`lg`), optional lucide `icon`. Default = neutral `bg-muted-foreground/15`. Semantic variants use their fixed hues. Self-start, `rounded-md`, `font-semibold` label.
@@ -120,14 +128,51 @@ Label above, input well (`h-11`, `rounded-md`, `bg-secondary`, `border-border`),
 ### Modal (`modal.tsx`)
 3 variants: `bottom-sheet` (slides up), `centered` (scale-in with icon/title/description), `centered-action` (+ action buttons). Backdrop fade 220ms (`withTiming`); sheet spring `{ damping: 20, stiffness: 260 }`, centered scale `{ stiffness: 300 }`. Actions use Button variants. Always provide explicit `onClose`.
 
+### Sheet (`sheet.tsx`)
+Edge-anchored side sheet (`side: 'left' | 'right'`) sliding from the screen edge. Width = `min(80% screen, 400px)`, inner edge corner radius 24px, `border-border` on the open edge. Open: 300ms `Easing.out(quad)` translate + backdrop fade to `opacity 0.3`; close: 250ms. Floating `X` close button (`size-8 rounded-full bg-background`, safe-area aware via `insets.top`). API: `Sheet` (context, `open`/`onOpenChange`/`side`) + `SheetTrigger` / `SheetContent` / `SheetHeader` / `SheetTitle` / `SheetDescription`.
+
+### ActionSheet (`action-sheet.tsx`)
+Platform-split: iOS renders the native `ActionSheetIOS` sheet; Android renders a themed custom modal sheet (`rounded-t-2xl bg-card`, 250–300ms slide, backdrop `bg-black/50`). Options carry `destructive`, `disabled`, `icon`, `centered`. Destructive options render `text-destructive`; optional haptics via `createHapticTrigger` (`selection` / `warning`). Pair with `useActionSheet()` hook for imperative `show({ title, message, options })` / `hide()`.
+
+### Table (`table.tsx`)
+Generic data table (`<Table data columns />`): search bar (`filterable`), click-to-sort headers (asc → desc → none, primary-tint chevron), horizontal scroll, pagination footer (`Page X of Y`, outline icon-only `Button`s), loading + empty messages. `TableColumn<T>` = `{ id, header, accessorKey, sortable?, filterable?, width?, minWidth?, cell?, headerCell?, align? }`. Cells are `p-4` rows on `bg-card` with `border-b border-border`; wrapped in `rounded-xl border border-border`. Rows support `onRowPress`.
+
+### Charts (`src/components/ui/charts/`)
+Two families, all theme-bound:
+- **Gifted-charts wrappers** — `Chart` (`variant: 'bar-vertical' | 'bar-horizontal' | 'pie' | 'trend'`, animated, tooltips, legend with % readout, donut + center label) plus dedicated `BarChart` / `ColumnChart` / `StackedBarChart` / `StackedAreaChart` / `CandlestickChart` wrappers. Axis/label colors come from `useThemeColors()` (`muted`, `isDark`), bars/arcs from `item.color` (pass `--color-chart-1` or palette hexes).
+- **Custom SVG + Reanimated** — `LineChart` (path-draw stroke animation, interactive pan tooltip via `Gesture.Pan`, optional gradient area), `AreaChart`, `RadarChart` (grid rings, staggered vertex springs), `RadialBarChart` (animated stroke circles). Primary stroke = `usePrimaryHex()`, muted labels = `useThemeColors().muted`.
+- **`ChartContainer`** — themed card wrapper (`rounded-xl border border-border bg-card p-4`) with optional `title` (h4) + `description` (caption).
+
+### SectionTitle (`section-title.tsx`)
+Demo/dashboard section header: `<Text variant={default 'h3'}>` + 1px `bg-border` divider. `mt-6 mb-3 first:mt-0`.
+
+### Gallery (`gallery.tsx`)
+Responsive image grid (`columns`, `spacing`, `aspectRatio`, `borderRadius`, optional `showTitles`/`showDescriptions`/`showPages`). Tap opens fullscreen viewer with pinch-to-zoom (`MIN_SCALE 0.8` / `MAX_SCALE 4`, spring gestures), swipe pagination, download/share actions. Exposes `useImageZoom()` hook for custom zoom layouts.
+
+### MediaPicker (`media-picker.tsx`)
+Button-triggered image/video picker (`expo-image-picker` + media library): `mediaType` (`image`/`video`/`all`), `multiple`, `maxSelection`, `quality`, preview thumbnails of `selectedAssets`. Requests permissions through `loadExpoMediaLibrary`.
+
+### InputOTP (`input-otp.tsx`)
+Segmented one-time-code input: `length`, `masked`, `separator`, `showCursor`, `onComplete`, optional haptics on completion. Slots exposed via `slotStyle` (used for rounded/success/error themes in demos).
+
+### Date & time (`date-picker.tsx`, `date-time-picker.tsx`)
+`DatePicker` — custom date/date-range picker on `react-native-calendars` (returns `DateRange`). `DateTimePickerField` — native field wrapper on `@react-native-community/datetimepicker`.
+
+### Media components (`src/components/ui/`)
+- **`AudioPlayer` / `AudioRecorder` / `LiveWaveform`** — `expo-audio` playback + recording with live waveform, timer, progress bar, quality/max-duration options.
+- **`Camera`** — camera capture view (imperative ref `CameraRef`).
+- **`Video`** — `expo-video` player on native, HTML `<video>` on web (no `react-native-video` — Android media3 conflict).
+- **`ParallaxScrollView`** — header-image scroll container with reanimated parallax, edge pull (spring `{ damping: 14, stiffness: 180, mass: 0.6 }`), respects `useReducedMotion`.
+
 ### Card (`card.tsx`)
 Data card with 5 variants: `stats` (default — `bg-card` + hairline `border-border`), `primary` (solid accent fill, white text), `secondary`, `compact` (tighter padding, `text-2xl` value), `action`. Props: `title`, `value`, `subtitle`, optional lucide `icon` (44×44 tinted well), `children`. Surface: `rounded-2xl`, `border`, `overflow-hidden`.
 
 ### Form controls
 - **Switch / Toggle / Checkbox / RadioGroup / Slider / Progress** — all tinted with primary accent.
-- **CalendarView** (`react-native-calendars`) for date selection with marked dates; **DateTimePickerField** (`@react-native-community/datetimepicker`) for native pickers.
+- **CalendarView** (`react-native-calendars`) for date selection with marked dates; **DateTimePickerField** (`@react-native-community/datetimepicker`) for native pickers; **DatePicker** for custom calendar/range selection.
 - **Spinner** — `ActivityIndicator` via native `color` prop (hex from `useThemeColors`), sizes `sm`/`md`/`lg`.
 - **Image** — `expo-image` wrapper; ALWAYS pass `contentFit` + `style={{ height: '100%', width: '100%' }}` or it renders blank on native.
+- **InputOTP / MediaPicker** — segmented OTP input and gallery-aware image/video picker (see above).
 
 ### Feedback & states
 - **Loading:** skeleton/`Spinner` matching layout dimensions. Spinner color must come from theme, not default.
@@ -164,24 +209,28 @@ Unofficial-but-native shadcn/ui components (React Native Reusables, **Uniwind** 
 - **Navigation shell:**
   - Root `Stack` → `(auth)` login stack (no header) → `(app)` **Drawer** (auth-guarded) → `(tabs)` **Bottom Tabs**.
   - Tabs: Search, Report, Home (floating center button), Settings, Device Info — sorted by `tab.order` in `src/config/navigation.ts`. Home is the floating elevated center button.
-  - Drawer-only routes (`report`, `dev-*`) live under `(app)/` with no tab.
+  - Drawer-only routes (no bottom tab) live under `(app)/`: `report` (full-page graphs), plus the demo/feature screens `dev-ui` (UI Components), `dev-forms` (Forms & Inputs), `dev-media` (Media & Audio), `dev-data` (Data & Tables), `charts`, `parallax`, `dev-onboarding`. `dev-preferences` is registered only in `__DEV__` via `DEV_NAV_ITEMS`.
+  - Each demo route is a 1-line wrapper (`app/(app)/dev-ui.tsx`) re-exporting a screen from `src/screens/`.
   - Header titles come from `NAV_TITLE_MAP` (i18n keys), never hardcoded. Drawer toggle button sits at `ml-3` on native.
+- **Demo screens** are thin orchestrators: a `ScrollView` + `SafeAreaInsets`, an intro `Text` block, then grouped sections each rendered by a co-located sub-component (grouped by theme — core, selection, feedback, content, overlays) introduced by `SectionTitle`. Mock data lives in `src/data/`, demo blocks in `src/components/demos/`, never inline in the screen.
 - **Cards:** used when elevation communicates hierarchy (dashboard widgets, profile rows). In dense lists, prefer `border-b border-border` rows over card-stacking.
 - **Dashboards/Report:** mixed grid — trend snapshot + hours distribution + top projects (gifted-charts `BarChart`/`PieChart`, series tinted from `--color-chart-1`). Don't render 3 identical equal cards in a row; vary sizing.
 
 ## 7. Motion & Interaction
 
 - **Spring physics** (Reanimated): interactive springs `{ damping: 20, stiffness: 260 }`; heavier pushes `stiffness: 300`. Durations via `withTiming` only for fades (220ms backdrop).
-- **Gesture-driven:** sheets/scroll panning via `react-native-gesture-handler`; `Modal` uses `GestureDetector`. Reanimated worklets via `react-native-worklets` (`scheduleOnRN`).
-- **Micro-interactions:** pressed states (`opacity-80`), switch/checkbox accent transitions, slider drag with spring. Enter/exit animations on demos via Reanimated springs/timing (as in `Modal`).
+- **Slide-in overlays** use `withTiming` with `Easing.out(Easing.quad)` — open 300ms, close 250ms (Side `Sheet`, `ActionSheet`). Chart draw-in uses `withTiming` over 800–2500ms; chart vertices/points stagger in with `withDelay` + `withSpring`.
+- **Gesture-driven:** sheets/scroll panning via `react-native-gesture-handler`; `Modal` uses `GestureDetector`. Charts use `Gesture.Pan` for interactive tooltips; `Gallery` uses pinch + pan gestures for zoom/fullscreen; `ParallaxScrollView` uses a `Gesture.Pan` pull (`withSpring({ damping: 14, stiffness: 180, mass: 0.6 })`) simultaneous with the native scroll. Reanimated worklets via `react-native-worklets` (`scheduleOnRN`).
+- **Micro-interactions:** pressed states (`opacity-80`), switch/checkbox accent transitions, slider drag with spring, haptics (`use-haptics` / `createHapticTrigger`) on action-sheet selection and OTP completion. Enter/exit animations on demos via Reanimated springs/timing (as in `Modal`).
 - **Performance rules:** animate only `transform` and `opacity`, never layout props; don't pass `Color`/`PlatformColor` into Reanimated styles (use static hex); avoid re-rendering whole screens on gesture progress.
-- **Reduced motion:** respect system settings where feasible (opacity-only transitions degrade gracefully).
+- **Reduced motion:** respect system settings where feasible (`useReducedMotion` in `ParallaxScrollView`; opacity-only transitions degrade gracefully).
 
 ## 8. Cross-Platform Rules (Web + iOS + Android)
 
 - Icons: lucide `color` prop + `useThemeColors()` hex — never `className` color.
-- SVG artwork: pull colors from theme hooks / CSS variables, never hardcoded `#ffffff`.
+- SVG artwork: pull colors from theme hooks / CSS variables, never hardcoded `#ffffff`. Chart axis/grid colors derive from `useThemeColors()`/`usePrimaryHex()`; only data series may carry explicit hexes (from `--color-chart-1` or the `src/data` mock data).
 - `Image`: always `contentFit` + explicit `style` dimensions (web-only otherwise).
+- Video/audio: `expo-video` + `expo-audio` on native, HTML `<video>` on web.
 - RTL: **not supported** — no RTL layouts, Arabic removed from languages.
 - Text input autofill/`keyboardType` set per field (`email-address`, `phone-pad`, `number-pad`).
 - Test spacing on all platforms; drawer/header items may need explicit `ml`/`mr` on native.
@@ -202,6 +251,8 @@ Unofficial-but-native shadcn/ui components (React Native Reusables, **Uniwind** 
 - Modal-ception — never stack two modal variants; prefer a route presentation or single sheet.
 - Layout animations on `top`/`left`/`width`/`height` — transforms and opacity only.
 - Removing a screen without updating `src/i18n/locales/{en,fr}/` keys.
+- Hardcoding mock/demo data inside a screen — put it in `src/data/` and the demo block in `src/components/demos/`.
+- Hand-rolling `FlatList`/`ScrollView` tables when `<Table columns data />` covers the case.
 
 ## 10. Design Tokens Cheat-Sheet (for AI agents)
 
@@ -210,9 +261,13 @@ When generating a screen, default to:
 - Text: `text-foreground` body, `text-muted-foreground` secondary.
 - Dividers: `border-t border-border`.
 - Primary action: `<Button title={t('...')} />` (accent). Secondary: `<Button variant="secondary" />`.
-- Inputs: `<Input label={...} />`; selection: `<RadioGroup/>`, `<Checkbox/>`, `<Switch/>`, or `<BottomSheet options={...} />`.
+- Inputs: `<Input label={...} />`; selection: `<RadioGroup/>`, `<Checkbox/>`, `<Switch/>`, or `<BottomSheet options={...} />`; OTP: `<InputOTP length={6} />`; media: `<MediaPicker multiple maxSelection={...} />`.
 - Feedback: `<Spinner/>`, inline `text-destructive` errors, `<Toast/>` for transient alerts.
-- Radius: cards `rounded-xl`, controls `rounded-md`, buttons `rounded-lg`.
+- Overlays: `<Modal variant="centered|bottom-sheet|centered-action" />` for dialogs, `<Sheet side="left|right" />` for edge panels, `<ActionSheet options={...} />` for context menus.
+- Data: `<Table data columns />` for tabular data; charts via `<ChartContainer title={...}>` + `Chart`/`LineChart`/`RadarChart`/etc.
+- Gallery/media: `<Gallery items columns spacing />`, `<AudioPlayer source />`, `<AudioRecorder />`, `<Camera />`, `<Video source />`.
+- Section headers on demo/dashboard screens: `<SectionTitle title={...} />`.
+- Radius: cards `rounded-xl`, controls `rounded-md`, buttons `rounded-lg`, edge-anchored overlays `rounded-t-2xl`.
 - Rhythm: `px-4` gutters, `gap-4`, `py-4`.
 - Icons: lucide + `color` from `useThemeColors()`.
 - All copy: `t()` EN/FR. All colors: theme variables. All screens: safe-area aware.

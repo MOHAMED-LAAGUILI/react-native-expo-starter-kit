@@ -97,14 +97,14 @@ function triggerHaptic(intent: HapticType = 'impact-light'): void {
  * every component's `haptic` prop plugs into:
  *
  * ```tsx
- * const feedback = useHaptics(haptic);
+ * const feedback = createHapticTrigger(haptic);
  * feedback('toggle-on');
  * ```
  *
  * Its identity only changes when `enabled` does, so it is safe to list in a
  * `useCallback` dependency array and will not defeat a `React.memo` boundary.
  */
-function useHaptics(enabled: boolean = true) {
+function createHapticTrigger(enabled: boolean = true) {
   return (intent: HapticType = 'impact-light') => {
     if (!enabled)
       return;
@@ -113,4 +113,4 @@ function useHaptics(enabled: boolean = true) {
 }
 
 export type { HapticType };
-export { useHaptics };
+export { createHapticTrigger };

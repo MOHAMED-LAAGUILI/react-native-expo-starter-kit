@@ -23,8 +23,6 @@ export const authApi = {
   register: (data: { email: string; password: string; name: string }) =>
     apiClient.post<LoginResponse>(API_ENDPOINTS.AUTH.REGISTER, data).then(r => r.data),
 
-  verifyOtp: (data: { email: string; otp: string; newPassword: string }) =>
-    apiClient.post<{ message: string }>(API_ENDPOINTS.AUTH.VERIFY_OTP, data).then(r => r.data),
 };
 
 function withImageUrl(post: Omit<PublicPost, 'imageUrl'>): PublicPost {

@@ -1,210 +1,58 @@
-import type { CardData } from '@/components/home/image-card-demo';
-import * as React from 'react';
-import { ScrollView, View } from 'react-native';
-import {
-  AccordionDemo,
-  AlertDemo,
-  BadgeDemo,
-  ButtonsDemo,
-  CalendarDemo,
-  CardListDemo,
-  CenteredActionDemo,
-  CenteredDemo,
-  CheckboxDemo,
-  DateTimePickerDemo,
-  DropdownDemo,
-  ExpoAudioCards,
-  IconDemo,
-  ImageCardDemo,
-  ImageDemo,
-  InputDemo,
-  MenubarDemo,
-  PermissionCards,
-  PopoverDemo,
-  ProgressDemo,
-  QRCodeDemo,
-  RadioGroupDemo,
-  SectionTitle,
-  SelectDemo,
-  SeparatorDemo,
-  SkeletonDemo,
-  SliderDemo,
-  SpinnerDemo,
-  SwitchDemo,
-  TabsDemo,
-  TextAreaDemo,
-  ToastDemo,
-  ToggleDemo,
-  TooltipDemo,
-  TypographyDemo,
-  VideoDemo,
-} from '@/components/home';
-import { CardsDemo } from '@/components/home/cards-demo';
-import { BottomSheet, Image, Text } from '@/components/ui';
+import type { CategoryCard } from '@/data/home';
+import { router } from 'expo-router';
+import { Pressable, ScrollView, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SectionTitle, Text } from '@/components/ui';
+import { CATEGORIES } from '@/data/home';
+import { isIOS } from '@/utils/platform';
 
-function PrimitiveSections() {
+function CategoryCardItem({ item }: { item: CategoryCard }) {
+  const Icon = item.icon;
+
   return (
-    <>
-      <SectionTitle>Accordion</SectionTitle>
-      <AccordionDemo />
-
-      <SectionTitle>Alert</SectionTitle>
-      <AlertDemo />
-
-      <SectionTitle>Tabs</SectionTitle>
-      <TabsDemo />
-
-      <SectionTitle>Select</SectionTitle>
-      <SelectDemo />
-
-      <SectionTitle>Separator</SectionTitle>
-      <SeparatorDemo />
-
-      <SectionTitle>Skeleton</SectionTitle>
-      <SkeletonDemo />
-
-      <SectionTitle>Popover</SectionTitle>
-      <PopoverDemo />
-
-      <SectionTitle>Menubar</SectionTitle>
-      <MenubarDemo />
-
-      <SectionTitle>Tooltip</SectionTitle>
-      <TooltipDemo />
-    </>
-  );
-}
-
-function DemoSections({ onCardSelect }: { onCardSelect: (card: CardData) => void }) {
-  return (
-    <>
-      <Text variant="h2" className="mb-2">Component Demo</Text>
-      <Text variant="body" className="mb-2 text-muted-foreground">All UI components with available variants.</Text>
-
-      <SectionTitle>Card</SectionTitle>
-      <CardsDemo />
-
-      <SectionTitle>Card List</SectionTitle>
-      <CardListDemo />
-
-      <SectionTitle>Image Cards</SectionTitle>
-      <ImageCardDemo onCardSelect={onCardSelect} />
-
-      <SectionTitle>Typography</SectionTitle>
-      <TypographyDemo />
-
-      <SectionTitle>Icons</SectionTitle>
-      <IconDemo />
-
-      <PrimitiveSections />
-
-      <SectionTitle>Buttons</SectionTitle>
-      <ButtonsDemo />
-
-      <SectionTitle>Switch</SectionTitle>
-      <SwitchDemo />
-
-      <SectionTitle>Checkbox</SectionTitle>
-      <CheckboxDemo />
-
-      <SectionTitle>Radio Group</SectionTitle>
-      <RadioGroupDemo />
-
-      <SectionTitle>Toggle</SectionTitle>
-      <ToggleDemo />
-
-      <SectionTitle>Slider</SectionTitle>
-      <SliderDemo />
-
-      <SectionTitle>Progress</SectionTitle>
-      <ProgressDemo />
-
-      <SectionTitle>Spinner</SectionTitle>
-      <SpinnerDemo />
-
-      <SectionTitle>Badge</SectionTitle>
-      <BadgeDemo />
-
-      <SectionTitle>Toast</SectionTitle>
-      <ToastDemo />
-
-      <SectionTitle>Image</SectionTitle>
-      <ImageDemo />
-
-      <SectionTitle>Input</SectionTitle>
-      <InputDemo />
-
-      <SectionTitle>Date Time Picker</SectionTitle>
-      <DateTimePickerDemo />
-
-      <SectionTitle>Text Area</SectionTitle>
-      <TextAreaDemo />
-
-      <SectionTitle>Dropdown</SectionTitle>
-      <DropdownDemo />
-
-      <SectionTitle>Video Player</SectionTitle>
-      <VideoDemo />
-
-      <SectionTitle>Calendar</SectionTitle>
-      <CalendarDemo />
-
-      <SectionTitle>Modals</SectionTitle>
-      <View className="flex-row flex-wrap gap-3">
-        <CenteredDemo />
-        <CenteredActionDemo />
+    <Pressable
+      id={`home-category-${item.id}`}
+      className="min-w-[45%] flex-1 rounded-2xl border border-border bg-card p-4 active:opacity-70"
+      style={{ minWidth: '45%' }}
+      onPress={() => router.push(item.href)}
+    >
+      <View
+        className="mb-3 size-11 items-center justify-center rounded-xl"
+        style={{ backgroundColor: `${item.color}18` }}
+      >
+        <Icon size={22} color={item.color} />
       </View>
-
-      <SectionTitle>QR Code</SectionTitle>
-      <QRCodeDemo />
-
-      <SectionTitle>Audio Demos</SectionTitle>
-      <ExpoAudioCards />
-
-      <SectionTitle>Permission Demos</SectionTitle>
-      <PermissionCards />
-    </>
+      <Text variant="label" className="font-semibold" numberOfLines={1}>
+        {item.label}
+      </Text>
+      <Text variant="caption" className="mt-0.5 text-muted-foreground" numberOfLines={2}>
+        {item.description}
+      </Text>
+    </Pressable>
   );
 }
 
 function HomeScreen() {
-  const [selectedCard, setSelectedCard] = React.useState<CardData | null>(null);
+  const insets = useSafeAreaInsets();
 
   return (
-    <View className="flex-1 bg-background">
-      <ScrollView contentContainerClassName="p-6 gap-2">
-        <DemoSections onCardSelect={setSelectedCard} />
-      </ScrollView>
-
-      <BottomSheet
-        open={selectedCard !== null}
-        onOpenChange={(v) => {
-          if (!v)
-            setSelectedCard(null);
-        }}
-        title={selectedCard?.title ?? ''}
-      >
-        {selectedCard && (
-          <>
-            <Image
-              source={{ uri: selectedCard.imageUrl }}
-              className="h-64 w-full"
-              contentFit="cover"
-              style={{ height: '100%', width: '100%' }}
-            />
-            <View className="gap-2 p-4">
-              <Text variant="h4">{selectedCard.title}</Text>
-              <Text variant="body" className="text-muted-foreground">{selectedCard.subtitle}</Text>
-              <Text variant="caption" className="text-muted-foreground">
-                Orientation:
-                {' '}
-                {selectedCard.orientation}
-              </Text>
-            </View>
-          </>
-        )}
-      </BottomSheet>
-    </View>
+    <ScrollView
+      className="flex-1 bg-background"
+      contentInset={isIOS ? { bottom: insets.bottom + 24 } : undefined}
+      contentContainerStyle={isIOS ? undefined : { paddingBottom: insets.bottom + 24 }}
+    >
+      <View className="gap-6 p-6">
+        <SectionTitle title="Component Showcase" />
+        <Text variant="body" className="mb-3 text-muted-foreground">
+          Tap a category to explore its demos.
+        </Text>
+        <View className="flex-row flex-wrap gap-3">
+          {CATEGORIES.map(item => (
+            <CategoryCardItem key={item.id} item={item} />
+          ))}
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 

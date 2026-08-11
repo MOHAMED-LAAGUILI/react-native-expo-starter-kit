@@ -37,13 +37,13 @@
     "preferences": "Preferences",
     "deviceInfo": "Device Info",
     "post": "Post",
-                       "charts":  "Charts",
-                       "onboarding":  "Onboarding",
-                       "test":  "Test",
-                       "test2":  "Test 2",
-                       "test3":  "Test 3",
-                       "test4":  "Test 4",
-                       "parallax":  "Parallax"
+    "charts": "Charts",
+    "onboarding": "Onboarding",
+    "parallax": "Parallax",
+    "devUi": "UI Components",
+    "devForms": "Forms & Inputs",
+    "devMedia": "Media & Audio",
+    "devData": "Data & Tables"
   },
   "theme": {
     "light": "Light",

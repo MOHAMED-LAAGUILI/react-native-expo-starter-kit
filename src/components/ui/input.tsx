@@ -127,14 +127,17 @@ function Input({
           focused ? 'border-ring' : 'border-border',
           error && 'border-destructive',
         )}
+        accessibilityElementsHidden={false}
       >
         {showLeftIcon && <View className="items-center justify-center">{showLeftIcon}</View>}
         <TextInput
           className={cn('h-full flex-1 text-base text-foreground outline-0', className)}
-          placeholderTextColor="#9CA3AF"
+          placeholderTextColor="oklch(0.556 0 0)"
           secureTextEntry={resolvedSecureTextEntry}
           value={displayValue}
           onChangeText={handleChangeText}
+          aria-invalid={!!error}
+          aria-describedby={error ? `${props.accessibilityLabel}-error` : undefined}
           onFocus={(e) => {
             setFocused(true);
             props.onFocus?.(e);
@@ -153,6 +156,8 @@ function Input({
             <Text
               variant="caption"
               className="mt-0.5 text-destructive"
+              accessibilityRole="alert"
+              nativeID={props.accessibilityLabel ? `${props.accessibilityLabel}-error` : undefined}
             >
               {error}
             </Text>

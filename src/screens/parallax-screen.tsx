@@ -1,8 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { View } from 'react-native';
-import { ParallaxScrollView } from '@/components/test/parallax-scrollview';
-
-import { Image, Text } from '@/components/ui';
+import { Image, ParallaxScrollView, Text } from '@/components/ui';
 
 export function ParallaxScreen() {
   return (

@@ -56,15 +56,3 @@ export function useForgotPassword() {
     },
   });
 }
-
-export function useVerifyOtp() {
-  return useMutation({
-    mutationFn: (data: { email: string; otp: string; newPassword: string }) => authApi.verifyOtp(data),
-    onError: () => {
-      showToast({ message: 'Invalid OTP or expired. Please try again.', title: 'Verification failed', variant: 'error' });
-    },
-    onSuccess: () => {
-      showToast({ message: 'Password reset successful. Please login.', title: 'Password reset', variant: 'success' });
-    },
-  });
-}

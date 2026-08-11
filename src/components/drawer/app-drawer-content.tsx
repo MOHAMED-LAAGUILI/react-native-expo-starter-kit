@@ -24,18 +24,17 @@ export function AppDrawerContent(props: AppDrawerContentProps) {
   const { t } = useTranslation();
 
   return (
-    <DrawerContentScrollView
-      {...props}
-      contentContainerStyle={{
-        backgroundColor: background,
-        flexGrow: 1,
-        paddingHorizontal: 0,
-        paddingTop: 0,
-      }}
-    >
+    <View style={{ flex: 1, backgroundColor: background, overflow: 'hidden' }}>
       <DrawerProfileHeader />
 
-      <View className="mt-4 flex-1 px-4">
+      <DrawerContentScrollView
+        {...props}
+        contentContainerStyle={{
+          paddingHorizontal: 16,
+          paddingTop: 16,
+          flexGrow: 1,
+        }}
+      >
         {NAV_ITEMS.map(({ label, translationKey, href, icon: Icon, match }) => {
           const currentPath = normalizePath(pathname);
           const normalizedPath = currentPath.replace(/\/+$/, '') || '/';
@@ -59,7 +58,7 @@ export function AppDrawerContent(props: AppDrawerContentProps) {
             />
           );
         })}
-      </View>
-    </DrawerContentScrollView>
+      </DrawerContentScrollView>
+    </View>
   );
 }

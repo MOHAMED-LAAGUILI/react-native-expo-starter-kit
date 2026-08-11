@@ -16,7 +16,7 @@ function Checkbox({ checked, onCheckedChange, disabled, className }: CheckboxPro
       onPress={() => !disabled && onCheckedChange(!checked)}
       accessibilityRole="checkbox"
       accessibilityState={{ checked, disabled }}
-      hitSlop={10}
+      hitSlop={12}
       className={cn(
         'size-5 items-center justify-center rounded-sm border',
         checked ? 'border-primary bg-primary' : 'border-muted-foreground/30 bg-background',

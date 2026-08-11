@@ -129,7 +129,7 @@ function Modal({ isVisible, onClose, variant = 'bottom-sheet', title, descriptio
     return null;
 
   return (
-    <RNModal visible transparent animationType="none" onRequestClose={handleClose}>
+    <RNModal visible transparent animationType="none" onRequestClose={handleClose} accessible={false} accessibilityViewIsModal>
       <Animated.View
         style={backdropStyle}
         className={cn('flex-1 bg-black/40', isCentered ? 'items-center justify-center px-8' : 'justify-end')}
@@ -239,7 +239,7 @@ function CenteredBody({ title, description, icon, actions, className, onClose, s
       )}
 
       {description && (
-        <Text variant="body" className="mb-6 text-center leading-5 text-muted-foreground">{description}</Text>
+        <Text variant="body" className="mb-6 text-center leading-relaxed text-muted-foreground">{description}</Text>
       )}
 
       {children}

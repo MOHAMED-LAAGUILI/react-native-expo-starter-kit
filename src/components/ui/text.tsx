@@ -6,14 +6,14 @@ import { cn } from '@/utils/utils';
 type TextVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'bodyLarge' | 'bodySmall' | 'caption' | 'label' | 'blockquote';
 
 type TextProps = {
-  variant?: TextVariant;
+  variant?: TextVariant | undefined | string;
 } & RNTextProps;
 
 function Text({ variant = 'body', className, ...props }: TextProps) {
   return (
     <RNText
       className={cn(
-        'text-base text-foreground',
+        'text-base/normal text-foreground',
         variant === 'h1' && 'text-4xl font-extrabold tracking-tight',
         variant === 'h2' && 'text-3xl font-semibold tracking-tight',
         variant === 'h3' && 'text-2xl font-semibold tracking-tight',

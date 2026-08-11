@@ -1,7 +1,6 @@
 import { useRouter } from 'expo-router';
 import Drawer from 'expo-router/drawer';
 import { useEffect } from 'react';
-import { View } from 'react-native';
 import { AppDrawerContent } from '@/components/drawer/app-drawer-content';
 import { DrawerHeaderLeft } from '@/components/drawer/drawer-header-left';
 import { DrawerHeaderRight } from '@/components/drawer/drawer-header-right';
@@ -21,7 +20,7 @@ export default function AppLayout() {
   }, [isAuthenticated, navigation]);
 
   if (!isAuthenticated) {
-    return <View className="flex-1 bg-background" />;
+    return null;
   }
 
   return (

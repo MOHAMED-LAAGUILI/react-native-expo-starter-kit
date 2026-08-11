@@ -38,7 +38,7 @@ const BG_CLASS: Record<string, string> = {
   'ghost': 'active:bg-accent',
   'destructive': 'bg-destructive active:bg-destructive/90',
   'success': 'bg-green-600 active:bg-green-700',
-  'shadcn': 'bg-shadcn active:bg-shadcn/90',
+  'shadcn': 'bg-foreground active:bg-foreground/90',
 };
 
 const TEXT_CLASS: Record<string, string> = {
@@ -49,7 +49,7 @@ const TEXT_CLASS: Record<string, string> = {
   'ghost': 'text-foreground',
   'destructive': 'text-destructive-foreground',
   'success': 'text-white',
-  'shadcn': 'text-shadcn-foreground',
+  'shadcn': 'text-background',
 };
 
 const ICON_CLASS: Record<string, string> = {
@@ -60,7 +60,7 @@ const ICON_CLASS: Record<string, string> = {
   'ghost': 'text-foreground',
   'destructive': 'text-destructive-foreground',
   'success': 'text-white',
-  'shadcn': 'text-shadcn-foreground',
+  'shadcn': 'text-background',
 };
 
 function GradientBackground({
@@ -77,7 +77,7 @@ function GradientBackground({
       colors={[primaryHex, `${primaryHex}CC`]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
-      style={[StyleSheet.absoluteFill, { borderRadius: 8 }]}
+      style={[StyleSheet.absoluteFill, { borderRadius: 10 }]}
     />
   );
 }
@@ -151,6 +151,7 @@ function Button({
       disabled={disabled || loading}
       accessibilityRole="button"
       accessibilityLabel={title}
+      accessibilityState={{ disabled: disabled || loading, busy: loading }}
       {...props}
     >
       <GradientBackground {...{ variant, primaryHex }} />

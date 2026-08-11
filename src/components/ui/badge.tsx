@@ -22,9 +22,9 @@ const bgStyles: Record<BadgeVariant, string> = {
   outline: 'bg-transparent border border-primary',
   primary: 'bg-primary',
   secondary: 'bg-primary/20',
-  success: 'bg-green-700',
-  warning: 'bg-yellow-700',
-  info: 'bg-blue-700',
+  success: 'bg-green-600 dark:bg-green-700',
+  warning: 'bg-yellow-600 dark:bg-yellow-700',
+  info: 'bg-blue-600 dark:bg-blue-700',
 };
 
 const textStyles: Record<BadgeVariant, string> = {
@@ -47,13 +47,13 @@ const sizeStyles: Record<BadgeSize, string> = {
 const textSizeStyles: Record<BadgeSize, string> = {
   lg: 'text-sm',
   md: 'text-xs',
-  sm: 'text-[10px]',
+  sm: 'text-[12px]',
 };
 
 const iconSizeStyles: Record<BadgeSize, number> = {
   lg: 14,
   md: 10,
-  sm: 4,
+  sm: 6,
 };
 
 function Badge({ variant = 'default', size = 'md', className, children, icon: IconComponent }: BadgeProps) {

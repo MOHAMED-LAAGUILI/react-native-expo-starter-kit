@@ -1,7 +1,7 @@
 import type { ReportProject } from '@/data/report';
 import * as React from 'react';
 import { ScrollView, View } from 'react-native';
-import { OverviewCards } from '@/components/home/overview-cards';
+import { OverviewCards } from '@/components/demos/overview-cards';
 import { reportRangeLabels, reportTabs } from '@/components/report/constants';
 import { HoursDistribution } from '@/components/report/hours-distribution';
 import { ReportTabs } from '@/components/report/report-tabs';
@@ -70,7 +70,6 @@ export function ReportScreen() {
         />
 
         <UnifiedProjects key={`unified-${activeTab}`} data={tabProjectData} totalHours={totalHours} />
-
       </ScrollView>
     </View>
   );

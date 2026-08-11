@@ -99,7 +99,7 @@ function BottomSheetOptions<T>({
             accessibilityRole="button"
             accessibilityState={{ selected: isSelected }}
             className={cn(
-              'flex-row items-center gap-3 border-b border-border px-4 py-3',
+              'flex-row items-center gap-3 px-4 py-3.5',
               isSelected && 'bg-primary/10',
             )}
           >

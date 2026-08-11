@@ -36,7 +36,7 @@ function RadioGroupItem({ value, label, disabled }: RadioGroupItemProps) {
     <RadioGroupPrimitive.Item
       value={value}
       disabled={disabled}
-      className="flex-row items-center gap-3"
+      className="flex-row items-center gap-3 py-1"
     >
       <View className={cn('size-5 items-center justify-center rounded-full border', 'border-muted-foreground/30')}>
         <RadioGroupPrimitive.Indicator className="size-3 rounded-full bg-primary" />

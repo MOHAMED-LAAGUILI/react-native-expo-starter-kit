@@ -37,13 +37,13 @@
     "preferences": "Préférences",
     "deviceInfo": "Info appareil",
     "post": "Article",
-                       "charts":  "Graphiques",
-                       "onboarding":  "Onboarding",
-                       "test":  "Test",
-                       "test2":  "Test 2",
-                       "test3":  "Test 3",
-                       "test4":  "Test 4",
-                       "parallax":  "Parallaxe"
+    "charts": "Graphiques",
+    "onboarding": "Onboarding",
+    "parallax": "Parallaxe",
+    "devUi": "Composants UI",
+    "devForms": "Formulaires & Saisies",
+    "devMedia": "Médias & Audio",
+    "devData": "Données & Tableaux"
   },
   "theme": {
     "light": "Clair",

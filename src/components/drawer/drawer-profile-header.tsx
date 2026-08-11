@@ -16,7 +16,7 @@ export function DrawerProfileHeader() {
 
   return (
     <View
-      className="relative -mx-4 mb-2"
+      className="mb-2 overflow-hidden"
       style={{ height: 140 + safeTop }}
     >
       <Svg

@@ -11,10 +11,10 @@ import {
 
 } from 'react-native';
 import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
-import { Icon } from '@/components/ui/icon';
-import { TextClassContext } from '@/components/ui/text';
 import { isIOS, isWeb } from '@/utils/platform';
 import { cn } from '@/utils/utils';
+import { Icon } from './icon';
+import { TextClassContext } from './text';
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 

@@ -1,8 +1,8 @@
 import type { LucideIcon, LucideProps } from 'lucide-react-native';
 import * as React from 'react';
 import { withUniwind } from 'uniwind';
-import { TextClassContext } from '@/components/ui/text';
 import { cn } from '@/utils/utils';
+import { TextClassContext } from './text';
 
 export type IconProps = LucideProps & {
   as: LucideIcon;
@@ -33,7 +33,7 @@ const StyledIcon = withUniwind(IconImpl, {
  * @example
  * ```tsx
  * import { ArrowRight } from 'lucide-react-native';
- * import { Icon } from '@/components/ui/icon';
+ * import { Icon } from './icon';
  *
  * <Icon as={ArrowRight} className="text-red-500 size-4" />
  * ```
