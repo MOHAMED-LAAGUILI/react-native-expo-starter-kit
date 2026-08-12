@@ -27,3 +27,5 @@ expo-env.d.ts
 # Workspace-only agent and repo metadata not needed for remote builds.
 .agents/
 .github/
+.freebuff/
+.kilo/

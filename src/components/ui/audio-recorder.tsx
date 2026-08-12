@@ -391,7 +391,7 @@ function useRecordingPulse(isRecording: boolean) {
 
 function useWaveformMetering(recorder: Recorder, isRecording: boolean) {
   const [waveformData, setWaveformData] = useState<number[]>(
-    Array.from<number>({ length: 30 }).fill(0.2),
+    () => Array.from<number>({ length: 30 }).fill(0.2),
   );
   const meteringIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 

@@ -37,6 +37,12 @@ export type LiveWaveformProps = {
 const IDLE_BAR_COUNT = 24;
 const IDLE_LEVEL = 0.18;
 
+const MAX_WAVEFORM_BARS = 256;
+const STABLE_BAR_IDS: string[] = Array.from(
+  { length: MAX_WAVEFORM_BARS },
+  (_, barSlot) => `waveform-bar-${barSlot}`,
+);
+
 export function LiveWaveform(props: LiveWaveformProps) {
   if (Platform.OS === 'web') {
     return <WebLiveWaveform {...props} />;
@@ -139,21 +145,20 @@ function NativeLiveWaveform({
       style={{ height, width: totalWidth }}
       accessibilityLabel={active ? 'Live audio waveform' : 'Audio waveform idle'}
     >
-      {displayData.map((value, index) => {
+      {displayData.map((value, barSlot) => {
         const edgeFade = fadeEdges
           ? Math.min(
               1,
-              Math.min(index, displayData.length - 1 - index)
+              Math.min(barSlot, displayData.length - 1 - barSlot)
               / Math.max(1, fadeWidth / gap),
             )
           : 1;
         return (
           <View
-            // eslint-disable-next-line react/no-array-index-key
-            key={`bar-${index}-${value.toFixed(2)}`}
+            key={STABLE_BAR_IDS[barSlot]}
             style={{
               width: barWidth,
-              marginRight: index < displayData.length - 1 ? barGap : 0,
+              marginRight: barSlot < displayData.length - 1 ? barGap : 0,
               opacity: 0.4 + edgeFade * 0.6,
             }}
           >

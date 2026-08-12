@@ -1,6 +1,6 @@
 import type { SharedValue } from 'react-native-reanimated';
 import { Download, Share, X } from 'lucide-react-native';
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   FlatList,
   Modal,
@@ -455,17 +455,20 @@ function GalleryGrid({
 }: GalleryGridProps) {
   const { width: screenWidth } = useWindowDimensions();
   const [containerWidth, setContainerWidth] = useState(screenWidth);
-  const itemWidth = (containerWidth - paddingHorizontal * 2 - spacing * (columns - 1)) / columns;
+  const itemWidth = Math.max(
+    1,
+    (containerWidth - paddingHorizontal * 2 - spacing * (columns - 1)) / columns,
+  );
 
   const renderItem = ({ item, index }: { item: GalleryItem; index: number }) => {
     const isLastInRow = (index + 1) % columns === 0;
+    const hasCaption = showTitles || showDescriptions;
 
     return (
       <Pressable
         key={item.id}
         style={{
           width: itemWidth,
-          height: itemWidth * aspectRatio,
           borderRadius,
           marginRight: isLastInRow ? 0 : spacing,
           marginBottom: spacing,
@@ -474,16 +477,19 @@ function GalleryGrid({
       >
         <Image
           source={{ uri: item.thumbnail || item.uri }}
-          className="flex-1"
-          style={{ borderRadius, height: '100%', width: '100%' }}
+          style={{
+            width: itemWidth,
+            height: itemWidth * aspectRatio,
+            borderRadius,
+          }}
           contentFit="cover"
           transition={200}
         />
 
         {renderCustomOverlay && renderCustomOverlay(item, index)}
 
-        {(showTitles || showDescriptions) && (
-          <View className="p-2">
+        {hasCaption && (
+          <View style={{ paddingTop: 8, paddingHorizontal: 4, paddingBottom: 4 }}>
             {showTitles && item.title && (
               <Text
                 variant="bodyLarge"
@@ -498,7 +504,7 @@ function GalleryGrid({
               <Text
                 variant="caption"
                 numberOfLines={2}
-                style={{ color: mutedColor }}
+                style={{ color: mutedColor, marginTop: 2 }}
               >
                 {item.description}
               </Text>
@@ -522,9 +528,7 @@ function GalleryGrid({
         setContainerWidth(event.nativeEvent.layout.width);
       }}
     >
-      {items.map((item, index) => (
-        <Fragment key={item.id}>{renderItem({ item, index })}</Fragment>
-      ))}
+      {items.map((item, index) => renderItem({ item, index }))}
     </View>
   );
 }
@@ -752,24 +756,21 @@ function useFullscreenViewerState(initialIndex: number) {
 
   // Stable callback for onViewableItemsChanged — RN warns if it changes on the fly.
   // Deps are empty: setSelectedIndex and thumbnailFlatListRef are stable across renders.
-  const onViewableItemsChanged = useCallback(
-    ({ viewableItems }: any) => {
-      if (viewableItems.length > 0) {
-        const newIndex = viewableItems[0].index;
-        if (newIndex !== null && newIndex !== undefined) {
-          setSelectedIndex(newIndex);
-          setTimeout(() => {
-            thumbnailFlatListRef.current?.scrollToIndex({
-              index: newIndex,
-              animated: true,
-              viewPosition: 0.5,
-            });
-          }, 100);
-        }
+  const onViewableItemsChanged = ({ viewableItems }: any) => {
+    if (viewableItems.length > 0) {
+      const newIndex = viewableItems[0].index;
+      if (newIndex !== null && newIndex !== undefined) {
+        setSelectedIndex(newIndex);
+        setTimeout(() => {
+          thumbnailFlatListRef.current?.scrollToIndex({
+            index: newIndex,
+            animated: true,
+            viewPosition: 0.5,
+          });
+        }, 100);
       }
-    },
-    [],
-  );
+    }
+  };
 
   return {
     selectedIndex,

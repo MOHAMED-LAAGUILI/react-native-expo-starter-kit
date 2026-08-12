@@ -12,7 +12,7 @@ import {
   Clock,
 } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, ScrollView, View } from 'react-native';
+import { FlatList, Pressable, View } from 'react-native';
 import { useThemeColors } from '@/hooks/use-theme-color';
 import { cn } from '@/utils/utils';
 import { BottomSheet } from './bottom-sheet';
@@ -734,27 +734,33 @@ function CalendarGrid({
       </View>
 
       <View className="px-1">
-        {calendarData.weeks.map(week => (
-          <View
-            key={week.find(day => day !== null) ?? 'empty-week'}
-            className="mb-1 flex-row"
-          >
-            {week.map(day => (
-              <CalendarDayCell
-                key={day ?? 'empty-day'}
-                day={day}
-                year={calendarData.year}
-                month={calendarData.month}
-                mode={mode}
-                value={value}
-                tempRange={tempRange}
-                minimumDate={minimumDate}
-                maximumDate={maximumDate}
-                onSelectDay={onSelectDay}
-              />
-            ))}
-          </View>
-        ))}
+        {calendarData.weeks.map((week) => {
+          const weekKey = week.find(day => day !== null) ?? 'empty-week';
+          return (
+            <View
+              key={weekKey}
+              className="mb-1 flex-row"
+            >
+              {DAYS.map((dayName) => {
+                const day = week[DAYS.indexOf(dayName)] ?? null;
+                return (
+                  <CalendarDayCell
+                    key={day ?? `${weekKey}-${dayName}`}
+                    day={day}
+                    year={calendarData.year}
+                    month={calendarData.month}
+                    mode={mode}
+                    value={value}
+                    tempRange={tempRange}
+                    minimumDate={minimumDate}
+                    maximumDate={maximumDate}
+                    onSelectDay={onSelectDay}
+                  />
+                );
+              })}
+            </View>
+          );
+        })}
       </View>
     </>
   );
@@ -839,15 +845,15 @@ function TimeColumn({
       <Text variant="caption" className="mb-3 text-center">
         {title}
       </Text>
-      <ScrollView
+      <FlatList
+        data={options}
+        keyExtractor={option => String(option.value)}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingVertical: 20,
         }}
-      >
-        {options.map(option => (
+        renderItem={({ item: option }) => (
           <Pressable
-            key={option.value}
             onPress={() => onSelect(option.value)}
             className={cn(
               'my-0.5 items-center rounded-full px-4 py-3',
@@ -864,8 +870,8 @@ function TimeColumn({
               {option.label}
             </Text>
           </Pressable>
-        ))}
-      </ScrollView>
+        )}
+      />
     </View>
   );
 }
@@ -998,22 +1004,18 @@ type ListPickerViewProps = {
 function MonthPickerView({ selectedIndex, onSelect }: ListPickerViewProps) {
   return (
     <View className="h-75">
-      <ScrollView
+      <FlatList
+        data={MONTHS}
+        keyExtractor={month => month}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingVertical: 20,
         }}
         style={{
-          shadowColor: '#000000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.04,
-          shadowRadius: 26,
-          elevation: 2,
+          boxShadow: '0px 2px 26px rgba(0, 0, 0, 0.04)',
         }}
-      >
-        {MONTHS.map((month, index) => (
+        renderItem={({ item: month, index }) => (
           <Pressable
-            key={month}
             onPress={() => onSelect(index)}
             className={cn(
               'my-0.5 items-center rounded-full px-5 py-4',
@@ -1030,8 +1032,8 @@ function MonthPickerView({ selectedIndex, onSelect }: ListPickerViewProps) {
               {month}
             </Text>
           </Pressable>
-        ))}
-      </ScrollView>
+        )}
+      />
 
       <LinearGradient
         pointerEvents="none"
@@ -1050,22 +1052,18 @@ function MonthPickerView({ selectedIndex, onSelect }: ListPickerViewProps) {
 function YearPickerView({ selectedIndex, onSelect }: ListPickerViewProps) {
   return (
     <View className="h-75">
-      <ScrollView
+      <FlatList
+        data={YEARS}
+        keyExtractor={year => String(year)}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingVertical: 20,
         }}
         style={{
-          shadowColor: '#000000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.04,
-          shadowRadius: 26,
-          elevation: 2,
+          boxShadow: '0px 2px 26px rgba(0, 0, 0, 0.04)',
         }}
-      >
-        {YEARS.map(year => (
+        renderItem={({ item: year }) => (
           <Pressable
-            key={year}
             onPress={() => onSelect(year)}
             className={cn(
               'my-0.5 items-center rounded-full px-5 py-4',
@@ -1082,8 +1080,8 @@ function YearPickerView({ selectedIndex, onSelect }: ListPickerViewProps) {
               {year}
             </Text>
           </Pressable>
-        ))}
-      </ScrollView>
+        )}
+      />
 
       <LinearGradient
         pointerEvents="none"

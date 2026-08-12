@@ -69,9 +69,9 @@ function IosActionSheet({
       const destructiveButtonIndex = options.findIndex(
         option => option.destructive,
       );
-      const disabledButtonIndices = options
-        .map((option, index) => (option.disabled ? index : -1))
-        .filter(index => index !== -1);
+      const disabledButtonIndices = options.flatMap((option, index) =>
+        option.disabled ? [index] : [],
+      );
 
       ActionSheetIOS.showActionSheetWithOptions(
         {

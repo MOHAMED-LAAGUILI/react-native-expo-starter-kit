@@ -11,12 +11,7 @@ function QueryProvider({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      {ReactQueryDevtools
-        && (
-          <>
-            <ReactQueryDevtools client={queryClient} initialIsOpen={false} />
-          </>
-        )}
+      {ReactQueryDevtools && <ReactQueryDevtools client={queryClient} initialIsOpen={false} />}
     </QueryClientProvider>
   );
 }

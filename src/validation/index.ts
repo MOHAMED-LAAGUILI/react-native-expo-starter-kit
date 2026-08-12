@@ -1,2 +1,2 @@
-export type { EditProfileFormData, ForgotPasswordFormData, LoginFormData, RegisterFormData, VerifyOtpFormData } from './auth';
-export { editProfileSchema, forgotPasswordSchema, loginSchema, registerSchema, verifyOtpSchema } from './auth';
+export type { EditProfileFormData, ForgotPasswordFormData, LoginFormData, RegisterFormData } from './auth';
+export { editProfileSchema, forgotPasswordSchema, loginSchema, registerSchema } from './auth';
