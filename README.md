@@ -1,10 +1,6 @@
 <h1 align="center">
-   RN Expo Starter Kit
+   React Native Expo Starter
 </h1>
-
-<p align="center">
-   <img width="1024" height="559" alt="RN Expo Starter Kit Banner" src="https://github.com/user-attachments/assets/3e80f416-300e-4260-80de-8595affd1082" />
-</p>
 
 <p align="center">
    
