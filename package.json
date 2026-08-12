@@ -1,7 +1,7 @@
 {
   "name": "react-native-expo-starter-kit",
   "main": "expo-router/entry",
-  "version": "4.9.0",
+  "version": "5.1.0",
   "packageManager": "pnpm@10.12.3",
   "keywords": [
     "react-native",
