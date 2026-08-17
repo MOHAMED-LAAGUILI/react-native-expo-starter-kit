@@ -18,6 +18,7 @@ import { Text } from '@/components/ui/text';
 import { getPaletteColor } from '@/config/color-palettes';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { ChartLoader } from './chart-loader';
 
 // Animated SVG Components
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -238,9 +239,10 @@ type Props = {
   data: ChartDataPoint[];
   config?: ChartConfig;
   style?: ViewStyle;
+  loaderDelay?: number;
 };
 
-export function RadialBarChart({ data, config = {}, style }: Props) {
+export function RadialBarChart({ data, config = {}, style, loaderDelay = 120 }: Props) {
   const [containerSize, setContainerSize] = useState(200);
 
   const {
@@ -305,7 +307,7 @@ export function RadialBarChart({ data, config = {}, style }: Props) {
     maxValue,
   };
 
-  return (
+  const chartElement = (
     <View
       style={[{ width: '100%' }, style]}
       accessibilityRole="image"
@@ -333,5 +335,11 @@ export function RadialBarChart({ data, config = {}, style }: Props) {
       {/* Legend */}
       <RadialBarChartLegend data={data} colors={palette.colors} />
     </View>
+  );
+
+  return (
+    <ChartLoader delay={loaderDelay} minHeight={size}>
+      {chartElement}
+    </ChartLoader>
   );
 }

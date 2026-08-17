@@ -14,7 +14,7 @@ import {
   Pressable,
   View,
 } from 'react-native';
-import { loadExpoMediaLibrary } from '@/hooks/permission-utils';
+import { loadExpoMediaLibrary } from '@/utils/permission-utils';
 import { isWeb } from '@/utils/platform';
 import { cn } from '@/utils/utils';
 import { Button } from './button';
@@ -384,7 +384,7 @@ function MediaPreviewItem({
   onRemove: (id: string) => void;
 }) {
   return (
-    <View className="relative mx-1 overflow-hidden rounded-lg border border-border">
+    <View className="border-border relative mx-1 overflow-hidden rounded-lg border">
       <Image
         source={{ uri: item.uri }}
         style={{ width: previewSize, height: previewSize, borderRadius: 8 }}
@@ -398,7 +398,7 @@ function MediaPreviewItem({
         onPress={() => onRemove(item.id)}
         accessibilityRole="button"
         accessibilityLabel={`Remove ${item.type}`}
-        className="absolute top-1.5 right-1.5 size-5 items-center justify-center rounded-full bg-primary"
+        className="bg-primary absolute top-1.5 right-1.5 size-5 items-center justify-center rounded-full"
       >
         <X size={12} color="white" />
       </Pressable>
@@ -466,7 +466,7 @@ function MediaGalleryItem({
         </View>
       )}
       {multiple && isSelected && (
-        <View className="absolute top-2 right-2 size-6 items-center justify-center rounded-full bg-primary">
+        <View className="bg-primary absolute top-2 right-2 size-6 items-center justify-center rounded-full">
           <Text className="text-xs font-bold text-white">
             {assets.findIndex(asset => asset.id === item.id) + 1}
           </Text>
@@ -499,12 +499,12 @@ function MediaGalleryModal({
 
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="pageSheet">
-      <View className="flex-1 bg-card">
-        <View className="flex-row items-center justify-between border-b border-border p-4">
+      <View className="bg-card flex-1">
+        <View className="border-border flex-row items-center justify-between border-b p-4">
           <Text variant="h3">{title}</Text>
           <View className="flex-row items-center gap-4">
             {multiple && (
-              <Text className="font-medium text-muted-foreground">
+              <Text className="text-muted-foreground font-medium">
                 {assets.length}
                 /
                 {maxSelection}

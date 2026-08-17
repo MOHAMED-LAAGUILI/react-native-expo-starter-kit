@@ -25,7 +25,7 @@ function Checkbox({ checked, onCheckedChange, disabled, className }: CheckboxPro
       )}
     >
       {checked && (
-        <Icon as={Check} className="size-3.5 text-primary-foreground" />
+        <Icon as={Check} className="text-primary-foreground size-3.5" />
       )}
     </Pressable>
   );

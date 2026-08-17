@@ -26,13 +26,15 @@ type Props = {
   data: ChartDataPoint[];
   config?: ChartConfig;
   style?: ViewStyle;
+  loaderDelay?: number;
 };
-export function AreaChart({ data, config = {}, style }: Props) {
+export function AreaChart({ data, config = {}, style, loaderDelay = 120 }: Props) {
   return (
     <LineChart
       data={data}
       config={{ ...config, gradient: true }}
       style={style}
+      loaderDelay={loaderDelay}
     />
   );
 }

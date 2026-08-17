@@ -1,7 +1,7 @@
 import type { CardData } from '@/data/cards';
 import * as React from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
-import { Image, Text } from '@/components/ui';
+import { BottomSheet, Image, Text } from '@/components/ui';
 import { HORIZONTAL_CARDS, VERTICAL_CARDS } from '@/data/cards';
 import { cn } from '@/utils/utils';
 
@@ -53,30 +53,72 @@ function ImageCard({ title, subtitle, imageUrl, orientation = 'vertical', onPres
 }
 
 function ImageCardDemo({ onCardSelect }: { onCardSelect?: (card: CardData) => void }) {
-  return (
-    <View className="gap-6">
-      <View>
-        <Text variant="h3" className="mb-3">Vertical Cards</Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerClassName="gap-3"
-        >
-          {VERTICAL_CARDS.map(card => (
-            <ImageCard key={card.title} {...card} onPress={() => onCardSelect?.({ ...card })} />
-          ))}
-        </ScrollView>
-      </View>
+  const [selectedCard, setSelectedCard] = React.useState<CardData | null>(null);
 
-      <View>
-        <Text variant="h3" className="mb-3">Horizontal Cards</Text>
-        <View className="gap-3">
-          {HORIZONTAL_CARDS.map(card => (
-            <ImageCard key={card.title} {...card} onPress={() => onCardSelect?.({ ...card })} />
-          ))}
+  const handleSelect = (card: CardData) => {
+    if (onCardSelect) {
+      onCardSelect(card);
+    }
+    else {
+      setSelectedCard(card);
+    }
+  };
+
+  return (
+    <>
+      <View className="gap-6">
+        <View>
+          <Text variant="h3" className="mb-3">Vertical Cards</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerClassName="gap-3"
+          >
+            {VERTICAL_CARDS.map(card => (
+              <ImageCard key={card.title} {...card} onPress={() => handleSelect({ ...card })} />
+            ))}
+          </ScrollView>
+        </View>
+
+        <View>
+          <Text variant="h3" className="mb-3">Horizontal Cards</Text>
+          <View className="gap-3">
+            {HORIZONTAL_CARDS.map(card => (
+              <ImageCard key={card.title} {...card} onPress={() => handleSelect({ ...card })} />
+            ))}
+          </View>
         </View>
       </View>
-    </View>
+
+      <BottomSheet
+        open={selectedCard !== null}
+        onOpenChange={(v) => {
+          if (!v)
+            setSelectedCard(null);
+        }}
+        title={selectedCard?.title ?? ''}
+      >
+        {selectedCard && (
+          <>
+            <Image
+              source={{ uri: selectedCard.imageUrl }}
+              className="h-64 w-full"
+              contentFit="cover"
+              style={{ height: '100%', width: '100%' }}
+            />
+            <View className="gap-2 p-4">
+              <Text variant="h4">{selectedCard.title}</Text>
+              <Text variant="body" className="text-muted-foreground">{selectedCard.subtitle}</Text>
+              <Text variant="caption" className="text-muted-foreground">
+                Orientation:
+                {' '}
+                {selectedCard.orientation}
+              </Text>
+            </View>
+          </>
+        )}
+      </BottomSheet>
+    </>
   );
 }
 

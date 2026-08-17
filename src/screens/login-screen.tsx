@@ -34,7 +34,10 @@ function LoginScreen() {
 
   return (
     <KeyboardAvoidingView className="flex-1 bg-background">
-      <ScrollView contentContainerClassName="flex-grow justify-center px-6" keyboardShouldPersistTaps="handled">
+      <ScrollView
+        contentContainerClassName="flex-grow justify-center px-6"
+        keyboardShouldPersistTaps="handled"
+      >
         <View className="mb-8 items-center gap-2">
           <Image
             source={require('@assets/images/logo.png')}

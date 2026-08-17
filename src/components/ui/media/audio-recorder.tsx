@@ -18,14 +18,15 @@ import Animated, {
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
-import { saveAudioRecording } from '@/hooks/permission-utils';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { saveAudioRecording } from '@/utils/permission-utils';
 import { isIOS } from '@/utils/platform';
+import { Button } from '../button';
+import { Text } from '../text';
+import { showToast } from '../toaster';
 import { LiveWaveform } from './audio-live-waveform';
 import { AudioPlayer } from './audio-player';
-import { Text } from './text';
-import { showToast } from './toaster';
 
 export type AudioRecorderProps = {
   style?: ViewStyle;
@@ -55,17 +56,24 @@ function formatTime(seconds: number) {
 type PermissionRequiredViewProps = {
   style?: ViewStyle;
   textColor: string;
+  onRequestPermission: () => void;
 };
 
-function PermissionRequiredView({ style, textColor }: PermissionRequiredViewProps) {
+function PermissionRequiredView({ style, textColor, onRequestPermission }: PermissionRequiredViewProps) {
   return (
     <View
-      className="w-82 items-center self-center rounded-md border border-border bg-card px-4 py-4.5"
+      className="border-border bg-card w-82 items-center self-center rounded-md border px-4 py-4.5"
       style={style}
     >
       <Text variant="body" style={{ color: textColor, textAlign: 'center' }}>
-        Microphone permission is required to record audio.
+        Microphone is closed by default. Tap "Enable Microphone" to grant access and start recording.
       </Text>
+      <Button
+        title="Enable Microphone"
+        size="sm"
+        className="mt-3"
+        onPress={onRequestPermission}
+      />
     </View>
   );
 }
@@ -215,7 +223,7 @@ function PlaybackControls({ saving, onDelete, onSave }: PlaybackControlsProps) {
       <Pressable
         accessibilityLabel="Delete recording"
         onPress={onDelete}
-        className="size-10 items-center justify-center rounded-full border border-red-500 bg-secondary"
+        className="bg-secondary size-10 items-center justify-center rounded-full border border-red-500"
         style={({ pressed }) => [
           { opacity: pressed ? 0.82 : 1 },
         ]}
@@ -291,7 +299,7 @@ function RecorderBody({
 }: RecorderBodyProps) {
   return (
     <View
-      className="w-[328px] items-center self-center rounded-md border border-border bg-card px-4 py-[18px]"
+      className="border-border bg-card w-[328px] items-center self-center rounded-md border px-4 py-[18px]"
       style={style}
     >
       {recordingUri && !isRecording
@@ -342,25 +350,30 @@ function useRecordingPermission() {
   useEffect(() => {
     (async () => {
       try {
-        const status = await AudioModule.requestRecordingPermissionsAsync();
+        const status = await AudioModule.getRecordingPermissionsAsync();
         setPermissionGranted(status.granted);
-
-        if (!status.granted) {
-          Alert.alert(
-            'Permission Required',
-            'Please grant microphone permission to record audio.',
-            [{ text: 'OK' }],
-          );
-        }
       }
       catch (error) {
-        console.error('Error requesting permissions:', error);
+        console.error('Error checking permissions:', error);
         setPermissionGranted(false);
       }
     })();
   }, []);
 
-  return permissionGranted;
+  const requestPermission = async () => {
+    try {
+      const status = await AudioModule.requestRecordingPermissionsAsync();
+      setPermissionGranted(status.granted);
+      return status.granted;
+    }
+    catch (error) {
+      console.error('Error requesting permissions:', error);
+      setPermissionGranted(false);
+      return false;
+    }
+  };
+
+  return { permissionGranted, requestPermission };
 }
 
 function useRecordingPulse(isRecording: boolean) {
@@ -468,6 +481,7 @@ type StartRecordingOptions = {
   recorder: Recorder;
   recordingOptions: RecordingOptions;
   permissionGranted: boolean;
+  requestPermission: () => Promise<boolean>;
   onRecordingStart?: () => void;
   setRecordingUri: (uri: string | null) => void;
   setIsRecording: (value: boolean) => void;
@@ -479,13 +493,18 @@ async function startRecording({
   recorder,
   recordingOptions,
   permissionGranted,
+  requestPermission,
   onRecordingStart,
   setRecordingUri,
   setIsRecording,
   startDurationTimer,
   stopDurationTimer,
 }: StartRecordingOptions) {
-  if (!permissionGranted) {
+  let granted = permissionGranted;
+  if (!granted) {
+    granted = await requestPermission();
+  }
+  if (!granted) {
     Alert.alert(
       'Permission Required',
       'Microphone permission is required to record audio.',
@@ -607,39 +626,51 @@ async function saveRecording({
   }
 }
 
-export function AudioRecorder({
-  style,
-  quality = 'high',
-  showWaveform = true,
-  showTimer = true,
-  maxDuration,
-  onRecordingComplete,
+type UseRecorderActionsOptions = {
+  recorder: Recorder;
+  recordingOptions: RecordingOptions;
+  permissionGranted: boolean;
+  requestPermission: () => Promise<boolean>;
+  onRecordingStart?: () => void;
+  onRecordingComplete?: (uri: string) => void;
+  onRecordingStop?: () => void;
+  maxDuration?: number;
+  duration: number;
+  isRecording: boolean;
+  recordingUri: string | null;
+  setRecordingUri: (uri: string | null) => void;
+  setIsRecording: (value: boolean) => void;
+  startDurationTimer: () => void;
+  stopDurationTimer: () => void;
+  setDuration: (value: number) => void;
+  setSaving: (value: boolean) => void;
+};
+
+function useRecorderActions({
+  recorder,
+  recordingOptions,
+  permissionGranted,
+  requestPermission,
   onRecordingStart,
+  onRecordingComplete,
   onRecordingStop,
-  customRecordingOptions,
-}: AudioRecorderProps) {
-  const recordingOptions
-    = customRecordingOptions
-      || (quality === 'high'
-        ? RecordingPresets.HIGH_QUALITY
-        : RecordingPresets.LOW_QUALITY);
-
-  const recorder = useAudioRecorder(recordingOptions);
-  const permissionGranted = useRecordingPermission();
-  const [recordingUri, setRecordingUri] = useState<string | null>(null);
-  const [isRecording, setIsRecording] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const waveformData = useWaveformMetering(recorder, isRecording);
-  const { duration, setDuration, startDurationTimer, stopDurationTimer } = useDurationTimer();
-
-  const { text: textColor, muted: mutedColor } = useThemeColors();
-  const primaryColor = usePrimaryHex();
-
+  maxDuration,
+  duration,
+  isRecording,
+  recordingUri,
+  setRecordingUri,
+  setIsRecording,
+  startDurationTimer,
+  stopDurationTimer,
+  setDuration,
+  setSaving,
+}: UseRecorderActionsOptions) {
   const handleStartRecording = async () => {
     await startRecording({
       recorder,
       recordingOptions,
       permissionGranted,
+      requestPermission,
       onRecordingStart,
       setRecordingUri,
       setIsRecording,
@@ -690,9 +721,74 @@ export function AudioRecorder({
     });
   };
 
+  return {
+    handleStartRecording,
+    handleStopRecording,
+    handleDeleteRecording,
+    handleSaveRecording,
+  };
+}
+
+export function AudioRecorder({
+  style,
+  quality = 'high',
+  showWaveform = true,
+  showTimer = true,
+  maxDuration,
+  onRecordingComplete,
+  onRecordingStart,
+  onRecordingStop,
+  customRecordingOptions,
+}: AudioRecorderProps) {
+  const recordingOptions
+    = customRecordingOptions
+      || (quality === 'high'
+        ? RecordingPresets.HIGH_QUALITY
+        : RecordingPresets.LOW_QUALITY);
+
+  const recorder = useAudioRecorder(recordingOptions);
+  const { permissionGranted, requestPermission } = useRecordingPermission();
+  const [recordingUri, setRecordingUri] = useState<string | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const waveformData = useWaveformMetering(recorder, isRecording);
+  const { duration, setDuration, startDurationTimer, stopDurationTimer } = useDurationTimer();
+
+  const { text: textColor, muted: mutedColor } = useThemeColors();
+  const primaryColor = usePrimaryHex();
+
+  const {
+    handleStartRecording,
+    handleStopRecording,
+    handleDeleteRecording,
+    handleSaveRecording,
+  } = useRecorderActions({
+    recorder,
+    recordingOptions,
+    permissionGranted,
+    requestPermission,
+    onRecordingStart,
+    onRecordingComplete,
+    onRecordingStop,
+    maxDuration,
+    duration,
+    isRecording,
+    recordingUri,
+    setRecordingUri,
+    setIsRecording,
+    startDurationTimer,
+    stopDurationTimer,
+    setDuration,
+    setSaving,
+  });
+
   if (!permissionGranted) {
     return (
-      <PermissionRequiredView style={style} textColor={textColor} />
+      <PermissionRequiredView
+        style={style}
+        textColor={textColor}
+        onRequestPermission={requestPermission}
+      />
     );
   }
 

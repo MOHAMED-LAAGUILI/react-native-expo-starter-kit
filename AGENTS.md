@@ -135,6 +135,7 @@ How: Essential Rules
 - ✅ DO use `NAV_TITLE_MAP` from `@/config/navigation` for header title keys (single source, derived from `NAV_ITEMS`)
 - ✅ DO add `tab` field to `NavItem` with `name`, `icon`, and `order` when adding a bottom tab route — tabs render sorted by `order`
 - ❌ DO NOT use raw `Text`/`Pressable` from `react-native` — use wrapped versions
+- ✅ DO use `Pressable` instead of `TouchableOpacity` / `activeOpacity`
 - ❌ DO NOT modify `android/` or `ios/` directly — use Expo config plugins
 
 ### Build & Config
@@ -225,7 +226,8 @@ How: Essential Rules
 | i18n            | i18next 26 + react-i18next (EN/FR, RTL) 
 | UI Primitives   | @rn-primitives 1.5 (Portal, Slot, Dialog, etc.) 
 | Bottom Sheet    | @gorhom/bottom-sheet 5 
-| Icons           | lucide-react-native 
+| Icons           | lucide-react-native (icon data via `lucide`) 
+| Icon Morphing   | morphicons (MorphIcon) 
 | HTTP            | Axios (auth interceptor, refresh queue) 
 | Animation       | react-native-reanimated + gesture-handler 
 | Font            | @expo-google-fonts/inter (4 weights, via expo-font plugin) 
@@ -377,7 +379,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `expo-status-bar` — status bar component
 - `react-native-safe-area-context` — SafeAreaProvider + useSafeAreaInsets
 - `react-native-url-polyfill` — URL polyfill for fetch
-- `react-native-restart-newarch` — app restart on RTL language change
+- `react-native-restart-newarch` — app restart
 - `react-native-edge-to-edge` — edge-to-edge display
 - `react-native-reanimated` + `react-native-gesture-handler` — animations + gestures
 - `expo-video` — video player
@@ -425,10 +427,3 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `src/config/env.ts` — shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`)
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
 - Android package: `com.rntemplate.app` (underscores, not hyphens — Android requirement)
-
-## Resources
-
-### Icon Generators
-- [Expo Assets Generator](https://expo-assets-generator.vercel.app/) — Generate splash, adaptive icon, favicon, and icon for Expo projects
-- [BuildIcon](https://buildicon.netlify.app/) — Generate mobile app icons for iOS, Android, and web
-

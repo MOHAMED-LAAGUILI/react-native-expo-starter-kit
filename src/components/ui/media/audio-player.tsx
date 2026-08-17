@@ -7,8 +7,8 @@ import { Pressable, View } from 'react-native';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
 import { cn } from '@/utils/utils';
+import { Text } from '../text';
 import { LiveWaveform } from './audio-live-waveform';
-import { Text } from './text';
 
 function createWaveformData(): number[] {
   return Array.from({ length: 60 }, (_, i) => {
@@ -102,9 +102,9 @@ function WaveformSection({
 
 function ProgressBarSection({ progress }: { progress: number }) {
   return (
-    <View className="mb-3.5 h-1 overflow-hidden rounded-full bg-secondary">
+    <View className="bg-secondary mb-3.5 h-1 overflow-hidden rounded-full">
       <View
-        className="h-full rounded-full bg-primary"
+        className="bg-primary h-full rounded-full"
         style={{ width: `${Math.max(0, Math.min(100, progress))}%` }}
       />
     </View>
@@ -134,7 +134,7 @@ function PlaybackControls({
         accessibilityLabel="Rewind 5 seconds"
         disabled={!isLoaded}
         onPress={onBackFiveSeconds}
-        className="size-10 items-center justify-center rounded-full bg-secondary"
+        className="bg-secondary size-10 items-center justify-center rounded-full"
         style={({ pressed }) => [
           { opacity: pressed ? 0.8 : 1 },
         ]}
@@ -146,7 +146,7 @@ function PlaybackControls({
         accessibilityLabel={isPlaying ? 'Pause' : 'Play'}
         disabled={!isLoaded}
         onPress={onPlayPause}
-        className="size-14 items-center justify-center rounded-full bg-primary"
+        className="bg-primary size-14 items-center justify-center rounded-full"
         style={({ pressed }) => [
           { opacity: pressed ? 0.82 : 1 },
         ]}
@@ -160,7 +160,7 @@ function PlaybackControls({
         accessibilityLabel="Restart"
         disabled={!isLoaded}
         onPress={onRestart}
-        className="size-10 items-center justify-center rounded-full bg-secondary"
+        className="bg-secondary size-10 items-center justify-center rounded-full"
         style={({ pressed }) => [
           { opacity: pressed ? 0.8 : 1 },
         ]}
@@ -264,7 +264,7 @@ export function AudioPlayer({
     <View
       className={cn(
         'w-[328px] self-center px-3.5 py-4',
-        bordered && 'rounded-md border border-border bg-card',
+        bordered && 'border-border bg-card rounded-md border',
       )}
       style={style}
     >

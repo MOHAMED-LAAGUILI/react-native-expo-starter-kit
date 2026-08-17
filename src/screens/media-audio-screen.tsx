@@ -1,10 +1,8 @@
-import type { CardData } from '@/data/cards';
-import { useState } from 'react';
 import { Alert, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ExpoAudioCards, PermissionCards, VideoDemo } from '@/components/demos';
-import { ImageCardDemo } from '@/components/demos/image-card-demo';
-import { AudioPlayer, AudioRecorder, BottomSheet, Camera, Gallery, Image, SectionTitle, Text } from '@/components/ui';
+import { AudioPlayer, AudioRecorder, Camera, Gallery, SectionTitle, Text } from '@/components/ui';
+import VoiceVisualizer from '@/components/ui/media/audio-live-recorder';
 import { gridImages } from '@/data/gallery-images';
 import { isIOS } from '@/utils/platform';
 
@@ -31,6 +29,11 @@ function AudioSection() {
         onRecordingStart={() => console.log('Recording started')}
         onRecordingStop={() => console.log('Recording stopped')}
       />
+
+      <Text variant="h3" className="mt-4 mb-2">Audio Recorder Button</Text>
+
+      <VoiceVisualizer />
+
     </>
   );
 }
@@ -61,45 +64,6 @@ function GallerySection() {
         show={{ titles: true, descriptions: true, pages: true }}
         enable={{ fullscreen: true, zoom: true }}
       />
-    </>
-  );
-}
-
-function ImageCardsSection() {
-  const [selectedCard, setSelectedCard] = useState<CardData | null>(null);
-
-  return (
-    <>
-      <ImageCardDemo onCardSelect={setSelectedCard} />
-
-      <BottomSheet
-        open={selectedCard !== null}
-        onOpenChange={(v) => {
-          if (!v)
-            setSelectedCard(null);
-        }}
-        title={selectedCard?.title ?? ''}
-      >
-        {selectedCard && (
-          <>
-            <Image
-              source={{ uri: selectedCard.imageUrl }}
-              className="h-64 w-full"
-              contentFit="cover"
-              style={{ height: '100%', width: '100%' }}
-            />
-            <View className="gap-2 p-4">
-              <Text variant="h4">{selectedCard.title}</Text>
-              <Text variant="body" className="text-muted-foreground">{selectedCard.subtitle}</Text>
-              <Text variant="caption" className="text-muted-foreground">
-                Orientation:
-                {' '}
-                {selectedCard.orientation}
-              </Text>
-            </View>
-          </>
-        )}
-      </BottomSheet>
     </>
   );
 }
@@ -149,7 +113,7 @@ function MediaAudioScreen() {
     >
       <View className="gap-6 p-6">
         <Text variant="h2" className="mb-1">Media & Audio</Text>
-        <Text variant="body" className="mb-2 text-muted-foreground">
+        <Text variant="body" className="text-muted-foreground mb-2">
           Audio playback, recording, video, gallery, camera, and image demos.
         </Text>
         <SectionTitle title="Audio" />
@@ -160,9 +124,6 @@ function MediaAudioScreen() {
 
         <SectionTitle title="Gallery" />
         <GallerySection />
-
-        <SectionTitle title="Image Cards" />
-        <ImageCardsSection />
 
         <SectionTitle title="Camera" />
         <CameraSection />

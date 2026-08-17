@@ -1,7 +1,34 @@
+import { Menu, Pause, Play, X } from 'lucide';
 import { Bell, Heart, Search, Settings, Star, User } from 'lucide-react-native';
 import { View } from 'react-native';
-import { Icon, Text } from '@/components/ui';
+import { Icon, MorphToggle, Text } from '@/components/ui';
 import { Row } from './typography-and-badge';
+
+function MorphDemo() {
+  return (
+    <>
+      <Text variant="label" className="mb-1 text-muted-foreground">Morph Effect</Text>
+      <Row>
+        <MorphToggle
+          icon={Menu}
+          morphIcon={X}
+          label="Toggle menu icon"
+          spring="bouncy"
+          className="size-11 items-center justify-center rounded-full bg-primary/10 active:bg-primary/20"
+          iconClassName="size-6 text-primary"
+        />
+        <MorphToggle
+          icon={Play}
+          morphIcon={Pause}
+          label="Toggle play icon"
+          className="size-11 items-center justify-center rounded-full bg-destructive/10 active:bg-destructive/20"
+          iconClassName="size-6 text-destructive"
+        />
+        <Text variant="body" className="text-muted-foreground">Tap to morph</Text>
+      </Row>
+    </>
+  );
+}
 
 function IconDemo() {
   return (
@@ -42,6 +69,8 @@ function IconDemo() {
         <Icon as={Settings} className="size-4 text-muted-foreground" />
         <Text variant="body" className="text-muted-foreground">Settings</Text>
       </View>
+
+      <MorphDemo />
     </>
   );
 }

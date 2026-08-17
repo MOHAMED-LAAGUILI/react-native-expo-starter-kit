@@ -1,5 +1,4 @@
-import React from 'react';
-import { Chart } from '@/components/ui';
+import { ChartLoader, ChartPie } from '@/components/ui';
 import { isWeb } from '@/utils/platform';
 import { ProjectsAllocationList } from './projects-allocation-list';
 import { ReportSection } from './report-section';
@@ -36,16 +35,18 @@ export function HoursDistribution({
       subtitle="Donut chart"
       bodyClassName="p-5"
     >
-      <Chart
-        variant="pie"
-        data={chartData}
-        donut
-        radius={92}
-        innerRadius={62}
-        showTooltip
-        centerLabel={`${totalHours}h`}
-        centerSubtitle="Total"
-      />
+      <ChartLoader delay={260} minHeight={184} round>
+        <ChartPie
+          data={chartData}
+          donut
+          radius={92}
+          innerRadius={62}
+          showTooltip
+          centerLabel={`${totalHours}h`}
+          centerSubtitle="Total"
+          isAnimated={false}
+        />
+      </ChartLoader>
       <ProjectsAllocationList
         data={data}
         totalHours={totalHours}

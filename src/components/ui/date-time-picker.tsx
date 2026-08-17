@@ -51,7 +51,7 @@ function DateTimePickerField({ value, onChange, mode = 'date', label, display }:
         onPress={() => setShow(true)}
         accessibilityRole="button"
         accessibilityLabel={label ? `${label}: ${formatDate(value, mode)}` : formatDate(value, mode)}
-        className="h-11 flex-row items-center rounded-md border border-border bg-secondary px-3"
+        className="border-border bg-secondary h-11 flex-row items-center rounded-md border px-3"
       >
         <Text className="text-foreground">{formatDate(value, mode)}</Text>
       </Pressable>

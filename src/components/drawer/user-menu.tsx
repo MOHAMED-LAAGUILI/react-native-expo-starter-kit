@@ -12,7 +12,7 @@ import { cn } from '@/utils/utils';
 
 function UserAvatar({ className }: { className?: string }) {
   return (
-    <View className={cn('overflow-hidden rounded-full bg-muted', className ?? 'size-9')}>
+    <View className={cn('bg-muted overflow-hidden rounded-full', className ?? 'size-9')}>
       <Image
         source={require('@assets/images/logo.png')}
         className="size-full"
@@ -70,7 +70,7 @@ export function UserMenu() {
               <Text className="leading-5 font-medium" numberOfLines={1}>{user?.name ?? 'Guest'}</Text>
               {user?.role
                 ? (
-                    <Text className="text-sm/4 font-normal text-muted-foreground" numberOfLines={1}>
+                    <Text className="text-muted-foreground text-sm/4 font-normal" numberOfLines={1}>
                       {user.role}
                     </Text>
                   )

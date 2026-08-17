@@ -18,6 +18,7 @@ import Svg, {
 } from 'react-native-svg';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { ChartLoader } from './chart-loader';
 
 // Animated SVG Components
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -77,9 +78,20 @@ type Props = {
   config?: ChartConfig;
   style?: ViewStyle;
   categories?: string[];
+  loaderDelay?: number;
 };
 
 type StackedSeries = StackedAreaDataPoint & { cumulative: number[] };
+
+function buildStackedSeries(data: StackedAreaDataPoint[]): StackedSeries[] {
+  return data.map((point) => {
+    const cumulative = point.y.reduce((acc, val) => {
+      acc.push((acc[acc.length - 1] || 0) + val);
+      return acc;
+    }, [] as number[]);
+    return { ...point, cumulative };
+  });
+}
 
 type AreaPathProps = {
   stackedData: StackedSeries[];
@@ -395,6 +407,7 @@ export function StackedAreaChart({
   config = {},
   style,
   categories = [],
+  loaderDelay = 120,
 }: Props) {
   const [containerWidth, setContainerWidth] = useState(300);
 
@@ -434,13 +447,7 @@ export function StackedAreaChart({
     return null;
 
   // Calculate stacked totals and max value
-  const stackedData: StackedSeries[] = data.map((point) => {
-    const cumulative = point.y.reduce((acc, val) => {
-      acc.push((acc[acc.length - 1] || 0) + val);
-      return acc;
-    }, [] as number[]);
-    return { ...point, cumulative };
-  });
+  const stackedData = buildStackedSeries(data);
 
   const maxValue = Math.max(
     ...stackedData.map(d => Math.max(...d.cumulative)),
@@ -468,7 +475,7 @@ export function StackedAreaChart({
       ? colors[i]
       : defaultColors[(i - colors.length) % defaultColors.length]);
 
-  return (
+  const chartElement = (
     <View
       style={[{ width: '100%', height }, style]}
       onLayout={handleLayout}
@@ -492,5 +499,11 @@ export function StackedAreaChart({
         animationProgress={animationProgress}
       />
     </View>
+  );
+
+  return (
+    <ChartLoader delay={loaderDelay} minHeight={height}>
+      {chartElement}
+    </ChartLoader>
   );
 }

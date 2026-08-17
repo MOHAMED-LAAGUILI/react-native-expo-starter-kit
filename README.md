@@ -54,15 +54,11 @@
 </p>
 
 ![Made by](https://img.shields.io/badge/Made%20by-Mohamed_LAAGUILI-blue)
-![Version](https://img.shields.io/badge/Version-5.1.0-blue)
+![Version](https://img.shields.io/badge/Version-5.2.0-blue)
 
 ## Demo Android (Old Build Demo)
 **Wanna See Magic Star & Clone Repo**
 [Demo.mp4](https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7483079364788613120?compact=1)
-
-## Latest APK File
-**available only for 13 Days to download starting from Jul 30, 2026**
-[Download APK](https://expo.dev/accounts/jeniys-team/projects/rn-template/builds/f7ebf2f5-b591-446f-ab6b-99831f78e510)
 
 ## Quick Start
 ```bash

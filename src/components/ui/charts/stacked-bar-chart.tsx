@@ -11,6 +11,7 @@ import Svg, { G, Line, Rect, Text as SvgText } from 'react-native-svg';
 import { getPaletteColor } from '@/config/color-palettes';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { ChartLoader } from './chart-loader';
 
 // Animated SVG Components
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
@@ -339,6 +340,7 @@ type StackedBarChartProps = {
   style?: ViewStyle;
   categories?: string[];
   horizontal?: boolean;
+  loaderDelay?: number;
 };
 
 export function StackedBarChart({
@@ -348,6 +350,7 @@ export function StackedBarChart({
   style,
   categories = [],
   horizontal = false,
+  loaderDelay = 120,
 }: StackedBarChartProps) {
   const [containerWidth, setContainerWidth] = useState(300);
 
@@ -427,7 +430,7 @@ export function StackedBarChart({
     animationProgress,
   };
 
-  return (
+  const chartElement = (
     <View
       style={[{ width: '100%', height }, style]}
       onLayout={handleLayout}
@@ -438,5 +441,11 @@ export function StackedBarChart({
         ? <HorizontalStackedBars {...barProps} />
         : <VerticalStackedBars {...barProps} />}
     </View>
+  );
+
+  return (
+    <ChartLoader delay={loaderDelay} minHeight={height}>
+      {chartElement}
+    </ChartLoader>
   );
 }

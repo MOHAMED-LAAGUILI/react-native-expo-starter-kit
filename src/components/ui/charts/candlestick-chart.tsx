@@ -10,6 +10,7 @@ import Animated, {
 import Svg, { G, Line, Rect, Text as SvgText } from 'react-native-svg';
 import { getPaletteColor } from '@/config/color-palettes';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { ChartLoader } from './chart-loader';
 
 // Animated SVG Components
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
@@ -195,9 +196,10 @@ type Props = {
   data: CandlestickDataPoint[];
   config?: ChartConfig;
   style?: ViewStyle;
+  loaderDelay?: number;
 };
 
-export function CandlestickChart({ data, config = {}, style }: Props) {
+export function CandlestickChart({ data, config = {}, style, loaderDelay = 120 }: Props) {
   const [containerWidth, setContainerWidth] = useState(300);
 
   const {
@@ -261,7 +263,7 @@ export function CandlestickChart({ data, config = {}, style }: Props) {
     valueRange,
   };
 
-  return (
+  const chartElement = (
     <View
       style={[{ width: '100%', height }, style]}
       onLayout={handleLayout}
@@ -277,5 +279,11 @@ export function CandlestickChart({ data, config = {}, style }: Props) {
         animationProgress={animationProgress}
       />
     </View>
+  );
+
+  return (
+    <ChartLoader delay={loaderDelay} minHeight={height}>
+      {chartElement}
+    </ChartLoader>
   );
 }

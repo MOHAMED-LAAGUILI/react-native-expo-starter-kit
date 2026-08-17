@@ -33,7 +33,11 @@ import {
 } from '@/data/charts';
 import { isIOS } from '@/utils/platform';
 
-function RevenueSection() {
+type ChartSectionProps = {
+  delay: number;
+};
+
+function RevenueSection({ delay }: ChartSectionProps) {
   return (
     <ChartContainer
       title="Annual Revenue"
@@ -41,12 +45,13 @@ function RevenueSection() {
     >
       <LineChart
         data={annualRevenue}
+        loaderDelay={delay}
         config={{
           height: 280,
           showGrid: true,
           showLabels: false,
           animated: true,
-          duration: 2500,
+          duration: 1200,
           showYLabels: true,
           yLabelCount: 7,
           padding: 20,
@@ -56,7 +61,7 @@ function RevenueSection() {
   );
 }
 
-function EngagementSection() {
+function EngagementSection({ delay }: ChartSectionProps) {
   return (
     <ChartContainer
       title="Interactive User Engagement"
@@ -64,12 +69,13 @@ function EngagementSection() {
     >
       <AreaChart
         data={monthlyUsers}
+        loaderDelay={delay}
         config={{
           height: 250,
           showGrid: true,
           showLabels: true,
           animated: true,
-          duration: 1500,
+          duration: 800,
           interactive: true,
           showYLabels: true,
           yLabelCount: 5,
@@ -79,7 +85,7 @@ function EngagementSection() {
   );
 }
 
-function StackedAreaChartDemo() {
+function StackedAreaChartDemo({ delay }: ChartSectionProps) {
   return (
     <ChartContainer
       title="Monthly Revenue by Product"
@@ -88,6 +94,7 @@ function StackedAreaChartDemo() {
       <StackedAreaChart
         data={sampleData9}
         categories={categories}
+        loaderDelay={delay}
         config={{
           height: 300,
           showLabels: true,
@@ -100,7 +107,7 @@ function StackedAreaChartDemo() {
   );
 }
 
-function SalesSection() {
+function SalesSection({ delay }: ChartSectionProps) {
   return (
     <ChartContainer
       title="Monthly Sales"
@@ -108,6 +115,7 @@ function SalesSection() {
     >
       <BarChart
         data={sampleData3}
+        loaderDelay={delay}
         config={{
           height: 220,
           showLabels: true,
@@ -119,7 +127,7 @@ function SalesSection() {
   );
 }
 
-function StockSection() {
+function StockSection({ delay }: ChartSectionProps) {
   return (
     <ChartContainer
       title="Stock Price Movement"
@@ -127,6 +135,7 @@ function StockSection() {
     >
       <CandlestickChart
         data={sampleData4}
+        loaderDelay={delay}
         config={{
           height: 220,
           showGrid: true,
@@ -139,7 +148,7 @@ function StockSection() {
   );
 }
 
-function DeviceSection() {
+function DeviceSection({ delay }: ChartSectionProps) {
   return (
     <ChartContainer
       title="Device Usage Statistics"
@@ -147,6 +156,7 @@ function DeviceSection() {
     >
       <ColumnChart
         data={sampleData5}
+        loaderDelay={delay}
         config={{
           height: 280,
           padding: 24,
@@ -164,7 +174,7 @@ function DeviceSection() {
   );
 }
 
-function IndustrySection() {
+function IndustrySection({ delay }: ChartSectionProps) {
   return (
     <ChartContainer
       title="Industry Revenue Analysis"
@@ -172,19 +182,20 @@ function IndustrySection() {
     >
       <ColumnChart
         data={largeSampleData6}
+        loaderDelay={delay}
         config={{
           height: 500,
           padding: 20,
           showLabels: true,
           animated: true,
-          duration: 4000,
+          duration: 1500,
         }}
       />
     </ChartContainer>
   );
 }
 
-function SkillsSection() {
+function SkillsSection({ delay }: ChartSectionProps) {
   return (
     <ChartContainer
       title="360° Skills Assessment"
@@ -192,11 +203,12 @@ function SkillsSection() {
     >
       <RadarChart
         data={comprehensiveData7}
+        loaderDelay={delay}
         config={{
           height: 400,
           showLabels: true,
           animated: true,
-          duration: 2000,
+          duration: 1000,
           maxValue: 100,
         }}
       />
@@ -204,7 +216,7 @@ function SkillsSection() {
   );
 }
 
-function ProductSection() {
+function ProductSection({ delay }: ChartSectionProps) {
   return (
     <ChartContainer
       title="Product Performance"
@@ -212,9 +224,10 @@ function ProductSection() {
     >
       <RadialBarChart
         data={largeDataset8}
+        loaderDelay={delay}
         config={{
           animated: true,
-          duration: 2000,
+          duration: 1000,
           padding: 15,
         }}
       />
@@ -222,7 +235,7 @@ function ProductSection() {
   );
 }
 
-function StackedBarChartStyled() {
+function StackedBarChartStyled({ delay }: ChartSectionProps) {
   return (
     <ChartContainer
       title="Browser Usage by Device"
@@ -232,12 +245,13 @@ function StackedBarChartStyled() {
         data={sampleData10}
         categories={categories2}
         colors={customColors}
+        loaderDelay={delay}
         config={{
           height: 320,
           showLabels: true,
           showGrid: true,
           animated: true,
-          duration: 1500,
+          duration: 800,
           padding: 30,
         }}
       />
@@ -245,7 +259,7 @@ function StackedBarChartStyled() {
   );
 }
 
-function StackedBarChartHorizontal() {
+function StackedBarChartHorizontal({ delay }: ChartSectionProps) {
   return (
     <ChartContainer
       title="Product Sales by Channel"
@@ -255,12 +269,13 @@ function StackedBarChartHorizontal() {
         data={sampleData11}
         categories={categories3}
         horizontal={true}
+        loaderDelay={delay}
         config={{
           height: 350,
           showLabels: true,
           showGrid: true,
           animated: true,
-          duration: 1200,
+          duration: 800,
         }}
       />
     </ChartContainer>
@@ -279,19 +294,17 @@ export function ChartsScreen() {
     >
       <View className="gap-6 p-6">
         <SectionTitle title={t('navigation.charts')} />
-        <RevenueSection />
-        <EngagementSection />
-        <SalesSection />
-        <StockSection />
-        <DeviceSection />
-        <IndustrySection />
-        <SkillsSection />
-        <ProductSection />
-        <StackedAreaChartDemo />
-        <StackedBarChartStyled />
-
-        <StackedBarChartHorizontal />
-
+        <RevenueSection delay={100} />
+        <EngagementSection delay={190} />
+        <SalesSection delay={280} />
+        <StockSection delay={370} />
+        <DeviceSection delay={460} />
+        <IndustrySection delay={550} />
+        <SkillsSection delay={640} />
+        <ProductSection delay={730} />
+        <StackedAreaChartDemo delay={820} />
+        <StackedBarChartStyled delay={910} />
+        <StackedBarChartHorizontal delay={1000} />
       </View>
     </ScrollView>
   );

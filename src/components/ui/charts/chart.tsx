@@ -7,7 +7,7 @@ import { useThemeColors } from '@/hooks/use-theme-color';
 import { cn } from '@/utils/utils';
 import { Text } from '../text';
 
-type ChartVariant = 'bar-vertical' | 'bar-horizontal' | 'pie' | 'trend';
+type ChartBarsVariant = 'bar-vertical' | 'bar-horizontal';
 
 type ChartDataItem = {
   value: number;
@@ -17,13 +17,13 @@ type ChartDataItem = {
   text?: string;
 };
 
-type ChartProps = {
-  variant?: ChartVariant;
+type ChartBaseProps = {
   data: ChartDataItem[];
-  width?: number;
-  height?: number;
-  maxValue?: number;
-  stepValue?: number;
+  className?: string;
+  onLayout?: (event: LayoutChangeEvent) => void;
+};
+
+type ChartPieProps = ChartBaseProps & {
   showLegend?: boolean;
   showTooltip?: boolean;
   donut?: boolean;
@@ -31,10 +31,20 @@ type ChartProps = {
   innerRadius?: number;
   centerLabel?: string;
   centerSubtitle?: string;
-  className?: string;
-  onLayout?: (event: LayoutChangeEvent) => void;
-  hideLabels?: boolean;
+  isAnimated?: boolean;
 };
+
+type ChartBarsProps = ChartBaseProps & {
+  variant?: ChartBarsVariant;
+  width?: number;
+  height?: number;
+  maxValue?: number;
+  stepValue?: number;
+  hideLabels?: boolean;
+  isAnimated?: boolean;
+};
+
+type ChartTrendProps = ChartBaseProps;
 
 function ChartLegend({ data }: { data: ChartDataItem[] }) {
   const total = data.reduce((sum, item) => sum + item.value, 0);
@@ -84,7 +94,8 @@ function ChartPie({
   centerSubtitle,
   className,
   onLayout,
-}: ChartProps) {
+  isAnimated = true,
+}: ChartPieProps) {
   const { background } = useThemeColors();
 
   const pieChartData: pieDataItem[] = data.map(item => ({
@@ -108,11 +119,11 @@ function ChartPie({
         innerCircleColor={background}
         strokeColor={background}
         strokeWidth={2}
-        isAnimated
+        isAnimated={isAnimated}
         centerLabelComponent={() => (
           <View className="items-center">
             {centerSubtitle && (
-              <Text variant="caption" className="mb-1 text-muted-foreground">
+              <Text variant="caption" className="text-muted-foreground mb-1">
                 {centerSubtitle}
               </Text>
             )}
@@ -129,7 +140,7 @@ function ChartPie({
   );
 }
 
-function ChartTrend({ data, className, onLayout }: ChartProps) {
+function ChartTrend({ data, className, onLayout }: ChartTrendProps) {
   const maxHours = Math.max(...data.map(d => d.value), 1);
 
   return (
@@ -143,7 +154,7 @@ function ChartTrend({ data, className, onLayout }: ChartProps) {
               {item.value}
               h
             </Text>
-            <View className="h-36 w-full justify-end overflow-hidden rounded-md bg-muted px-1 pb-1">
+            <View className="bg-muted h-36 w-full justify-end overflow-hidden rounded-md px-1 pb-1">
               <View
                 className="w-full rounded-lg"
                 style={{
@@ -154,7 +165,7 @@ function ChartTrend({ data, className, onLayout }: ChartProps) {
             </View>
             <Text
               variant="caption"
-              className={cn('text-center text-muted-foreground')}
+              className={cn('text-muted-foreground text-center')}
               numberOfLines={2}
             >
               {item.label}
@@ -176,7 +187,8 @@ function ChartBars({
   className,
   onLayout,
   hideLabels,
-}: ChartProps) {
+  isAnimated = true,
+}: ChartBarsProps) {
   const { isDark, background, muted } = useThemeColors();
 
   const axisColor = isDark ? '#404040' : '#e5e5e5';
@@ -230,7 +242,7 @@ function ChartBars({
           stepValue={computedStepValue}
           yAxisLabelSuffix="h"
           disableScroll
-          isAnimated
+          isAnimated={isAnimated}
           animationDuration={800}
           yAxisThickness={1}
           xAxisThickness={1}
@@ -253,47 +265,11 @@ function ChartBars({
   );
 }
 
-function Chart({
-  variant = 'bar-vertical',
-  data,
-  width = 0,
-  height = 200,
-  maxValue,
-  stepValue,
-  showLegend = false,
-  showTooltip = true,
-  donut = false,
-  radius = 92,
-  innerRadius = 62,
-  centerLabel,
-  centerSubtitle,
-  className,
-  onLayout,
-  hideLabels,
-}: ChartProps) {
-  const shared = { data, width, height, maxValue, stepValue, className, onLayout, hideLabels };
-
-  if (variant === 'pie') {
-    return (
-      <ChartPie
-        {...shared}
-        showLegend={showLegend}
-        showTooltip={showTooltip}
-        donut={donut}
-        radius={radius}
-        innerRadius={innerRadius}
-        centerLabel={centerLabel}
-        centerSubtitle={centerSubtitle}
-      />
-    );
-  }
-
-  if (variant === 'trend') {
-    return <ChartTrend {...shared} />;
-  }
-
-  return <ChartBars {...shared} variant={variant} />;
-}
-
-export type { ChartDataItem, ChartProps, ChartVariant };
-export { Chart, ChartLegend };
+export type {
+  ChartBarsProps,
+  ChartBarsVariant,
+  ChartDataItem,
+  ChartPieProps,
+  ChartTrendProps,
+};
+export { ChartBars, ChartLegend, ChartPie, ChartTrend };

@@ -42,7 +42,7 @@ function AccordionItem({
   return (
     <AccordionPrimitive.Item
       className={cn(
-        'border-b border-border',
+        'border-border border-b',
         Platform.select({ web: 'last:border-b-0' }),
         className,
       )}
@@ -104,7 +104,7 @@ function AccordionTrigger({
                 as={ChevronDown}
                 size={16}
                 className={cn(
-                  'shrink-0 text-muted-foreground',
+                  'text-muted-foreground shrink-0',
                   Platform.select({
                     web: 'pointer-events-none translate-y-0.5 transition-transform duration-200',
                   }),

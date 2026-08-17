@@ -1,5 +1,7 @@
 import { Stack, useRouter } from 'expo-router';
 import { useEffect } from 'react';
+import { View } from 'react-native';
+import { Blush } from '@/components/ui';
 import { useAuthStore, useOnboardingStore } from '@/store';
 
 export default function AuthLayout() {
@@ -24,9 +26,13 @@ export default function AuthLayout() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="login" />
-      <Stack.Screen name="forgot-password" />
-    </Stack>
+    <View className="flex-1 overflow-hidden bg-background">
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: 'transparent' } }}>
+        <Stack.Screen name="login" />
+        <Stack.Screen name="forgot-password" />
+      </Stack>
+      <Blush corner="top-left" />
+      <Blush corner="bottom-right" />
+    </View>
   );
 }

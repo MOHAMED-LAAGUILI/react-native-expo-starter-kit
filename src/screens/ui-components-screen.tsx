@@ -11,11 +11,15 @@ import {
   CenteredActionDemo,
   CenteredDemo,
   CheckboxDemo,
+  ColorPickerDemo,
   DropdownDemo,
+  GroupedInputDemo,
   IconDemo,
+  ImageCardDemo,
   ImageDemo,
   InputDemo,
   MenubarDemo,
+  OutlineInputDemo,
   PopoverDemo,
   ProgressDemo,
   QRCodeDemo,
@@ -120,6 +124,14 @@ function FeedbackSections() {
       <ImageDemo />
       <SectionTitle title="Input" />
       <InputDemo />
+      <SectionTitle title="Outline Input" />
+      <OutlineInputDemo />
+      <SectionTitle title="Grouped Input" />
+      <GroupedInputDemo />
+      <SectionTitle title="Color Picker" />
+      <ColorPickerDemo />
+      <SectionTitle title="Image Cards" />
+      <ImageCardDemo />
     </>
   );
 }
@@ -189,7 +201,7 @@ function UiComponentsScreen() {
     >
       <View className="gap-2 p-6">
         <Text variant="h2" className="mb-1">UI Components</Text>
-        <Text variant="body" className="mb-4 text-muted-foreground">
+        <Text variant="body" className="text-muted-foreground mb-4">
           Core UI building blocks with all available variants.
         </Text>
 

@@ -1,6 +1,7 @@
 import type { Href } from 'expo-router';
 import {
   BarChart3,
+  Beaker,
   ChartPie,
   Database,
   DatabaseIcon,
@@ -85,6 +86,7 @@ const BASE_NAV_ITEMS: NavItem[] = [
     segment: 'device-info',
     tab: { name: 'device-info', icon: Smartphone, order: 4 },
   },
+
   // — Demo Screens —
   {
     href: '/(app)/dev-ui' as Href,
@@ -142,6 +144,14 @@ const BASE_NAV_ITEMS: NavItem[] = [
     match: ['/dev-onboarding'],
     segment: 'dev-onboarding',
   },
+  {
+    href: '/(app)/dev-test' as Href,
+    icon: Beaker,
+    label: 'Test',
+    translationKey: 'navigation.devTest',
+    match: ['/dev-test'],
+    segment: 'dev-test',
+  },
 ];
 
 const DEV_NAV_ITEMS: NavItem[] = [
@@ -153,6 +163,7 @@ const DEV_NAV_ITEMS: NavItem[] = [
     match: ['/dev-preferences'],
     segment: 'dev-preferences',
   },
+
 ];
 
 // Final export

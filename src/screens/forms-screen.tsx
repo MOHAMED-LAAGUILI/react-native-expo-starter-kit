@@ -1,16 +1,18 @@
 import type { DateRange, MediaAsset } from '@/components/ui';
-import { Image as ImageIcon } from 'lucide-react-native';
+import { Calendar, CreditCard, Eye, EyeOff, Image as ImageIcon, Lock, Mail, Phone, User } from 'lucide-react-native';
 import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
+  ColorPickerDemo,
   DateTimePickerDemo,
   TextAreaDemo,
 } from '@/components/demos';
-import { ActionSheet, Button, DatePicker, InputOTP, MediaPicker, SectionTitle, Text } from '@/components/ui';
+import { ActionSheet, Button, DatePicker, GroupedInput, GroupedInputItem, Input, InputOTP, MediaPicker, SectionTitle, Text } from '@/components/ui';
 import { allActions, confirmationActions, mediaActions } from '@/data/forms';
 import { useActionSheet } from '@/hooks/use-action-sheet';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
+import { useThemeColors } from '@/hooks/use-theme-color';
 import { isIOS } from '@/utils/platform';
 
 function ActionSheetSection() {
@@ -53,6 +55,106 @@ function ActionSheetSection() {
         options={allActions}
       />
       <ActionSheet visible={isVisible} onClose={hide} {...config} />
+    </View>
+  );
+}
+
+const INITIAL_FORM_DATA = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  phone: '',
+  cardNumber: '',
+  expiryDate: '',
+  cvv: '',
+};
+
+function GroupedFormSection() {
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const { muted } = useThemeColors();
+
+  const setField = (field: keyof typeof INITIAL_FORM_DATA, text: string) => {
+    setFormData(prev => ({ ...prev, [field]: text }));
+  };
+
+  const validate = () => {
+    const next: Record<string, string> = {};
+    if (!formData.firstName)
+      next.firstName = 'First name is required';
+    if (!formData.email)
+      next.email = 'Email is required';
+    else if (!formData.email.includes('@'))
+      next.email = 'Invalid email format';
+    if (!formData.password)
+      next.password = 'Password is required';
+    else if (formData.password.length < 6)
+      next.password = 'Password must be at least 6 characters';
+    if (formData.password !== formData.confirmPassword)
+      next.confirmPassword = 'Passwords do not match';
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
+  const handleSubmit = () => {
+    if (validate()) {
+      setErrors({});
+    }
+  };
+
+  return (
+    <View className="gap-4">
+      <GroupedInput title="Account Information">
+        <GroupedInputItem label="First Name" placeholder="John" icon={User} value={formData.firstName} onChangeText={text => setField('firstName', text)} error={errors.firstName} />
+        <GroupedInputItem label="Last Name" placeholder="Doe" icon={User} value={formData.lastName} onChangeText={text => setField('lastName', text)} />
+        <GroupedInputItem label="Email" placeholder="john@example.com" icon={Mail} value={formData.email} onChangeText={text => setField('email', text)} error={errors.email} keyboardType="email-address" />
+        <GroupedInputItem label="Phone" placeholder="+1 (555) 123-4567" icon={Phone} value={formData.phone} onChangeText={text => setField('phone', text)} keyboardType="phone-pad" />
+      </GroupedInput>
+
+      <View className="gap-3">
+        <Input
+          label="Password"
+          placeholder="Create password"
+          icon={Lock}
+          value={formData.password}
+          onChangeText={text => setField('password', text)}
+          error={errors.password}
+          secureTextEntry={!showPassword}
+          variant="outline"
+          rightComponent={(
+            <Pressable onPress={() => setShowPassword(c => !c)}>
+              {showPassword ? <EyeOff size={22} color={muted} /> : <Eye size={22} color={muted} />}
+            </Pressable>
+          )}
+        />
+        <Input
+          label="Confirm Password"
+          placeholder="Confirm password"
+          icon={Lock}
+          value={formData.confirmPassword}
+          onChangeText={text => setField('confirmPassword', text)}
+          error={errors.confirmPassword}
+          secureTextEntry={!showConfirm}
+          variant="outline"
+          rightComponent={(
+            <Pressable onPress={() => setShowConfirm(c => !c)}>
+              {showConfirm ? <EyeOff size={22} color={muted} /> : <Eye size={22} color={muted} />}
+            </Pressable>
+          )}
+        />
+      </View>
+
+      <GroupedInput title="Payment Information">
+        <GroupedInputItem label="Card Number" placeholder="1234 5678 9012 3456" icon={CreditCard} value={formData.cardNumber} onChangeText={text => setField('cardNumber', text)} keyboardType="numeric" />
+        <GroupedInputItem label="Expiry Date" placeholder="MM/YY" icon={Calendar} value={formData.expiryDate} onChangeText={text => setField('expiryDate', text)} keyboardType="numeric" />
+        <GroupedInputItem label="CVV" placeholder="123" value={formData.cvv} onChangeText={text => setField('cvv', text)} keyboardType="numeric" />
+      </GroupedInput>
+
+      <Button title="Submit Form" onPress={handleSubmit} className="rounded-full" />
     </View>
   );
 }
@@ -192,12 +294,15 @@ function FormsScreen() {
     >
       <View className="gap-6 p-6">
         <Text variant="h2" className="mb-1">Forms & Inputs</Text>
-        <Text variant="body" className="mb-2 text-muted-foreground">
+        <Text variant="body" className="text-muted-foreground mb-2">
           Form controls, pickers, and input patterns.
         </Text>
 
         <SectionTitle title="Action Sheet" />
         <ActionSheetSection />
+
+        <SectionTitle title="Grouped Form" />
+        <GroupedFormSection />
 
         <SectionTitle title="OTP Input" />
         <OtpSection />
@@ -205,14 +310,17 @@ function FormsScreen() {
         <SectionTitle title="Media Picker" />
         <MediaPickerSection />
 
-        <SectionTitle title="Date Pickers" />
+        <SectionTitle title="Date Time Pickers (Custom)" />
         <DatePickersSection />
 
-        <SectionTitle title="Date Time Picker" />
+        <SectionTitle title="Date Time Picker (System)" />
         <DateTimePickerDemo />
 
         <SectionTitle title="Text Area" />
         <TextAreaDemo />
+
+        <SectionTitle title="Color Picker" />
+        <ColorPickerDemo />
       </View>
     </ScrollView>
   );

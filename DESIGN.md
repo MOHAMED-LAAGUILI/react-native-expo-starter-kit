@@ -139,7 +139,7 @@ Generic data table (`<Table data columns />`): search bar (`filterable`), click-
 
 ### Charts (`src/components/ui/charts/`)
 Two families, all theme-bound:
-- **Gifted-charts wrappers** — `Chart` (`variant: 'bar-vertical' | 'bar-horizontal' | 'pie' | 'trend'`, animated, tooltips, legend with % readout, donut + center label) plus dedicated `BarChart` / `ColumnChart` / `StackedBarChart` / `StackedAreaChart` / `CandlestickChart` wrappers. Axis/label colors come from `useThemeColors()` (`muted`, `isDark`), bars/arcs from `item.color` (pass `--color-chart-1` or palette hexes).
+- **Gifted-charts wrappers** — `ChartPie` (donut + center label, tooltips, legend with % readout), `ChartBars` (`variant: 'bar-vertical' | 'bar-horizontal'`, animated, optional labels), and `ChartTrend` (hours trend) plus dedicated `BarChart` / `ColumnChart` / `StackedBarChart` / `StackedAreaChart` / `CandlestickChart` wrappers. Axis/label colors come from `useThemeColors()` (`muted`, `isDark`), bars/arcs from `item.color` (pass `--color-chart-1` or palette hexes).
 - **Custom SVG + Reanimated** — `LineChart` (path-draw stroke animation, interactive pan tooltip via `Gesture.Pan`, optional gradient area), `AreaChart`, `RadarChart` (grid rings, staggered vertex springs), `RadialBarChart` (animated stroke circles). Primary stroke = `usePrimaryHex()`, muted labels = `useThemeColors().muted`.
 - **`ChartContainer`** — themed card wrapper (`rounded-xl border border-border bg-card p-4`) with optional `title` (h4) + `description` (caption).
 

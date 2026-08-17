@@ -5,13 +5,12 @@ import { View } from 'react-native';
 import Animated, {
   useAnimatedProps,
   useSharedValue,
-  withDelay,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import Svg, { Circle, Line, Path, Text as SvgText } from 'react-native-svg';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { ChartLoader } from './chart-loader';
 
 // Animated SVG Components
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -21,17 +20,16 @@ type AnimatedVertexProps = {
   cx: number;
   cy: number;
   fill: string;
-  index: number;
   animationProgress: SharedValue<number>;
 };
 
 // Per-item hook must live in its own mounted subcomponent, not in the
 // parent's .map() body — calling useAnimatedProps per loop iteration
 // violates Rules of Hooks the moment data.length changes.
-function AnimatedVertex({ cx, cy, fill, index, animationProgress }: AnimatedVertexProps) {
+function AnimatedVertex({ cx, cy, fill, animationProgress }: AnimatedVertexProps) {
   const pointAnimatedProps = useAnimatedProps(() => ({
     opacity: animationProgress.value,
-    r: withDelay(index * 100, withSpring(animationProgress.value * 4)),
+    r: 4 * animationProgress.value,
   }));
 
   return (
@@ -157,13 +155,12 @@ function RadarChartSvg({
       />
 
       {/* Data points */}
-      {points.map((point, index) => (
+      {points.map(point => (
         <AnimatedVertex
           key={`radar-point-${point.label}`}
           cx={point.x}
           cy={point.y}
           fill={palette.primary}
-          index={index}
           animationProgress={animationProgress}
         />
       ))}
@@ -191,9 +188,10 @@ type Props = {
   data: RadarChartDataPoint[];
   config?: ChartConfig;
   style?: ViewStyle;
+  loaderDelay?: number;
 };
 
-export function RadarChart({ data, config = {}, style }: Props) {
+export function RadarChart({ data, config = {}, style, loaderDelay = 120 }: Props) {
   const [containerWidth, setContainerWidth] = useState(300);
 
   const {
@@ -264,7 +262,7 @@ export function RadarChart({ data, config = {}, style }: Props) {
     maxVal,
   };
 
-  return (
+  const chartElement = (
     <View
       style={[{ width: '100%', height }, style]}
       onLayout={handleLayout}
@@ -279,5 +277,11 @@ export function RadarChart({ data, config = {}, style }: Props) {
         animationProgress={animationProgress}
       />
     </View>
+  );
+
+  return (
+    <ChartLoader delay={loaderDelay} minHeight={height}>
+      {chartElement}
+    </ChartLoader>
   );
 }

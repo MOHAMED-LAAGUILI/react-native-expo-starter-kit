@@ -46,7 +46,7 @@ function MiniCardContent({ title, value, subtitle, icon: Icon, accent, children 
           {title}
         </Text>
         {value && (
-          <Text variant="body" className="font-semibold tracking-tight text-foreground">
+          <Text variant="body" className="text-foreground font-semibold tracking-tight">
             {value}
           </Text>
         )}
@@ -155,7 +155,7 @@ function Card({
       );
 
   const sharedClassName = cn(
-    'overflow-hidden rounded-2xl border border-border',
+    'border-border overflow-hidden rounded-2xl border',
     isLightSolid && 'border-transparent',
     variant === 'secondary' && 'border-transparent',
     variant !== 'primary' && variant !== 'secondary' && 'bg-card shadow-sm',

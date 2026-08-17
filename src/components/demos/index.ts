@@ -1,6 +1,7 @@
 export { ExpoAudioCards } from './audio-cards-expo';
 export { ButtonsDemo } from './buttons-demo';
 export { CardListDemo } from './card-list-demo';
+export { ColorPickerDemo } from './color-picker-demo';
 export { DropdownDemo } from './drop-down-demo';
 export {
   CalendarDemo,
@@ -13,7 +14,7 @@ export {
 export { IconDemo } from './icon-demo';
 export { ImageCardDemo } from './image-card-demo';
 export { ImageDemo } from './image-demo';
-export { InputDemo } from './input-demo';
+export { GroupedInputDemo, InputDemo, OutlineInputDemo } from './input-demo';
 export { PermissionCards } from './permission-cards';
 export {
   AccordionDemo,

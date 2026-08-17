@@ -43,7 +43,9 @@
     "devUi": "UI Components",
     "devForms": "Forms & Inputs",
     "devMedia": "Media & Audio",
-    "devData": "Data & Tables"
+    "devData": "Data & Tables",
+    "devTest": "Test",
+    "maps": "Maps"
   },
   "theme": {
     "light": "Light",

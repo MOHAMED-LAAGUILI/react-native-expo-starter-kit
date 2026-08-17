@@ -10,6 +10,7 @@ import Animated, {
 import Svg, { G, Rect, Text as SvgText } from 'react-native-svg';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { ChartLoader } from './chart-loader';
 
 // Animated SVG Components
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
@@ -62,9 +63,10 @@ type Props = {
   data: ChartDataPoint[];
   config?: ChartConfig;
   style?: ViewStyle;
+  loaderDelay?: number;
 };
 
-export function ColumnChart({ data, config = {}, style }: Props) {
+export function ColumnChart({ data, config = {}, style, loaderDelay = 120 }: Props) {
   const [containerWidth, setContainerWidth] = useState(300);
 
   const {
@@ -110,7 +112,7 @@ export function ColumnChart({ data, config = {}, style }: Props) {
   const barHeight = (chartHeight / data.length) * 0.8;
   const barSpacing = (chartHeight / data.length) * 0.2;
 
-  return (
+  const chartElement = (
     <View
       style={[{ width: '100%', height }, style]}
       onLayout={handleLayout}
@@ -164,5 +166,11 @@ export function ColumnChart({ data, config = {}, style }: Props) {
         })}
       </Svg>
     </View>
+  );
+
+  return (
+    <ChartLoader delay={loaderDelay} minHeight={height}>
+      {chartElement}
+    </ChartLoader>
   );
 }

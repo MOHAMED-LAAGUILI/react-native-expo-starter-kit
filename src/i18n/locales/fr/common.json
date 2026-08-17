@@ -43,7 +43,9 @@
     "devUi": "Composants UI",
     "devForms": "Formulaires & Saisies",
     "devMedia": "Médias & Audio",
-    "devData": "Données & Tableaux"
+    "devData": "Données & Tableaux",
+    "devTest": "Test",
+    "maps": "Cartes"
   },
   "theme": {
     "light": "Clair",

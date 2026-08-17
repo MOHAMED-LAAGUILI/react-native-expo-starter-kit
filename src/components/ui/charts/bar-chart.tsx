@@ -10,6 +10,7 @@ import Animated, {
 import Svg, { G, Line, Rect, Text as SvgText } from 'react-native-svg';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { ChartLoader } from './chart-loader';
 
 export type BarChartDataPoint = {
   label?: string;
@@ -232,9 +233,10 @@ type BarChartProps = {
   data: BarChartDataPoint[];
   config?: BarChartConfig;
   style?: ViewStyle;
+  loaderDelay?: number;
 };
 
-export function BarChart({ data, config = {}, style }: BarChartProps) {
+export function BarChart({ data, config = {}, style, loaderDelay = 120 }: BarChartProps) {
   const [containerWidth, setContainerWidth] = useState(300);
 
   const {
@@ -289,7 +291,7 @@ export function BarChart({ data, config = {}, style }: BarChartProps) {
 
   const labels = buildYAxisLabels({ yLabelCount, showYLabels, maxValue, padding, chartHeight });
 
-  return (
+  const chartElement = (
     <View
       style={[{ width: '100%', height }, style]}
       onLayout={handleLayout}
@@ -308,5 +310,11 @@ export function BarChart({ data, config = {}, style }: BarChartProps) {
         progress={progress}
       />
     </View>
+  );
+
+  return (
+    <ChartLoader delay={loaderDelay} minHeight={height}>
+      {chartElement}
+    </ChartLoader>
   );
 }

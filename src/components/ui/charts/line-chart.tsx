@@ -7,8 +7,6 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedProps,
   useSharedValue,
-  withDelay,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import Svg, {
@@ -24,6 +22,7 @@ import Svg, {
 import { scheduleOnRN } from 'react-native-worklets';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { ChartLoader } from './chart-loader';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -109,14 +108,13 @@ type AnimatedPointProps = {
   x: number;
   y: number;
   color: string;
-  index: number;
   animationProgress: SharedValue<number>;
 };
 
-function AnimatedPoint({ x, y, color, index, animationProgress }: AnimatedPointProps) {
+function AnimatedPoint({ x, y, color, animationProgress }: AnimatedPointProps) {
   const pointAnimatedProps = useAnimatedProps(() => ({
     opacity: animationProgress.value,
-    r: withDelay(index * 50, withSpring(animationProgress.value * 4)),
+    r: 4 * animationProgress.value,
   }));
 
   return (
@@ -374,13 +372,12 @@ function ChartSvg({
         animatedProps={lineAnimatedProps}
       />
 
-      {points.map((point, index) => (
+      {points.map(point => (
         <AnimatedPoint
           key={`point-${point.x}-${point.y}`}
           x={point.x}
           y={point.y}
           color={palette.primary}
-          index={index}
           animationProgress={animationProgress}
         />
       ))}
@@ -403,6 +400,7 @@ type Props = {
   data: ChartDataPoint[];
   config?: ChartConfig;
   style?: ViewStyle;
+  loaderDelay?: number;
 };
 
 function buildChartPanGesture(opts: {
@@ -425,7 +423,7 @@ function buildChartPanGesture(opts: {
     });
 }
 
-export function LineChart({ data, config = {}, style }: Props) {
+export function LineChart({ data, config = {}, style, loaderDelay = 120 }: Props) {
   const [containerWidth, setContainerWidth] = useState(300);
   const [activePointIndex, setActivePointIndex] = useState<number | null>(null);
 
@@ -498,7 +496,7 @@ export function LineChart({ data, config = {}, style }: Props) {
     onPressEnd: () => setActivePointIndex(null),
   });
 
-  return (
+  const chartElement = (
     <View
       style={[{ width: '100%', height }, style]}
       onLayout={handleLayout}
@@ -526,5 +524,11 @@ export function LineChart({ data, config = {}, style }: Props) {
         </Animated.View>
       </GestureDetector>
     </View>
+  );
+
+  return (
+    <ChartLoader delay={loaderDelay} minHeight={height}>
+      {chartElement}
+    </ChartLoader>
   );
 }

@@ -10,10 +10,12 @@ type TextProps = {
 } & RNTextProps;
 
 function Text({ variant = 'body', className, ...props }: TextProps) {
+  const textClass = React.use(TextClassContext);
   return (
     <RNText
       className={cn(
-        'text-base/normal text-foreground',
+        'text-foreground text-base/normal',
+        textClass,
         variant === 'h1' && 'text-4xl font-extrabold tracking-tight',
         variant === 'h2' && 'text-3xl font-semibold tracking-tight',
         variant === 'h3' && 'text-2xl font-semibold tracking-tight',
@@ -22,7 +24,7 @@ function Text({ variant = 'body', className, ...props }: TextProps) {
         variant === 'bodySmall' && 'text-sm',
         variant === 'caption' && 'text-xs',
         variant === 'label' && 'text-sm font-medium',
-        variant === 'blockquote' && 'border-l-2 border-border pl-3 text-muted-foreground italic',
+        variant === 'blockquote' && 'border-border text-muted-foreground border-l-2 pl-3 italic',
         Platform.select({ web: 'select-text' }),
         className,
       )}
