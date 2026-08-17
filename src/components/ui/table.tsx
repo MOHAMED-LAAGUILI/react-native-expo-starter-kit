@@ -223,7 +223,7 @@ function TableHeader<T>({
   return (
     <View
       style={headerStyle}
-      className="border-border bg-card flex-row border-b"
+      className="flex-row border-b border-border bg-card"
     >
       {columns.map(column => (
         <Pressable
@@ -264,7 +264,7 @@ function TableHeader<T>({
                 <>
                   <Text
                     variant="body"
-                    className="text-muted-foreground font-semibold"
+                    className="font-semibold text-muted-foreground"
                     style={{
                       marginRight: column.sortable && sortable ? 4 : 0,
                       textAlign: column.align || 'left',
@@ -347,7 +347,7 @@ function TableRow<T>({
         rowStyle,
         pressed && { opacity: onRowPress ? 0.7 : 1 },
       ]}
-      className="border-border bg-card flex-row border-b"
+      className="flex-row border-b border-border bg-card"
       onPress={() => onRowPress?.(row, index)}
       disabled={!onRowPress}
     >
@@ -370,7 +370,7 @@ function TablePagination({
   onPageChange: (page: number) => void;
 }) {
   return (
-    <View className="border-border bg-card flex-row items-center justify-between border-t p-4">
+    <View className="flex-row items-center justify-between border-t border-border bg-card p-4">
       <Text variant="caption">
         Page
         {' '}
@@ -441,7 +441,7 @@ function TableSearchBar({
   placeholder: string;
 }) {
   return (
-    <View className="border-border bg-card border-b px-4 py-2">
+    <View className="border-b border-border bg-card px-4 py-2">
       <Input
         type="search"
         value={value}
@@ -454,7 +454,7 @@ function TableSearchBar({
 
 function TableMessage({ children }: { children: ReactNode }) {
   return (
-    <View className="bg-card items-center justify-center p-8">
+    <View className="items-center justify-center bg-card p-8">
       <Text variant="body" className="text-muted-foreground">
         {children}
       </Text>
@@ -494,7 +494,7 @@ export function Table<T = any>({
   return (
     <View
       style={style}
-      className="border-border bg-card w-full overflow-hidden rounded-xl border"
+      className="w-full overflow-hidden rounded-xl border border-border bg-card"
     >
       {searchable && filterable
         ? (

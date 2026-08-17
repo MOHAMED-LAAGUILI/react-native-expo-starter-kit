@@ -6,7 +6,7 @@ function SectionTitle({ title, variant = 'h3' }: { title: string; variant?: Text
   return (
     <View className="mt-6 mb-3 first:mt-0">
       <Text variant={variant}>{title}</Text>
-      <View className="bg-border mt-2 h-px" />
+      <View className="mt-2 h-px bg-border" />
     </View>
   );
 }

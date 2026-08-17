@@ -22,7 +22,7 @@ const columns: TableColumn<Employee>[] = [
     minWidth: 200,
     cell: (_value, row) => (
       <View className="flex-row items-center gap-3">
-        <View className="bg-muted size-8 items-center justify-center overflow-hidden rounded-full">
+        <View className="size-8 items-center justify-center overflow-hidden rounded-full bg-muted">
           {row.avatar
             ? (
                 <Image
@@ -35,7 +35,7 @@ const columns: TableColumn<Employee>[] = [
                 />
               )
             : (
-                <Text variant="caption" className="text-muted-foreground font-semibold">
+                <Text variant="caption" className="font-semibold text-muted-foreground">
                   {row.name
                     .split(' ')
                     .map(n => n[0])

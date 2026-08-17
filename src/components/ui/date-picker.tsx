@@ -532,7 +532,7 @@ function CalendarHeader({
       <Pressable
         onPress={onPrev}
         style={({ pressed }) => pressed && { opacity: 0.2 }}
-        className="bg-secondary rounded-full p-2.5"
+        className="rounded-full bg-secondary p-2.5"
       >
         <ChevronLeft size={20} color={textColor} />
       </Pressable>
@@ -541,7 +541,7 @@ function CalendarHeader({
         <Pressable
           onPress={onOpenMonth}
           style={({ pressed }) => pressed && { opacity: 0.2 }}
-          className="bg-secondary flex-1 flex-row items-center justify-center rounded-full px-3 py-2.5"
+          className="flex-1 flex-row items-center justify-center rounded-full bg-secondary px-3 py-2.5"
         >
           <Text variant="bodyLarge" className="mr-1">
             {month}
@@ -552,7 +552,7 @@ function CalendarHeader({
         <Pressable
           onPress={onOpenYear}
           style={({ pressed }) => pressed && { opacity: 0.2 }}
-          className="bg-secondary flex-1 flex-row items-center justify-center rounded-full px-4 py-2.5"
+          className="flex-1 flex-row items-center justify-center rounded-full bg-secondary px-4 py-2.5"
         >
           <Text variant="bodyLarge" className="mr-1">
             {year}
@@ -564,7 +564,7 @@ function CalendarHeader({
       <Pressable
         onPress={onNext}
         style={({ pressed }) => pressed && { opacity: 0.2 }}
-        className="bg-secondary rounded-full p-2.5"
+        className="rounded-full bg-secondary p-2.5"
       >
         <ChevronRight size={20} color={textColor} />
       </Pressable>
@@ -579,7 +579,7 @@ type RangeSummaryProps = {
 
 function RangeSummary({ tempRange, textColor }: RangeSummaryProps) {
   return (
-    <View className="bg-secondary mt-4 flex-row items-center justify-between rounded-xl px-9 py-5">
+    <View className="mt-4 flex-row items-center justify-between rounded-xl bg-secondary px-9 py-5">
       <Text variant="body" className="flex-1">
         {tempRange.startDate
           ? `${tempRange.startDate.toLocaleDateString()}`
@@ -674,7 +674,7 @@ function CalendarDayCell({
                 isSelected && 'bg-foreground',
                 isEndpoint ? 'rounded-none' : 'rounded-full',
                 isToday && !isSelected && !inRange
-                && 'border-primary border',
+                && 'border border-primary',
                 disabled && 'opacity-30',
               )}
             >
@@ -1125,8 +1125,8 @@ function DatePickerTrigger({
   const triggerClassName = cn(
     'w-full flex-row items-center rounded-lg',
     variant === 'group' ? 'border-0 bg-transparent px-0' : 'min-h-12 px-4',
-    variant === 'filled' && 'border-border bg-muted border',
-    variant === 'outline' && 'border-border border',
+    variant === 'filled' && 'border border-border bg-muted',
+    variant === 'outline' && 'border border-border',
   );
 
   return (
@@ -1411,7 +1411,7 @@ export function DatePicker(props: DatePickerProps) {
       {error && (
         <Text
           variant="caption"
-          className="text-destructive mt-1"
+          className="mt-1 text-destructive"
           style={[{ marginLeft: 14 }, errorStyle]}
         >
           {error}

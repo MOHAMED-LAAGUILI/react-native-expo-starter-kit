@@ -52,10 +52,10 @@ export function OnboardingScreen({ steps, onComplete }: OnboardingScreenProps) {
             steps={steps}
           />
           <Animated.View entering={animation} key={`text-${currentStep}`} className="items-center">
-            <Text className="text-foreground text-center text-2xl font-bold" numberOfLines={2}>
+            <Text className="text-center text-2xl font-bold text-foreground" numberOfLines={2}>
               {step.title}
             </Text>
-            <Text className="text-muted-foreground mt-3 text-center text-sm/5" numberOfLines={3}>
+            <Text className="mt-3 text-center text-sm/5 text-muted-foreground" numberOfLines={3}>
               {step.description}
             </Text>
           </Animated.View>

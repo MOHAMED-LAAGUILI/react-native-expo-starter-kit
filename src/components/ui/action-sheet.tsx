@@ -187,7 +187,7 @@ function AndroidActionSheet({
             sheetAnimatedStyle,
             style,
           ]}
-          className="bg-card rounded-t-2xl"
+          className="rounded-t-2xl bg-card"
         >
           {(title || message) && (
             <ActionSheetHeader title={title} message={message} />
@@ -226,7 +226,7 @@ function ActionSheetHeader({
       {message && (
         <Text
           variant="bodySmall"
-          className="text-muted-foreground text-center"
+          className="text-center text-muted-foreground"
           numberOfLines={3}
         >
           {message}
@@ -252,7 +252,7 @@ function ActionSheetOptions({
       renderItem={({ item: option, index }) => (
         <Pressable
           className={cn(
-            'border-border items-center border-b px-5 py-4',
+            'items-center border-b border-border px-5 py-4',
             index === options.length - 1 && 'border-b-0',
             option.disabled && 'opacity-50',
             option.centered ? 'justify-center' : 'flex-row',
@@ -297,7 +297,7 @@ function ActionSheetCancel({
   onPress: () => void;
 }) {
   return (
-    <View className="border-border mt-2 border-t">
+    <View className="mt-2 border-t border-border">
       <Pressable
         className="items-center px-5 py-4"
         style={({ pressed }) => pressed && { opacity: 0.6 }}

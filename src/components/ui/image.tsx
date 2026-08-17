@@ -33,9 +33,9 @@ function Image({ className, fallback, style, ...props }: ImageProps) {
 
   if (errored && fallback) {
     return (
-      <View className={cn('bg-muted items-center justify-center', className)}>
-        <View className="bg-muted-foreground/20 size-12 items-center justify-center rounded-full">
-          <View className="bg-muted-foreground/40 size-5 rounded-full" />
+      <View className={cn('items-center justify-center bg-muted', className)}>
+        <View className="size-12 items-center justify-center rounded-full bg-muted-foreground/20">
+          <View className="size-5 rounded-full bg-muted-foreground/40" />
         </View>
       </View>
     );

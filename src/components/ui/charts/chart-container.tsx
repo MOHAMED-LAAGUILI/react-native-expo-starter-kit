@@ -19,7 +19,7 @@ export function ChartContainer({
 }: ChartContainerProps) {
   return (
     <View
-      className={cn('border-border bg-card w-full rounded-xl border p-4')}
+      className={cn('w-full rounded-xl border border-border bg-card p-4')}
       style={style}
     >
       {title && (
@@ -28,7 +28,7 @@ export function ChartContainer({
         </Text>
       )}
       {description && (
-        <Text variant="caption" className="text-muted-foreground mb-4">
+        <Text variant="caption" className="mb-4 text-muted-foreground">
           {description}
         </Text>
       )}

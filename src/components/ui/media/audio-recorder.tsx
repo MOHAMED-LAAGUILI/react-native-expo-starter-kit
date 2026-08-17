@@ -62,7 +62,7 @@ type PermissionRequiredViewProps = {
 function PermissionRequiredView({ style, textColor, onRequestPermission }: PermissionRequiredViewProps) {
   return (
     <View
-      className="border-border bg-card w-82 items-center self-center rounded-md border px-4 py-4.5"
+      className="w-82 items-center self-center rounded-md border border-border bg-card px-4 py-4.5"
       style={style}
     >
       <Text variant="body" style={{ color: textColor, textAlign: 'center' }}>
@@ -223,7 +223,7 @@ function PlaybackControls({ saving, onDelete, onSave }: PlaybackControlsProps) {
       <Pressable
         accessibilityLabel="Delete recording"
         onPress={onDelete}
-        className="bg-secondary size-10 items-center justify-center rounded-full border border-red-500"
+        className="size-10 items-center justify-center rounded-full border border-red-500 bg-secondary"
         style={({ pressed }) => [
           { opacity: pressed ? 0.82 : 1 },
         ]}
@@ -299,7 +299,7 @@ function RecorderBody({
 }: RecorderBodyProps) {
   return (
     <View
-      className="border-border bg-card w-[328px] items-center self-center rounded-md border px-4 py-[18px]"
+      className="w-[328px] items-center self-center rounded-md border border-border bg-card px-4 py-[18px]"
       style={style}
     >
       {recordingUri && !isRecording

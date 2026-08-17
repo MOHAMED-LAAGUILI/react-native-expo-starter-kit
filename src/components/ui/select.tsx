@@ -29,7 +29,7 @@ function SelectValue({
     <SelectPrimitive.Value
       ref={ref}
       className={cn(
-        'text-foreground line-clamp-1 flex flex-row items-center gap-2 text-sm',
+        'line-clamp-1 flex flex-row items-center gap-2 text-sm text-foreground',
         !value && 'text-muted-foreground',
         className,
       )}
@@ -52,7 +52,7 @@ function SelectTrigger({
     <SelectPrimitive.Trigger
       ref={ref}
       className={cn(
-        'border-input dark:bg-input/30 dark:active:bg-input/50 flex h-10 flex-row items-center justify-between gap-2 rounded-md border bg-background px-3 py-2 shadow-sm shadow-black/5 sm:h-9',
+        'flex h-10 flex-row items-center justify-between gap-2 rounded-md border border-input bg-background px-3 py-2 shadow-sm shadow-black/5 sm:h-9 dark:bg-input/30 dark:active:bg-input/50',
         Platform.select({
           web: 'focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-input/50 w-fit whitespace-nowrap text-sm outline-none transition-[color,box-shadow] focus-visible:ring-[3px] disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:shrink-0',
         }),
@@ -63,7 +63,7 @@ function SelectTrigger({
       {...props}
     >
       <>{children}</>
-      <Icon as={ChevronDown} aria-hidden={true} className="text-muted-foreground size-4" />
+      <Icon as={ChevronDown} aria-hidden={true} className="size-4 text-muted-foreground" />
     </SelectPrimitive.Trigger>
   );
 }
@@ -96,7 +96,7 @@ function SelectContent({
             <TextClassContext value="text-popover-foreground">
               <SelectPrimitive.Content
                 className={cn(
-                  'border-border bg-popover relative z-50 min-w-32 rounded-md border shadow-md shadow-black/5',
+                  'relative z-50 min-w-32 rounded-md border border-border bg-popover shadow-md shadow-black/5',
                   Platform.select({
                     web: cn(
                       'max-h-52 origin-(--radix-select-content-transform-origin) animate-in overflow-x-hidden overflow-y-auto fade-in-0 zoom-in-95',
@@ -148,7 +148,7 @@ function SelectLabel({
 }: React.ComponentProps<typeof SelectPrimitive.Label>) {
   return (
     <SelectPrimitive.Label
-      className={cn('text-muted-foreground p-2 text-xs sm:py-1.5', className)}
+      className={cn('p-2 text-xs text-muted-foreground sm:py-1.5', className)}
       {...props}
     />
   );
@@ -161,7 +161,7 @@ function SelectItem({
   return (
     <SelectPrimitive.Item
       className={cn(
-        'group active:bg-accent relative flex w-full flex-row items-center gap-2 rounded-sm py-2 pr-8 pl-2 sm:py-1.5',
+        'group relative flex w-full flex-row items-center gap-2 rounded-sm py-2 pr-8 pl-2 active:bg-accent sm:py-1.5',
         Platform.select({
           web: 'focus:bg-accent focus:text-accent-foreground *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2 cursor-default outline-none data-[disabled]:pointer-events-none [&_svg]:pointer-events-none',
         }),
@@ -172,10 +172,10 @@ function SelectItem({
     >
       <View className="absolute right-2 flex size-3.5 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
-          <Icon as={Check} className="text-muted-foreground size-4 shrink-0" />
+          <Icon as={Check} className="size-4 shrink-0 text-muted-foreground" />
         </SelectPrimitive.ItemIndicator>
       </View>
-      <SelectPrimitive.ItemText className="text-foreground group-active:text-accent-foreground text-sm select-none" />
+      <SelectPrimitive.ItemText className="text-sm text-foreground select-none group-active:text-accent-foreground" />
     </SelectPrimitive.Item>
   );
 }
@@ -187,7 +187,7 @@ function SelectSeparator({
   return (
     <SelectPrimitive.Separator
       className={cn(
-        'bg-border -mx-1 my-1 h-px',
+        '-mx-1 my-1 h-px bg-border',
         Platform.select({ web: 'pointer-events-none' }),
         className,
       )}

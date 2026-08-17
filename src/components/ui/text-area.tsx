@@ -26,7 +26,7 @@ function TextArea({ label, error, maxLength, showCount, className, ...props }: T
         )}
       >
         <TextInput
-          className="text-foreground h-full flex-1 text-base outline-0"
+          className="h-full flex-1 text-base text-foreground outline-0"
           placeholderTextColor="#9CA3AF"
           multiline
           textAlignVertical="top"
@@ -46,7 +46,7 @@ function TextArea({ label, error, maxLength, showCount, className, ...props }: T
         />
       </View>
       {maxLength && showCount && (
-        <Text variant="caption" className="text-muted-foreground text-right">
+        <Text variant="caption" className="text-right text-muted-foreground">
           {String(text).length}
           /
           {maxLength}

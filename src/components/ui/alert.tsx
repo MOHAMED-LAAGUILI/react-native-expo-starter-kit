@@ -21,7 +21,7 @@ function Alert({
   return (
     <TextClassContext
       value={cn(
-        'text-foreground text-sm',
+        'text-sm text-foreground',
         variant === 'destructive' && 'text-destructive',
         className,
       )}
@@ -29,7 +29,7 @@ function Alert({
       <View
         role="alert"
         className={cn(
-          'border-border bg-card relative w-full rounded-lg border px-4 pt-3.5 pb-2',
+          'relative w-full rounded-lg border border-border bg-card px-4 pt-3.5 pb-2',
           className,
         )}
         {...props}
@@ -60,7 +60,7 @@ function AlertDescription({ className, ...props }: React.ComponentProps<typeof T
   return (
     <Text
       className={cn(
-        'text-muted-foreground ml-0.5 pb-1.5 pl-6 text-sm/relaxed',
+        'ml-0.5 pb-1.5 pl-6 text-sm/relaxed text-muted-foreground',
         textClass?.includes('text-destructive') && 'text-destructive/90',
         className,
       )}

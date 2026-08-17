@@ -30,11 +30,11 @@ type InputProps = {
 } & Omit<TextInputProps, 'style'>;
 
 const BUILTIN_LEFT_ICONS: Partial<Record<InputType, React.ReactNode>> = {
-  search: <Icon as={Search} className="text-muted-foreground size-4.5" />,
-  phone: <Icon as={Phone} className="text-muted-foreground size-4.5" />,
-  username: <Icon as={User} className="text-muted-foreground size-4.5" />,
-  password: <Icon as={KeyRound} className="text-muted-foreground size-4.5" />,
-  email: <Icon as={Mail} className="text-muted-foreground size-4.5" />,
+  search: <Icon as={Search} className="size-4.5 text-muted-foreground" />,
+  phone: <Icon as={Phone} className="size-4.5 text-muted-foreground" />,
+  username: <Icon as={User} className="size-4.5 text-muted-foreground" />,
+  password: <Icon as={KeyRound} className="size-4.5 text-muted-foreground" />,
+  email: <Icon as={Mail} className="size-4.5 text-muted-foreground" />,
 };
 
 function PasswordToggle({
@@ -57,10 +57,10 @@ function PasswordToggle({
     >
       {visible
         ? (
-            <Icon as={EyeOff} className="text-muted-foreground size-4.5" />
+            <Icon as={EyeOff} className="size-4.5 text-muted-foreground" />
           )
         : (
-            <Icon as={Eye} className="text-muted-foreground size-4.5" />
+            <Icon as={Eye} className="size-4.5 text-muted-foreground" />
           )}
     </Pressable>
   );
@@ -77,7 +77,7 @@ function ClearButton({ onClear }: { onClear: () => void }) {
       accessibilityLabel={t('common.clear')}
       className="items-center justify-center"
     >
-      <Icon as={X} className="text-muted-foreground size-4.5" />
+      <Icon as={X} className="size-4.5 text-muted-foreground" />
     </Pressable>
   );
 }
@@ -187,7 +187,7 @@ function InputField({
           : null}
       <TextInput
         ref={setRef}
-        className={cn('text-foreground h-full flex-1 text-base outline-0', className)}
+        className={cn('h-full flex-1 text-base text-foreground outline-0', className)}
         style={inputStyle}
         placeholderTextColor={props.placeholderTextColor ?? muted}
         secureTextEntry={resolvedSecureTextEntry}
@@ -276,7 +276,7 @@ function Input({
       {error != null && error.length > 0 && (
         <Text
           variant="caption"
-          className="text-destructive mt-0.5"
+          className="mt-0.5 text-destructive"
           style={errorStyle}
           accessibilityRole="alert"
           nativeID={props.accessibilityLabel ? `${props.accessibilityLabel}-error` : undefined}

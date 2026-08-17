@@ -237,7 +237,7 @@ function TooltipDemo() {
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Pressable className="bg-muted size-10 items-center justify-center rounded-full">
+          <Pressable className="size-10 items-center justify-center rounded-full bg-muted">
             <Text>?</Text>
           </Pressable>
         </TooltipTrigger>

@@ -102,9 +102,9 @@ function WaveformSection({
 
 function ProgressBarSection({ progress }: { progress: number }) {
   return (
-    <View className="bg-secondary mb-3.5 h-1 overflow-hidden rounded-full">
+    <View className="mb-3.5 h-1 overflow-hidden rounded-full bg-secondary">
       <View
-        className="bg-primary h-full rounded-full"
+        className="h-full rounded-full bg-primary"
         style={{ width: `${Math.max(0, Math.min(100, progress))}%` }}
       />
     </View>
@@ -134,7 +134,7 @@ function PlaybackControls({
         accessibilityLabel="Rewind 5 seconds"
         disabled={!isLoaded}
         onPress={onBackFiveSeconds}
-        className="bg-secondary size-10 items-center justify-center rounded-full"
+        className="size-10 items-center justify-center rounded-full bg-secondary"
         style={({ pressed }) => [
           { opacity: pressed ? 0.8 : 1 },
         ]}
@@ -146,7 +146,7 @@ function PlaybackControls({
         accessibilityLabel={isPlaying ? 'Pause' : 'Play'}
         disabled={!isLoaded}
         onPress={onPlayPause}
-        className="bg-primary size-14 items-center justify-center rounded-full"
+        className="size-14 items-center justify-center rounded-full bg-primary"
         style={({ pressed }) => [
           { opacity: pressed ? 0.82 : 1 },
         ]}
@@ -160,7 +160,7 @@ function PlaybackControls({
         accessibilityLabel="Restart"
         disabled={!isLoaded}
         onPress={onRestart}
-        className="bg-secondary size-10 items-center justify-center rounded-full"
+        className="size-10 items-center justify-center rounded-full bg-secondary"
         style={({ pressed }) => [
           { opacity: pressed ? 0.8 : 1 },
         ]}
@@ -264,7 +264,7 @@ export function AudioPlayer({
     <View
       className={cn(
         'w-[328px] self-center px-3.5 py-4',
-        bordered && 'border-border bg-card rounded-md border',
+        bordered && 'rounded-md border border-border bg-card',
       )}
       style={style}
     >

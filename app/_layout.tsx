@@ -84,7 +84,7 @@ export default function RootLayout() {
       <AppProviders>
         <View className="flex-1 items-center justify-center bg-background p-8">
           <Text variant="h3" className="text-destructive">Startup Error</Text>
-          <Text variant="body" className="text-muted-foreground mt-2 text-center">
+          <Text variant="body" className="mt-2 text-center text-muted-foreground">
             {error.message}
           </Text>
         </View>

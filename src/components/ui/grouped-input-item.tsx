@@ -91,7 +91,7 @@ function GroupedInputItem({
       {error != null && error.length > 0 && (
         <Text
           variant="caption"
-          className="text-destructive mt-1 ml-3.5"
+          className="mt-1 ml-3.5 text-destructive"
           style={errorStyle}
         >
           {error}

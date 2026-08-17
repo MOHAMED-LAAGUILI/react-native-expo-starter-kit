@@ -186,13 +186,13 @@ function BottomSheetBody({ title, className, onClose, sheetTranslateStyle, child
       className={cn('rounded-[28px] bg-background p-6', className)}
     >
       <View className="mb-5 items-center">
-        <View className="bg-foreground/20 mb-4 h-1 w-9 rounded-full" />
+        <View className="mb-4 h-1 w-9 rounded-full bg-foreground/20" />
         {title && (
           <View className="w-full flex-row items-center justify-between">
             <Text variant="h3">{title}</Text>
             <Pressable onPress={onClose} hitSlop={12} accessibilityRole="button" accessibilityLabel={t('common.close')}>
-              <View className="bg-foreground/10 size-8 items-center justify-center rounded-full">
-                <Icon as={X} className="text-foreground/60 size-4" />
+              <View className="size-8 items-center justify-center rounded-full bg-foreground/10">
+                <Icon as={X} className="size-4 text-foreground/60" />
               </View>
             </Pressable>
           </View>
@@ -222,8 +222,8 @@ function CenteredBody({ title, description, icon, actions, className, onClose, s
     >
       <View className="mb-2 items-end">
         <Pressable onPress={onClose} hitSlop={12} accessibilityRole="button" accessibilityLabel={t('common.close')}>
-          <View className="bg-foreground/10 size-8 items-center justify-center rounded-full">
-            <Icon as={X} className="text-foreground/60 size-4" />
+          <View className="size-8 items-center justify-center rounded-full bg-foreground/10">
+            <Icon as={X} className="size-4 text-foreground/60" />
           </View>
         </Pressable>
       </View>
@@ -239,7 +239,7 @@ function CenteredBody({ title, description, icon, actions, className, onClose, s
       )}
 
       {description && (
-        <Text variant="body" className="text-muted-foreground mb-6 text-center leading-relaxed">{description}</Text>
+        <Text variant="body" className="mb-6 text-center leading-relaxed text-muted-foreground">{description}</Text>
       )}
 
       {children}

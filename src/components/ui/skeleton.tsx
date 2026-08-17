@@ -29,7 +29,7 @@ function Skeleton({
   return (
     <Animated.View
       style={style}
-      className={cn('bg-secondary dark:bg-muted rounded-md', className)}
+      className={cn('rounded-md bg-secondary dark:bg-muted', className)}
       {...props}
     />
   );

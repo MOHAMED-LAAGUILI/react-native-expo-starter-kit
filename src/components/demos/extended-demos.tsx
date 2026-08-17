@@ -50,7 +50,7 @@ function CalendarDemo() {
         markedDates={selected ? { [selected]: { selected: true } } : {}}
       />
       {selected && (
-        <Text variant="caption" className="text-muted-foreground mt-1 text-center">
+        <Text variant="caption" className="mt-1 text-center text-muted-foreground">
           Selected:
           {' '}
           {format(new Date(selected), 'PPP')}

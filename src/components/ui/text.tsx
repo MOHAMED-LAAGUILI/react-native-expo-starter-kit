@@ -14,7 +14,7 @@ function Text({ variant = 'body', className, ...props }: TextProps) {
   return (
     <RNText
       className={cn(
-        'text-foreground text-base/normal',
+        'text-base/normal text-foreground',
         textClass,
         variant === 'h1' && 'text-4xl font-extrabold tracking-tight',
         variant === 'h2' && 'text-3xl font-semibold tracking-tight',
@@ -24,7 +24,7 @@ function Text({ variant = 'body', className, ...props }: TextProps) {
         variant === 'bodySmall' && 'text-sm',
         variant === 'caption' && 'text-xs',
         variant === 'label' && 'text-sm font-medium',
-        variant === 'blockquote' && 'border-border text-muted-foreground border-l-2 pl-3 italic',
+        variant === 'blockquote' && 'border-l-2 border-border pl-3 text-muted-foreground italic',
         Platform.select({ web: 'select-text' }),
         className,
       )}

@@ -30,7 +30,7 @@ function GroupedInput({
           {title}
         </Text>
       )}
-      <View className="bg-secondary overflow-hidden rounded-xl">
+      <View className="overflow-hidden rounded-xl bg-secondary">
         {children}
       </View>
     </View>

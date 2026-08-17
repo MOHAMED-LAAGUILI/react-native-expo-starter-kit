@@ -205,7 +205,7 @@ export function SheetContent({ children, style }: SheetContentProps) {
           ]}
           className={cn(
             'absolute inset-y-0',
-            side === 'left' ? 'border-border border-r' : 'border-border border-l',
+            side === 'left' ? 'border-r border-border' : 'border-l border-border',
           )}
         >
           <Pressable
