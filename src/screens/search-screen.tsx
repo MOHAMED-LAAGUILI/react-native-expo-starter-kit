@@ -4,11 +4,13 @@ import { View } from 'react-native';
 import { usePublicPosts } from '@/api/hooks/use-public-posts';
 import { SearchHeader, SearchResults } from '@/components/search';
 import { Text } from '@/components/ui';
+import { useDebounce } from '@/hooks/use-debounce';
 
 function SearchScreen() {
   const { t } = useTranslation('search');
   const [query, setQuery] = React.useState('');
-  const { data: posts, isLoading, error } = usePublicPosts(query);
+  const debouncedQuery = useDebounce(query);
+  const { data: posts, isLoading, error } = usePublicPosts(debouncedQuery);
 
   if (error) {
     return (

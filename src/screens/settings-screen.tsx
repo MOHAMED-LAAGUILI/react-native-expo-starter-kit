@@ -7,7 +7,10 @@ import { COLOR_PALETTES } from '@/config/color-palettes';
 import { useThemeStore } from '@/store';
 
 function SettingsScreen() {
-  const { mode, setMode, primaryColor, setPrimaryColor } = useThemeStore();
+  const mode = useThemeStore(s => s.mode);
+  const setMode = useThemeStore(s => s.setMode);
+  const primaryColor = useThemeStore(s => s.primaryColor);
+  const setPrimaryColor = useThemeStore(s => s.setPrimaryColor);
   const { t, i18n } = useTranslation();
   const [langSheetOpen, setLangSheetOpen] = React.useState(false);
   const [colorSheetOpen, setColorSheetOpen] = React.useState(false);

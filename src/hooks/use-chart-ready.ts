@@ -1,31 +1,30 @@
 import { useEffect, useState } from 'react';
+import { InteractionManager } from 'react-native';
 
-type UseChartReadyOptions = {
-  delay?: number;
-  requiresLayout?: boolean;
-};
+/** Delay between successive charts becoming ready, so they mount one frame-budget at a time. */
+const STAGGER_MS = 120;
 
-function useChartReady({
-  delay = 120,
-  requiresLayout = false,
-}: UseChartReadyOptions = {}) {
-  const [hasLaidOut, setHasLaidOut] = useState(!requiresLayout);
-  const [delayElapsed, setDelayElapsed] = useState(false);
+/**
+ * Defers chart mounting until after the current navigation/gesture
+ * interactions finish (`InteractionManager`), then staggers siblings by
+ * `order` so multiple charts never mount in the same frame.
+ *
+ * @param order 0-based position among sibling charts on the screen.
+ */
+export function useChartReady(order = 0) {
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(setDelayElapsed, delay, true);
-    return () => clearTimeout(timer);
-  }, [delay]);
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const task = InteractionManager.runAfterInteractions(() => {
+      timer = setTimeout(setReady, order * STAGGER_MS, true);
+    });
+    return () => {
+      task.cancel();
+      if (timer)
+        clearTimeout(timer);
+    };
+  }, [order]);
 
-  const onLayout = () => {
-    setHasLaidOut(true);
-  };
-
-  return {
-    ready: hasLaidOut && delayElapsed,
-    onLayout,
-  };
+  return ready;
 }
-
-export { useChartReady };
-export type { UseChartReadyOptions };

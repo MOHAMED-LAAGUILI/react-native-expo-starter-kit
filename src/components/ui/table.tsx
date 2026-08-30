@@ -9,7 +9,7 @@ import {
   ChevronUp,
 } from 'lucide-react-native';
 import { useState } from 'react';
-import { FlatList, Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
 import { Button } from './button';
@@ -48,6 +48,32 @@ export type TableProps<T = any> = {
   filterable?: boolean;
 };
 
+/**
+ * Stable per-row React key. Sorting and pagination reorder rows, so an index
+ * key would let React reuse the wrong row's state. Keying by the row object's
+ * identity means a key follows its record across reorders. Rows are generic
+ * records with no guaranteed `id`, so identity is the only reliable handle.
+ */
+const rowKeyCache = new WeakMap<object, string>();
+let rowKeySequence = 0;
+
+function getRowKey(row: unknown): string {
+  if (typeof row !== 'object' || row === null) {
+    return String(row);
+  }
+
+  const cached = rowKeyCache.get(row);
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  rowKeySequence += 1;
+  const key = `row-${rowKeySequence}`;
+  rowKeyCache.set(row, key);
+
+  return key;
+}
+
 type SortDirection = 'asc' | 'desc' | null;
 
 type SortState = {
@@ -64,6 +90,73 @@ type TableStateParams<T> = {
   sortable: boolean;
 };
 
+type RowQueryParams<T> = {
+  columns: TableColumn<T>[];
+  data: T[];
+  filterable: boolean;
+  searchQuery: string;
+  sortState: SortState;
+  sortable: boolean;
+};
+
+function matchesQuery<T>(row: T, columns: TableColumn<T>[], needle: string) {
+  return columns.some((column) => {
+    if (!column.filterable)
+      return false;
+    const value = (row as Record<string, unknown>)[column.accessorKey];
+    return String(value || '').toLowerCase().includes(needle);
+  });
+}
+
+function compareRows<T>(
+  rows: { a: T; b: T },
+  column: string,
+  direction: SortDirection,
+) {
+  const aValue = (rows.a as Record<string, unknown>)[column];
+  const bValue = (rows.b as Record<string, unknown>)[column];
+
+  if (aValue === null || aValue === undefined)
+    return 1;
+  if (bValue === null || bValue === undefined)
+    return -1;
+
+  if (typeof aValue === 'string' && typeof bValue === 'string') {
+    const comparison = aValue.localeCompare(bValue);
+    return direction === 'asc' ? comparison : -comparison;
+  }
+
+  if ((aValue as number) < (bValue as number))
+    return direction === 'asc' ? -1 : 1;
+  if ((aValue as number) > (bValue as number))
+    return direction === 'asc' ? 1 : -1;
+  return 0;
+}
+
+function queryRows<T>({
+  columns,
+  data,
+  filterable,
+  searchQuery,
+  sortState,
+  sortable,
+}: RowQueryParams<T>): T[] {
+  let processedData = [...data];
+
+  if (searchQuery && filterable) {
+    const needle = searchQuery.toLowerCase();
+    processedData = processedData.filter(row => matchesQuery(row, columns, needle));
+  }
+
+  const { column, direction } = sortState;
+
+  if (column && direction && sortable) {
+    processedData.sort((a, b) => compareRows({ a, b }, column, direction));
+  }
+
+  return processedData;
+}
+
 function useTableState<T>({
   data,
   columns,
@@ -79,45 +172,14 @@ function useTableState<T>({
     direction: null,
   });
 
-  let processedData = [...data];
-
-  if (searchQuery && filterable) {
-    processedData = processedData.filter(row =>
-      columns.some((column) => {
-        if (!column.filterable)
-          return false;
-        const value = (row as any)[column.accessorKey];
-        return String(value || '')
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase());
-      }),
-    );
-  }
-
-  if (sortState.column && sortState.direction && sortable) {
-    processedData.sort((a, b) => {
-      const aValue = (a as any)[sortState.column!];
-      const bValue = (b as any)[sortState.column!];
-
-      if (aValue === null || aValue === undefined)
-        return 1;
-      if (bValue === null || bValue === undefined)
-        return -1;
-
-      if (typeof aValue === 'string' && typeof bValue === 'string') {
-        const comparison = aValue.localeCompare(bValue);
-        return sortState.direction === 'asc' ? comparison : -comparison;
-      }
-
-      if (aValue < bValue)
-        return sortState.direction === 'asc' ? -1 : 1;
-      if (aValue > bValue)
-        return sortState.direction === 'asc' ? 1 : -1;
-      return 0;
-    });
-  }
-
-  const filteredAndSortedData = processedData;
+  const filteredAndSortedData = queryRows({
+    columns,
+    data,
+    filterable,
+    searchQuery,
+    sortState,
+    sortable,
+  });
 
   const totalPages = pagination
     ? Math.max(1, Math.ceil(filteredAndSortedData.length / pageSize))
@@ -521,21 +583,20 @@ export function Table<T = any>({
             : paginatedData.length === 0
               ? <TableMessage>{emptyMessage}</TableMessage>
               : (
-                  <FlatList
-                    data={paginatedData}
-                    keyExtractor={(_, index) => String(index)}
-                    renderItem={({ item, index }) => (
-                      <TableRow
-                        columns={columns}
-                        row={item}
-                        index={index}
-                        onRowPress={onRowPress}
-                        rowStyle={rowStyle}
-                        cellStyle={cellStyle}
-                      />
-                    )}
-                    showsVerticalScrollIndicator={false}
-                  />
+                  // Plain map: the page is already bounded by pagination, and a
+                  // nested FlatList inside the horizontal ScrollView defeats
+                  // virtualization while triggering nested-VirtualizedList warnings.
+                  paginatedData.map((item, index) => (
+                    <TableRow
+                      key={getRowKey(item)}
+                      columns={columns}
+                      row={item}
+                      index={index}
+                      onRowPress={onRowPress}
+                      rowStyle={rowStyle}
+                      cellStyle={cellStyle}
+                    />
+                  ))
                 )}
         </View>
       </ScrollView>

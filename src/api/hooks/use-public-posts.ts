@@ -1,9 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { publicApi } from '@/api/endpoints';
 import { QUERY_KEYS } from '@/config/constants';
 
 export function usePublicPosts(search?: string) {
   return useQuery({
+    placeholderData: keepPreviousData,
     queryFn: () => publicApi.posts(search),
     queryKey: [...QUERY_KEYS.PUBLIC_POSTS, search ?? ''],
   });

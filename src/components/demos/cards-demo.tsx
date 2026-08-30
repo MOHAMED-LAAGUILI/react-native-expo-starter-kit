@@ -1,9 +1,30 @@
 import type { DemoSheetCard } from '@/data/cards';
-import { BarChart3, Box, ShoppingCart, TrendingUp, Users, Zap } from 'lucide-react-native';
+import { BarChart3, Box, ShoppingCart, Sparkles, TrendingUp, Users, Zap } from 'lucide-react-native';
 import * as React from 'react';
 import { View } from 'react-native';
-import { BottomSheet, Card, Text } from '@/components/ui';
+import { Blush, BottomSheet, Card, Text } from '@/components/ui';
 import { DEMO_CARDS } from '@/data/cards';
+
+function GlassCardDemo({ onPress }: { onPress: () => void }) {
+  return (
+    <>
+      <Text variant="h3" className="mt-6 mb-3">Glass Card</Text>
+      <View className="relative overflow-hidden rounded-3xl p-4">
+        <Blush corner="top-right" size={300} opacity={0.9} />
+        <Blush corner="bottom-left" size={240} opacity={0.6} />
+        <Card
+          variant="glass"
+          effect="gooey"
+          title="Frosted glass"
+          value="Press me"
+          subtitle="Blur on iOS, Android & web — with a gooey press"
+          icon={Sparkles}
+          onPress={onPress}
+        />
+      </View>
+    </>
+  );
+}
 
 function CardsDemo() {
   const [selectedCard, setSelectedCard] = React.useState<DemoSheetCard | null>(null);
@@ -53,6 +74,8 @@ function CardsDemo() {
           />
         </View>
       </View>
+
+      <GlassCardDemo onPress={() => handleOpenSheet(DEMO_CARDS[0])} />
 
       <Text variant="h3" className="mt-6 mb-3">Mini Cards</Text>
       <View className="gap-3">

@@ -1,3 +1,4 @@
+import type { BottomSheetBackdropProps, BottomSheetBackgroundProps } from '@gorhom/bottom-sheet';
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -9,9 +10,14 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 import { FullWindowOverlay } from 'react-native-screens';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { cn } from '@/utils/cn';
 import { isIOS } from '@/utils/platform';
-import { cn } from '@/utils/utils';
+import { GlassView } from './glass-view';
 import { Text } from './text';
+
+function GlassSheetBackground({ style }: BottomSheetBackgroundProps) {
+  return <GlassView intensity="strong" style={style} className="rounded-t-2xl" />;
+}
 
 const FullWindowContainer
   = isIOS
@@ -42,6 +48,8 @@ type BottomSheetProps<T = string> = {
   snapPoints?: string[];
   enableDynamicSizing?: boolean;
   bottomSheetRef?: React.Ref<BottomSheetRef>;
+  /** Render the sheet surface as frosted glass instead of a solid background. */
+  glass?: boolean;
 };
 
 /* ----------------------------- Header ----------------------------- */
@@ -142,6 +150,7 @@ function BottomSheet<T>({
   snapPoints,
   enableDynamicSizing,
   bottomSheetRef,
+  glass = false,
 }: BottomSheetProps<T>) {
   const modalRef = React.useRef<React.ComponentRef<typeof BottomSheetModal>>(null);
   const prevOpenRef = React.useRef(open);
@@ -172,7 +181,7 @@ function BottomSheet<T>({
     prevOpenRef.current = open;
   }, [open]);
 
-  const renderBackdrop = (props: any) => (
+  const renderBackdrop = (props: BottomSheetBackdropProps) => (
     <BottomSheetBackdrop
       {...props}
       disappearsOnIndex={-1}
@@ -201,8 +210,9 @@ function BottomSheet<T>({
         onOpenChange(false);
       }}
       backdropComponent={renderBackdrop}
+      backgroundComponent={glass ? GlassSheetBackground : undefined}
       handleIndicatorStyle={{ backgroundColor: border }}
-      backgroundStyle={{ backgroundColor: background }}
+      backgroundStyle={glass ? undefined : { backgroundColor: background }}
       containerComponent={FullWindowContainer}
     >
       <BottomSheetHeader

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 type QRCodeProps = {
   value: string;

@@ -14,9 +14,9 @@ import {
   Pressable,
   View,
 } from 'react-native';
+import { cn } from '@/utils/cn';
 import { loadExpoMediaLibrary } from '@/utils/permission-utils';
 import { isWeb } from '@/utils/platform';
-import { cn } from '@/utils/utils';
 import { Button } from './button';
 import { Image } from './image';
 import { Text } from './text';

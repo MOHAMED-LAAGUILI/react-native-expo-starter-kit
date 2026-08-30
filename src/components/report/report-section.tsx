@@ -1,21 +1,18 @@
 import type { ReactNode } from 'react';
-import React from 'react';
 
 import { View } from 'react-native';
-import { Text } from '@/components/ui';
+import { Card, Text } from '@/components/ui';
 
 type ReportSectionProps = {
   title: string;
   subtitle?: string;
   children: ReactNode;
-  bodyClassName?: string;
 };
 
 export function ReportSection({
   title,
   subtitle,
   children,
-  bodyClassName,
 }: ReportSectionProps) {
   return (
     <View className="mb-8">
@@ -27,9 +24,7 @@ export function ReportSection({
           </Text>
         )}
       </View>
-      <View className={`rounded-xl border border-border bg-card ${bodyClassName ?? ''}`}>
-        {children}
-      </View>
+      <Card variant="stats">{children}</Card>
     </View>
   );
 }

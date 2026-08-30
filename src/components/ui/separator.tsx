@@ -1,5 +1,5 @@
 import * as SeparatorPrimitive from '@rn-primitives/separator';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 function Separator({
   className,

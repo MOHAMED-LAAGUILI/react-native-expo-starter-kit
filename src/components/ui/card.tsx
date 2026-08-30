@@ -2,15 +2,21 @@ import type { LucideIcon } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as React from 'react';
 import { Pressable, View } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { useGooeyPress } from '@/hooks/use-gooey-press';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { GlassView } from './glass-view';
 import { Text } from './text';
 
-type CardVariant = 'primary' | 'secondary' | 'stats' | 'compact' | 'action' | 'mini';
+type CardVariant = 'primary' | 'secondary' | 'stats' | 'compact' | 'action' | 'mini' | 'glass';
+type CardEffect = 'gooey';
 
 type CardProps = {
   variant?: CardVariant;
-  title: string;
+  /** Press interaction style. `gooey` squashes the card like a soft blob (needs `onPress`). */
+  effect?: CardEffect;
+  title?: string;
   value?: string;
   subtitle?: string;
   icon?: LucideIcon;
@@ -20,6 +26,8 @@ type CardProps = {
   onPress?: () => void;
   disabled?: boolean;
 };
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type CardContentProps = Pick<CardProps, 'title' | 'value' | 'subtitle' | 'icon' | 'children'> & {
   variant: CardVariant;
@@ -66,44 +74,46 @@ function CardContent({ variant, title, value, subtitle, icon: Icon, iconBg, icon
 
   return (
     <View className={cn('p-4', variant === 'compact' && 'p-3')}>
-      <View className="flex-row items-start justify-between">
-        <View className="flex-1 gap-1">
-          <Text
-            variant="caption"
-            className={cn(isLightSolid ? 'text-white/70' : 'text-muted-foreground')}
-          >
-            {title}
-          </Text>
-          {value && (
-            <Text
-              variant="h2"
-              className={cn(
-                'tracking-tight',
-                isLightSolid ? 'text-white' : 'text-foreground',
-                variant === 'compact' && 'text-2xl',
-              )}
-            >
-              {value}
-            </Text>
-          )}
-          {subtitle && (
+      {(title || value || subtitle || Icon) && (
+        <View className="flex-row items-start justify-between">
+          <View className="flex-1 gap-1">
             <Text
               variant="caption"
-              className={cn(isLightSolid ? 'text-white/60' : 'text-muted-foreground')}
+              className={cn(isLightSolid ? 'text-white/70' : 'text-muted-foreground')}
             >
-              {subtitle}
+              {title}
             </Text>
+            {value && (
+              <Text
+                variant="h2"
+                className={cn(
+                  'tracking-tight',
+                  isLightSolid ? 'text-white' : 'text-foreground',
+                  variant === 'compact' && 'text-2xl',
+                )}
+              >
+                {value}
+              </Text>
+            )}
+            {subtitle && (
+              <Text
+                variant="caption"
+                className={cn(isLightSolid ? 'text-white/60' : 'text-muted-foreground')}
+              >
+                {subtitle}
+              </Text>
+            )}
+          </View>
+          {Icon && (
+            <View
+              className="ml-3 items-center justify-center rounded-xl"
+              style={{ width: 44, height: 44, backgroundColor: iconBg }}
+            >
+              <Icon size={22} color={iconColor} />
+            </View>
           )}
         </View>
-        {Icon && (
-          <View
-            className="ml-3 items-center justify-center rounded-xl"
-            style={{ width: 44, height: 44, backgroundColor: iconBg }}
-          >
-            <Icon size={22} color={iconColor} />
-          </View>
-        )}
-      </View>
+      )}
       {children}
     </View>
   );
@@ -111,6 +121,7 @@ function CardContent({ variant, title, value, subtitle, icon: Icon, iconBg, icon
 
 function Card({
   variant = 'stats',
+  effect,
   title,
   value,
   subtitle,
@@ -122,8 +133,10 @@ function Card({
   disabled,
 }: CardProps) {
   const primaryHex = usePrimaryHex();
+  const gooey = useGooeyPress(effect === 'gooey' && !!onPress && !disabled);
   const accent = color ?? primaryHex;
   const isMini = variant === 'mini';
+  const isGlass = variant === 'glass';
   const isLightSolid = variant === 'primary';
   const iconBg = isLightSolid ? 'rgba(255,255,255,0.2)' : `${primaryHex}15`;
   const iconColor = isLightSolid ? '#fff' : primaryHex;
@@ -158,33 +171,39 @@ function Card({
     'overflow-hidden rounded-2xl border border-border',
     isLightSolid && 'border-transparent',
     variant === 'secondary' && 'border-transparent',
-    variant !== 'primary' && variant !== 'secondary' && 'bg-card shadow-sm',
+    isGlass && 'border-white/20 dark:border-white/10',
+    variant !== 'primary' && variant !== 'secondary' && !isGlass && 'bg-card shadow-xs',
     className,
   );
+  const solidStyle = isLightSolid ? { backgroundColor: primaryHex } : undefined;
+  // Native BlurViews can paint over absolutely-positioned siblings, so glass
+  // cards render their content inside the GlassView (children stay above the blur).
+  const surface = isGlass
+    ? <GlassView bordered={false}>{content}</GlassView>
+    : content;
 
   if (onPress) {
     return (
-      <Pressable
+      <AnimatedPressable
         onPress={onPress}
+        onPressIn={gooey.pressIn}
+        onPressOut={gooey.pressOut}
         disabled={disabled}
         accessibilityRole="button"
         className={sharedClassName}
-        style={isLightSolid ? { backgroundColor: primaryHex } : undefined}
+        style={[solidStyle, gooey.surfaceStyle]}
       >
-        {content}
-      </Pressable>
+        {surface}
+      </AnimatedPressable>
     );
   }
 
   return (
-    <View
-      className={sharedClassName}
-      style={isLightSolid ? { backgroundColor: primaryHex } : undefined}
-    >
-      {content}
+    <View className={sharedClassName} style={solidStyle}>
+      {surface}
     </View>
   );
 }
 
-export type { CardProps, CardVariant };
+export type { CardEffect, CardProps, CardVariant };
 export { Card };

@@ -1,7 +1,7 @@
 import { ChevronRight } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 import { Text } from '../ui/text';
 
 type SettingRowProps = {

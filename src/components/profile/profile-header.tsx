@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image, Text } from '@/components/ui';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useAuthStore } from '@/store';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 function ProfileHeader() {
   const user = useAuthStore(s => s.user);

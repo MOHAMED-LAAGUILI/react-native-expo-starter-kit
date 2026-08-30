@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, TextInput, View } from 'react-native';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 import { Icon } from './icon';
 import { Text } from './text';
 
@@ -84,6 +84,7 @@ function ClearButton({ onClear }: { onClear: () => void }) {
 
 type InputFieldProps = {
   ref?: React.Ref<TextInput>;
+  focused: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   rightComponent?: React.ReactNode | (() => React.ReactNode);
@@ -97,6 +98,7 @@ type InputFieldProps = {
 
 function InputField({
   ref,
+  focused,
   leftIcon,
   rightIcon,
   rightComponent,
@@ -113,21 +115,10 @@ function InputField({
   inputStyle,
   ...props
 }: InputFieldProps) {
-  const [isFocused, setIsFocused] = React.useState(false);
   const [secureVisible, setSecureVisible] = React.useState(false);
   const [textValue, setTextValue] = React.useState(value ?? '');
   const { border, destructive, muted } = useThemeColors();
   const primary = usePrimaryHex();
-  const inputRef = React.useRef<TextInput>(null);
-  const setRef = (node: TextInput | null) => {
-    inputRef.current = node;
-    if (typeof ref === 'function') {
-      ref(node);
-    }
-    else if (ref) {
-      ref.current = node;
-    }
-  };
 
   const isSecure = type === 'password';
   const resolvedSecureTextEntry = isSecure ? !secureVisible : props.secureTextEntry;
@@ -144,18 +135,9 @@ function InputField({
     onChangeText?.('');
   };
 
-  const handleFocus = (e: any) => {
-    setIsFocused(true);
-    onFocus?.(e);
-  };
-  const handleBlur = (e: any) => {
-    setIsFocused(false);
-    onBlur?.(e);
-  };
-
   const isOutline = variant === 'outline';
-  const iconColor = error ? destructive : isFocused ? primary : muted;
-  const resolvedBorderColor = error ? destructive : isFocused ? primary : isOutline ? border : undefined;
+  const iconColor = error ? destructive : focused ? primary : muted;
+  const resolvedBorderColor = error ? destructive : focused ? primary : isOutline ? border : undefined;
   const resolvedBg = isOutline ? 'bg-transparent' : 'bg-secondary';
   const showLeftIcon = leftIcon ?? (icon ? undefined : BUILTIN_LEFT_ICONS[type]);
   const resolvedRightIcon = isSecure
@@ -170,7 +152,7 @@ function InputField({
       className={cn(
         'h-11 flex-row items-center gap-2 rounded-md border px-3',
         resolvedBg,
-        resolvedBorderColor ? '' : isFocused ? 'border-ring' : 'border-border',
+        resolvedBorderColor ? '' : focused ? 'border-ring' : 'border-border',
         error && 'border-destructive',
       )}
       style={resolvedBorderColor ? { borderColor: resolvedBorderColor } : undefined}
@@ -186,7 +168,7 @@ function InputField({
           ? <View className="items-center justify-center">{showLeftIcon}</View>
           : null}
       <TextInput
-        ref={setRef}
+        ref={ref}
         className={cn('h-full flex-1 text-base text-foreground outline-0', className)}
         style={inputStyle}
         placeholderTextColor={props.placeholderTextColor ?? muted}
@@ -196,8 +178,8 @@ function InputField({
         editable={!disabled}
         aria-invalid={!!error}
         aria-describedby={error ? `${props.accessibilityLabel}-error` : undefined}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
+        onFocus={onFocus}
+        onBlur={onBlur}
         {...props}
       />
       {showClearButton && <ClearButton onClear={handleClear} />}
@@ -231,12 +213,23 @@ function Input({
   const [isFocused, setIsFocused] = React.useState(false);
   const inputRef = React.useRef<TextInput>(null);
 
-  const handleFocus = (e: any) => {
+  // Keeps the internal ref (label press → focus) while forwarding to the consumer's ref.
+  const setRefs = (node: TextInput | null) => {
+    inputRef.current = node;
+    if (typeof ref === 'function') {
+      ref(node);
+    }
+    else if (ref) {
+      (ref as React.RefObject<TextInput | null>).current = node;
+    }
+  };
+
+  const handleFocus: NonNullable<TextInputProps['onFocus']> = (e) => {
     setIsFocused(true);
     onFocus?.(e);
   };
 
-  const handleBlur = (e: any) => {
+  const handleBlur: NonNullable<TextInputProps['onBlur']> = (e) => {
     setIsFocused(false);
     onBlur?.(e);
   };
@@ -255,7 +248,8 @@ function Input({
       )}
 
       <InputField
-        ref={inputRef}
+        ref={setRefs}
+        focused={isFocused}
         leftIcon={leftIcon}
         rightIcon={rightIcon}
         rightComponent={rightComponent}

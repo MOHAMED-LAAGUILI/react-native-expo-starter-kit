@@ -54,11 +54,16 @@
 </p>
 
 ![Made by](https://img.shields.io/badge/Made%20by-Mohamed_LAAGUILI-blue)
-![Version](https://img.shields.io/badge/Version-5.2.0-blue)
+![Version](https://img.shields.io/badge/Version-5.5.0-blue)
 
 ## Demo Android (Old Build Demo)
 **Wanna See Magic Star & Clone Repo**
 [Demo.mp4](https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7483079364788613120?compact=1)
+
+## Prerequisites
+
+- **Node 20+**, **pnpm 10+** (`corepack enable`)
+- **[Watchman](https://facebook.github.io/watchman/)** — required for the dev server on large projects. Without it Metro falls back to Node's `fs.watch` and crashes with `EMFILE: too many open files, watch` (especially on Windows). Install: `choco install watchman` (Windows) / `brew install watchman` (macOS).
 
 ## Quick Start
 ```bash
@@ -188,7 +193,8 @@ To run the app, use a development build instead:
 │   │   ├── common/             # LoadingScreen, ErrorFallback
 │   │   ├── drawer/             # DrawerHeaderLeft, AppDrawerContent, etc.
 │   │   ├── home/               # Demo components (cards-demo, extended-demos, overview-cards, etc.)
-│   │   ├── report/             # ReportTabs, ReportSection, TrendSnapshot, HoursDistribution, UnifiedProjects, ProjectAllocation
+│   │   ├── report/             # ReportTabs, ReportSection, HoursDistribution, UnifiedProjects, ProjectAllocation
+│   │   ├── test/               # Test playground (AdaptiveSlider, AnimatedNumber/NumberFlow, ChangeablePricingSection)
 │   │   └── ui/                 # Button, Text, Input, BottomSheet, Modal, Calendar, Video, WebView, QRCode, Menu, ...
 │   ├── config/                 # Constants, env helpers, color-palettes.ts
 │   ├── data/                   # Mock data (report.ts)

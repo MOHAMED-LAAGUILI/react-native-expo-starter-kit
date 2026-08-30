@@ -2,9 +2,9 @@ import * as TooltipPrimitive from '@rn-primitives/tooltip';
 import * as React from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { FadeInDown, FadeInUp, FadeOut, ReduceMotion } from 'react-native-reanimated';
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
-import { isIOS, isWeb } from '@/utils/platform';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { isWeb } from '@/utils/platform';
+import { FullWindowOverlay } from './full-window-overlay';
 import { NativeOnlyAnimatedView } from './native-only-animated-view';
 import { TextClassContext } from './text';
 
@@ -12,13 +12,12 @@ const Tooltip = TooltipPrimitive.Root;
 
 const TooltipTrigger = TooltipPrimitive.Trigger;
 
-const FullWindowOverlay = isIOS ? RNFullWindowOverlay : React.Fragment;
-
 function TooltipContent({
   className,
   sideOffset = 4,
   portalHost,
   side = 'top',
+  children,
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Content> & {
   portalHost?: string;
@@ -43,11 +42,11 @@ function TooltipContent({
             exiting={FadeOut.reduceMotion(ReduceMotion.System)}
             as="Pressable"
           >
-            <TextClassContext value="text-xs text-white">
+            <TextClassContext value="text-[11px] text-white">
               <TooltipPrimitive.Content
                 sideOffset={sideOffset}
                 className={cn(
-                  'z-50 rounded-md bg-primary px-3 py-2 sm:py-1.5',
+                  'z-50 rounded-md bg-primary px-2 py-1 sm:py-1',
                   Platform.select({
                     web: cn(
                       'w-fit origin-(--radix-tooltip-content-transform-origin) animate-in text-balance fade-in-0 zoom-in-95',
@@ -61,7 +60,9 @@ function TooltipContent({
                 )}
                 side={side}
                 {...props}
-              />
+              >
+                {children}
+              </TooltipPrimitive.Content>
             </TextClassContext>
           </NativeOnlyAnimatedView>
         </TooltipPrimitive.Overlay>

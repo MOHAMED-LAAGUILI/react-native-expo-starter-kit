@@ -1,12 +1,24 @@
+import * as React from 'react';
 import { Alert, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ExpoAudioCards, PermissionCards, VideoDemo } from '@/components/demos';
-import { AudioPlayer, AudioRecorder, Camera, Gallery, SectionTitle, Text } from '@/components/ui';
+import { AudioPlayer, AudioRecorder, Button, Camera, Gallery, SectionTitle, Text } from '@/components/ui';
 import VoiceVisualizer from '@/components/ui/media/audio-live-recorder';
+import { showToast } from '@/components/ui/toaster';
 import { gridImages } from '@/data/gallery-images';
-import { isIOS } from '@/utils/platform';
+import { saveMediaToDevice } from '@/utils/permission-utils';
+import { isIOS, isWeb } from '@/utils/platform';
 
 const SAMPLE_AUDIO_URL = 'https://www.thesoundarchive.com/ringtones/old-phone-ringing.wav';
+
+type CameraDemoKey = 'default' | 'custom' | 'picture' | 'video';
+
+const CAMERA_DEMOS: Array<{ key: CameraDemoKey; title: string }> = [
+  { key: 'default', title: 'Default' },
+  { key: 'custom', title: 'Custom Controls' },
+  { key: 'picture', title: 'Picture Only' },
+  { key: 'video', title: 'Video' },
+];
 
 function AudioSection() {
   return (
@@ -69,35 +81,90 @@ function GallerySection() {
 }
 
 function CameraSection() {
-  const handleCapture = ({ uri }: { uri: string }) => Alert.alert('Picture Captured', `Saved to: ${uri}`);
-  const handleVideoCapture = ({ uri }: { uri: string }) => Alert.alert('Video Recorded', `Saved to: ${uri}`);
+  const handleSaveMedia = async (type: 'picture' | 'video', uri: string) => {
+    if (isWeb) {
+      Alert.alert('Not supported', 'Saving to device is not available on web');
+      return;
+    }
+    try {
+      const result = await saveMediaToDevice(uri);
+      if (result === 'saved') {
+        showToast({
+          title: type === 'picture' ? 'Picture Saved' : 'Video Saved',
+          message: 'Saved to device media library',
+          variant: 'success',
+        });
+      }
+      else {
+        showToast({
+          title: 'Permission Denied',
+          message: 'Media library access is required to save photos and videos',
+          variant: 'error',
+        });
+      }
+    }
+    catch {
+      showToast({
+        title: 'Save Failed',
+        message: `Could not save ${type} to device`,
+        variant: 'error',
+      });
+    }
+  };
+
+  const handleCapture = ({ type, uri }: { type: 'picture' | 'video'; uri: string }) => handleSaveMedia(type, uri);
+  const handleVideoCapture = ({ type, uri }: { type: 'picture' | 'video'; uri: string }) => handleSaveMedia(type, uri);
+
+  // One live preview at a time — each mounted camera holds a native session,
+  // so eager-mounting all demos makes the whole screen lag.
+  const [activeDemo, setActiveDemo] = React.useState<CameraDemoKey | null>(null);
+
+  const toggleDemo = (key: CameraDemoKey) => {
+    setActiveDemo(current => (current === key ? null : key));
+  };
 
   return (
     <>
-      <Text variant="h3" className="mb-2">Camera Default</Text>
-      <Camera onCapture={handleCapture} onVideoCapture={handleVideoCapture} style={{ height: 400 }} />
+      <Text variant="body" className="text-muted-foreground">
+        Live camera previews are expensive — pick one demo to mount it.
+      </Text>
+      <View className="flex-row flex-wrap gap-2">
+        {CAMERA_DEMOS.map(demo => (
+          <Button
+            key={demo.key}
+            size="sm"
+            variant={activeDemo === demo.key ? 'primary' : 'secondary'}
+            title={demo.title}
+            onPress={() => toggleDemo(demo.key)}
+          />
+        ))}
+      </View>
 
-      <Text variant="h3" className="mt-4 mb-2">Custom Controls</Text>
-      <Camera
-        facing="front"
-        enableTorch={false}
-        timerOptions={[0, 5, 15]}
-        maxVideoDuration={30}
-        onCapture={handleCapture}
-        onVideoCapture={handleVideoCapture}
-        style={{ height: 400 }}
-      />
-
-      <Text variant="h3" className="mt-4 mb-2">Picture Only Mode</Text>
-      <Camera enableVideo={false} onCapture={handleCapture} style={{ height: 400 }} />
-
-      <Text variant="h3" className="mt-4 mb-2">Video Recording</Text>
-      <Camera
-        maxVideoDuration={120}
-        onCapture={handleCapture}
-        onVideoCapture={handleVideoCapture}
-        style={{ height: 400 }}
-      />
+      {activeDemo === 'default' && (
+        <Camera onCapture={handleCapture} onVideoCapture={handleVideoCapture} style={{ height: 400 }} />
+      )}
+      {activeDemo === 'custom' && (
+        <Camera
+          facing="front"
+          enableTorch={false}
+          timerOptions={[0, 5, 15]}
+          maxVideoDuration={30}
+          onCapture={handleCapture}
+          onVideoCapture={handleVideoCapture}
+          style={{ height: 400 }}
+        />
+      )}
+      {activeDemo === 'picture' && (
+        <Camera enableVideo={false} onCapture={handleCapture} style={{ height: 400 }} />
+      )}
+      {activeDemo === 'video' && (
+        <Camera
+          maxVideoDuration={120}
+          onCapture={handleCapture}
+          onVideoCapture={handleVideoCapture}
+          style={{ height: 400 }}
+        />
+      )}
     </>
   );
 }

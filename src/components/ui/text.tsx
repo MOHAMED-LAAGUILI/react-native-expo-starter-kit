@@ -1,12 +1,12 @@
 import type { TextProps as RNTextProps } from 'react-native';
 import * as React from 'react';
 import { Platform, Text as RNText } from 'react-native';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 type TextVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'bodyLarge' | 'bodySmall' | 'caption' | 'label' | 'blockquote';
 
 type TextProps = {
-  variant?: TextVariant | undefined | string;
+  variant?: TextVariant;
 } & RNTextProps;
 
 function Text({ variant = 'body', className, ...props }: TextProps) {

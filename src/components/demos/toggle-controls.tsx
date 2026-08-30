@@ -7,6 +7,7 @@ function SwitchDemo() {
   const [on, setOn] = React.useState(false);
   const [on2, setOn2] = React.useState(false);
   const [on3, setOn3] = React.useState(false);
+  const [on4, setOn4] = React.useState(false);
   return (
     <View className="gap-4">
       <Row>
@@ -28,6 +29,12 @@ function SwitchDemo() {
           <Switch checked={on3} onCheckedChange={setOn3} variant="square" />
           <Text variant="body">Square</Text>
         </View>
+      </Row>
+      <Row>
+        <Switch checked={on4} onCheckedChange={setOn4} variant="gooey" size="sm" />
+        <Switch checked={on4} onCheckedChange={setOn4} variant="gooey" />
+        <Switch checked={on4} onCheckedChange={setOn4} variant="gooey" size="lg" />
+        <Text variant="caption" className="text-muted-foreground">gooey (sm / md / lg)</Text>
       </Row>
     </View>
   );

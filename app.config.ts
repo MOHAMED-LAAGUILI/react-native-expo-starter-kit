@@ -1,25 +1,8 @@
 import type { ConfigContext, ExpoConfig } from '@expo/config';
-import type { AppIconBadgeConfig } from 'app-icon-badge/types';
 import { ENV } from './src/config/env.ts';
 
 import 'dotenv/config';
 import 'tsx/cjs';
-
-const appIconBadgeConfig: AppIconBadgeConfig = {
-  enabled: ENV.EXPO_PUBLIC_APP_ENV !== 'production',
-  badges: [
-    {
-      text: ENV.EXPO_PUBLIC_APP_ENV ?? 'unknown',
-      type: 'banner',
-      color: 'white',
-    },
-    {
-      text: ENV.EXPO_PUBLIC_VERSION.toString(),
-      type: 'ribbon',
-      color: 'white',
-    },
-  ],
-};
 
 const plugins: ExpoConfig['plugins'] = [
   'expo-system-ui',
@@ -105,6 +88,7 @@ const plugins: ExpoConfig['plugins'] = [
   ],
   ['expo-asset'],
   ['expo-image'],
+  ['expo-font'],
   [
     'expo-camera',
     {
@@ -113,7 +97,6 @@ const plugins: ExpoConfig['plugins'] = [
       recordAudioAndroid: true,
     },
   ],
-  ['app-icon-badge', appIconBadgeConfig],
 ];
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
@@ -148,8 +131,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   icon: './assets/images/favicon.png',
   ios: {
-    // @ts-expect-error - newArchEnabled && jsEngine is valid in Expo SDK 57
-    jsEngine: 'jsc',
     backgroundColor: '#ffffff',
     bundleIdentifier: ENV.EXPO_PUBLIC_BUNDLE_ID,
     infoPlist: {
@@ -158,8 +139,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     supportsTablet: true,
   },
   name: ENV.EXPO_PUBLIC_NAME,
-  jsEngine: 'hermes',
-  newArchEnabled: true,
   orientation: 'portrait',
   owner: ENV.EXPO_ACCOUNT_OWNER,
   plugins,

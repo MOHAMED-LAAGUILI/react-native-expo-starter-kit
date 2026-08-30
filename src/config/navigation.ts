@@ -2,7 +2,6 @@ import type { Href } from 'expo-router';
 import {
   BarChart3,
   Beaker,
-  ChartPie,
   Database,
   DatabaseIcon,
   FlaskConical,
@@ -66,7 +65,7 @@ const BASE_NAV_ITEMS: NavItem[] = [
     translationKey: 'navigation.settings',
     match: ['/settings'],
     segment: 'settings',
-    tab: { name: 'settings', icon: Settings, order: 3 },
+    tab: { name: 'settings', icon: Settings, order: 4 },
   },
   {
     href: '/(app)/(tabs)/report' as Href,
@@ -84,7 +83,7 @@ const BASE_NAV_ITEMS: NavItem[] = [
     translationKey: 'navigation.deviceInfo',
     match: ['/device-info'],
     segment: 'device-info',
-    tab: { name: 'device-info', icon: Smartphone, order: 4 },
+    tab: { name: 'device-info', icon: Smartphone, order: 3 },
   },
 
   // — Demo Screens —
@@ -121,14 +120,6 @@ const BASE_NAV_ITEMS: NavItem[] = [
     segment: 'dev-data',
   },
   {
-    href: '/(app)/charts' as Href,
-    icon: ChartPie,
-    label: 'Charts',
-    translationKey: 'navigation.charts',
-    match: ['/charts'],
-    segment: 'charts',
-  },
-  {
     href: '/(app)/parallax' as Href,
     icon: Mountain,
     label: 'Parallax',
@@ -151,6 +142,14 @@ const BASE_NAV_ITEMS: NavItem[] = [
     translationKey: 'navigation.devTest',
     match: ['/dev-test'],
     segment: 'dev-test',
+  },
+  {
+    href: '/(app)/blocks' as Href,
+    icon: LayoutGrid,
+    label: 'Blocks',
+    translationKey: 'navigation.blocks',
+    match: ['/blocks'],
+    segment: 'blocks',
   },
 ];
 

@@ -6,7 +6,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export type LiveWaveformProps = {
   active?: boolean;

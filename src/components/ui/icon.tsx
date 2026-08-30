@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { Pressable } from 'react-native';
 import { withUniwind } from 'uniwind';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 import { TextClassContext } from './text';
 
 export type IconProps = LucideProps & {

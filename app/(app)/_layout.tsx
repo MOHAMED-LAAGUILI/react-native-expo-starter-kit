@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react';
 import { useRouter } from 'expo-router';
 import Drawer from 'expo-router/drawer';
 import { useEffect } from 'react';
@@ -7,6 +8,10 @@ import { DrawerHeaderRight } from '@/components/drawer/drawer-header-right';
 import { HeaderTitle } from '@/components/drawer/header-title';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useAuthStore } from '@/store';
+
+function renderDrawerContent(props: ComponentProps<typeof AppDrawerContent>) {
+  return <AppDrawerContent {...props} />;
+}
 
 export default function AppLayout() {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
@@ -25,8 +30,9 @@ export default function AppLayout() {
 
   return (
     <Drawer
-      drawerContent={props => <AppDrawerContent {...props} />}
+      drawerContent={renderDrawerContent}
       screenOptions={{
+        freezeOnBlur: true,
         headerLeft: DrawerHeaderLeft,
         headerRight: DrawerHeaderRight,
         headerStyle: { backgroundColor: primaryHex },

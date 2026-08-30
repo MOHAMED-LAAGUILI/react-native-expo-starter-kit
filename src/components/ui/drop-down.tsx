@@ -10,9 +10,9 @@ import {
   View,
 
 } from 'react-native';
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
-import { isIOS, isWeb } from '@/utils/platform';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { isWeb } from '@/utils/platform';
+import { FullWindowOverlay } from './full-window-overlay';
 import { Icon } from './icon';
 import { TextClassContext } from './text';
 
@@ -86,8 +86,6 @@ function DropdownMenuSubContent({
     </>
   );
 }
-
-const FullWindowOverlay = isIOS ? RNFullWindowOverlay : React.Fragment;
 
 function DropdownMenuContent({
   className,

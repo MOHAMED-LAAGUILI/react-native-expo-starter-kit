@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 import { Text } from '../text';
 import { LiveWaveform } from './audio-live-waveform';
 

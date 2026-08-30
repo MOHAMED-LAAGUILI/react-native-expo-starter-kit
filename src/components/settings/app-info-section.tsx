@@ -8,7 +8,7 @@ import { SettingRow } from '@/components/common/setting-row';
 import { Text } from '@/components/ui';
 import { ENV } from '@/config/env';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 function AppInfoSection() {
   const { t: tSettings } = useTranslation('settings');

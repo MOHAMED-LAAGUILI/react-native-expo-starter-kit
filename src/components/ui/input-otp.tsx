@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { createHapticTrigger } from '@/hooks/use-haptics';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 export type InputOTPProps = Omit<TextInputProps, 'style' | 'value' | 'onChangeText'> & {
   /** Number of OTP digits */

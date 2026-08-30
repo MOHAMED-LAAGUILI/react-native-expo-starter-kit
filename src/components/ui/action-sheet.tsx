@@ -20,8 +20,8 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
 import { createHapticTrigger } from '@/hooks/use-haptics';
+import { cn } from '@/utils/cn';
 import { isIOS } from '@/utils/platform';
-import { cn } from '@/utils/utils';
 import { Text } from './text';
 
 export type ActionSheetOption = {

@@ -15,7 +15,7 @@
 
 A **balanced, daily-use application** with a clinical-but-warm neutral base and a single configurable accent. Density sits at **4–6** (comfortable tap targets, generous section rhythm, nothing cockpit-dense). Variance is **4–6** — asymmetric where it matters (floating home tab button, drawer offset, mixed dashboard grids) but never chaotic. Motion is **5–7** — spring-physics micro-interactions and staggered reveals, no cinematic choreography.
 
-The look is **native-first**: rounded-rect surfaces, hairline borders, soft tinted shadows, no neon, no glassmorphism bloat, no skeuomorphic noise. Dark mode is a first-class variant, not an afterthought — both modes share the exact same accent hue.
+The look is **native-first**: rounded-rect surfaces, hairline borders, soft tinted shadows, no neon, no skeuomorphic noise. Frosted glass is available as a *deliberate* surface treatment (`GlassView` + the `glass` variants on Button/Card/Badge/BottomSheet) — use it sparingly over colorful or image content where the blur reads, never as a default card background. Dark mode is a first-class variant, not an afterthought — both modes share the exact same accent hue.
 
 Three tokens every screen obeys:
 1. **Everything themeable, nothing hardcoded** — colors come from `bg-*` / `text-*` / `border-*` CSS variables (oklch), never raw hex.
@@ -114,16 +114,21 @@ lucide icons use the `color` prop with a hex from `useThemeColors()` (`text`, `m
 ## 5. Component Behaviors
 
 ### Button (`button.tsx`)
-7 variants: `primary`, `primary-gradient` (LinearGradient accent), `secondary` (`bg-primary/10`), `outline` (accent border + transparent fill), `ghost`, `destructive`, `success`. 3 sizes: `sm` h-9 / `md` h-11 / `lg` h-12. Icon slots: `leftIcon`/`rightIcon` (render-prop) or `leftIconComponent`/`rightIconComponent` (lucide). `iconOnly` renders a square icon button (used by Table pagination). `loading` swaps content for a spinner. Pressed → `opacity-80`, disabled → `opacity-50`. Text is always `font-semibold`.
+9 variants: `primary`, `primary-gradient` (LinearGradient accent), `secondary` (`bg-primary/10`), `outline` (accent border + transparent fill), `ghost`, `destructive`, `success`, `shadcn`, `glass` (frosted `GlassView` fill, `text-foreground` label). 3 sizes: `sm` h-9 / `md` h-11 / `lg` h-12. Icon slots: `leftIcon`/`rightIcon` (render-prop) or `leftIconComponent`/`rightIconComponent` (lucide). `iconOnly` renders a square icon button (used by Table pagination). `loading` swaps content for a spinner. Pressed → `opacity-80`, disabled → `opacity-50`. Text is always `font-semibold`.
+
+Optional `effect` prop adds press micro-interactions: `ripple` (Material ink ripple from tap point), `gooey` (squishy spring deformation), or `both`. Gooey stretches the button shell (`scaleX` 1→1.06→1, `scaleY` 1→0.96→1) while the inner content counter-scales to 0.97; when `gooey`/`both` is set, the static border is stripped and replaced by an animated `primaryHex` border. Spring = `SPRING_PRESS` from `src/config/motion.ts`.
 
 ### Badge (`badge.tsx`)
-8 variants (`default`, `primary`, `secondary`, `destructive`, `outline`, `success`, `warning`, `info`), 3 sizes (`sm`/`md`/`lg`), optional lucide `icon`. Default = neutral `bg-muted-foreground/15`. Semantic variants use their fixed hues. Self-start, `rounded-md`, `font-semibold` label.
+9 variants (`default`, `primary`, `secondary`, `destructive`, `outline`, `success`, `warning`, `info`, `glass` — subtle `GlassView` fill), 4 sizes (`xs`/`sm`/`md`/`lg`), optional lucide `icon` (sized 10/12/14/16 by badge size). Default = neutral `bg-muted-foreground/15`. Semantic variants use their fixed hues. Self-start, `rounded-md`, `font-semibold` label.
 
 ### Input (`input.tsx`)
-Label above, input well (`h-11`, `rounded-md`, `bg-secondary`, `border-border`), helper/error below in `text-destructive`. Focus → `border-ring`. Built-in types: `email`, `password` (eye toggle), `phone`, `search`, `username`, `text` — each with a contextual lucide icon. Error state: `border-destructive` + inline caption. Placeholder color `#9CA3AF` in both modes.
+Label above, input well (`h-11`, `rounded-md`, `bg-secondary`, `border-border`), helper/error below in `text-destructive`. Focus → `border-ring` (single focus state owned by `Input`, passed down to the field). Built-in types: `email`, `password` (eye toggle), `phone`, `search`, `username`, `text` — each with a contextual lucide icon. Error state: `border-destructive` + inline caption. Placeholder color = `useThemeColors().muted`. The consumer `ref` is forwarded to the underlying `TextInput`.
 
 ### BottomSheet (`bottom-sheet.tsx`)
-`@gorhom/bottom-sheet` with `enablePanDownToClose`, backdrop `opacity: 0.5` fading out at `-1`, sticky handle in `border` color, header with title + `X` close button (`size-8`, `rounded-full`, `bg-muted`). Options render as rows with `border-b border-border`, selected row = `bg-primary/10` + `font-semibold text-primary` + 2px `bg-primary` dot. Snap points default `['40%', '100%']`.
+`@gorhom/bottom-sheet` with `enablePanDownToClose`, backdrop `opacity: 0.5` fading out at `-1`, sticky handle in `border` color, header with title + `X` close button (`size-8`, `rounded-full`, `bg-muted`). Options render as rows with `border-b border-border`, selected row = `bg-primary/10` + `font-semibold text-primary` + 2px `bg-primary` dot. Snap points default `['40%', '100%']`. Optional `glass` prop swaps the solid background for a strong `GlassView` surface (`rounded-t-2xl`).
+
+### GlassView (`glass-view.tsx`)
+Cross-platform frosted glass built on `expo-blur`: native `UIVisualEffectView` on iOS, Dimezis `BlurView` on Android (`blurMethod="dimezisBlurView"`), CSS `backdrop-filter` on web. Props: `intensity` (`subtle` 25 / `medium` 50 / `strong` 80, or a raw 1–100 number), `tint` (`auto` follows theme, or `light`/`dark`), `bordered` (frosted hairline, on by default). A translucent wash overlay keeps the glass legible over low-contrast content. Round it with `rounded-*` classes; overflow is clipped. Used by the `glass` variants of Button, Card, Badge, and BottomSheet — place glass over colorful/image content, never over a plain `bg-background`.
 
 ### Modal (`modal.tsx`)
 3 variants: `bottom-sheet` (slides up), `centered` (scale-in with icon/title/description), `centered-action` (+ action buttons). Backdrop fade 220ms (`withTiming`); sheet spring `{ damping: 20, stiffness: 260 }`, centered scale `{ stiffness: 300 }`. Actions use Button variants. Always provide explicit `onClose`.
@@ -164,11 +169,23 @@ Segmented one-time-code input: `length`, `masked`, `separator`, `showCursor`, `o
 - **`Video`** — `expo-video` player on native, HTML `<video>` on web (no `react-native-video` — Android media3 conflict).
 - **`ParallaxScrollView`** — header-image scroll container with reanimated parallax, edge pull (spring `{ damping: 14, stiffness: 180, mass: 0.6 }`), respects `useReducedMotion`.
 
+### Test / demo playground (`src/components/test/`)
+- **`AdaptiveSlider`** (`adaptive-slider.tsx`) — calorie-goal slider card: gesture-driven track (`PanResponder`) with a `LinearGradient` fill that adapts to the active accent via `usePrimaryHex()`. Gradient stops are always **opaque** theme-derived tints (`mix(primary, white/black, …)`) — never alpha hexes. Surfaces are themed: `bg-card` + `border-border` shell, `bg-muted` track, `bg-primary/30` tick dots, `bg-background` thumb. Value readout is `text-foreground`, label `text-muted-foreground`.
+- **`AnimatedNumber`** (`number-flow.tsx`) — thin wrapper over `number-flow-react-native`'s `NumberFlow` (digit-roll animation). Props: `value: number`, `format?: Intl.NumberFormatOptions`, `style?: TextStyle`. Use for any animated numeric readout (pricing, calories, stats).
+- **`ChangeablePricingSection`** (`pricing-section.tsx`) — theme-adaptive pricing list. `bg-muted` shell + `bg-card` plan rows with `border-border` hairlines. Selection, radio, badge, and CTA all use the primary accent (`border-primary` / `bg-primary` / `text-primary`, tinted `primaryHex` shadow). The Monthly/Yearly billing switch is the **gooey `Tabs`** (`@/components/ui/tabs`), and the price is an `AnimatedNumber` (USD currency) so cycle changes roll the digits instead of remounting.
+- **`WaveformScrub`** (`waveform-scrub.tsx`) — audio waveform scrubber: `bg-card` + `border-border` shell, `bg-muted` track, active wave + scrubber in `primaryHex`, inactive wave in `muted`. Theme + accent come from `useThemeColors()`/`usePrimaryHex()` (no `dark` prop — mode is automatic). Accepts an optional `source` (`expo-audio` `AudioSource`) — when provided, play/pause/scrub drive a real `useAudioPlayer` and duration/currentTime come from player status; without it, the simulated clock is used.
+- **`TranscribeVoiceMessage`** (`transcribe-voice-message.tsx`) — voice-note player + reveal-as-you-play transcription bubble. Player pill + bubble are `bg-card` + `border-border`, active wave is `primaryHex`, transcription toggle switches to `bg-primary/10` + `border-primary` when open. Accepts an optional `source` (`expo-audio` `AudioSource`) — when provided, playback is driven by a real `useAudioPlayer`; without it, the simulated clock is used.
+- **`KnobSlider`** (`knob-slider.tsx`) — circular knob dial: `bg-muted` outer ring, `bg-card` inner knob with `border-border`, `primaryHex` pointer + value digits in `text-foreground` (from `useThemeColors()`).
+- **`GooeyMenu`** (`gooey-menu.tsx`) — liquid morphing quick-menu: `bg-muted` gooey surface (connector blobs + expanded body) with a `bg-primary` + `text-primary-foreground` `Sparkles` trigger button. Item text uses `text-foreground` / `text-muted-foreground` with accent-tinted value pills (`bg-primary/10`).
+- **`WeightWidget`** (`weight-widget.tsx`) — weight dial: `bg-card` + `border-border` card, numbers in `text-foreground`, ticks in `muted`, indicator dot/triangle in `primaryHex`. Styling is Tailwind classes + inline `style` for dynamic values (no `StyleSheet.create`).
+- **`ViewOnMap`** (`map-view.tsx`) — expandable Google Maps embed (`react-native-webview`): `bg-muted` surface, `text-foreground`/`text-muted-foreground` label, `bg-card` close button, loading overlay `bg-muted`. Styling is Tailwind classes + inline `style` (no `StyleSheet.create`).
+
 ### Card (`card.tsx`)
-Data card with 5 variants: `stats` (default — `bg-card` + hairline `border-border`), `primary` (solid accent fill, white text), `secondary`, `compact` (tighter padding, `text-2xl` value), `action`. Props: `title`, `value`, `subtitle`, optional lucide `icon` (44×44 tinted well), `children`. Surface: `rounded-2xl`, `border`, `overflow-hidden`.
+Data card with 7 variants: `stats` (default — `bg-card` + hairline `border-border`), `primary` (solid accent fill, white text), `secondary`, `compact` (tighter padding, `text-2xl` value), `action`, `mini` (row layout with accent gradient blush), `glass` (frosted `GlassView` surface with `border-white/20`, `dark:border-white/10`). Props: `title`, `value`, `subtitle`, optional lucide `icon` (44×44 tinted well), `children`, and `effect="gooey"` — pressable cards squash/stretch on press via the shared `useGooeyPress` hook. Surface: `rounded-2xl`, `border`, `overflow-hidden`.
 
 ### Form controls
-- **Switch / Toggle / Checkbox / RadioGroup / Slider / Progress** — all tinted with primary accent.
+- **Switch / Toggle / Checkbox / RadioGroup / Slider / Progress** — all tinted with primary accent. `Slider` takes `orientation` (`horizontal` default / `vertical`) and `verticalLength` (track px, default 160); vertical is a custom `Gesture.Pan` + Reanimated track (tight `activeOffsetY` so it wins the gesture race against the surrounding ScrollView — a rotated native slider gets its drag stolen by scroll), with tap-to-seek and a `border`-colored rail, `primaryHex` fill + thumb. `disabled` dims the whole control to `opacity-50`.
+- **Switch** ships 4 variants: `default`, `liquid-glass`, `square`, and `gooey`. `gooey` uses an elongated pill-shaped knob (sizes `sm`/`md`/`lg` with fixed `trackW`/`knobW` ratios) that travels the track with a spring `{ damping: 13, stiffness: 150, mass: 0.9 }`, stretching in the direction of travel (`scaleX` 1→1.4→1, `scaleY` 1→0.85→1) while the track color interpolates `border` → `primaryHex`.
 - **CalendarView** (`react-native-calendars`) for date selection with marked dates; **DateTimePickerField** (`@react-native-community/datetimepicker`) for native pickers; **DatePicker** for custom calendar/range selection.
 - **Spinner** — `ActivityIndicator` via native `color` prop (hex from `useThemeColors`), sizes `sm`/`md`/`lg`.
 - **Image** — `expo-image` wrapper; ALWAYS pass `contentFit` + `style={{ height: '100%', width: '100%' }}` or it renders blank on native.
@@ -194,7 +211,7 @@ Unofficial-but-native shadcn/ui components (React Native Reusables, **Uniwind** 
 | `Select` + `SelectTrigger`/`SelectValue`/`SelectItem`/… | Native-styled picker on `@rn-primitives/select`. |
 | `Separator` | Hairline divider on `@rn-primitives/separator`. |
 | `Skeleton` | Custom Reanimated opacity pulse (1000ms repeat, 1→0.5) on `bg-secondary dark:bg-muted rounded-md`. |
-| `Tabs` / `TabsList` / `TabsTrigger` / `TabsContent` | Tab switch on `@rn-primitives/tabs`. |
+| `Tabs` / `TabsList` / `TabsTrigger` / `TabsContent` | Tab switch on `@rn-primitives/tabs`. The `TabsList` indicator is a two-layer sliding pill: an outer layer tracks position/size with springs (`{ damping: 18, stiffness: 180 }` position, `{ damping: 20, stiffness: 200 }` size), and an inner **gooey stretch layer** that springs `scaleX` 1→1.08→1 (`withSequence`) on every switch — an overshoot that makes the pill feel like it squishes and settles into the new tab. Indicator = `bg-background shadow-sm dark:bg-input/30`. |
 | `Tooltip` / `TooltipTrigger` / `TooltipContent` | Hover/press hints on `@rn-primitives/tooltip`. |
 
 **Rules:**
@@ -218,11 +235,12 @@ Unofficial-but-native shadcn/ui components (React Native Reusables, **Uniwind** 
 
 ## 7. Motion & Interaction
 
-- **Spring physics** (Reanimated): interactive springs `{ damping: 20, stiffness: 260 }`; heavier pushes `stiffness: 300`. Durations via `withTiming` only for fades (220ms backdrop).
+- **Spring physics** (Reanimated): interactive springs `{ damping: 20, stiffness: 260 }`; heavier pushes `stiffness: 300`. Durations via `withTiming` only for fades (220ms backdrop). Shared presets live in `src/config/motion.ts` — `SPRING_PRESS` (press feedback: buttons, switches, checkboxes, radio, gooey squash) and `SPRING_GENTLE` (large surfaces). New components must import these instead of inlining spring literals.
 - **Slide-in overlays** use `withTiming` with `Easing.out(Easing.quad)` — open 300ms, close 250ms (Side `Sheet`, `ActionSheet`). Chart draw-in uses `withTiming` over 800–2500ms; chart vertices/points stagger in with `withDelay` + `withSpring`.
 - **Gesture-driven:** sheets/scroll panning via `react-native-gesture-handler`; `Modal` uses `GestureDetector`. Charts use `Gesture.Pan` for interactive tooltips; `Gallery` uses pinch + pan gestures for zoom/fullscreen; `ParallaxScrollView` uses a `Gesture.Pan` pull (`withSpring({ damping: 14, stiffness: 180, mass: 0.6 })`) simultaneous with the native scroll. Reanimated worklets via `react-native-worklets` (`scheduleOnRN`).
 - **Micro-interactions:** pressed states (`opacity-80`), switch/checkbox accent transitions, slider drag with spring, haptics (`use-haptics` / `createHapticTrigger`) on action-sheet selection and OTP completion. Enter/exit animations on demos via Reanimated springs/timing (as in `Modal`).
-- **Performance rules:** animate only `transform` and `opacity`, never layout props; don't pass `Color`/`PlatformColor` into Reanimated styles (use static hex); avoid re-rendering whole screens on gesture progress.
+- **Gooey effect (shared motion language):** a soft, liquid press/toggle/selection micro-interaction applied across interactive components — `Button effect="gooey"|"both"`, `Card effect="gooey"`, `Switch variant="gooey"`, and the `Tabs` sliding indicator. The reusable press implementation is the `useGooeyPress` hook (`src/hooks/use-gooey-press.ts`), which runs entirely on the UI thread. All instances share the same spring family (`damping` 10–20, `stiffness` 150–260, `mass` 0.5–0.9) and the same "stretch then settle" shape: the surface scales up in one axis and down in the other (`scaleX`/`scaleY` peaking around ±0.4–0.6 at mid-progress) before snapping back to rest. Transforms + opacity only — never layout props.
+- **Performance rules:** animate only `transform` and `opacity`, never layout props; don't pass `Color`/`PlatformColor` into Reanimated styles (use static hex); avoid re-rendering whole screens on gesture progress. Never poll a `SharedValue` with a rAF/`setInterval` setState loop — observe it with `useAnimatedReaction` and cross to JS (`runOnJS`) only when the derived value changes (see `AnimatedCalories` in `adaptive-slider.tsx`). Heavy blocks below the fold (WebViews, gesture dials, audio players) mount deferred via `useChartReady(order)` behind a `Skeleton` (see `DeferredBlock` in `blocks-screen.tsx`).
 - **Reduced motion:** respect system settings where feasible (`useReducedMotion` in `ParallaxScrollView`; opacity-only transitions degrade gracefully).
 
 ## 8. Cross-Platform Rules (Web + iOS + Android)
@@ -260,7 +278,7 @@ When generating a screen, default to:
 - Canvas: `bg-background`; sections: `bg-card`; wells: `bg-secondary` or `bg-muted`.
 - Text: `text-foreground` body, `text-muted-foreground` secondary.
 - Dividers: `border-t border-border`.
-- Primary action: `<Button title={t('...')} />` (accent). Secondary: `<Button variant="secondary" />`.
+- Primary action: `<Button title={t('...')} />` (accent). Secondary: `<Button variant="secondary" />`. Add `effect="gooey"` (or `"ripple"` / `"both"`) for a liquid press micro-interaction on hero/CTA buttons; use `Switch variant="gooey"` for the liquid toggle and rely on the built-in gooey stretch in `Tabs`.
 - Inputs: `<Input label={...} />`; selection: `<RadioGroup/>`, `<Checkbox/>`, `<Switch/>`, or `<BottomSheet options={...} />`; OTP: `<InputOTP length={6} />`; media: `<MediaPicker multiple maxSelection={...} />`.
 - Feedback: `<Spinner/>`, inline `text-destructive` errors, `<Toast/>` for transient alerts.
 - Overlays: `<Modal variant="centered|bottom-sheet|centered-action" />` for dialogs, `<Sheet side="left|right" />` for edge panels, `<ActionSheet options={...} />` for context menus.

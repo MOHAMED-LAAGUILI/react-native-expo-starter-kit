@@ -2,7 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import { usePublicPost } from '@/api/hooks/use-public-posts';
-import { LoadingScreen } from '@/components/common/loading-screen';
+import { Loading } from '@/components/common/loading';
 import { PostHero } from '@/components/post-detail';
 import { Button, Text } from '@/components/ui';
 
@@ -14,7 +14,7 @@ function PostDetailScreen() {
   const { data: post, isLoading, error } = usePublicPost(postId);
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return <Loading />;
   }
 
   if (error || !post) {

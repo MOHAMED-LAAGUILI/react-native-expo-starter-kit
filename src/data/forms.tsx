@@ -1,16 +1,12 @@
 import {
   Archive,
   Bookmark,
-  Camera,
   Copy,
   Download,
   Edit,
   EyeOff,
-  FileText,
   Flag,
   Heart,
-  Image as ImageIcon,
-  Mic,
   Pin,
   Send,
   Share,
@@ -18,13 +14,6 @@ import {
   Trash2,
 } from 'lucide-react-native';
 import { Icon } from '@/components/ui';
-
-export const mediaActions = [
-  { title: 'Take Photo', onPress: () => console.log('Take photo'), icon: <Icon as={Camera} /> },
-  { title: 'Choose from Gallery', onPress: () => console.log('Gallery'), icon: <Icon as={ImageIcon} /> },
-  { title: 'Record Audio', onPress: () => console.log('Audio'), icon: <Icon as={Mic} /> },
-  { title: 'Add Document', onPress: () => console.log('Document'), icon: <Icon as={FileText} /> },
-];
 
 export const allActions = [
   { title: 'Edit Document', onPress: () => console.log('Edit'), icon: <Icon as={Edit} /> },

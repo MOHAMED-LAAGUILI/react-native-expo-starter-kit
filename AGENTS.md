@@ -123,6 +123,8 @@ How: Essential Rules
 - ✅ DO use TanStack Form + Zod for form validation (not react-hook-form)
 - ✅ DO use MMKV storage for sensitive/persisted data (not AsyncStorage)
 - ❌ DO NOT set state synchronously in `useEffect` — use lazy initializer: `useState(() => readAllKeys())`
+- ✅ DO subscribe to Zustand with per-field selectors — never destructure the whole store (`useThemeStore()` with no selector re-renders on every change)
+- ✅ DO debounce rapid-fire query inputs with `useDebounce` (see `SearchScreen`) and pair with `placeholderData: keepPreviousData`
 
 ### UI & Styling
 - ✅ DO use custom components from `@/components/ui/` (`Text`, `Button`, `Input`, `BottomSheet`)
@@ -132,6 +134,9 @@ How: Essential Rules
 - ✅ DO extract components when a function exceeds 110 lines (`max-lines-per-function`)
 - ✅ DO cap function params at 3; use options object beyond that (`max-params`)
 - ✅ DO write React Compiler–compatible code (`react-compiler/react-compiler`)
+- ✅ DO use spring presets from `@/config/motion` (`SPRING_PRESS`, `SPRING_GENTLE`) — never inline `{ damping, stiffness, mass }` literals
+- ✅ DO defer chart mounting with `useChartReady(order)` (InteractionManager + stagger) and keep chart `animationDuration` short — gifted-charts animates on the JS thread
+- ✅ DO use `GlassView` (or the `glass` variants) for frosted surfaces — never fake blur with translucent backgrounds
 - ✅ DO use `NAV_TITLE_MAP` from `@/config/navigation` for header title keys (single source, derived from `NAV_ITEMS`)
 - ✅ DO add `tab` field to `NavItem` with `name`, `icon`, and `order` when adding a bottom tab route — tabs render sorted by `order`
 - ❌ DO NOT use raw `Text`/`Pressable` from `react-native` — use wrapped versions
@@ -142,6 +147,14 @@ How: Essential Rules
 - ✅ DO set `process.env.EXPO_ROUTER_APP_ROOT = './app'` and `EXPO_ROUTER_IMPORT_MODE = 'sync'` at the top of `metro.config.js`
 - ✅ DO use `pnpm` for package management (no `package-lock.json` or `yarn.lock`)
 - ❌ DO NOT edit `expo-env.d.ts` or `.expo/types/` — they are auto-generated
+
+### Documentation Sync
+- ✅ DO update the corresponding `.md` files in the **same change** as any code change — docs are the single source of truth for agents and must never drift from the code
+- ✅ DO update `DESIGN.md` when a component/behavior changes: new/renamed props or variants, motion/physics changes, new design tokens, new components, or changed API/size/spacing
+- ✅ DO update `AGENTS.md` when conventions change (imports, naming, state, UI rules, commands, routing structure, file organization)
+- ✅ DO update `README.md` / `docs/` when user-facing or project-level behavior changes (commands, setup, scripts, structure)
+- ✅ DO add/remove i18n keys in `src/i18n/locales/{en,fr}/` whenever screens or strings change (see `## i18n`)
+- ❌ DO NOT close a task that changed code without also committing the related doc updates — treat docs as part of the diff, not an afterthought
 
 ### Relaxed Rules (allowed by config)
 - `console.log` / `console.warn` — allowed for debugging (`no-console: off`)
@@ -156,7 +169,7 @@ How: Essential Rules
 ### Naming
 - **Files**: kebab-case (`src/screens/login-screen.tsx`, `components/ui/button.tsx`)
 - **Routes**: Expo Router (`_layout.tsx`, `settings.tsx`, `app/(auth)/login.tsx`)
-- **Components**: PascalCase (`Button`, `BottomSheet`, `LoadingScreen`)
+- **Components**: PascalCase (`Button`, `BottomSheet`, `Loading`)
 - **Functions/vars**: camelCase (`setMode`, `changeLanguage`, `hydrate`)
 - **Constants**: UPPER_SNAKE_CASE (`STORAGE_KEYS`, `THEME_OPTIONS`)
 - **Store slices**: camelCase with `Store` suffix (`useAuthStore`, `useThemeStore`)
@@ -240,6 +253,7 @@ How: Essential Rules
 | QR Code         | react-native-qrcode-svg
 | Audio           | expo-audio (playback + recording)
 | Animation Extras| moti
+| Blur / Glass    | expo-blur (GlassView — iOS/Android/web)
        
              
 
@@ -274,14 +288,15 @@ src/
 ├── permissions/       — Centralized permission hooks + utils (usePermissionsStatus, loadExpoNotifications, etc.)
 ├── api/              — Axios client, typed hooks (useLogin, usePosts, etc.)
 ├── components/
-│   ├── common/       — LoadingScreen, ErrorFallback, SettingRow, InfoRow, PostCard
+│   ├── common/       — Loading, ErrorFallback, SettingRow, InfoRow, PostCard
 │   ├── drawer/       — DrawerHeaderLeft, DrawerHeaderRight, DrawerProfileHeader, HeaderTitle, AppDrawerContent
 │   ├── home/         — Demo components for component showcase (cards-demo, overview-cards, extended-demos, etc.)
-│   ├── report/       — Report screen components (ReportTabs, ReportSection, TrendSnapshot, HoursDistribution, TopProjectsChart, ProjectAllocation)
+│   ├── report/       — Report screen components (ReportTabs, ReportSection, HoursDistribution, TopProjectsChart, ProjectAllocation)
+│   ├── test/         — Test/demo playground (AdaptiveSlider calories, AnimatedNumber/NumberFlow, ChangeablePricingSection)
 │   └── ui/           — Button, Text, Input, BottomSheet, Badge, Switch, Checkbox, RadioGroup, Slider, Spinner, Image, Progress, Toggle, Modal, Calendar, DateTimePicker, Video, WebView, QRCode, Menu, TextArea, MaskedView, Moti
 ├── config/           — Constants, env helpers, color-palettes.ts (7 palettes)
 ├── data/             — Mock data (report.ts)
-├── hooks/            — Shared hooks (useThemeColors, usePrimaryHex, useDebounce, useRefreshOnFocus)
+├── hooks/            — Shared hooks (useThemeColors, usePrimaryHex, useDebounce, useGooeyPress, useChartReady)
 ├── i18n/             — i18next setup + locales/{en,fr}/, RNRestart restart
 ├── providers/        — QueryProvider, ThemeProvider (Uniwind.setTheme + nav theme), AuthProvider
 ├── screens/          — LoginScreen, HomeScreen, SearchScreen, ProfileScreen, SettingsScreen, OnboardingScreen, ReportScreen, PreferencesScreen, PostDetailScreen, DeviceInfoScreen
@@ -340,7 +355,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 ## Component Patterns
 - All UI components use `className` + `cn()` for styling with Tailwind classes
 - `BottomSheet<T>` — generic bottom sheet built on `@gorhom/bottom-sheet` v5 with `enablePanDownToClose`, backdrop, `index` prop (`-1` closed, `0` open), sticky handle
-- `Badge` — variants (default/primary/secondary/destructive/outline), sizes (sm/md/lg)
+- `Badge` — variants (default/primary/secondary/destructive/outline), sizes (xs/sm/md/lg)
 - `Text` — variants (h1-h4, body/large/small, caption, label)
 - `Input` — styled input with label, error, icon support; built-in `type` prop: `search`, `phone`, `username`, `password` (with Eye toggle), `email`
 - `Switch` — toggle switch with primary color theming
@@ -361,7 +376,9 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `TextArea` — multiline text input with character count
 - `Moti` — animation components using `moti`
 - `PermissionSection` — settings section with toggle rows for Notification, Camera, Location permissions; uses `SettingGroup`/`SettingRow` pattern with `Badge` + `Switch` in right-element area
-- `PermissionCards` — home screen demo cards for permission usage: send test notification, take camera photo, get GPS coordinates
+- `PermissionCards` — home screen demo cards for permission usage: send test notification, take camera photo, get GPS coordinates. Calls `usePermissionsStatus` **once** and passes the instance down to its cards — never per-card.
+- `GlassView` — cross-platform frosted glass (`expo-blur`): `intensity` (`subtle`/`medium`/`strong` or 1–100), `tint` (`auto`/`light`/`dark`), `bordered`. Powers the `glass` variants on `Button`, `Card`, `Badge`, and the `glass` prop on `BottomSheet`. Use over colorful/image content only.
+- `Card` — supports `effect="gooey"` on pressable cards (squash/stretch press via the shared `useGooeyPress` hook)
 
 ## Important Packages
 - `@gorhom/bottom-sheet` (v5) — native gesture-driven bottom sheet with snap points
@@ -390,6 +407,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `@react-native-community/datetimepicker` — native date/time picker
 - `@react-native-menu/menu` — context/popup menu
 - `moti` — animation primitives
+- `expo-blur` — frosted glass surfaces (`GlassView` wrapper; Android via `blurMethod="dimezisBlurView"`, web via CSS backdrop-filter)
 
 ## Notes
 - No test framework installed
@@ -398,6 +416,9 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `app.config.ts` inlines all env values (no separate env.ts loaded during config resolution to avoid Node ESM `.ts` issues)
 - Use `pnpm` for package management only — don't add `package-lock.json` or `yarn.lock`
 - MMKV storage is lazily initialized with try/catch to prevent SSR crashes during Metro pnpmdling
+- **Watchman is required for dev on Windows** — Expo CLI defaults `useWatchman` to false, so Metro falls back to Node's `fs.watch` and crashes with `EMFILE: too many open files, watch` on large trees. `metro.config.js` re-enables it (`config.resolver.useWatchman = true`) and blocklists `android/`, `ios/`, `dist/`, `build/`, `.git/` from the file map. Install via `choco install watchman`.
+- iOS runs Hermes (SDK 57 default) — do not add `jsEngine`/`newArchEnabled` keys to `app.config.ts`; they no longer exist in the config type
+- Drawer and Tabs set `freezeOnBlur: true` — blurred screens stop rendering (cameras, intervals, charts don't run behind the active screen)
 - `ActivityIndicator` in Uniwind doesn't support `className` color — use native `color` prop with hex fallback
 
 ## CI/CD

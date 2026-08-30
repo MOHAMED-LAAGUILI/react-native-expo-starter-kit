@@ -1,6 +1,6 @@
 import { usePathname } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Text } from '@/components/ui';
+import { Text } from '@/components/ui/text';
 import { NAV_TITLE_MAP } from '@/config/navigation';
 
 const POST_KEY = 'navigation.post';

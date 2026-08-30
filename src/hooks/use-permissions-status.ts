@@ -1,6 +1,6 @@
 import type { Permission, PermissionStatus } from 'react-native-permissions';
 import { useEffect, useState } from 'react';
-import { Platform } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import { check, checkNotifications, openSettings, PERMISSIONS, request, requestNotifications, RESULTS } from 'react-native-permissions';
 
 export type PermissionLabel = 'Notifications' | 'Camera' | 'Location' | 'Microphone';
@@ -53,8 +53,17 @@ export function usePermissionsStatus() {
   const [statuses, setStatuses] = useState<PermStatusMap>({});
   const [loading, setLoading] = useState<Record<string, boolean>>({});
 
+  const refresh = () => {
+    checkAllPermissions().then(setStatuses);
+  };
+
   useEffect(() => {
     checkAllPermissions().then(setStatuses);
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active')
+        checkAllPermissions().then(setStatuses);
+    });
+    return () => subscription.remove();
   }, []);
 
   const requestPermission = async (label: PermissionLabel) => {
@@ -80,6 +89,7 @@ export function usePermissionsStatus() {
     statuses,
     loading,
     requestPermission,
+    refresh,
     isGranted: (label: PermissionLabel) => {
       const s = statuses[label];
       return s === RESULTS.GRANTED || s === RESULTS.LIMITED;

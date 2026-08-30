@@ -12,9 +12,9 @@ import {
 
 } from 'react-native';
 import { FadeIn, ReduceMotion } from 'react-native-reanimated';
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
-import { isIOS, isWeb } from '@/utils/platform';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { isWeb } from '@/utils/platform';
+import { FullWindowOverlay } from './full-window-overlay';
 import { Icon } from './icon';
 import { NativeOnlyAnimatedView } from './native-only-animated-view';
 import { TextClassContext } from './text';
@@ -28,8 +28,6 @@ const MenubarPortal = MenubarPrimitive.Portal;
 const MenubarSub = MenubarPrimitive.Sub;
 
 const MenubarRadioGroup = MenubarPrimitive.RadioGroup;
-
-const FullWindowOverlay = isIOS ? RNFullWindowOverlay : React.Fragment;
 
 function Menubar({
   className,

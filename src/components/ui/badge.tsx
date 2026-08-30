@@ -1,12 +1,13 @@
 import type { LucideIcon } from 'lucide-react-native';
 import type * as React from 'react';
 import { View } from 'react-native';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { GlassView } from './glass-view';
 import { Icon } from './icon';
 import { Text } from './text';
 
-type BadgeVariant = 'default' | 'primary' | 'secondary' | 'destructive' | 'outline' | 'success' | 'warning' | 'info';
-type BadgeSize = 'sm' | 'md' | 'lg';
+type BadgeVariant = 'default' | 'primary' | 'secondary' | 'destructive' | 'outline' | 'success' | 'warning' | 'info' | 'glass';
+type BadgeSize = 'xs' | 'sm' | 'md' | 'lg';
 
 type BadgeProps = {
   variant?: BadgeVariant;
@@ -25,6 +26,7 @@ const bgStyles: Record<BadgeVariant, string> = {
   success: 'bg-green-600 dark:bg-green-700',
   warning: 'bg-yellow-600 dark:bg-yellow-700',
   info: 'bg-blue-600 dark:bg-blue-700',
+  glass: 'bg-transparent',
 };
 
 const textStyles: Record<BadgeVariant, string> = {
@@ -36,29 +38,33 @@ const textStyles: Record<BadgeVariant, string> = {
   success: 'text-white',
   warning: 'text-white',
   info: 'text-white',
+  glass: 'text-foreground',
 };
 
 const sizeStyles: Record<BadgeSize, string> = {
+  xs: 'px-1 py-0.5',
   lg: 'px-3 py-1.5',
   md: 'px-2.5 py-1',
   sm: 'px-1.5 py-0.5',
 };
 
 const textSizeStyles: Record<BadgeSize, string> = {
+  xs: 'text-[10px]',
   lg: 'text-sm',
   md: 'text-xs',
   sm: 'text-[12px]',
 };
 
 const iconSizeStyles: Record<BadgeSize, number> = {
-  lg: 14,
-  md: 10,
-  sm: 6,
+  xs: 10,
+  lg: 16,
+  md: 14,
+  sm: 12,
 };
 
-function Badge({ variant = 'default', size = 'md', className, children, icon: IconComponent }: BadgeProps) {
+function BadgeContent({ variant, size, children, icon: IconComponent }: Pick<BadgeProps, 'children' | 'icon'> & { variant: BadgeVariant; size: BadgeSize }) {
   return (
-    <View className={cn('flex-row items-center gap-1.5 self-start rounded-md', bgStyles[variant], sizeStyles[size], className)}>
+    <>
       {IconComponent && (
         <Icon
           as={IconComponent}
@@ -67,6 +73,27 @@ function Badge({ variant = 'default', size = 'md', className, children, icon: Ic
         />
       )}
       <Text className={cn('font-semibold', textStyles[variant], textSizeStyles[size])}>{children}</Text>
+    </>
+  );
+}
+
+function Badge({ variant = 'default', size = 'md', className, children, icon: IconComponent }: BadgeProps) {
+  // Native BlurViews can paint over absolutely-positioned siblings, so glass
+  // badges render their content as GlassView children (always above the blur).
+  if (variant === 'glass') {
+    return (
+      <GlassView
+        intensity="subtle"
+        className={cn('flex-row items-center gap-1.5 self-start rounded-md', sizeStyles[size], className)}
+      >
+        <BadgeContent variant={variant} size={size} icon={IconComponent}>{children}</BadgeContent>
+      </GlassView>
+    );
+  }
+
+  return (
+    <View className={cn('flex-row items-center gap-1.5 self-start overflow-hidden rounded-md', bgStyles[variant], sizeStyles[size], className)}>
+      <BadgeContent variant={variant} size={size} icon={IconComponent}>{children}</BadgeContent>
     </View>
   );
 }

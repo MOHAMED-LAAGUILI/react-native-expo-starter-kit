@@ -14,7 +14,7 @@ import {
 import { useState } from 'react';
 import { FlatList, Pressable, View } from 'react-native';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 import { BottomSheet } from './bottom-sheet';
 import { Button } from './button';
 import { Text } from './text';

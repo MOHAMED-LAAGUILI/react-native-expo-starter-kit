@@ -60,7 +60,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (isReady) {
-      void SplashScreen.hideAsync().catch(() => {});
+      void SplashScreen.hideAsync().catch(() => { });
     }
   }, [isReady]);
 
@@ -68,7 +68,7 @@ export default function RootLayout() {
     const isDark = themeMode === 'dark';
     const bg = isDark ? '#000000' : '#ffffff';
 
-    SystemUI.setBackgroundColorAsync(bg).catch(() => {});
+    SystemUI.setBackgroundColorAsync(bg).catch(() => { });
 
     if (isAndroid) {
       NavigationBar.setStyle(isDark ? 'light' : 'dark');

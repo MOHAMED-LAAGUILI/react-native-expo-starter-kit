@@ -41,7 +41,7 @@ import Animated, {
 import { scheduleOnRN } from 'react-native-worklets';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 import { Button } from './button';
 import { Text } from './text';
 
@@ -107,7 +107,7 @@ function CameraPermissionLoading({
   style,
 }: PermissionLoadingProps) {
   return (
-    <View className={cn('flex-1 items-center justify-center', style)} style={{ backgroundColor }}>
+    <View className="flex-1 items-center justify-center" style={[{ backgroundColor }, style]}>
       <ActivityIndicator size="large" color={primaryHex} />
       <Text variant="caption" className="mt-4">
         Loading camera...
@@ -1057,8 +1057,8 @@ function CameraViewfinder({
   const { torch: enableTorch, video: enableVideo } = enable;
   return (
     <Animated.View
-      className={cn('flex-1 items-center justify-center', style)}
-      style={[{ backgroundColor }, animatedContainerStyle]}
+      className="flex-1 items-center justify-center"
+      style={[{ backgroundColor }, style, animatedContainerStyle]}
     >
       <View className="w-full overflow-hidden rounded-2xl" style={{ height: getCameraHeight(aspectRatioIndex) }}>
         <GestureDetector gesture={composedGestures}>

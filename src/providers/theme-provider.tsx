@@ -36,6 +36,8 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
     Uniwind.updateCSSVariables('dark', palette.dark);
   }, [primaryColor]);
 
+  // React Compiler caches this, so React Navigation only sees a new theme
+  // object when the mode or accent palette actually changes.
   const navTheme = buildNavTheme(currentTheme, primaryColor);
 
   return <NavThemeProvider value={navTheme}>{children}</NavThemeProvider>;

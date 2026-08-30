@@ -1,4 +1,11 @@
-import { ChartLoader, ChartPie } from '@/components/ui';
+import { View } from 'react-native';
+
+import {
+  ChartPie,
+  ChartSkeleton,
+  ChartSkeletonList,
+} from '@/components/ui';
+import { useChartReady } from '@/hooks/use-chart-ready';
 import { isWeb } from '@/utils/platform';
 import { ProjectsAllocationList } from './projects-allocation-list';
 import { ReportSection } from './report-section';
@@ -16,6 +23,8 @@ export function HoursDistribution({
   data,
   totalHours,
 }: HoursDistributionProps) {
+  const ready = useChartReady(0);
+
   const chartData = data.map((project: any) => {
     const percent = Math.round(getProjectPercent(project.hours, totalHours));
 
@@ -33,24 +42,31 @@ export function HoursDistribution({
     <ReportSection
       title="Hours Distribution"
       subtitle="Donut chart"
-      bodyClassName="p-5"
     >
-      <ChartLoader delay={260} minHeight={184} round>
-        <ChartPie
-          data={chartData}
-          donut
-          radius={92}
-          innerRadius={62}
-          showTooltip
-          centerLabel={`${totalHours}h`}
-          centerSubtitle="Total"
-          isAnimated={false}
-        />
-      </ChartLoader>
-      <ProjectsAllocationList
-        data={data}
-        totalHours={totalHours}
-      />
+      {ready
+        ? (
+            <View className="gap-2">
+              <ChartPie
+                data={chartData}
+                donut
+                radius={92}
+                innerRadius={62}
+                showTooltip
+                centerLabel={`${totalHours}h`}
+                centerSubtitle="Total"
+              />
+              <ProjectsAllocationList
+                data={data}
+                totalHours={totalHours}
+              />
+            </View>
+          )
+        : (
+            <View className="gap-2">
+              <ChartSkeleton height={184} />
+              <ChartSkeletonList rows={3} />
+            </View>
+          )}
     </ReportSection>
   );
 }

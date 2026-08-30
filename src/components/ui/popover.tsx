@@ -2,17 +2,15 @@ import * as PopoverPrimitive from '@rn-primitives/popover';
 import * as React from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { FadeIn, FadeOut, ReduceMotion } from 'react-native-reanimated';
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
-import { isIOS, isWeb } from '@/utils/platform';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { isWeb } from '@/utils/platform';
+import { FullWindowOverlay } from './full-window-overlay';
 import { NativeOnlyAnimatedView } from './native-only-animated-view';
 import { TextClassContext } from './text';
 
 const Popover = PopoverPrimitive.Root;
 
 const PopoverTrigger = PopoverPrimitive.Trigger;
-
-const FullWindowOverlay = isIOS ? RNFullWindowOverlay : React.Fragment;
 
 function PopoverContent({
   className,

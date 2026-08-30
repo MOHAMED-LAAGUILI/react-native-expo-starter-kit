@@ -9,7 +9,7 @@ import {
   TextAreaDemo,
 } from '@/components/demos';
 import { ActionSheet, Button, DatePicker, GroupedInput, GroupedInputItem, Input, InputOTP, MediaPicker, SectionTitle, Text } from '@/components/ui';
-import { allActions, confirmationActions, mediaActions } from '@/data/forms';
+import { allActions, confirmationActions } from '@/data/forms';
 import { useActionSheet } from '@/hooks/use-action-sheet';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
@@ -24,16 +24,6 @@ function ActionSheetSection() {
       <Button
         title="Open Action Sheet"
         onPress={() => setVisible(true)}
-        className="rounded-full"
-      />
-      <Button
-        title="Add Media"
-        onPress={() =>
-          show({
-            title: 'Add Media',
-            message: 'Choose the type of media to add',
-            options: mediaActions,
-          })}
         className="rounded-full"
       />
       <Button

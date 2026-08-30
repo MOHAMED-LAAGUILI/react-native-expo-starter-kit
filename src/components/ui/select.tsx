@@ -3,10 +3,10 @@ import { Check, ChevronDown, ChevronDownIcon, ChevronUpIcon } from 'lucide-react
 import * as React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { FadeIn, FadeOut, ReduceMotion } from 'react-native-reanimated';
-import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
 
-import { isIOS, isWeb } from '@/utils/platform';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
+import { isWeb } from '@/utils/platform';
+import { FullWindowOverlay } from './full-window-overlay';
 import { Icon } from './icon';
 import { NativeOnlyAnimatedView } from './native-only-animated-view';
 import { TextClassContext } from './text';
@@ -67,8 +67,6 @@ function SelectTrigger({
     </SelectPrimitive.Trigger>
   );
 }
-
-const FullWindowOverlay = isIOS ? RNFullWindowOverlay : React.Fragment;
 
 function SelectContent({
   className,

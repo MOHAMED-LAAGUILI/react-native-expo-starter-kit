@@ -10,7 +10,7 @@ import { BottomSheet, Image } from '@/components/ui';
 import { COLOR_PALETTES } from '@/config/color-palettes';
 import { useThemeColors } from '@/hooks/use-theme-color';
 import { changeLanguage } from '@/i18n';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 const LANGUAGE_OPTIONS: BottomSheetOption<string>[] = [
   { label: 'English', value: 'en', leftElement: <Image source={require('@assets/images/en-flag.png')} style={{ width: 24, height: 24, borderRadius: 12 }} /> },

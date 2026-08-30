@@ -1,12 +1,43 @@
+import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { Alert, View } from 'react-native';
-import { RESULTS } from 'react-native-permissions';
 
 import RNRestart from 'react-native-restart-newarch'; // Import package from node modules
 import { Badge, Button, Image, Text } from '@/components/ui';
 import { usePermissionsStatus } from '@/hooks/use-permissions-status';
 import { loadExpoImagePicker, loadExpoLocation, loadExpoMediaLibrary, loadExpoNotifications } from '@/utils/permission-utils';
 import { isWeb } from '@/utils/platform';
+
+type PermissionsController = ReturnType<typeof usePermissionsStatus>;
+
+type PermissionGateProps = {
+  buttonTitle: string;
+  children: ReactNode;
+  granted: boolean;
+  onRequest: () => void;
+  requesting: boolean;
+  status: string | null;
+};
+
+function PermissionGate({ buttonTitle, children, granted, onRequest, requesting, status }: PermissionGateProps) {
+  if (status == null) {
+    return <Button title="Checking…" size="sm" disabled />;
+  }
+
+  if (!granted) {
+    return (
+      <Button
+        title={buttonTitle}
+        onPress={onRequest}
+        size="sm"
+        variant="secondary"
+        loading={requesting}
+      />
+    );
+  }
+
+  return <>{children}</>;
+}
 
 async function ensureNotificationHandler() {
   const mod = await loadExpoNotifications();
@@ -38,10 +69,10 @@ async function handleUse() {
   catch (e) { Alert.alert('Notifications', `Failed to show notification ${e}`); }
 }
 
-function NotificationCard() {
-  const { statuses } = usePermissionsStatus();
+function NotificationCard({ permissions }: { permissions: PermissionsController }) {
+  const { isGranted, loading, requestPermission, statuses } = permissions;
   const status = statuses.Notifications;
-  const granted = status === RESULTS.GRANTED || status === RESULTS.LIMITED;
+  const granted = isGranted('Notifications');
 
   return (
     <View className="gap-2 rounded-xl border border-border bg-card p-4">
@@ -50,16 +81,24 @@ function NotificationCard() {
         <Badge variant={granted ? 'default' : 'outline'} size="sm">{granted ? 'Granted' : 'Not Granted'}</Badge>
       </View>
       <Text variant="caption" className="text-muted-foreground">Send a test push notification</Text>
-      <Button title="Show Notification" onPress={handleUse} size="sm" disabled={!granted} />
+      <PermissionGate
+        buttonTitle="Grant Notification Permission"
+        granted={granted}
+        onRequest={() => requestPermission('Notifications')}
+        requesting={loading.Notifications}
+        status={status}
+      >
+        <Button title="Show Notification" onPress={handleUse} size="sm" />
+      </PermissionGate>
     </View>
   );
 }
 
-function CameraCard() {
-  const { statuses } = usePermissionsStatus();
+function CameraCard({ permissions }: { permissions: PermissionsController }) {
+  const { isGranted, loading, requestPermission, statuses } = permissions;
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const status = statuses.Camera;
-  const granted = status === RESULTS.GRANTED || status === RESULTS.LIMITED;
+  const granted = isGranted('Camera');
 
   async function handleUse() {
     try {
@@ -113,18 +152,26 @@ function CameraCard() {
         : (
             <>
               <Text variant="caption" className="text-muted-foreground">Take a photo with the built-in camera</Text>
-              <Button title="Open Camera" onPress={handleUse} size="sm" disabled={!granted} />
+              <PermissionGate
+                buttonTitle="Grant Camera Permission"
+                granted={granted}
+                onRequest={() => requestPermission('Camera')}
+                requesting={loading.Camera}
+                status={status}
+              >
+                <Button title="Open Camera" onPress={handleUse} size="sm" />
+              </PermissionGate>
             </>
           )}
     </View>
   );
 }
 
-function LocationCard() {
-  const { statuses } = usePermissionsStatus();
+function LocationCard({ permissions }: { permissions: PermissionsController }) {
+  const { isGranted, loading, requestPermission, statuses } = permissions;
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const status = statuses.Location;
-  const granted = status === RESULTS.GRANTED || status === RESULTS.LIMITED;
+  const granted = isGranted('Location');
 
   async function handleUse() {
     try {
@@ -163,7 +210,15 @@ function LocationCard() {
         : (
             <>
               <Text variant="caption" className="text-muted-foreground">Get your current GPS coordinates</Text>
-              <Button title="Get Location" onPress={handleUse} size="sm" disabled={!granted} />
+              <PermissionGate
+                buttonTitle="Grant Location Permission"
+                granted={granted}
+                onRequest={() => requestPermission('Location')}
+                requesting={loading.Location}
+                status={status}
+              >
+                <Button title="Get Location" onPress={handleUse} size="sm" />
+              </PermissionGate>
             </>
           )}
     </View>
@@ -171,12 +226,16 @@ function LocationCard() {
 }
 
 function PermissionCards() {
+  // Single shared instance: one round of native permission checks and one
+  // AppState listener for all three cards instead of one each.
+  const permissions = usePermissionsStatus();
+
   return (
     <View className="gap-4">
       <Text variant="body" className="text-muted-foreground">Quick actions for notifications, camera, and location</Text>
-      <NotificationCard />
-      <CameraCard />
-      <LocationCard />
+      <NotificationCard permissions={permissions} />
+      <CameraCard permissions={permissions} />
+      <LocationCard permissions={permissions} />
       <Button title="Refresh" onPress={() => RNRestart.restart()} size="sm" />
 
     </View>

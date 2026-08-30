@@ -45,7 +45,11 @@
     "devMedia": "Médias & Audio",
     "devData": "Données & Tableaux",
     "devTest": "Test",
+    "blocks": "Blocs",
     "maps": "Cartes"
+  },
+  "blocks": {
+    "title": "Blocs"
   },
   "theme": {
     "light": "Clair",

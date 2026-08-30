@@ -1,4 +1,4 @@
-import type { SetStateAction } from 'react';
+import type { ReactNode, SetStateAction } from 'react';
 import {
   RecordingPresets,
   setAudioModeAsync,
@@ -129,9 +129,44 @@ function RecordingPlayback({ uri }: { uri: string }) {
   );
 }
 
+type RecorderPermissionGateProps = {
+  micStatus: string | null;
+  micGranted: boolean;
+  requesting: boolean;
+  onRequest: () => void;
+  children: ReactNode;
+};
+
+function RecorderPermissionGate({
+  micStatus,
+  micGranted,
+  requesting,
+  onRequest,
+  children,
+}: RecorderPermissionGateProps) {
+  if (micStatus == null) {
+    return <Button title="Checking…" size="sm" disabled />;
+  }
+
+  if (!micGranted) {
+    return (
+      <Button
+        title="Enable Microphone"
+        onPress={onRequest}
+        size="sm"
+        variant="secondary"
+        loading={requesting}
+      />
+    );
+  }
+
+  return <>{children}</>;
+}
+
 function ExpoAudioRecorderCard() {
-  const { statuses, requestPermission } = usePermissionsStatus();
-  const micGranted = statuses.Microphone === RESULTS.GRANTED || statuses.Microphone === RESULTS.LIMITED;
+  const { statuses, loading, requestPermission } = usePermissionsStatus();
+  const micStatus = statuses.Microphone;
+  const micGranted = micStatus === RESULTS.GRANTED || micStatus === RESULTS.LIMITED;
 
   const [recorderState, setRecorderState] = useState<'idle' | 'preparing' | 'recording'>('idle');
   const [recordedUri, setRecordedUri] = useState<string | null>(null);
@@ -204,27 +239,34 @@ function ExpoAudioRecorderCard() {
       {error && (
         <Text variant="caption" className="text-destructive">{error}</Text>
       )}
-      <View className="flex-row gap-2">
-        {recorderState !== 'recording'
-          ? (
-              <Button
-                title={recorderState === 'preparing' ? 'Preparing…' : 'Start Recording'}
-                onPress={handleStartRecording}
-                size="sm"
-                className="flex-1"
-                disabled={recorderState === 'preparing' || !micGranted}
-              />
-            )
-          : (
-              <Button
-                title="Stop Recording"
-                onPress={handleStopRecording}
-                size="sm"
-                variant="destructive"
-                className="flex-1"
-              />
-            )}
-      </View>
+      <RecorderPermissionGate
+        micStatus={micStatus}
+        micGranted={micGranted}
+        requesting={loading.Microphone}
+        onRequest={() => requestPermission('Microphone')}
+      >
+        <View className="flex-row gap-2">
+          {recorderState !== 'recording'
+            ? (
+                <Button
+                  title={recorderState === 'preparing' ? 'Preparing…' : 'Start Recording'}
+                  onPress={handleStartRecording}
+                  size="sm"
+                  className="flex-1"
+                  disabled={recorderState === 'preparing'}
+                />
+              )
+            : (
+                <Button
+                  title="Stop Recording"
+                  onPress={handleStopRecording}
+                  size="sm"
+                  variant="destructive"
+                  className="flex-1"
+                />
+              )}
+        </View>
+      </RecorderPermissionGate>
       {recordedUri && <RecordingPlayback uri={recordedUri} />}
     </View>
   );

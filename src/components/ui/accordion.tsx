@@ -11,8 +11,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { cn } from '@/utils/cn';
 import { isWeb } from '@/utils/platform';
-import { cn } from '@/utils/utils';
 import { Icon } from './icon';
 import { TextClassContext } from './text';
 

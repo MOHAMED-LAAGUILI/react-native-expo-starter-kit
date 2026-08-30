@@ -31,6 +31,8 @@
   "unavailable": "Unavailable",
   "limited": "Limited",
   "checking": "Checking…",
+  "enable": "Enable",
+  "openSettings": "Settings",
   "notifications": "Notifications",
   "camera": "Camera",
   "location": "Location",

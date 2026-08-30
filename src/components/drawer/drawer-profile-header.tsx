@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useAuthStore } from '@/store';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 import { Text } from '../ui/text';
 
 export function DrawerProfileHeader() {

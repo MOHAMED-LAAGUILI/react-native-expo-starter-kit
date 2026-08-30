@@ -13,7 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 import { Button } from './button';
 import { Icon } from './icon';
 import { Text } from './text';

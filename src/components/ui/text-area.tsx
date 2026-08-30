@@ -1,6 +1,8 @@
+import type { TextInputProps } from 'react-native';
 import * as React from 'react';
 import { TextInput, View } from 'react-native';
-import { cn } from '@/utils/utils';
+import { useThemeColors } from '@/hooks/use-theme-color';
+import { cn } from '@/utils/cn';
 import { Text } from './text';
 
 type TextAreaProps = {
@@ -10,9 +12,25 @@ type TextAreaProps = {
   showCount?: boolean;
 } & React.ComponentProps<typeof TextInput>;
 
-function TextArea({ label, error, maxLength, showCount, className, ...props }: TextAreaProps) {
+function TextArea({ label, error, maxLength, showCount, className, onFocus, onBlur, onChangeText, ...props }: TextAreaProps) {
   const [focused, setFocused] = React.useState(false);
   const [text, setText] = React.useState(props.value ?? props.defaultValue ?? '');
+  const { muted } = useThemeColors();
+
+  const handleFocus: NonNullable<TextInputProps['onFocus']> = (e) => {
+    setFocused(true);
+    onFocus?.(e);
+  };
+
+  const handleBlur: NonNullable<TextInputProps['onBlur']> = (e) => {
+    setFocused(false);
+    onBlur?.(e);
+  };
+
+  const handleChangeText = (t: string) => {
+    setText(t);
+    onChangeText?.(t);
+  };
 
   return (
     <View className="gap-1">
@@ -26,23 +44,15 @@ function TextArea({ label, error, maxLength, showCount, className, ...props }: T
         )}
       >
         <TextInput
-          className="h-full flex-1 text-base text-foreground outline-0"
-          placeholderTextColor="#9CA3AF"
+          className={cn('h-full flex-1 text-base text-foreground outline-0', className)}
+          placeholderTextColor={muted}
           multiline
           textAlignVertical="top"
-          onFocus={(e) => {
-            setFocused(true);
-            props.onFocus?.(e);
-          }}
-          onBlur={(e) => {
-            setFocused(false);
-            props.onBlur?.(e);
-          }}
-          onChangeText={(t) => {
-            setText(t);
-            props.onChangeText?.(t);
-          }}
+          maxLength={maxLength}
           {...props}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onChangeText={handleChangeText}
         />
       </View>
       {maxLength && showCount && (

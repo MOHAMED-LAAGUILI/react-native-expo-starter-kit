@@ -2,7 +2,7 @@ import type { ImageProps as ExpoImageProps } from 'expo-image';
 import { Image as ExpoImage } from 'expo-image';
 import * as React from 'react';
 import { View } from 'react-native';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 type ImageProps = {
   fallback?: string;
@@ -33,6 +33,18 @@ function Image({ className, fallback, style, ...props }: ImageProps) {
 
   if (errored && fallback) {
     return (
+      <ExpoImage
+        className={cn(className)}
+        source={fallback}
+        contentFit="cover"
+        cachePolicy="memory-disk"
+        style={resolvedStyle}
+      />
+    );
+  }
+
+  if (errored) {
+    return (
       <View className={cn('items-center justify-center bg-muted', className)}>
         <View className="size-12 items-center justify-center rounded-full bg-muted-foreground/20">
           <View className="size-5 rounded-full bg-muted-foreground/40" />
@@ -45,7 +57,8 @@ function Image({ className, fallback, style, ...props }: ImageProps) {
     <ExpoImage
       className={cn(className)}
       contentFit="cover"
-      transition={300}
+      cachePolicy="memory-disk"
+      transition={150}
       onError={() => setErrored(true)}
       {...props}
       style={resolvedStyle}

@@ -1,54 +1,50 @@
 import { CalendarIcon } from 'lucide-react-native';
 
-import React from 'react';
-import { Pressable, View } from 'react-native';
-import { Text } from '@/components/ui';
+import { View } from 'react-native';
+import { Tabs, TabsList, TabsTrigger, Text } from '@/components/ui';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/utils/utils';
 
-type ReportTabsProps = {
-  activeTab: any;
-  tabs: any[];
-  onTabChange: (tab: any) => void;
+type ReportTabsProps<T extends string> = {
+  activeTab: T;
+  tabs: Array<{ key: T; label: string }>;
+  onTabChange: (tab: T) => void;
 };
 
-export function ReportTabs({
+export function ReportTabs<T extends string>({
   activeTab,
   tabs,
   onTabChange,
-}: ReportTabsProps) {
-  const { muted } = useThemeColors();
+}: ReportTabsProps<T>) {
+  const { muted, text } = useThemeColors();
 
   return (
     <View className="border-b border-border px-1 py-2">
-      <View className="flex-row justify-center rounded-md bg-muted p-1">
-        {tabs.map(tab => (
-          <Pressable
-            key={tab.key}
-            onPress={() => onTabChange(tab.key)}
-            accessibilityRole="tab"
-            accessibilityState={{ selected: activeTab === tab.key }}
-            className={cn(
-              'flex-1 flex-row items-center justify-center gap-2 rounded-sm p-1',
-              activeTab === tab.key ? 'bg-primary' : 'bg-transparent',
-            )}
-          >
-            <CalendarIcon
-              size={18}
-              color={activeTab === tab.key ? 'white' : muted}
-            />
-            <Text
-              variant="caption"
-              className={cn(
-                'font-semibold',
-                activeTab === tab.key ? 'text-white' : 'text-muted-foreground',
-              )}
-            >
-              {tab.label}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
+      <Tabs
+        value={activeTab}
+        onValueChange={tab => onTabChange(tab as T)}
+      >
+        <TabsList className="w-full">
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.key;
+
+            return (
+              <TabsTrigger
+                key={tab.key}
+                value={tab.key}
+                className="flex-1"
+              >
+                <CalendarIcon
+                  size={18}
+                  color={isActive ? text : muted}
+                />
+                <Text variant="caption" className="font-semibold">
+                  {tab.label}
+                </Text>
+              </TabsTrigger>
+            );
+          })}
+        </TabsList>
+      </Tabs>
     </View>
   );
 }

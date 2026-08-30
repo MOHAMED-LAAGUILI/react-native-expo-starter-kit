@@ -1,13 +1,14 @@
 import type { Href } from 'expo-router';
 import type { Layers } from 'lucide-react-native';
 import {
-  BarChart3,
+  Beaker,
   ChartPie,
   Database,
   FlaskConical,
   LayoutGrid,
   Mountain,
   Music,
+  Sparkles,
 } from 'lucide-react-native';
 
 export type CategoryCard = {
@@ -53,14 +54,6 @@ export const CATEGORIES: CategoryCard[] = [
     color: '#06b6d4',
   },
   {
-    id: 'charts',
-    label: 'Charts',
-    description: 'Line, bar, radar & more',
-    icon: BarChart3,
-    href: '/(app)/charts' as Href,
-    color: '#ef4444',
-  },
-  {
     id: 'parallax',
     label: 'Parallax',
     description: 'Parallax scroll & animations',
@@ -75,5 +68,21 @@ export const CATEGORIES: CategoryCard[] = [
     icon: ChartPie,
     href: '/(app)/(tabs)/report' as Href,
     color: '#f97316',
+  },
+  {
+    id: 'test',
+    label: 'Test',
+    description: 'Waveform, voice notes & demos',
+    icon: Beaker,
+    href: '/(app)/dev-test' as Href,
+    color: '#8b5cf6',
+  },
+  {
+    id: 'blocks',
+    label: 'Blocks',
+    description: 'Advanced UI blocks & widgets',
+    icon: Sparkles,
+    href: '/(app)/blocks' as Href,
+    color: '#ec4899',
   },
 ];

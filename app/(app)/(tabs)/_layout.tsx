@@ -177,13 +177,18 @@ function CustomTabBar({ state }: { state: { routes: Array<{ key: string; name: s
   );
 }
 
+function renderTabBar(props: React.ComponentProps<typeof CustomTabBar>) {
+  return <CustomTabBar {...props} />;
+}
+
 export default function TabLayout() {
   const { t } = useTranslation();
 
   return (
     <Tabs
-      tabBar={props => <CustomTabBar {...props} />}
+      tabBar={renderTabBar}
       screenOptions={{
+        freezeOnBlur: true,
         headerShown: false,
       }}
     >

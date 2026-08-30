@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { BottomSheet, Image, Text } from '@/components/ui';
 import { HORIZONTAL_CARDS, VERTICAL_CARDS } from '@/data/cards';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 
 type ImageCardProps = {
   title: string;

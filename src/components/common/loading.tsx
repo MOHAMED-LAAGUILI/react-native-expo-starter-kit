@@ -1,7 +1,7 @@
 import { ActivityIndicator, View } from 'react-native';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 
-function LoadingScreen() {
+function Loading() {
   const primaryHex = usePrimaryHex();
 
   return (
@@ -11,4 +11,4 @@ function LoadingScreen() {
   );
 }
 
-export { LoadingScreen };
+export { Loading };

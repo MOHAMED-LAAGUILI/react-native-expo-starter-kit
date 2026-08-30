@@ -1,5 +1,6 @@
-import { Home, Save } from 'lucide-react-native';
-import { Button, Text } from '@/components/ui';
+import { Home, Save, Sparkles } from 'lucide-react-native';
+import { View } from 'react-native';
+import { Badge, Blush, Button, Text } from '@/components/ui';
 import { Row } from './typography-and-badge';
 
 function ButtonsDemo() {
@@ -17,6 +18,28 @@ function ButtonsDemo() {
         <Button title="Shadcn" variant="shadcn" size="sm" />
       </Row>
 
+      <Text variant="label" className="mb-1 text-muted-foreground">Effects (press and hold)</Text>
+      <Row>
+        <Button title="Gooey" variant="outline" effect="gooey" size="sm" />
+        <Button title="Ripple" variant="secondary" effect="ripple" size="sm" />
+        <Button title="Both" variant="primary" effect="both" size="sm" />
+      </Row>
+      <Row>
+        <Button title="Press me" variant="outline" effect="gooey" size="lg" />
+        <Button title="Blob border" variant="outline" effect="gooey" disabled />
+      </Row>
+
+      <Text variant="label" className="mb-1 text-muted-foreground">Glass (blurs whatever is behind it)</Text>
+      <View className="relative overflow-hidden rounded-2xl border border-border p-4">
+        <Blush corner="top-left" size={260} opacity={0.9} />
+        <Blush corner="bottom-right" size={220} opacity={0.7} />
+        <Row>
+          <Button title="Glass" variant="glass" size="sm" />
+          <Button title="Glass gooey" variant="glass" effect="gooey" size="sm" />
+          <Badge variant="glass" icon={Sparkles}>Glass badge</Badge>
+        </Row>
+      </View>
+
       <Text variant="label" className="mb-1 text-muted-foreground">Sizes</Text>
       <Row>
         <Button title="Small" size="sm" />
@@ -31,6 +54,7 @@ function ButtonsDemo() {
         <Button title="Home" variant="outline" leftIconComponent={Home} />
         <Button title="Save" variant="primary" leftIconComponent={Save} />
       </Row>
+
     </>
   );
 }

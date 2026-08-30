@@ -2,7 +2,12 @@ import type { LayoutChangeEvent } from 'react-native';
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import { ChartBars, ChartLoader } from '@/components/ui';
+import {
+  ChartBars,
+  ChartSkeleton,
+  ChartSkeletonList,
+} from '@/components/ui';
+import { useChartReady } from '@/hooks/use-chart-ready';
 import { ProjectsAllocationList } from './projects-allocation-list';
 import { ReportSection } from './report-section';
 
@@ -21,6 +26,7 @@ export function UnifiedProjects({
   data,
   totalHours,
 }: UnifiedProjectsProps) {
+  const ready = useChartReady(1);
   const [chartWidth, setChartWidth] = useState(0);
 
   const handleLayout = ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
@@ -38,25 +44,31 @@ export function UnifiedProjects({
     <ReportSection
       title="Projects Overview"
       subtitle="Allocation & Top Projects"
-      bodyClassName="p-4"
     >
-      <View className="gap-1">
-        <ChartLoader delay={400} minHeight={200} onLayout={handleLayout}>
-          <ChartBars
-            variant="bar-vertical"
-            data={chartData}
-            width={chartWidth}
-            height={200}
-            hideLabels
-            isAnimated={false}
-          />
-        </ChartLoader>
+      {ready
+        ? (
+            <View className="gap-4">
+              <ChartBars
+                variant="bar-vertical"
+                data={chartData}
+                width={chartWidth}
+                height={200}
+                hideLabels
+                onLayout={handleLayout}
+              />
 
-        <ProjectsAllocationList
-          data={data}
-          totalHours={totalHours}
-        />
-      </View>
+              <ProjectsAllocationList
+                data={data}
+                totalHours={totalHours}
+              />
+            </View>
+          )
+        : (
+            <View className="gap-4">
+              <ChartSkeleton height={200} />
+              <ChartSkeletonList rows={4} />
+            </View>
+          )}
     </ReportSection>
   );
 }

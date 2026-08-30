@@ -1,7 +1,7 @@
 import type { LucideIcon } from 'lucide-react-native';
 import * as React from 'react';
 import { View } from 'react-native';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 import { Icon } from './icon';
 import { Text, TextClassContext } from './text';
 
@@ -23,7 +23,6 @@ function Alert({
       value={cn(
         'text-sm text-foreground',
         variant === 'destructive' && 'text-destructive',
-        className,
       )}
     >
       <View

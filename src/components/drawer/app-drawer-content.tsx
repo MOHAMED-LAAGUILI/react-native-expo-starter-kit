@@ -8,7 +8,7 @@ import { Button } from '@/components/ui';
 import { NAV_ITEMS } from '@/config/navigation';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 import { useThemeColors } from '@/hooks/use-theme-color';
-import { cn } from '@/utils/utils';
+import { cn } from '@/utils/cn';
 import { DrawerProfileHeader } from './drawer-profile-header';
 
 type AppDrawerContentProps = Parameters<NonNullable<ComponentProps<typeof Drawer>['drawerContent']>>[0];

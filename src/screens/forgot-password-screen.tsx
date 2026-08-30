@@ -74,7 +74,7 @@ function ForgotPasswordScreen() {
 
         <Button
           title="Back to Login"
-          variant="outline"
+          variant="ghost"
           onPress={() => router.back()}
           size="lg"
         />
