@@ -1,58 +1,61 @@
-import type { ReportProject } from '@/data/report';
+import type { ReportProject, ReportRange } from '@/data/report';
 import { CalendarRange, Clock, Trophy } from 'lucide-react-native';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import { OverviewCards } from '@/components/demos/overview-cards';
 import { ChartsShowcase } from '@/components/report/charts-showcase';
-import { reportRangeLabels, reportTabs } from '@/components/report/constants';
+import { reportRangeMultiplier, reportRanges } from '@/components/report/constants';
 import { HoursDistribution } from '@/components/report/hours-distribution';
 import { ReportTabs } from '@/components/report/report-tabs';
 import { UnifiedProjects } from '@/components/report/unified-projects';
 import { projectData } from '@/data/report';
 import { usePrimaryHex } from '@/hooks/use-primary-hex';
 
-type ReportTab = 'daily' | 'weekly' | 'monthly' | 'yearly';
-
-const TAB_MULTIPLIER: Record<ReportTab, number> = { daily: 1, monthly: 30, weekly: 7, yearly: 365 };
+const TOP_PROJECT_COLOR = '#f59e0b';
 
 export function ReportScreen() {
-  const [activeTab, setActiveTab] = React.useState<ReportTab>('daily');
+  const { t } = useTranslation('report');
+  const [activeTab, setActiveTab] = React.useState<ReportRange>('daily');
   const primaryHex = usePrimaryHex();
 
   // Keep tab switches responsive: data rebuild + chart re-render happen in a transition.
-  const handleTabChange = (tab: ReportTab) => {
+  const handleTabChange = (tab: ReportRange) => {
     React.startTransition(() => setActiveTab(tab));
   };
 
-  const multiplier = TAB_MULTIPLIER[activeTab];
+  const multiplier = reportRangeMultiplier[activeTab];
   const tabProjectData: ReportProject[] = projectData.map(p => ({
     ...p,
     hours: Math.round(p.hours * multiplier),
   }));
   const totalHours = tabProjectData.reduce((sum, p) => sum + p.hours, 0);
+  const projectCount = tabProjectData.length;
+
+  const tabs = reportRanges.map(key => ({ key, label: t(`range.${key}`) }));
 
   const overviewCards = [
     {
       key: 'range',
-      label: 'Range',
-      value: reportRangeLabels[activeTab],
-      subtitle: `${tabProjectData.length} active projects`,
+      label: t('overview.range'),
+      value: t(`rangeLabel.${activeTab}`),
+      subtitle: t('overview.activeProjects', { count: projectCount }),
       accentColor: primaryHex,
       icon: CalendarRange,
     },
     {
       key: 'total',
-      label: 'Total Logged',
+      label: t('overview.totalLogged'),
       value: `${totalHours} h`,
-      subtitle: `Across ${tabProjectData.length} projects`,
-      accentColor: '#f59e0b',
+      subtitle: t('overview.acrossProjects', { count: projectCount }),
+      accentColor: TOP_PROJECT_COLOR,
       icon: Clock,
     },
     {
       key: 'top-project',
-      label: 'Top Project',
-      value: tabProjectData[0]?.project ?? 'N/A',
-      subtitle: `${tabProjectData[0]?.hours ?? 0} h logged`,
+      label: t('overview.topProject'),
+      value: tabProjectData[0]?.project ?? t('overview.notAvailable'),
+      subtitle: t('overview.hoursLogged', { hours: tabProjectData[0]?.hours ?? 0 }),
       accentColor: tabProjectData[0]?.color ?? primaryHex,
       icon: Trophy,
     },
@@ -62,7 +65,7 @@ export function ReportScreen() {
     <View className="flex-1 bg-background">
       <ReportTabs
         activeTab={activeTab}
-        tabs={reportTabs}
+        tabs={tabs}
         onTabChange={handleTabChange}
       />
       <ScrollView contentContainerClassName="gap-5 px-6 pb-8" showsVerticalScrollIndicator={false}>
@@ -75,7 +78,11 @@ export function ReportScreen() {
 
         <UnifiedProjects data={tabProjectData} totalHours={totalHours} />
 
-        <ChartsShowcase data={tabProjectData} totalHours={totalHours} />
+        <ChartsShowcase
+          data={tabProjectData}
+          range={activeTab}
+          totalHours={totalHours}
+        />
       </ScrollView>
     </View>
   );

@@ -13,11 +13,14 @@ import {
   CandleStickChart,
   LineChart,
   PieChart,
-  RadarChart,
 } from 'react-native-gifted-charts';
 
+import { useChartWidth } from '@/hooks/use-chart-width';
 import { useThemeColors } from '@/hooks/use-theme-color';
+import { getAxisColor } from '@/utils/chart';
 import { cn } from '@/utils/cn';
+import { isWeb } from '@/utils/platform';
+import { ChartBarsHorizontal } from './chart-bars-horizontal';
 import { Text } from './text';
 
 type ChartBarsVariant = 'bar-vertical' | 'bar-horizontal';
@@ -67,11 +70,9 @@ type ChartLineProps = ChartBaseProps & {
   height?: number;
   hideLabels?: boolean;
   isAnimated?: boolean;
-};
-
-type ChartRadarProps = ChartBaseProps & {
-  chartSize?: number;
-  isAnimated?: boolean;
+  /** Fills the space under the line — the difference between a line and an area chart. */
+  area?: boolean;
+  curved?: boolean;
 };
 
 type StackSegment = {
@@ -88,6 +89,22 @@ type ChartStackedProps = {
   data: StackItem[];
   height?: number;
   hideLabels?: boolean;
+  className?: string;
+  onLayout?: (event: LayoutChangeEvent) => void;
+  isAnimated?: boolean;
+};
+
+type ChartAreaSeries = {
+  label: string;
+  color: string;
+  values: number[];
+};
+
+type ChartStackedAreaProps = {
+  /** Bottom band first — values are stacked in the order given (3 bands max). */
+  series: ChartAreaSeries[];
+  labels?: string[];
+  height?: number;
   className?: string;
   onLayout?: (event: LayoutChangeEvent) => void;
   isAnimated?: boolean;
@@ -113,22 +130,18 @@ type ChartCandlestickProps = {
 /** Kept short — gifted-charts animates on the JS thread, so long durations block interaction. */
 const CHART_ANIMATION_MS = 350;
 const FALLBACK_SERIES_COLOR = '#8b5cf6';
-
-function getAxisColor(isDark: boolean) {
-  return isDark ? '#404040' : '#e5e5e5';
-}
-
-function useChartWidth(onLayout?: (event: LayoutChangeEvent) => void) {
-  const [chartWidth, setChartWidth] = React.useState(0);
-
-  const handleLayout = (event: LayoutChangeEvent) => {
-    const width = Math.floor(event.nativeEvent.layout.width);
-    setChartWidth(current => (current === width ? current : width));
-    onLayout?.(event);
-  };
-
-  return { chartWidth, handleLayout };
-}
+const DATA_POINT_SIZE = 8;
+/** gifted-charts exposes data2…data5, but three bands is all a phone-width stack can read. */
+const MAX_AREA_SERIES = 3;
+/** Candle body as a share of the horizontal slot each candle gets. */
+const CANDLE_WIDTH_RATIO = 0.45;
+const MIN_CANDLE_WIDTH = 8;
+/** Horizontal rules drawn above the x-axis on the bar/column charts. */
+const AXIS_SECTIONS = 4;
+const MAX_CANDLE_WIDTH = 28;
+/** Left gutter gifted-charts reserves for the y-axis labels. */
+const Y_AXIS_GUTTER = 44;
+const CHART_EDGE_SPACING = 12;
 
 function ChartLegend({ data }: { data: ChartDataItem[] }) {
   const total = data.reduce((sum, item) => sum + item.value, 0);
@@ -242,12 +255,28 @@ function ChartBars({
   const textColor = isDark ? '#ffffff' : '#171717';
   const computedMaxValue = maxValue ?? Math.ceil(Math.max(...data.map(d => d.value), 1) * 1.1);
 
+  // gifted-charts draws horizontal bars by rotating the whole chart, which leaves
+  // the layout box at its pre-rotation size and strands empty space in the card.
+  if (variant === 'bar-horizontal') {
+    return (
+      <ChartBarsHorizontal
+        data={data}
+        width={width ?? 0}
+        height={height}
+        maxValue={maxValue}
+        hideLabels={hideLabels}
+        className={className}
+        onLayout={onLayout}
+      />
+    );
+  }
+
   const barChartData: barDataItem[] = data.map((item) => {
     const base: barDataItem = {
       value: item.value,
       frontColor: item.color,
       labelWidth: 0,
-      barWidth: variant === 'bar-horizontal' ? 32 : 24,
+      barWidth: 24,
     };
     if (!hideLabels) {
       base.label = item.label ?? '';
@@ -306,7 +335,6 @@ function ChartBars({
             fontSize: 12,
             fontWeight: '600',
           }}
-          horizontal={variant === 'bar-horizontal'}
         />
       )}
     </View>
@@ -323,8 +351,12 @@ function ChartColumn({
 }: ChartColumnProps) {
   const { isDark, background, muted } = useThemeColors();
   const axisColor = getAxisColor(isDark);
-  const maxValue = Math.max(...data.map(item => item.value), 1);
-  const stepValue = Math.max(Math.ceil(maxValue / 4), 1);
+  // The grid spans `noOfSections * stepValue`, so deriving maxValue from the step
+  // keeps the bar scale and the axis identical. Passing a raw max instead lets the
+  // two disagree whenever it isn't divisible by the section count, and the bars
+  // then overshoot the x-axis line.
+  const stepValue = Math.max(Math.ceil(Math.max(...data.map(item => item.value), 1) / AXIS_SECTIONS), 1);
+  const maxValue = stepValue * AXIS_SECTIONS;
 
   const barChartData: barDataItem[] = data.map(item => ({
     value: item.value,
@@ -349,7 +381,7 @@ function ChartColumn({
         height={height}
         maxValue={maxValue}
         stepValue={stepValue}
-        noOfSections={4}
+        noOfSections={AXIS_SECTIONS}
         barWidth={28}
         initialSpacing={16}
         spacing={24}
@@ -378,6 +410,8 @@ function ChartLine({
   className,
   onLayout,
   isAnimated = true,
+  area = true,
+  curved = false,
 }: ChartLineProps) {
   const { isDark, background, muted } = useThemeColors();
   const axisColor = getAxisColor(isDark);
@@ -392,6 +426,24 @@ function ChartLine({
     dataPointRadius: 4,
   }));
 
+  // gifted-charts always wires onPress onto the SVG data points, and on web
+  // react-native-svg answers that by spraying RN responder props onto the DOM
+  // node (React then logs "Unknown event handler property onResponderGrant", …).
+  // A customDataPoint makes the library skip those touchable SVG circles, so web
+  // renders the same dot as a plain view. Native keeps the SVG circles.
+  const webDataPoint = isWeb
+    ? (item: lineDataItem) => (
+        <View
+          style={{
+            backgroundColor: item.dataPointColor ?? primary,
+            borderRadius: DATA_POINT_SIZE / 2,
+            height: DATA_POINT_SIZE,
+            width: DATA_POINT_SIZE,
+          }}
+        />
+      )
+    : undefined;
+
   return (
     <View
       className={cn('w-full overflow-hidden rounded-xl', className)}
@@ -405,7 +457,8 @@ function ChartLine({
           noOfSections={4}
           color={primary}
           thickness={2}
-          areaChart
+          areaChart={area}
+          curved={curved}
           startFillColor={primary}
           endFillColor={primary}
           startOpacity={0.35}
@@ -421,63 +474,11 @@ function ChartLine({
           backgroundColor={background}
           isAnimated={isAnimated}
           animationDuration={CHART_ANIMATION_MS}
+          {...(webDataPoint
+            ? { customDataPoint: webDataPoint, dataPointsHeight: DATA_POINT_SIZE, dataPointsWidth: DATA_POINT_SIZE }
+            : {})}
         />
       )}
-    </View>
-  );
-}
-
-function ChartRadar({
-  data,
-  chartSize = 220,
-  className,
-  onLayout,
-  isAnimated = true,
-}: ChartRadarProps) {
-  const { isDark } = useThemeColors();
-  const axisColor = getAxisColor(isDark);
-  const primary = data[0]?.color ?? FALLBACK_SERIES_COLOR;
-
-  const values = data.map(item => item.value);
-  const labels = data.map(item => item.label ?? '');
-  const maxValue = Math.max(...values, 1);
-
-  return (
-    <View
-      className={cn('w-full items-center', className)}
-      onLayout={onLayout}
-    >
-      <RadarChart
-        data={values}
-        labels={labels}
-        maxValue={maxValue}
-        noOfSections={4}
-        chartSize={chartSize}
-        labelsPositionOffset={18}
-        labelConfig={{ fontSize: 12, fontWeight: '600', textAnchor: 'middle' }}
-        gridConfig={{
-          stroke: axisColor,
-          strokeWidth: 1,
-          strokeDashArray: [6, 4],
-          opacity: 0.85,
-        }}
-        asterLinesConfig={{
-          stroke: axisColor,
-          strokeWidth: 1,
-          strokeDashArray: [2, 4],
-        }}
-        polygonConfig={{
-          stroke: primary,
-          strokeWidth: 2.5,
-          fill: primary,
-          showGradient: true,
-          gradientColor: primary,
-          opacity: 0.35,
-          gradientOpacity: 0.95,
-        }}
-        isAnimated={isAnimated}
-        animationDuration={CHART_ANIMATION_MS}
-      />
     </View>
   );
 }
@@ -551,6 +552,16 @@ function ChartCandlestick({
   const { isDark, background, muted } = useThemeColors();
   const axisColor = getAxisColor(isDark);
   const maxHigh = Math.max(...data.map(item => item.high), 1);
+  const { chartWidth, handleLayout } = useChartWidth(onLayout);
+
+  // Without an explicit width the chart falls back to the device width and lays the
+  // candles out at a fixed spacing, leaving the right side of the card empty.
+  // Measuring the container and sizing the candles to their slot fills it at any width.
+  const plotWidth = Math.max(chartWidth - Y_AXIS_GUTTER - CHART_EDGE_SPACING * 2, 0);
+  const slotWidth = plotWidth / Math.max(data.length, 1);
+  const candleWidth = Math.round(
+    Math.min(Math.max(slotWidth * CANDLE_WIDTH_RATIO, MIN_CANDLE_WIDTH), MAX_CANDLE_WIDTH),
+  );
 
   const candleData: candleStickDataItem[] = data.map(item => ({
     label: item.label,
@@ -564,29 +575,123 @@ function ChartCandlestick({
   return (
     <View
       className={cn('w-full overflow-hidden rounded-xl', className)}
-      onLayout={onLayout}
+      onLayout={handleLayout}
     >
-      <CandleStickChart
-        data={candleData}
-        height={height}
-        maxValue={Math.ceil(maxHigh * 1.1)}
-        noOfSections={4}
-        hideRules={false}
-        rulesColor={axisColor}
-        yAxisTextStyle={{ color: muted, fontSize: 11, fontWeight: '500' }}
-        xAxisLabelTextStyle={{ color: muted, fontSize: 11, fontWeight: '500' }}
-        xAxisColor={axisColor}
-        yAxisColor={axisColor}
-        backgroundColor={background}
-        isAnimated={isAnimated}
-        animationDuration={CHART_ANIMATION_MS}
-      />
+      {chartWidth > 0 && (
+        <CandleStickChart
+          data={candleData}
+          width={chartWidth}
+          adjustToWidth
+          height={height}
+          maxValue={Math.ceil(maxHigh * 1.1)}
+          noOfSections={4}
+          barWidth={candleWidth}
+          bullishBarWidth={candleWidth}
+          bearishBarWidth={candleWidth}
+          initialSpacing={CHART_EDGE_SPACING}
+          endSpacing={CHART_EDGE_SPACING}
+          disableScroll
+          hideRules={false}
+          rulesColor={axisColor}
+          yAxisTextStyle={{ color: muted, fontSize: 11, fontWeight: '500' }}
+          xAxisLabelTextStyle={{ color: muted, fontSize: 11, fontWeight: '500' }}
+          xAxisColor={axisColor}
+          yAxisColor={axisColor}
+          backgroundColor={background}
+          isAnimated={isAnimated}
+          animationDuration={CHART_ANIMATION_MS}
+        />
+      )}
+    </View>
+  );
+}
+
+/** Same chart as {@link ChartLine}, pre-set to the filled, curved variant. */
+function ChartArea(props: ChartLineProps) {
+  return <ChartLine {...props} area curved />;
+}
+
+/** Running totals per bucket, so each band sits on top of the ones below it. */
+function toCumulativeBands(series: ChartAreaSeries[], labels?: string[]) {
+  const running: number[] = [];
+
+  return series.map(entry => ({
+    color: entry.color,
+    points: entry.values.map((value, index) => {
+      running[index] = (running[index] ?? 0) + value;
+      return { value: running[index], ...(labels ? { label: labels[index] } : {}) };
+    }) as lineDataItem[],
+  }));
+}
+
+function ChartStackedArea({
+  series,
+  labels,
+  height = 220,
+  className,
+  onLayout,
+  isAnimated = true,
+}: ChartStackedAreaProps) {
+  const { isDark, background, muted } = useThemeColors();
+  const axisColor = getAxisColor(isDark);
+  const { chartWidth, handleLayout } = useChartWidth(onLayout);
+
+  const bands = toCumulativeBands(series.slice(0, MAX_AREA_SERIES), labels);
+  // gifted-charts paints data1 first, so the tallest band goes in first and the
+  // shorter ones cover it — that reads as a stack instead of overlapping areas.
+  const [top, middle, bottom] = [...bands].reverse();
+  const maxValue = Math.max(...(top?.points.map(point => point.value ?? 0) ?? []), 1);
+
+  return (
+    <View
+      className={cn('w-full overflow-hidden rounded-xl', className)}
+      onLayout={handleLayout}
+    >
+      {chartWidth > 0 && top && (
+        <LineChart
+          data={top.points}
+          data2={middle?.points}
+          data3={bottom?.points}
+          color1={top.color}
+          color2={middle?.color}
+          color3={bottom?.color}
+          startFillColor1={top.color}
+          endFillColor1={top.color}
+          startFillColor2={middle?.color}
+          endFillColor2={middle?.color}
+          startFillColor3={bottom?.color}
+          endFillColor3={bottom?.color}
+          startOpacity={0.6}
+          endOpacity={0.15}
+          width={chartWidth}
+          height={height}
+          maxValue={Math.ceil(maxValue * 1.1)}
+          noOfSections={4}
+          areaChart
+          curved
+          thickness={2}
+          // Data points are the only touchable SVG nodes here, and on web those
+          // leak RN responder props onto the DOM — a stacked area reads fine without.
+          hideDataPoints
+          hideRules={false}
+          rulesColor={axisColor}
+          yAxisTextStyle={{ color: muted, fontSize: 11, fontWeight: '500' }}
+          xAxisLabelTextStyle={{ color: muted, fontSize: 11, fontWeight: '500' }}
+          xAxisColor={axisColor}
+          yAxisColor={axisColor}
+          yAxisLabelSuffix="h"
+          backgroundColor={background}
+          isAnimated={isAnimated}
+          animationDuration={CHART_ANIMATION_MS}
+        />
+      )}
     </View>
   );
 }
 
 export type {
   CandleItem,
+  ChartAreaSeries,
   ChartBarsProps,
   ChartBarsVariant,
   ChartCandlestickProps,
@@ -594,17 +699,18 @@ export type {
   ChartDataItem,
   ChartLineProps,
   ChartPieProps,
-  ChartRadarProps,
+  ChartStackedAreaProps,
   ChartStackedProps,
   StackItem,
 };
 export {
+  ChartArea,
   ChartBars,
   ChartCandlestick,
   ChartColumn,
   ChartLegend,
   ChartLine,
   ChartPie,
-  ChartRadar,
   ChartStacked,
+  ChartStackedArea,
 };

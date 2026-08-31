@@ -136,6 +136,9 @@ How: Essential Rules
 - ✅ DO write React Compiler–compatible code (`react-compiler/react-compiler`)
 - ✅ DO use spring presets from `@/config/motion` (`SPRING_PRESS`, `SPRING_GENTLE`) — never inline `{ damping, stiffness, mass }` literals
 - ✅ DO defer chart mounting with `useChartReady(order)` (InteractionManager + stagger) and keep chart `animationDuration` short — gifted-charts animates on the JS thread
+- ✅ DO wrap a chart in `ChartContainer` (or `GalleryTile` on the report screen) so title, legend and loading skeleton stay consistent
+- ✅ DO measure chart containers with `useChartWidth()` — gifted-charts needs an explicit pixel `width`
+- ❌ DO NOT mount every chart of a showcase at once — gate them behind a category picker like `ChartsShowcase` does
 - ✅ DO use `GlassView` (or the `glass` variants) for frosted surfaces — never fake blur with translucent backgrounds
 - ✅ DO use `NAV_TITLE_MAP` from `@/config/navigation` for header title keys (single source, derived from `NAV_ITEMS`)
 - ✅ DO add `tab` field to `NavItem` with `name`, `icon`, and `order` when adding a bottom tab route — tabs render sorted by `order`
@@ -247,7 +250,7 @@ How: Essential Rules
 | Linting         | Eslint 
 | Git hooks       | Husky
 | Dates           | date-fns
-| Charts          | react-native-gifted-charts (PieChart, BarChart)
+| Charts          | react-native-gifted-charts + react-native-svg (17 chart types)
 | Calendar        | react-native-calendars
 | Video           | expo-video (native) / HTML `<video>` (web)
 | QR Code         | react-native-qrcode-svg
@@ -277,7 +280,7 @@ app/
         ├── index.tsx    — Home tab (floating center button)
         ├── search.tsx   — Search tab
         ├── profile.tsx  — Profile tab (drawer only, hidden from tabs)
-        ├── report.tsx   — Report tab (charts, trends, project allocation)
+        ├── report.tsx   — Report tab (summary sections + the full chart gallery)
         ├── settings.tsx — Settings tab
         └── device-info.tsx — Device info tab
 ```
@@ -291,19 +294,19 @@ src/
 │   ├── common/       — Loading, ErrorFallback, SettingRow, InfoRow, PostCard
 │   ├── drawer/       — DrawerHeaderLeft, DrawerHeaderRight, DrawerProfileHeader, HeaderTitle, AppDrawerContent
 │   ├── home/         — Demo components for component showcase (cards-demo, overview-cards, extended-demos, etc.)
-│   ├── report/       — Report screen components (ReportTabs, ReportSection, HoursDistribution, TopProjectsChart, ProjectAllocation)
+│   ├── report/       — Report screen components (ReportTabs, ReportSection, HoursDistribution, UnifiedProjects, ProjectsAllocationList, ChartsShowcase + GalleryTrends/Comparison/Distribution/Progress, GalleryTile)
 │   ├── test/         — Test/demo playground (AdaptiveSlider calories, AnimatedNumber/NumberFlow, ChangeablePricingSection)
 │   └── ui/           — Button, Text, Input, BottomSheet, Badge, Switch, Checkbox, RadioGroup, Slider, Spinner, Image, Progress, Toggle, Modal, Calendar, DateTimePicker, Video, WebView, QRCode, Menu, TextArea, MaskedView, Moti
 ├── config/           — Constants, env helpers, color-palettes.ts (7 palettes)
-├── data/             — Mock data (report.ts)
-├── hooks/            — Shared hooks (useThemeColors, usePrimaryHex, useDebounce, useGooeyPress, useChartReady)
+├── data/             — Mock data (report.ts: projects, hours trend per range, sprint velocity, team throughput, activity heatmap, goals, work breakdown)
+├── hooks/            — Shared hooks (useThemeColors, usePrimaryHex, useDebounce, useGooeyPress, useChartReady, useChartWidth)
 ├── i18n/             — i18next setup + locales/{en,fr}/, RNRestart restart
 ├── providers/        — QueryProvider, ThemeProvider (Uniwind.setTheme + nav theme), AuthProvider
 ├── screens/          — LoginScreen, HomeScreen, SearchScreen, ProfileScreen, SettingsScreen, OnboardingScreen, ReportScreen, PreferencesScreen, PostDetailScreen, DeviceInfoScreen
 ├── storage/          — MMKV wrapper (lazy, SSR-safe, try/catch fallback)
 ├── store/            — Zustand stores (authStore, themeStore, onboardingStore) with MMKV persist
 ├── types/            — Global type declarations (uniwind.d.ts)
-├── utils/            — cn utility, format helpers, platform helpers
+├── utils/            — cn utility, format helpers, platform helpers, chart.ts (axis/track colors, niceAxisMax)
 ├── widgets/          — android/ios widget
 ├── validation/       — Zod schemas (login, register, forgotPassword)
 assets/
@@ -327,7 +330,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 
 ## i18n
 - 2 languages: English, French
-- Namespaces: `common`, `auth`
+- Namespaces: `common`, `auth`, `audio`, `post-detail`, `preferences`, `report`, `search`, `settings`, `user-menu` — register a new one in both `resources` and the `ns` array in `src/i18n/index.ts`
 - Language persisted in MMKV via `StorageService`
 - `changeLanguage(lang)` updates i18next + persists to MMKV
 - RTL not supported — Arabic removed from language options
@@ -379,6 +382,8 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `PermissionCards` — home screen demo cards for permission usage: send test notification, take camera photo, get GPS coordinates. Calls `usePermissionsStatus` **once** and passes the instance down to its cards — never per-card.
 - `GlassView` — cross-platform frosted glass (`expo-blur`): `intensity` (`subtle`/`medium`/`strong` or 1–100), `tint` (`auto`/`light`/`dark`), `bordered`. Powers the `glass` variants on `Button`, `Card`, `Badge`, and the `glass` prop on `BottomSheet`. Use over colorful/image content only.
 - `Card` — supports `effect="gooey"` on pressable cards (squash/stretch press via the shared `useGooeyPress` hook)
+- `ChartContainer` — title/subtitle/legend/footer framing for a single chart, with a `loading` skeleton of `height`
+- Charts — gifted-charts wrappers (`ChartPie`, `ChartBars`, `ChartColumn`, `ChartLine`, `ChartArea`, `ChartStacked`, `ChartStackedArea`, `ChartCandlestick`), SVG-drawn charts (`ChartPolarArea`, `ChartRadialBar`, `ChartProgressRing`, `ChartRadar`, `ChartScatter` with a `bubble` mode) and layout-only charts (`ChartHeatmap`, `ChartTreemap`). See `DESIGN.md` for the full contract.
 
 ## Important Packages
 - `@gorhom/bottom-sheet` (v5) — native gesture-driven bottom sheet with snap points

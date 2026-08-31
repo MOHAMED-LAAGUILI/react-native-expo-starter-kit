@@ -1,5 +1,6 @@
 import type { LayoutChangeEvent } from 'react-native';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import {
@@ -26,6 +27,7 @@ export function UnifiedProjects({
   data,
   totalHours,
 }: UnifiedProjectsProps) {
+  const { t } = useTranslation('report');
   const ready = useChartReady(1);
   const [chartWidth, setChartWidth] = useState(0);
 
@@ -42,8 +44,8 @@ export function UnifiedProjects({
 
   return (
     <ReportSection
-      title="Projects Overview"
-      subtitle="Allocation & Top Projects"
+      title={t('sections.projectsOverview')}
+      subtitle={t('sections.projectsOverviewSubtitle')}
     >
       {ready
         ? (

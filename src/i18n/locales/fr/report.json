@@ -1,0 +1,122 @@
+{
+  "range": {
+    "daily": "Jour",
+    "weekly": "Semaine",
+    "monthly": "Mois",
+    "yearly": "Année"
+  },
+  "rangeLabel": {
+    "daily": "Aujourd'hui",
+    "weekly": "Cette semaine",
+    "monthly": "Ce mois-ci",
+    "yearly": "Cette année"
+  },
+  "overview": {
+    "range": "Période",
+    "totalLogged": "Total saisi",
+    "topProject": "Projet principal",
+    "activeProjects": "{{count}} projets actifs",
+    "acrossProjects": "Sur {{count}} projets",
+    "hoursLogged": "{{hours}} h saisies",
+    "notAvailable": "N/D"
+  },
+  "sections": {
+    "hoursDistribution": "Répartition des heures",
+    "hoursDistributionSubtitle": "Graphique en anneau",
+    "projectsOverview": "Vue des projets",
+    "projectsOverviewSubtitle": "Répartition et projets principaux",
+    "gallery": "Galerie de graphiques",
+    "gallerySubtitle": "Tous les types"
+  },
+  "categories": {
+    "trends": "Tendances",
+    "comparison": "Comparaison",
+    "distribution": "Répartition",
+    "progress": "Progression"
+  },
+  "series": {
+    "billable": "Facturable",
+    "internal": "Interne",
+    "overtime": "Heures sup.",
+    "logged": "Saisi",
+    "billed": "Facturé",
+    "tasks": "Tâches",
+    "hours": "Heures",
+    "reviews": "Revues ouvertes",
+    "total": "Total"
+  },
+  "charts": {
+    "line": {
+      "title": "Graphique en ligne",
+      "subtitle": "Heures saisies"
+    },
+    "area": {
+      "title": "Graphique en aires",
+      "subtitle": "Heures saisies"
+    },
+    "stackedArea": {
+      "title": "Aires empilées",
+      "subtitle": "Répartition du temps"
+    },
+    "candlestick": {
+      "title": "Chandeliers",
+      "subtitle": "Vélocité par sprint"
+    },
+    "bar": {
+      "title": "Barres horizontales",
+      "subtitle": "Heures par projet"
+    },
+    "column": {
+      "title": "Colonnes",
+      "subtitle": "Heures par projet"
+    },
+    "stackedBar": {
+      "title": "Barres empilées",
+      "subtitle": "Saisi vs facturé"
+    },
+    "scatter": {
+      "title": "Nuage de points",
+      "subtitle": "Tâches vs heures"
+    },
+    "bubble": {
+      "title": "Graphique à bulles",
+      "subtitle": "Taille = revues ouvertes"
+    },
+    "pie": {
+      "title": "Camembert",
+      "subtitle": "Répartition du travail"
+    },
+    "doughnut": {
+      "title": "Anneau",
+      "subtitle": "Heures par projet"
+    },
+    "polarArea": {
+      "title": "Aires polaires",
+      "subtitle": "Répartition du travail"
+    },
+    "radar": {
+      "title": "Radar",
+      "subtitle": "Profil d'effort"
+    },
+    "treemap": {
+      "title": "Treemap",
+      "subtitle": "Part des heures"
+    },
+    "heatmap": {
+      "title": "Carte de chaleur",
+      "subtitle": "Heures par jour"
+    },
+    "progressRing": {
+      "title": "Anneau de progression",
+      "subtitle": "Objectif facturable"
+    },
+    "radialBar": {
+      "title": "Barres radiales",
+      "subtitle": "Objectifs trimestriels"
+    }
+  },
+  "heatmap": {
+    "less": "Moins",
+    "more": "Plus"
+  }
+}

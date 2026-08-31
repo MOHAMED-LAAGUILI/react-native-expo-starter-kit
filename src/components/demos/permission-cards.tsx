@@ -76,8 +76,8 @@ function NotificationCard({ permissions }: { permissions: PermissionsController 
 
   return (
     <View className="gap-2 rounded-xl border border-border bg-card p-4">
-      <View className="flex-row items-center justify-between">
-        <Text className="font-semibold">Notifications</Text>
+      <View className="flex-row items-center justify-between gap-2">
+        <Text numberOfLines={1} className="flex-1 font-semibold">Notifications</Text>
         <Badge variant={granted ? 'default' : 'outline'} size="sm">{granted ? 'Granted' : 'Not Granted'}</Badge>
       </View>
       <Text variant="caption" className="text-muted-foreground">Send a test push notification</Text>
@@ -138,8 +138,8 @@ function CameraCard({ permissions }: { permissions: PermissionsController }) {
 
   return (
     <View className="gap-2 rounded-xl border border-border bg-card p-4">
-      <View className="flex-row items-center justify-between">
-        <Text className="font-semibold">Camera</Text>
+      <View className="flex-row items-center justify-between gap-2">
+        <Text numberOfLines={1} className="flex-1 font-semibold">Camera</Text>
         <Badge variant={granted ? 'default' : 'outline'} size="sm">{granted ? 'Granted' : 'Not Granted'}</Badge>
       </View>
       {photoUri
@@ -189,8 +189,8 @@ function LocationCard({ permissions }: { permissions: PermissionsController }) {
 
   return (
     <View className="gap-2 rounded-xl border border-border bg-card p-4">
-      <View className="flex-row items-center justify-between">
-        <Text className="font-semibold">Location</Text>
+      <View className="flex-row items-center justify-between gap-2">
+        <Text numberOfLines={1} className="flex-1 font-semibold">Location</Text>
         <Badge variant={granted ? 'default' : 'outline'} size="sm">{granted ? 'Granted' : 'Not Granted'}</Badge>
       </View>
       {coords

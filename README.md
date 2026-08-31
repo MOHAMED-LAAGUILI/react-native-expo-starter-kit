@@ -152,7 +152,7 @@ To run the app, use a development build instead:
 - **Accent Color System** — 8 color palettes (blue, purple, green, orange, red, teal, pink) switchable at runtime; all screens react instantly via `Uniwind.updateCSSVariables()`
 - **Splash Screen** — Custom splash with auto-hide after i18n + auth hydration ready
 - **System UI** — Background color synced with theme mode
-- **Charts** — Interactive donut and bar charts via `react-native-gifted-charts` for report screens
+- **Charts** — 17 chart types on the report screen: line, area, stacked area, candlestick, bar, column, stacked bar, scatter, bubble, pie, doughnut, polar area, radar, treemap, heatmap, progress ring and radial bar (`react-native-gifted-charts` + `react-native-svg`)
 - **Calendar** — Date picking via `react-native-calendars` with marked dates
 - **Video** — Cross-platform video player (`expo-video` on native, HTML `<video>` on web)
 - **QR Code** — QR code generation via `react-native-qrcode-svg`
@@ -184,7 +184,7 @@ To run the app, use a development build instead:
 │       ├── index.tsx       # Home (component showcase, floating center button)
 │       ├── search.tsx
 │       ├── profile.tsx     # Drawer-only, hidden from tab bar
-│       ├── report.tsx      # Report (charts, trends, allocation)
+│       ├── report.tsx      # Report (summary sections + 17-chart gallery)
 │       ├── settings.tsx
 │       └── device-info.tsx
 ├── src/
@@ -193,7 +193,7 @@ To run the app, use a development build instead:
 │   │   ├── common/             # LoadingScreen, ErrorFallback
 │   │   ├── drawer/             # DrawerHeaderLeft, AppDrawerContent, etc.
 │   │   ├── home/               # Demo components (cards-demo, extended-demos, overview-cards, etc.)
-│   │   ├── report/             # ReportTabs, ReportSection, HoursDistribution, UnifiedProjects, ProjectAllocation
+│   │   ├── report/             # ReportTabs, ReportSection, HoursDistribution, UnifiedProjects, ChartsShowcase + gallery groups
 │   │   ├── test/               # Test playground (AdaptiveSlider, AnimatedNumber/NumberFlow, ChangeablePricingSection)
 │   │   └── ui/                 # Button, Text, Input, BottomSheet, Modal, Calendar, Video, WebView, QRCode, Menu, ...
 │   ├── config/                 # Constants, env helpers, color-palettes.ts
@@ -251,7 +251,7 @@ To run the app, use a development build instead:
 | Linting         | Eslint 
 | Git hooks       | Husky
 | Dates           | date-fns
-| Charts          | react-native-gifted-charts (PieChart, BarChart)
+| Charts          | react-native-gifted-charts + react-native-svg (17 chart types)
 | Calendar        | react-native-calendars
 | Video           | expo-video (native) / HTML `<video>` (web)
 | QR Code         | react-native-qrcode-svg

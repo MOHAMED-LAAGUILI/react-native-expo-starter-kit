@@ -1,90 +1,66 @@
+import type { ReportProject, ReportRange } from '@/data/report';
+import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import {
-  ChartLine,
-  ChartSkeleton,
-  ChartSkeletonList,
-  ChartStacked,
-} from '@/components/ui';
-import { useChartReady } from '@/hooks/use-chart-ready';
-import { ProjectsAllocationList } from './projects-allocation-list';
-import { ReportSection } from './report-section';
+import { Button, Text } from '@/components/ui';
+import { GalleryComparison } from './gallery-comparison';
+import { GalleryDistribution } from './gallery-distribution';
+import { GalleryProgress } from './gallery-progress';
+import { GalleryTrends } from './gallery-trends';
 
-type Project = {
-  project: string;
-  hours: number;
-  color: string;
-};
+type GalleryCategory = 'trends' | 'comparison' | 'distribution' | 'progress';
+
+const CATEGORIES: GalleryCategory[] = ['trends', 'comparison', 'distribution', 'progress'];
 
 type ChartsShowcaseProps = {
-  data: Project[];
+  data: ReportProject[];
+  range: ReportRange;
   totalHours: number;
 };
 
-function buildStacks(project: Project) {
-  return [
-    { value: Math.round(project.hours * 0.6), color: project.color },
-    { value: Math.round(project.hours * 0.4), color: `${project.color}66` },
-  ];
-}
+/**
+ * Every chart type the kit ships, grouped by what the chart is for. Only the
+ * selected group is mounted — gifted-charts animates on the JS thread, so
+ * rendering all seventeen at once would stall the scroll on a phone.
+ */
+function ChartsShowcase({ data, range, totalHours }: ChartsShowcaseProps) {
+  const { t } = useTranslation('report');
+  const [category, setCategory] = React.useState<GalleryCategory>('trends');
 
-export function ChartsShowcase({ data, totalHours }: ChartsShowcaseProps) {
-  const ready = useChartReady(2);
-
-  const chartData = data.map(project => ({
-    value: project.hours,
-    label: project.project,
-    color: project.color,
-  }));
-
-  const stackedData = data.map(project => ({
-    label: project.project,
-    stacks: buildStacks(project),
-  }));
-
-  const stackedListData = data.map(project => ({
-    project: project.project,
-    hours: project.hours,
-    color: project.color,
-    stacks: buildStacks(project),
-  }));
-
-  const lineSection = ready
-    ? (
-        <View className="gap-4">
-          <ChartLine data={chartData} hideLabels />
-          <ProjectsAllocationList data={data} totalHours={totalHours} />
-        </View>
-      )
-    : (
-        <View className="gap-4">
-          <ChartSkeleton height={200} />
-          <ChartSkeletonList rows={3} />
-        </View>
-      );
-
-  const stackedSection = ready
-    ? (
-        <View className="gap-4">
-          <ChartStacked data={stackedData} hideLabels />
-          <ProjectsAllocationList data={stackedListData} totalHours={totalHours} />
-        </View>
-      )
-    : (
-        <View className="gap-4">
-          <ChartSkeleton height={220} />
-          <ChartSkeletonList rows={3} />
-        </View>
-      );
+  const handleSelect = (next: GalleryCategory) => {
+    React.startTransition(() => setCategory(next));
+  };
 
   return (
-    <>
-      <ReportSection title="Line Chart" subtitle="Hours trend">
-        {lineSection}
-      </ReportSection>
+    <View className="mb-8 gap-4">
+      <View className="flex-row items-center justify-between gap-3">
+        <Text variant="h4">{t('sections.gallery')}</Text>
+        <Text variant="caption" className="text-muted-foreground">
+          {t('sections.gallerySubtitle')}
+        </Text>
+      </View>
 
-      <ReportSection title="Stacked Bars" subtitle="Logged vs billed">
-        {stackedSection}
-      </ReportSection>
-    </>
+      <View className="flex-row flex-wrap gap-2">
+        {CATEGORIES.map(key => (
+          <Button
+            key={key}
+            size="sm"
+            variant={category === key ? 'primary' : 'secondary'}
+            title={t(`categories.${key}`)}
+            onPress={() => handleSelect(key)}
+          />
+        ))}
+      </View>
+
+      {category === 'trends' && <GalleryTrends range={range} />}
+      {category === 'comparison' && <GalleryComparison data={data} />}
+      {category === 'distribution' && (
+        <GalleryDistribution data={data} totalHours={totalHours} />
+      )}
+      {category === 'progress' && <GalleryProgress />}
+    </View>
   );
 }
+
+export type { ChartsShowcaseProps, GalleryCategory };
+export { ChartsShowcase };

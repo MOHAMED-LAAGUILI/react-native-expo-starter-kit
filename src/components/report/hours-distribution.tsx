@@ -1,3 +1,5 @@
+import type { ReportProject } from '@/data/report';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 
 import {
@@ -11,7 +13,7 @@ import { ProjectsAllocationList } from './projects-allocation-list';
 import { ReportSection } from './report-section';
 
 type HoursDistributionProps = {
-  data: any[];
+  data: ReportProject[];
   totalHours: number;
 };
 
@@ -23,9 +25,10 @@ export function HoursDistribution({
   data,
   totalHours,
 }: HoursDistributionProps) {
+  const { t } = useTranslation('report');
   const ready = useChartReady(0);
 
-  const chartData = data.map((project: any) => {
+  const chartData = data.map((project) => {
     const percent = Math.round(getProjectPercent(project.hours, totalHours));
 
     return {
@@ -40,8 +43,8 @@ export function HoursDistribution({
 
   return (
     <ReportSection
-      title="Hours Distribution"
-      subtitle="Donut chart"
+      title={t('sections.hoursDistribution')}
+      subtitle={t('sections.hoursDistributionSubtitle')}
     >
       {ready
         ? (

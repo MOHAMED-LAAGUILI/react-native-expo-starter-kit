@@ -67,7 +67,7 @@ function PermissionSection() {
               icon={Icon}
               label={t(label.toLowerCase())}
               rightElement={(
-                <View className="flex-row items-center gap-2">
+                <View className="shrink-0 flex-row items-center gap-2">
                   <Badge variant={getBadgeVariant(status)} size="sm">
                     {getStatusLabel(t, status)}
                   </Badge>

@@ -48,11 +48,13 @@ const sizeStyles: Record<BadgeSize, string> = {
   sm: 'px-1.5 py-0.5',
 };
 
+// Arbitrary sizes must carry an explicit line-height: on native a Text without
+// one gets a box shorter than its glyphs, which hid the sm/xs labels entirely.
 const textSizeStyles: Record<BadgeSize, string> = {
-  xs: 'text-[10px]',
+  xs: 'text-[10px]/[14px]',
   lg: 'text-sm',
   md: 'text-xs',
-  sm: 'text-[12px]',
+  sm: 'text-[12px]/[16px]',
 };
 
 const iconSizeStyles: Record<BadgeSize, number> = {
@@ -72,7 +74,7 @@ function BadgeContent({ variant, size, children, icon: IconComponent }: Pick<Bad
           className={textStyles[variant]}
         />
       )}
-      <Text className={cn('font-semibold', textStyles[variant], textSizeStyles[size])}>{children}</Text>
+      <Text numberOfLines={1} className={cn('font-semibold', textStyles[variant], textSizeStyles[size])}>{children}</Text>
     </>
   );
 }
@@ -84,7 +86,7 @@ function Badge({ variant = 'default', size = 'md', className, children, icon: Ic
     return (
       <GlassView
         intensity="subtle"
-        className={cn('flex-row items-center gap-1.5 self-start rounded-md', sizeStyles[size], className)}
+        className={cn('shrink-0 flex-row items-center gap-1.5 self-start rounded-md', sizeStyles[size], className)}
       >
         <BadgeContent variant={variant} size={size} icon={IconComponent}>{children}</BadgeContent>
       </GlassView>
@@ -92,7 +94,7 @@ function Badge({ variant = 'default', size = 'md', className, children, icon: Ic
   }
 
   return (
-    <View className={cn('flex-row items-center gap-1.5 self-start overflow-hidden rounded-md', bgStyles[variant], sizeStyles[size], className)}>
+    <View className={cn('shrink-0 flex-row items-center gap-1.5 self-start rounded-md', bgStyles[variant], sizeStyles[size], className)}>
       <BadgeContent variant={variant} size={size} icon={IconComponent}>{children}</BadgeContent>
     </View>
   );

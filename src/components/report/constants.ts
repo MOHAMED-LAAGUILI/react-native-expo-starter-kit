@@ -1,25 +1,12 @@
-export const reportTabs: any[] = [
-  {
-    key: 'daily',
-    label: 'Daily',
-  },
-  {
-    key: 'weekly',
-    label: 'Weekly',
-  },
-  {
-    key: 'monthly',
-    label: 'Monthly',
-  },
-  {
-    key: 'yearly',
-    label: 'Yearly',
-  },
-];
+import type { ReportRange } from '@/data/report';
 
-export const reportRangeLabels: Record<any, string> = {
-  daily: 'Today',
-  weekly: 'This Week',
-  monthly: 'This Month',
-  yearly: 'This Year',
+/** Ranges the report can be sliced by, in the order the tab bar shows them. */
+export const reportRanges: ReportRange[] = ['daily', 'weekly', 'monthly', 'yearly'];
+
+/** How a daily figure scales when the report is widened to a longer range. */
+export const reportRangeMultiplier: Record<ReportRange, number> = {
+  daily: 1,
+  weekly: 7,
+  monthly: 30,
+  yearly: 365,
 };

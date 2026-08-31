@@ -1,0 +1,122 @@
+{
+  "range": {
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "yearly": "Yearly"
+  },
+  "rangeLabel": {
+    "daily": "Today",
+    "weekly": "This Week",
+    "monthly": "This Month",
+    "yearly": "This Year"
+  },
+  "overview": {
+    "range": "Range",
+    "totalLogged": "Total Logged",
+    "topProject": "Top Project",
+    "activeProjects": "{{count}} active projects",
+    "acrossProjects": "Across {{count}} projects",
+    "hoursLogged": "{{hours}} h logged",
+    "notAvailable": "N/A"
+  },
+  "sections": {
+    "hoursDistribution": "Hours Distribution",
+    "hoursDistributionSubtitle": "Donut chart",
+    "projectsOverview": "Projects Overview",
+    "projectsOverviewSubtitle": "Allocation & top projects",
+    "gallery": "Chart Gallery",
+    "gallerySubtitle": "Every chart type"
+  },
+  "categories": {
+    "trends": "Trends",
+    "comparison": "Comparison",
+    "distribution": "Distribution",
+    "progress": "Progress"
+  },
+  "series": {
+    "billable": "Billable",
+    "internal": "Internal",
+    "overtime": "Overtime",
+    "logged": "Logged",
+    "billed": "Billed",
+    "tasks": "Tasks",
+    "hours": "Hours",
+    "reviews": "Open reviews",
+    "total": "Total"
+  },
+  "charts": {
+    "line": {
+      "title": "Line Chart",
+      "subtitle": "Hours logged"
+    },
+    "area": {
+      "title": "Area Chart",
+      "subtitle": "Hours logged"
+    },
+    "stackedArea": {
+      "title": "Stacked Area Chart",
+      "subtitle": "How time was booked"
+    },
+    "candlestick": {
+      "title": "Candlestick Chart",
+      "subtitle": "Sprint velocity range"
+    },
+    "bar": {
+      "title": "Bar Chart",
+      "subtitle": "Hours by project"
+    },
+    "column": {
+      "title": "Column Chart",
+      "subtitle": "Hours by project"
+    },
+    "stackedBar": {
+      "title": "Stacked Bar Chart",
+      "subtitle": "Logged vs billed"
+    },
+    "scatter": {
+      "title": "Scatter Chart",
+      "subtitle": "Tasks vs hours"
+    },
+    "bubble": {
+      "title": "Bubble Chart",
+      "subtitle": "Size = open reviews"
+    },
+    "pie": {
+      "title": "Pie Chart",
+      "subtitle": "Work breakdown"
+    },
+    "doughnut": {
+      "title": "Doughnut Chart",
+      "subtitle": "Hours by project"
+    },
+    "polarArea": {
+      "title": "Polar Area Chart",
+      "subtitle": "Work breakdown"
+    },
+    "radar": {
+      "title": "Radar Chart",
+      "subtitle": "Effort profile"
+    },
+    "treemap": {
+      "title": "TreeMap Chart",
+      "subtitle": "Share of hours"
+    },
+    "heatmap": {
+      "title": "Heatmap Chart",
+      "subtitle": "Hours by weekday"
+    },
+    "progressRing": {
+      "title": "Progress Ring",
+      "subtitle": "Billable target"
+    },
+    "radialBar": {
+      "title": "Radial Bar Chart",
+      "subtitle": "Quarterly goals"
+    }
+  },
+  "heatmap": {
+    "less": "Less",
+    "more": "More"
+  }
+}

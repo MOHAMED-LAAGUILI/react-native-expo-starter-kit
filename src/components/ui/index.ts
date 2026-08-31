@@ -16,6 +16,7 @@ export type { CardEffect, CardProps, CardVariant } from './card';
 export { Card } from './card';
 export type {
   CandleItem,
+  ChartAreaSeries,
   ChartBarsProps,
   ChartBarsVariant,
   ChartCandlestickProps,
@@ -23,19 +24,30 @@ export type {
   ChartDataItem,
   ChartLineProps,
   ChartPieProps,
-  ChartRadarProps,
+  ChartStackedAreaProps,
   ChartStackedProps,
   StackItem,
 } from './chart';
 export {
+  ChartArea,
   ChartBars,
   ChartCandlestick,
   ChartColumn,
   ChartLine,
   ChartPie,
-  ChartRadar,
   ChartStacked,
+  ChartStackedArea,
 } from './chart';
+export type { ChartBarsHorizontalProps } from './chart-bars-horizontal';
+export { ChartBarsHorizontal } from './chart-bars-horizontal';
+export type { ChartContainerLegendItem, ChartContainerProps } from './chart-container';
+export { ChartContainer } from './chart-container';
+export type { ChartHeatmapProps, ChartHeatmapRow, ChartTreemapProps } from './chart-grid';
+export { ChartHeatmap, ChartTreemap } from './chart-grid';
+export type { ChartPolarAreaProps, ChartProgressRingProps, ChartRadarProps, ChartRadialBarProps } from './chart-radial';
+export { ChartPolarArea, ChartProgressRing, ChartRadar, ChartRadialBar } from './chart-radial';
+export type { ChartPoint, ChartScatterProps } from './chart-scatter';
+export { ChartScatter } from './chart-scatter';
 export { ChartSkeleton, ChartSkeletonList } from './chart-skeleton';
 
 export type { CheckboxProps } from './checkbox';
