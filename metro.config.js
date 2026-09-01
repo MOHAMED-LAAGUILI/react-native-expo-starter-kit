@@ -12,6 +12,7 @@ const config = getDefaultConfig(__dirname);
 config.resolver.useWatchman = true;
 
 /*
+// uncommit if the below build files exist and app crash on dev
 * // Never crawl/watch native build output or VCS internals from the project root.
 * const escapeForRegExp = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 * const rootDir = escapeForRegExp(__dirname);
@@ -24,6 +25,7 @@ config.resolver.useWatchman = true;
 *   blockedPatterns.map(pattern => (pattern instanceof RegExp ? pattern.source : pattern)).join('|'),
 * );
 */
+
 
 module.exports = withUniwindConfig(config, {
   cssEntryFile: './global.css',
