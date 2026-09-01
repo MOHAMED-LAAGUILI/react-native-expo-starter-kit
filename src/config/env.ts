@@ -25,8 +25,8 @@ export type Env = z.infer<typeof envSchema>;
 const STRICT = process.env.STRICT_ENV_VALIDATION === '1';
 
 const _env: Env = {
-  EAS_PROJECT_ID: 'cfe6ef08-08d8-4090-9326-4f9bf8951555',
-  EXPO_ACCOUNT_OWNER: 'gojmows-team',
+  EAS_PROJECT_ID: 'e3a81c3d-591b-4544-89a1-207f7c2b1fdf',
+  EXPO_ACCOUNT_OWNER: 'hufmauamnrs-team',
   EXPO_PUBLIC_BUNDLE_ID: 'com.rntemplate.app',
   EXPO_PUBLIC_NAME: 'Expo App',
   EXPO_PUBLIC_PACKAGE: 'com.rntemplate.app',
