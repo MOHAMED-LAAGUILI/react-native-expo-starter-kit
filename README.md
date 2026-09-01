@@ -69,7 +69,7 @@
 ```bash
 git clone https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit.git my-react-native-app
 cd my-react-native-app
-pnpm install
+pnpm run setup
 pnpm dev
 ```
 
@@ -88,8 +88,14 @@ To run the app, use a development build instead:
 
 ## Commands
 
-| Script                                   | Purpose 
-|------------------------------------------|--------------------------------------------
+| Script                                    | Purpose 
+|-------------------------------------------|--------------------------------------------
+| `pnpm run setup`                          | Bootstrap: `pnpm install` + install skills from `skills-lock.json`
+| `pnpm run skills:install`                 | Install pinned skills from `skills-lock.json` into `.claude/skills/`
+| `pnpm run skills:check`                   | Preview the skill install without writing (dry run)
+| `pnpm run env:create`                     | Create missing `.env.{development,preview,production}` from `.env.example`
+| `pnpm run env:check`                      | Preview the env file creation without writing (dry run)
+| `pnpm skills`                             | Re-detect skills from deps and re-pin `skills-lock.json` (installs globally)
 | `pnpm dev`                                | Start Expo dev server (fresh cache)
 | `pnpm run ios`                            | Dev server targeting iOS
 | `pnpm run android`                        | Dev server targeting Android
@@ -98,7 +104,7 @@ To run the app, use a development build instead:
 | `pnpm run mac:ios`                        | Install pods for iOS
 | `pnpm run deps:fix`                       | Fix dependency versions via Expo
 | `pnpm run lint:fix`                       | Run ESLint with auto-fix on all source files
-| `pnpm run type:check`                     | Run TypeScript type checking (no emit)
+| `pnpm run type:check`                     | Type-check the app, then `script/` under Node types (two tsc passes)
 | `pnpm run doctor`                         | Run Expo doctor diagnostics & React Doctor
 | `pnpm run checks`                         | Run all checks (deps:fix → lint:fix → type:check → doctor)
 | `pnpm run expo:config`                    | Print public Expo config
@@ -392,10 +398,12 @@ To release, just bump the version in `package.json` and push to `main`.
 | `.env.development`  | Local dev values  
 | `.env.preview`      | Preview/QA builds 
 | `.env.production`   | Production builds 
+| `.env.example`      | Template the other three are generated from 
 | `src/config/env.ts` | Shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`) 
 
 - Android package: `com.rntemplate.app` (underscores, not hyphens — Android requirement)
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
+- `pnpm run env:create` generates the three files from `.env.example`, setting only `EXPO_PUBLIC_APP_ENV` per environment; existing files are skipped unless you pass `--force`
 
 ## Planned Features (Need Contributors)
 - **Consola** - for better developer command experience

@@ -20,8 +20,11 @@ yarn-error.log
 .idea
 .freebuff/
 .kilo/
-.agents
-.claude
+.claude/skills
+.agents/skills
+.env.production
+.env.development
+.env.preview
 
 # ESLint
 .eslintcache

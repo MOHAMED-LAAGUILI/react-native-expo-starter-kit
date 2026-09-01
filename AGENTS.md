@@ -18,6 +18,12 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 
 | Script                                   | Purpose 
 |------------------------------------------|--------------------------------------------
+| `pnpm run setup`                          | Bootstrap: `pnpm install` + install skills from `skills-lock.json`
+| `pnpm run skills:install`                 | Install pinned skills from `skills-lock.json` into `.claude/skills/`
+| `pnpm run skills:check`                   | Preview the skill install without writing (dry run)
+| `pnpm run env:create`                     | Create missing `.env.{development,preview,production}` from `.env.example`
+| `pnpm run env:check`                      | Preview the env file creation without writing (dry run)
+| `pnpm skills`                             | Re-detect skills from deps and re-pin `skills-lock.json` (installs globally)
 | `pnpm dev`                                | Start Expo dev server (fresh cache)
 | `pnpm run ios`                            | Dev server targeting iOS
 | `pnpm run android`                        | Dev server targeting Android
@@ -26,7 +32,7 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 | `pnpm run mac:ios`                        | Install pods for iOS
 | `pnpm run deps:fix`                       | Fix dependency versions via Expo
 | `pnpm run lint:fix`                       | Run ESLint with auto-fix on all source files
-| `pnpm run type:check`                     | Run TypeScript type checking (no emit)
+| `pnpm run type:check`                     | Type-check the app, then `script/` under Node types (two tsc passes)
 | `pnpm run doctor`                         | Run Expo doctor diagnostics & React Doctor
 | `pnpm run checks`                         | Run all checks (deps:fix → lint:fix → type:check → doctor)
 | `pnpm run expo:config`                    | Print public Expo config
@@ -59,6 +65,16 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 | `pnpm run eas:update:prod`                | Push OTA update to production channel
 | `pnpm run export:web`                     | Export web build locally static files
 | `pnpm run deploy:web`                     | Deploy web build to production
+
+### Skills (`skills-lock.json`)
+
+`skills-lock.json` is the source of truth for the agent skills this project uses. `pnpm run skills:install` (`script/install-skills.ts`) reads it and installs each skill into `.claude/skills/`, resolving from autoskills' local cache first — the lockfile's `computedHash` is that cache's key, so a hit is the exact pinned revision — and falling back to `raw.githubusercontent.com` for `sourceType: "github"` entries.
+
+- `pnpm run setup` is the bootstrap entry point: `pnpm install` followed by `skills:install`.
+- Skills fetched from GitHub are **not** revision-verified. `computedHash` is not a plain sha256 of `SKILL.md`, so on a cache miss the pinned revision cannot be confirmed — report that rather than implying a clean install.
+- `pnpm skills` (`npx autoskills`) is a different operation: it re-detects skills from the dependency tree, installs **globally** to `~/.agents/skills/`, and rewrites `skills-lock.json`. Run it only to deliberately re-pin.
+- `.claude/skills/` and `.agents/skills/` are git-ignored; the lockfile is what gets committed.
+- The installer is TypeScript run directly by Node (`node script/install-skills.ts`) — no build step and no `ts-node`. Node strips the types itself, which needs **Node >= 22.18** (pinned in `engines`). `--disable-warning=MODULE_TYPELESS_PACKAGE_JSON` suppresses the warning Node emits for a `.ts` file under a package with no `"type"` field; do not add `"type": "module"` to the root `package.json` to silence it, that would break the CommonJS Metro and Babel configs.
 
 ### Git Hooks (Husky)
 - **`pre-commit`**: runs `deps:fix` → `lint:fix` → `type:check` → `doctor`; blocks on failure
@@ -417,13 +433,14 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 ## Notes
 - No test framework installed
 - `expo-env.d.ts` and `.expo/types/` are auto-generated — do not edit
+- `script/` is excluded from the root `tsconfig.json` and from ESLint, and is type-checked separately via `script/tsconfig.json` (`types: ["node"]`). Node globals must not leak into the app config — `process` and the timer types differ from React Native's. TypeScript 6 no longer auto-includes `@types/*`, so any new Node script needs to live under `script/` to get them.
 - `src/types/uniwind.d.ts` patches TypeScript 6 compatibility with uniwind types
 - `app.config.ts` inlines all env values (no separate env.ts loaded during config resolution to avoid Node ESM `.ts` issues)
 - Use `pnpm` for package management only — don't add `package-lock.json` or `yarn.lock`
 - MMKV storage is lazily initialized with try/catch to prevent SSR crashes during Metro pnpmdling
 - **Watchman is required for dev on Windows** — Expo CLI defaults `useWatchman` to false, so Metro falls back to Node's `fs.watch` and crashes with `EMFILE: too many open files, watch` on large trees. `metro.config.js` re-enables it (`config.resolver.useWatchman = true`) and blocklists `android/`, `ios/`, `dist/`, `build/`, `.git/` from the file map. Install via `choco install watchman`.
 - iOS runs Hermes (SDK 57 default) — do not add `jsEngine`/`newArchEnabled` keys to `app.config.ts`; they no longer exist in the config type
-- Drawer and Tabs set `freezeOnBlur: true` — blurred screens stop rendering (cameras, intervals, charts don't run behind the active screen)
+- Drawer and Tabs must NOT set `freezeOnBlur: true`. Uniwind resolves `className` styles at render and only re-renders via a `UniwindListener` subscription registered in a layout effect. A frozen screen tears that subscription down, misses the `Uniwind.setTheme()` / `updateCSSVariables()` notification, and — because React Compiler memoizes the subtree — never recomputes on unfreeze. The result is a screen stuck on the theme it had when it was first mounted until the app reloads.
 - `ActivityIndicator` in Uniwind doesn't support `className` color — use native `color` prop with hex fallback
 
 ## CI/CD
@@ -450,6 +467,7 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 
 ### Environment Variables
 - `.env.development`, `.env.preview`, `.env.production` — per-environment values
+- `.env.example` is the template. `pnpm run env:create` (`script/create-env-files.ts`) generates the three files from it, copying every key verbatim and setting only `EXPO_PUBLIC_APP_ENV` per environment. Existing files are skipped — they are committed and may hold local edits — so overwriting needs `--force`. Add any new key to `.env.example` as well, or it will be missing the next time someone generates.
 - `src/config/env.ts` — shared constants (`EXPO_PUBLIC_SLUG`, `EXPO_PUBLIC_PACKAGE`, `EAS_PROJECT_ID`)
 - EAS profiles inject `EXPO_PUBLIC_APP_ENV` via `eas.json` `env` block
 - Android package: `com.rntemplate.app` (underscores, not hyphens — Android requirement)

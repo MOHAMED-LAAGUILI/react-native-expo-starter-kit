@@ -7,7 +7,7 @@ Thank you for considering contributing! Here's how to get started.
 ```bash
 git clone https://github.com/MOHAMED-LAAGUILI/react-native-starter-kit.git
 cd react-native-starter-kit
-pnpm install
+pnpm run setup
 pnpm dev
 ```
 

@@ -32,7 +32,6 @@ export default function AppLayout() {
     <Drawer
       drawerContent={renderDrawerContent}
       screenOptions={{
-        freezeOnBlur: true,
         headerLeft: DrawerHeaderLeft,
         headerRight: DrawerHeaderRight,
         headerStyle: { backgroundColor: primaryHex },

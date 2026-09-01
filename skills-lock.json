@@ -36,11 +36,6 @@
       "skillPath": "skills/ask-sonner/SKILL.md",
       "computedHash": "f971641be0de21b2bb5dae38bc8ef5e0ee963844e71b7fae464ec9274d2507eb"
     },
-    "bash-defensive-patterns": {
-      "source": "wshobson/agents",
-      "sourceType": "autoskills-registry",
-      "computedHash": "1f566c2d9c3b50a784b05d08f6b08ebfeb31f038e4d4173f2d488484edb058a6"
-    },
     "building-native-ui": {
       "source": "expo/skills",
       "sourceType": "autoskills-registry",
@@ -55,12 +50,6 @@
       "source": "sleekdotdesign/agent-skills",
       "sourceType": "autoskills-registry",
       "computedHash": "8ad96e3ae91f09355837322681a0bcb01ab6caadb7a6db663b47bf7185c72ea3"
-    },
-    "emil-design-eng": {
-      "source": "emilkowalski/skills",
-      "sourceType": "github",
-      "skillPath": "skills/emil-design-eng/SKILL.md",
-      "computedHash": "87067d79205fdedc6d682891027dd9c7335486c4b4dc2e785638941a9d2e6061"
     },
     "expo-api-routes": {
       "source": "expo/skills",
@@ -109,12 +98,6 @@
       "sourceType": "autoskills-registry",
       "computedHash": "ce74c0616f566814d0c9a82585817719f39f82853bf1a50c9e590e0c7c7051f4"
     },
-    "pick-ui-library": {
-      "source": "emilkowalski/skills",
-      "sourceType": "github",
-      "skillPath": "skills/pick-ui-library/SKILL.md",
-      "computedHash": "1a0a6819d13fb5361cf5cdc923f46a1effc37cb61ecb908419eedb0e11f428fe"
-    },
     "prototype": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
@@ -132,6 +115,7 @@
       "skillPath": "skills/review-animations/SKILL.md",
       "computedHash": "6f8d633d7884c1390eff7af4bfaf7a450e798f117e1d49a555e00819dc877f64"
     },
+ 
     "shadcn": {
       "source": "shadcn/ui",
       "sourceType": "autoskills-registry",

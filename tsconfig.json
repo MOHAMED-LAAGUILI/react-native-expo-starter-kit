@@ -20,6 +20,7 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    "script/*.ts",
     ".expo/types/**/*.ts",
     "*.d.ts",
     "**/*.d.ts",
@@ -32,6 +33,7 @@
     "node_modules",
     "babel.config.js",
     "metro.config.js",
+    "script",
     "android",
     "ios",
   ]

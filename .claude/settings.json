@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(pnpm install)",
+      "Bash(pnpm run checks)",
+      "Bash(pnpm run deps:fix)",
+      "Bash(pnpm run lint)",
+      "Bash(pnpm run lint:fix)",
+      "Bash(pnpm run type:check)",
+      "Bash(pnpm run doctor)",
+      "Bash(pnpm run expo:config)",
+      "Bash(pnpm run clean:cache)",
+      "Bash(npx ctx7@latest:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git branch:*)",
+      "Bash(git stash list:*)"
+    ],
+    "ask": [
+      "Bash(pnpm run dev)",
+      "Bash(pnpm run android:*)",
+      "Bash(pnpm run ios:*)",
+      "Bash(pnpm run web)",
+      "Bash(pnpm run prebuild:*)",
+      "Bash(pnpm run generate:apk)",
+      "Bash(git push:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [
+      "Bash(pnpm run clean:app)",
+      "Bash(pnpm run clean:all)",
+      "Bash(pnpm run build:*)",
+      "Bash(pnpm run flow:*)",
+      "Bash(pnpm run submit:*)",
+      "Bash(pnpm run deploy:web)",
+      "Bash(pnpm run eas:*)",
+      "Bash(npx eas-cli@latest:*)",
+      "Read(./android/**)",
+      "Read(./ios/**)",
+      "Edit(./android/**)",
+      "Edit(./ios/**)",
+      "Edit(./expo-env.d.ts)",
+      "Edit(./.expo/**)",
+      "Edit(./pnpm-lock.yaml)"
+    ]
+  }
+}

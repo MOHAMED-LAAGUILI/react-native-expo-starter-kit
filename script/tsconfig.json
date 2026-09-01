@@ -1,0 +1,17 @@
+{
+  // Scripts here run on Node, not in the app bundle, so they need Node's globals
+  // and module types. Those must NOT go in the root config: `process`, `Buffer`
+  // and the timer return types differ from React Native's and would leak into
+  // app code. TypeScript 6 no longer auto-includes `@types/*`, so `types` is
+  // explicit. `script` is excluded from the root tsconfig; this project owns it.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["../node_modules"]
+}

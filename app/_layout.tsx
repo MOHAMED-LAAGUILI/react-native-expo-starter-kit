@@ -12,7 +12,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { useColorScheme, View } from 'react-native';
 
 import { ToastContainer } from 'react-native-toast-message-ts';
 
@@ -35,6 +35,7 @@ export default function RootLayout() {
   const [error, setError] = useState<Error | null>(null);
 
   const themeMode = useThemeStore(s => s.mode);
+  const systemScheme = useColorScheme();
 
   useEffect(() => {
     Promise.all([
@@ -65,7 +66,7 @@ export default function RootLayout() {
   }, [isReady]);
 
   useEffect(() => {
-    const isDark = themeMode === 'dark';
+    const isDark = themeMode === 'system' ? systemScheme === 'dark' : themeMode === 'dark';
     const bg = isDark ? '#000000' : '#ffffff';
 
     SystemUI.setBackgroundColorAsync(bg).catch(() => { });
@@ -73,7 +74,7 @@ export default function RootLayout() {
     if (isAndroid) {
       NavigationBar.setStyle(isDark ? 'light' : 'dark');
     }
-  }, [themeMode]);
+  }, [themeMode, systemScheme]);
 
   if (!isReady) {
     return null;

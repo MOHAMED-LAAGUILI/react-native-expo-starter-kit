@@ -188,7 +188,6 @@ export default function TabLayout() {
     <Tabs
       tabBar={renderTabBar}
       screenOptions={{
-        freezeOnBlur: true,
         headerShown: false,
       }}
     >
