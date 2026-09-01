@@ -11,18 +11,17 @@ const config = getDefaultConfig(__dirname);
 // trees. Watchman is a documented prerequisite for this template.
 config.resolver.useWatchman = true;
 
- // Never crawl/watch native build output or VCS internals from the project root.
- const escapeForRegExp = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
- const rootDir = escapeForRegExp(__dirname);
- const blockedPatterns = [
-   config.resolver.blockList,
-   new RegExp(`^${rootDir}[\\\\/](android|ios|dist|build)[\\\\/].*`),
-   new RegExp(`^${rootDir}[\\\\/]\\.git[\\\\/].*`),
- ].flat().filter(Boolean);
- config.resolver.blockList = new RegExp(
+// Never crawl/watch native build output or VCS internals from the project root.
+const escapeForRegExp = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const rootDir = escapeForRegExp(__dirname);
+const blockedPatterns = [
+  config.resolver.blockList,
+  new RegExp(`^${rootDir}[\\\\/](android|ios|dist|build)[\\\\/].*`),
+  new RegExp(`^${rootDir}[\\\\/]\\.git[\\\\/].*`),
+].flat().filter(Boolean);
+config.resolver.blockList = new RegExp(
   blockedPatterns.map(pattern => (pattern instanceof RegExp ? pattern.source : pattern)).join('|'),
- );
-
+);
 
 module.exports = withUniwindConfig(config, {
   cssEntryFile: './global.css',
