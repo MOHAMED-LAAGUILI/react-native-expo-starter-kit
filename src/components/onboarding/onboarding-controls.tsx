@@ -37,7 +37,7 @@ export function OnboardingControls({
         accessibilityRole="button"
         accessibilityLabel={t('common.back')}
         accessibilityState={{ disabled: isFirst }}
-        className="size-12 items-center justify-center rounded-full border bg-muted"
+        className="bg-muted size-12 items-center justify-center rounded-full border"
         style={{ opacity: isFirst ? 0.3 : 1, borderColor: primaryHex }}
       >
         <ArrowLeft size={20} color={primaryHex} />
@@ -52,7 +52,7 @@ export function OnboardingControls({
         className="px-4 py-2"
         style={{ opacity: isLast ? 0.3 : 1 }}
       >
-        <Text className="text-sm font-semibold text-muted-foreground">{isLast ? t('common.finish') : t('common.skip')}</Text>
+        <Text className="text-muted-foreground text-sm font-semibold">{isLast ? t('common.finish') : t('common.skip')}</Text>
       </Pressable>
 
       <Pressable

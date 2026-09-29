@@ -312,7 +312,7 @@ function SliderHeader({
           fontClass={valueFontClass}
         />
 
-        <Text className={cn('ml-2 font-extrabold text-foreground', labelFontClass)}>
+        <Text className={cn('text-foreground ml-2 font-extrabold', labelFontClass)}>
           kCal
         </Text>
       </View>
@@ -350,7 +350,7 @@ function SliderTrack({
   return (
     <GestureDetector gesture={panGesture}>
       <View
-        className="relative w-full overflow-hidden rounded-full bg-muted"
+        className="bg-muted relative w-full overflow-hidden rounded-full"
         style={{
           height: trackHeight,
         }}
@@ -364,7 +364,7 @@ function SliderTrack({
           {BACKGROUND_DOT_IDS.map(id => (
             <View
               key={id}
-              className="size-1.5 rounded-full bg-primary/30"
+              className="bg-primary/30 size-1.5 rounded-full"
             />
           ))}
         </View>

@@ -229,7 +229,7 @@ export function ViewOnMap({
       )}
     >
       <Animated.View
-        className="relative overflow-hidden bg-muted"
+        className="bg-muted relative overflow-hidden"
         style={[
           MAP_SHADOW,
           containerAnimatedStyle,
@@ -349,7 +349,7 @@ function MapButton({
         />
 
         <Text
-          className="text-lg font-semibold text-foreground"
+          className="text-foreground text-lg font-semibold"
           style={{ letterSpacing: -0.3 }}
         >
           {locationName ?? 'View on Map'}
@@ -617,7 +617,7 @@ function MapLoadingOverlay({
 }: MapLoadingOverlayProps) {
   return (
     <View
-      className="absolute inset-0 items-center justify-center bg-muted"
+      className="bg-muted absolute inset-0 items-center justify-center"
       pointerEvents="none"
     >
       <ActivityIndicator
@@ -644,12 +644,12 @@ function MapErrorFallback({
   onOpenInMaps,
 }: MapErrorFallbackProps) {
   return (
-    <View className="absolute inset-0 items-center justify-center gap-3 bg-card px-6">
+    <View className="bg-card absolute inset-0 items-center justify-center gap-3 px-6">
       <Text className="text-center text-lg font-semibold">
         {locationName ?? 'View on Map'}
       </Text>
 
-      <Text className="text-center text-sm text-muted-foreground">
+      <Text className="text-muted-foreground text-center text-sm">
         {address}
       </Text>
 

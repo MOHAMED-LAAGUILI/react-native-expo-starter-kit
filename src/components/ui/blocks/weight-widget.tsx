@@ -632,7 +632,7 @@ export function WeightWidget({
 
   return (
     <View
-      className="items-center self-center overflow-hidden rounded-[28px] border-2 border-border bg-card"
+      className="border-border bg-card items-center self-center overflow-hidden rounded-[28px] border-2"
       style={{
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
@@ -641,7 +641,7 @@ export function WeightWidget({
       }}
     >
       {/* Title */}
-      <Text className="mt-5 text-base font-semibold tracking-wide text-muted-foreground capitalize">
+      <Text className="text-muted-foreground mt-5 text-base font-semibold tracking-wide capitalize">
         Weight
       </Text>
 

@@ -40,7 +40,7 @@ function MessageAvatar({ className, children, ...props }: ViewProps) {
   return (
     <View
       className={cn(
-        'size-8 shrink-0 items-center justify-center self-end overflow-hidden rounded-full bg-muted',
+        'bg-muted size-8 shrink-0 items-center justify-center self-end overflow-hidden rounded-full',
         className,
       )}
       {...props}

@@ -132,17 +132,17 @@ function DeviceInfoScreen() {
       contentContainerStyle={isIOS ? undefined : { paddingBottom: insets.bottom + 24 }}
     >
       <View className="gap-4 p-6 pb-12">
-        <View className="overflow-hidden rounded-xl border border-border bg-card">
+        <View className="border-border bg-card overflow-hidden rounded-xl border">
           {allRows.map((row, index) => (
             <View key={row.label}>
-              {index > 0 && <View className="mx-4 h-px bg-border" />}
+              {index > 0 && <View className="bg-border mx-4 h-px" />}
               <Pressable
                 accessibilityRole="button"
                 className="active:opacity-70"
                 onPress={() => copyToClipboard(row)}
               >
                 <View className="flex-row items-center justify-between px-4 py-3">
-                  <Text variant="body" className="shrink text-muted-foreground">{row.label}</Text>
+                  <Text variant="body" className="text-muted-foreground shrink">{row.label}</Text>
                   <Text variant="body" className="ml-2 flex-1 text-right font-medium">{row.value}</Text>
                 </View>
               </Pressable>

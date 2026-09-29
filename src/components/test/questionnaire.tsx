@@ -193,11 +193,11 @@ function QuestionnaireProgress({ className }: { className?: string }) {
 
   return (
     <View className={cn('w-full gap-2', className)}>
-      <Text variant="caption" className="font-medium text-muted-foreground tabular-nums">
+      <Text variant="caption" className="text-muted-foreground font-medium tabular-nums">
         {`Question ${Math.min(index + 1, total)} of ${total}`}
       </Text>
-      <View className="h-1 w-full overflow-hidden rounded-full bg-muted">
-        <Animated.View className="h-full rounded-full bg-primary" style={barStyle} />
+      <View className="bg-muted h-1 w-full overflow-hidden rounded-full">
+        <Animated.View className="bg-primary h-full rounded-full" style={barStyle} />
       </View>
     </View>
   );
@@ -259,8 +259,8 @@ function ChoiceIndicator({ progress, type }: { progress: SharedValue<number>; ty
     >
       <Animated.View style={markStyle}>
         {type === 'radio'
-          ? <View className="size-2 rounded-full bg-primary-foreground" />
-          : <Icon as={Check} className="size-3 text-primary-foreground" />}
+          ? <View className="bg-primary-foreground size-2 rounded-full" />
+          : <Icon as={Check} className="text-primary-foreground size-3" />}
       </Animated.View>
     </Animated.View>
   );

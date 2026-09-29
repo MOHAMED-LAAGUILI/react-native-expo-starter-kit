@@ -47,7 +47,7 @@ function Icon({ as: IconComponent, className, ...props }: IconProps) {
   return (
     <StyledIcon
       as={IconComponent}
-      className={cn('size-5 text-foreground', textClass, className)}
+      className={cn('text-foreground size-5', textClass, className)}
       {...props}
     />
   );
@@ -90,7 +90,7 @@ function MorphIcon({ className, ...props }: MorphIconProps) {
   const textClass = React.use(TextClassContext);
   return (
     <StyledMorphIcon
-      className={cn('size-5 text-foreground', textClass, className)}
+      className={cn('text-foreground size-5', textClass, className)}
       {...props}
     />
   );

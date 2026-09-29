@@ -340,7 +340,7 @@ function CameraSettingsPanel({
           : <VolumeX size={20} color={textColor} />}
       </Pressable>
       <Pressable
-        className="size-12 items-center justify-center rounded-full bg-card"
+        className="bg-card size-12 items-center justify-center rounded-full"
         onPress={() => setAspectRatioIndex(p => (p + 1) % 3)}
       >
         <Text variant="caption" className="font-bold" style={{ color: textColor }}>
@@ -422,7 +422,7 @@ function CameraSideControls({
         </Pressable>
       )}
       <Pressable
-        className="size-12 items-center justify-center rounded-full bg-card"
+        className="bg-card size-12 items-center justify-center rounded-full"
         onPress={toggleCameraFacing}
         accessibilityRole="button"
         accessibilityLabel="Switch camera"
@@ -430,7 +430,7 @@ function CameraSideControls({
         <SwitchCamera size={24} color={textColor} />
       </Pressable>
       <Pressable
-        className="size-12 items-center justify-center rounded-full bg-card"
+        className="bg-card size-12 items-center justify-center rounded-full"
         onPress={handleZoomButtonTap}
       >
         <Text className="font-semibold" style={{ color: textColor }}>
@@ -439,7 +439,7 @@ function CameraSideControls({
       </Pressable>
       {enableVideo && (
         <Pressable
-          className="size-12 items-center justify-center rounded-full bg-card"
+          className="bg-card size-12 items-center justify-center rounded-full"
           onPress={toggleMode}
           disabled={isRecording || isCapturing}
           accessibilityRole="button"

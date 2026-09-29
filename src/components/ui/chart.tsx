@@ -220,7 +220,7 @@ function ChartPie({
         centerLabelComponent={() => (
           <View className="items-center">
             {centerSubtitle && (
-              <Text variant="caption" className="mb-1 text-muted-foreground">
+              <Text variant="caption" className="text-muted-foreground mb-1">
                 {centerSubtitle}
               </Text>
             )}
@@ -364,7 +364,7 @@ function ChartColumn({
     label: item.label,
     topLabelComponent: showValues
       ? () => (
-          <Text className="text-[11px] font-semibold text-muted-foreground">
+          <Text className="text-muted-foreground text-[11px] font-semibold">
             {item.value}
           </Text>
         )

@@ -38,13 +38,13 @@ function ChartContainer({
   children,
 }: ChartContainerProps) {
   return (
-    <View className={cn('gap-3 rounded-2xl border border-border bg-card p-4', className)}>
+    <View className={cn('border-border bg-card gap-3 rounded-2xl border p-4', className)}>
       <View className="flex-row items-center justify-between gap-3">
         <Text numberOfLines={1} className="flex-1 text-sm font-semibold">
           {title}
         </Text>
         {subtitle && (
-          <Text variant="caption" numberOfLines={1} className="shrink-0 text-muted-foreground">
+          <Text variant="caption" numberOfLines={1} className="text-muted-foreground shrink-0">
             {subtitle}
           </Text>
         )}

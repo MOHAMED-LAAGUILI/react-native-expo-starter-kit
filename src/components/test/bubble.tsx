@@ -107,7 +107,7 @@ function BubbleReactions({ side = 'bottom', align = 'end', className, children, 
     <Animated.View
       entering={ZoomIn.duration(250)}
       className={cn(
-        'absolute z-10 flex-row items-center justify-center gap-1 rounded-full border-2 border-card bg-muted px-1.5 py-0.5',
+        'border-card bg-muted absolute z-10 flex-row items-center justify-center gap-1 rounded-full border-2 px-1.5 py-0.5',
         side === 'bottom' ? '-bottom-3' : '-top-3',
         align === 'end' ? 'right-3' : 'left-3',
         className,

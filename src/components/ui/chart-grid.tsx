@@ -61,7 +61,7 @@ function ChartHeatmap({ data, columns, color, scaleLabels, className }: ChartHea
           <Text
             key={`column-${column}`}
             variant="caption"
-            className="flex-1 text-center text-muted-foreground"
+            className="text-muted-foreground flex-1 text-center"
           >
             {column}
           </Text>
@@ -70,7 +70,7 @@ function ChartHeatmap({ data, columns, color, scaleLabels, className }: ChartHea
 
       {data.map(row => (
         <View key={`row-${row.label}`} className="flex-row items-center gap-1">
-          <Text variant="caption" className="w-8 text-muted-foreground">
+          <Text variant="caption" className="text-muted-foreground w-8">
             {row.label}
           </Text>
           {columns.map((column, index) => (

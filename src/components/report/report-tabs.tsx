@@ -18,7 +18,7 @@ export function ReportTabs<T extends string>({
   const { muted, text } = useThemeColors();
 
   return (
-    <View className="border-b border-border px-1 py-2">
+    <View className="border-border border-b px-1 py-2">
       <Tabs
         value={activeTab}
         onValueChange={tab => onTabChange(tab as T)}

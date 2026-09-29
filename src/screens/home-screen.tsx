@@ -12,7 +12,7 @@ function CategoryCardItem({ item }: { item: CategoryCard }) {
   return (
     <Pressable
       id={`home-category-${item.id}`}
-      className="min-w-[45%] flex-1 rounded-2xl border border-border bg-card p-4 active:opacity-70"
+      className="border-border bg-card min-w-[45%] flex-1 rounded-2xl border p-4 active:opacity-70"
       style={{ minWidth: '45%' }}
       onPress={() => router.push(item.href)}
     >
@@ -25,7 +25,7 @@ function CategoryCardItem({ item }: { item: CategoryCard }) {
       <Text variant="label" className="font-semibold" numberOfLines={1}>
         {item.label}
       </Text>
-      <Text variant="caption" className="mt-0.5 text-muted-foreground" numberOfLines={2}>
+      <Text variant="caption" className="text-muted-foreground mt-0.5" numberOfLines={2}>
         {item.description}
       </Text>
     </Pressable>
@@ -43,7 +43,7 @@ function HomeScreen() {
     >
       <View className="gap-6 p-6">
         <SectionTitle title="Component Showcase" />
-        <Text variant="body" className="mb-3 text-muted-foreground">
+        <Text variant="body" className="text-muted-foreground mb-3">
           Tap a category to explore its demos.
         </Text>
         <View className="flex-row flex-wrap gap-3">

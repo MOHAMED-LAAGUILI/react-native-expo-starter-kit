@@ -188,7 +188,7 @@ function OtpSlot({
         {/* Cursor */}
         {showCursor && isActive && !hasValue && (
           <View
-            className="absolute h-5 w-0.5 bg-primary"
+            className="bg-primary absolute h-5 w-0.5"
             style={{ opacity: isFocused ? 1 : 0 }}
           />
         )}
@@ -354,7 +354,7 @@ export function InputOTP({
       {/* Error Message */}
       {error && (
         <Text
-          className="mt-2 text-center text-sm text-destructive"
+          className="text-destructive mt-2 text-center text-sm"
           style={errorStyle}
         >
           {error}
@@ -374,7 +374,7 @@ export function InputOTPWithSeparator({
   return (
     <InputOTP
       ref={ref}
-      separator={<Text className="text-lg text-muted-foreground">-</Text>}
+      separator={<Text className="text-muted-foreground text-lg">-</Text>}
       {...props}
     />
   );

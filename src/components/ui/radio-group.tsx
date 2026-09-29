@@ -79,11 +79,11 @@ function RadioGroupItem({ value, label, disabled }: RadioGroupItemProps) {
     >
       <AnimatedView
         style={ringStyle}
-        className="size-5 items-center justify-center rounded-full border border-muted-foreground/30"
+        className="border-muted-foreground/30 size-5 items-center justify-center rounded-full border"
       >
-        <AnimatedView style={dotStyle} className="size-3 rounded-full bg-primary" />
+        <AnimatedView style={dotStyle} className="bg-primary size-3 rounded-full" />
       </AnimatedView>
-      <Text className="text-base text-foreground">{label}</Text>
+      <Text className="text-foreground text-base">{label}</Text>
     </RadioGroupPrimitive.Item>
   );
 }

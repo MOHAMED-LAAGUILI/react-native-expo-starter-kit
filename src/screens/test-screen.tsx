@@ -35,7 +35,7 @@ function MarkersDemo() {
     <View className="gap-3">
       <Marker>
         <MarkerIcon>
-          <Icon as={Info} className="size-4 text-muted-foreground" />
+          <Icon as={Info} className="text-muted-foreground size-4" />
         </MarkerIcon>
         <MarkerContent>
           <Text>Alex joined the conversation</Text>
@@ -43,7 +43,7 @@ function MarkersDemo() {
       </Marker>
       <Marker variant="separator">
         <MarkerIcon>
-          <Icon as={CalendarDays} className="size-4 text-muted-foreground" />
+          <Icon as={CalendarDays} className="text-muted-foreground size-4" />
         </MarkerIcon>
         <MarkerContent>
           <Text>Today</Text>
@@ -51,7 +51,7 @@ function MarkersDemo() {
       </Marker>
       <Marker variant="border">
         <MarkerIcon>
-          <Icon as={ShieldCheck} className="size-4 text-muted-foreground" />
+          <Icon as={ShieldCheck} className="text-muted-foreground size-4" />
         </MarkerIcon>
         <MarkerContent>
           <Text>Messages are end-to-end encrypted</Text>
@@ -105,7 +105,7 @@ function BubblesDemo() {
 
 function ChatDemo() {
   return (
-    <View className="gap-4 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-4 rounded-xl border p-4">
       <Marker variant="separator">
         <MarkerContent>
           <Text>Today</Text>
@@ -157,7 +157,7 @@ function ChatDemo() {
 
 function QuestionnaireDemo() {
   return (
-    <View className="rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card rounded-xl border p-4">
       <Questionnaire
         onSubmit={answers => showToast({
           message: JSON.stringify(answers),

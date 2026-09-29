@@ -30,13 +30,13 @@ function ExpoAudioPlayerCard() {
   const status = useAudioPlayerStatus(player);
 
   return (
-    <View className="gap-2 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-2 rounded-xl border p-4">
       <View className="flex-row items-center justify-between">
         <Text className="font-semibold">Audio Player (expo-audio)</Text>
         {status.isBuffering && <Badge variant="outline" size="sm">Buffering…</Badge>}
       </View>
       <Text variant="caption" className="text-muted-foreground">Play a remote audio sample via expo-audio</Text>
-      <Text variant="body" className="text-center font-mono text-primary">
+      <Text variant="body" className="text-primary text-center font-mono">
         {formatTime(status.currentTime)}
         {' / '}
         {formatTime(status.duration)}
@@ -121,7 +121,7 @@ function RecordingPlayback({ uri }: { uri: string }) {
           disabled={saving}
         />
       </View>
-      <Text variant="caption" className="truncate text-muted-foreground">
+      <Text variant="caption" className="text-muted-foreground truncate">
         Recorded:
         {uri}
       </Text>
@@ -217,7 +217,7 @@ function ExpoAudioRecorderCard() {
 
   if (isWeb) {
     return (
-      <View className="gap-2 rounded-xl border border-border bg-card p-4">
+      <View className="border-border bg-card gap-2 rounded-xl border p-4">
         <Text className="font-semibold">Audio Recorder (expo-audio)</Text>
         <Text variant="caption" className="text-muted-foreground">Audio recording not available on web</Text>
       </View>
@@ -225,7 +225,7 @@ function ExpoAudioRecorderCard() {
   }
 
   return (
-    <View className="gap-2 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-2 rounded-xl border p-4">
       <View className="flex-row items-center justify-between">
         <Text className="font-semibold">Audio Recorder (expo-audio)</Text>
         <Badge variant={micGranted ? 'default' : 'outline'} size="sm">
@@ -233,7 +233,7 @@ function ExpoAudioRecorderCard() {
         </Badge>
       </View>
       <Text variant="caption" className="text-muted-foreground">Record and play back audio via expo-audio</Text>
-      <Text variant="body" className="text-center font-mono text-primary">
+      <Text variant="body" className="text-primary text-center font-mono">
         {formatTime(state.durationMillis / 1000)}
       </Text>
       {error && (

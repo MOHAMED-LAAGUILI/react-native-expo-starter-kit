@@ -207,7 +207,7 @@ function TabsList({
     <TabsMetricsContext value={{ register }}>
       <TabsPrimitive.List
         className={cn(
-          'relative flex h-9 flex-row items-center justify-center overflow-hidden rounded-lg bg-muted p-0.75',
+          'bg-muted relative flex h-9 flex-row items-center justify-center overflow-hidden rounded-lg p-0.75',
           Platform.select({
             web: 'inline-flex w-fit',
             native: 'mr-auto',
@@ -225,7 +225,7 @@ function TabsList({
             <AnimatedView
               pointerEvents="none"
               style={indicatorGooeyStyle}
-              className="size-full rounded-md bg-background shadow-sm dark:bg-input/30"
+              className="dark:bg-input/30 size-full rounded-md bg-background shadow-sm"
             />
           </AnimatedView>
         )}
@@ -276,7 +276,7 @@ function TabsTrigger({
   return (
     <TextClassContext
       value={cn(
-        'text-sm font-medium text-foreground dark:text-muted-foreground',
+        'text-foreground dark:text-muted-foreground text-sm font-medium',
         isActive && 'dark:text-foreground',
       )}
     >

@@ -458,7 +458,7 @@ function WaveformHeader({
 
         <Text
           numberOfLines={1}
-          className="flex-1 text-[17px] font-normal tracking-tight text-foreground sm:text-[19px]"
+          className="text-foreground flex-1 text-[17px] font-normal tracking-tight sm:text-[19px]"
         >
           {fileName}
         </Text>
@@ -475,7 +475,7 @@ function WaveformHeader({
           }}
         />
 
-        <Text className="text-[18px] font-semibold text-muted-foreground sm:text-[20px]">
+        <Text className="text-muted-foreground text-[18px] font-semibold sm:text-[20px]">
           s
         </Text>
       </View>
@@ -544,7 +544,7 @@ function WaveformTrack({
   return (
     <GestureDetector gesture={gesture}>
       <View
-        className="relative items-center justify-center overflow-hidden rounded-3xl border border-border bg-muted"
+        className="border-border bg-muted relative items-center justify-center overflow-hidden rounded-3xl border"
         style={{
           height: TRACK_HEIGHT,
           boxShadow: '0px 1px 8px rgba(0, 0, 0, 0.02)',
@@ -764,7 +764,7 @@ export function WaveformScrub({
   return (
     <View className={cn('w-full px-4', className)}>
       <View
-        className="w-full rounded-3xl border border-border bg-card px-2 pt-4 pb-3"
+        className="border-border bg-card w-full rounded-3xl border px-2 pt-4 pb-3"
         style={{ boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.04)' }}
       >
         <WaveformHeader

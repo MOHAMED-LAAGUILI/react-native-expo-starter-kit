@@ -75,7 +75,7 @@ function NotificationCard({ permissions }: { permissions: PermissionsController 
   const granted = isGranted('Notifications');
 
   return (
-    <View className="gap-2 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-2 rounded-xl border p-4">
       <View className="flex-row items-center justify-between gap-2">
         <Text numberOfLines={1} className="flex-1 font-semibold">Notifications</Text>
         <Badge variant={granted ? 'default' : 'outline'} size="sm">{granted ? 'Granted' : 'Not Granted'}</Badge>
@@ -129,7 +129,7 @@ function CameraCard({ permissions }: { permissions: PermissionsController }) {
 
   if (isWeb) {
     return (
-      <View className="gap-2 rounded-xl border border-border bg-card p-4">
+      <View className="border-border bg-card gap-2 rounded-xl border p-4">
         <Text className="font-semibold">Camera</Text>
         <Text variant="caption" className="text-muted-foreground">Not available on web</Text>
       </View>
@@ -137,7 +137,7 @@ function CameraCard({ permissions }: { permissions: PermissionsController }) {
   }
 
   return (
-    <View className="gap-2 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-2 rounded-xl border p-4">
       <View className="flex-row items-center justify-between gap-2">
         <Text numberOfLines={1} className="flex-1 font-semibold">Camera</Text>
         <Badge variant={granted ? 'default' : 'outline'} size="sm">{granted ? 'Granted' : 'Not Granted'}</Badge>
@@ -188,7 +188,7 @@ function LocationCard({ permissions }: { permissions: PermissionsController }) {
   }
 
   return (
-    <View className="gap-2 rounded-xl border border-border bg-card p-4">
+    <View className="border-border bg-card gap-2 rounded-xl border p-4">
       <View className="flex-row items-center justify-between gap-2">
         <Text numberOfLines={1} className="flex-1 font-semibold">Location</Text>
         <Badge variant={granted ? 'default' : 'outline'} size="sm">{granted ? 'Granted' : 'Not Granted'}</Badge>

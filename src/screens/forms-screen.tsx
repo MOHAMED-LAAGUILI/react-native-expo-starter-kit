@@ -284,7 +284,7 @@ function FormsScreen() {
     >
       <View className="gap-6 p-6">
         <Text variant="h2" className="mb-1">Forms & Inputs</Text>
-        <Text variant="body" className="mb-2 text-muted-foreground">
+        <Text variant="body" className="text-muted-foreground mb-2">
           Form controls, pickers, and input patterns.
         </Text>
 

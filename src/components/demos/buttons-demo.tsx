@@ -6,7 +6,7 @@ import { Row } from './typography-and-badge';
 function ButtonsDemo() {
   return (
     <>
-      <Text variant="label" className="mb-1 text-muted-foreground">Variants</Text>
+      <Text variant="label" className="text-muted-foreground mb-1">Variants</Text>
       <Row>
         <Button title="Primary" variant="primary" size="sm" />
         <Button title="Secondary" variant="secondary" size="sm" />
@@ -18,7 +18,7 @@ function ButtonsDemo() {
         <Button title="Shadcn" variant="shadcn" size="sm" />
       </Row>
 
-      <Text variant="label" className="mb-1 text-muted-foreground">Effects (press and hold)</Text>
+      <Text variant="label" className="text-muted-foreground mb-1">Effects (press and hold)</Text>
       <Row>
         <Button title="Gooey" variant="outline" effect="gooey" size="sm" />
         <Button title="Ripple" variant="secondary" effect="ripple" size="sm" />
@@ -29,8 +29,8 @@ function ButtonsDemo() {
         <Button title="Blob border" variant="outline" effect="gooey" disabled />
       </Row>
 
-      <Text variant="label" className="mb-1 text-muted-foreground">Glass (blurs whatever is behind it)</Text>
-      <View className="relative overflow-hidden rounded-2xl border border-border p-4">
+      <Text variant="label" className="text-muted-foreground mb-1">Glass (blurs whatever is behind it)</Text>
+      <View className="border-border relative overflow-hidden rounded-2xl border p-4">
         <Blush corner="top-left" size={260} opacity={0.9} />
         <Blush corner="bottom-right" size={220} opacity={0.7} />
         <Row>
@@ -40,14 +40,14 @@ function ButtonsDemo() {
         </Row>
       </View>
 
-      <Text variant="label" className="mb-1 text-muted-foreground">Sizes</Text>
+      <Text variant="label" className="text-muted-foreground mb-1">Sizes</Text>
       <Row>
         <Button title="Small" size="sm" />
         <Button title="Medium" size="md" />
         <Button title="Large" size="lg" />
       </Row>
 
-      <Text variant="label" className="mb-1 text-muted-foreground">States</Text>
+      <Text variant="label" className="text-muted-foreground mb-1">States</Text>
       <Row>
         <Button title="Loading" loading />
         <Button title="Disabled" disabled />

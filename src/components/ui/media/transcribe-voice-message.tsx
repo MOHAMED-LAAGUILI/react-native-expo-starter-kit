@@ -336,10 +336,10 @@ function TranscriptionBubble({
     >
       <View className="relative">
         <View
-          className="w-65 overflow-hidden rounded-2xl border border-border bg-card p-4 sm:w-70 sm:rounded-[28px] sm:px-6 sm:py-5"
+          className="border-border bg-card w-65 overflow-hidden rounded-2xl border p-4 sm:w-70 sm:rounded-[28px] sm:px-6 sm:py-5"
           style={{ boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.1)' }}
         >
-          <Text className="text-sm/6 font-bold text-foreground sm:text-lg">
+          <Text className="text-foreground text-sm/6 font-bold sm:text-lg">
             {transcription}
           </Text>
         </View>
@@ -347,12 +347,12 @@ function TranscriptionBubble({
         {/* Speech bubble connector */}
         <View className="absolute -bottom-9 left-4 items-center gap-1.5">
           <View
-            className="ml-3 size-3.5 rounded-full bg-card sm:size-4"
+            className="bg-card ml-3 size-3.5 rounded-full sm:size-4"
             style={{ boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}
           />
 
           <View
-            className="size-1.5 rounded-full bg-card sm:size-2"
+            className="bg-card size-1.5 rounded-full sm:size-2"
             style={{ boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.1)' }}
           />
         </View>
@@ -392,7 +392,7 @@ function PlayerPill({
 
   return (
     <View
-      className="flex-row items-center gap-2 rounded-full border border-border bg-card px-3 py-2 sm:gap-3 sm:px-4 sm:py-3"
+      className="border-border bg-card flex-row items-center gap-2 rounded-full border px-3 py-2 sm:gap-3 sm:px-4 sm:py-3"
       style={{ boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.04)' }}
     >
       <Pressable
@@ -451,7 +451,7 @@ function PlayerPill({
           }}
         />
 
-        <Text className="text-xs font-bold text-muted-foreground sm:text-base">
+        <Text className="text-muted-foreground text-xs font-bold sm:text-base">
           s
         </Text>
       </View>
@@ -523,8 +523,8 @@ export function TranscribeVoiceMessage({
             className={cn(
               'size-11 items-center justify-center rounded-full sm:size-16',
               showTranscription
-                ? 'border-2 border-primary bg-primary/10'
-                : 'border-0 bg-muted',
+                ? 'border-primary bg-primary/10 border-2'
+                : 'bg-muted border-0',
             )}
           >
             <MessageCircle

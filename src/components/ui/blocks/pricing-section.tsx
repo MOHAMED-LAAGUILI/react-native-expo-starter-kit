@@ -135,7 +135,7 @@ export default function ChangeablePricingSection({
   return (
     <View
       className={cn(
-        'w-full max-w-115 rounded-3xl border border-border bg-muted p-1.5',
+        'border-border bg-muted w-full max-w-115 rounded-3xl border p-1.5',
         className,
       )}
     >
@@ -144,7 +144,7 @@ export default function ChangeablePricingSection({
       ============================================================ */}
 
       <View className="flex-row items-center justify-between px-3 py-4">
-        <Text className="text-[17px] font-medium tracking-tight text-foreground">
+        <Text className="text-foreground text-[17px] font-medium tracking-tight">
           {title}
         </Text>
 
@@ -194,7 +194,7 @@ export default function ChangeablePricingSection({
       ============================================================ */}
 
       <View className="mt-5 flex-col items-center gap-4 px-3 pb-2">
-        <Text className="text-center text-[10px] leading-relaxed font-bold tracking-wider text-muted-foreground uppercase">
+        <Text className="text-muted-foreground text-center text-[10px] leading-relaxed font-bold tracking-wider uppercase">
           {footerText}
         </Text>
 
@@ -256,7 +256,7 @@ function PricingPlan({
               )}
             </View>
 
-            <Text className="mt-1.5 pl-8 text-[11px] leading-snug text-muted-foreground">
+            <Text className="text-muted-foreground mt-1.5 pl-8 text-[11px] leading-snug">
               {plan.description}
             </Text>
           </View>
@@ -300,9 +300,9 @@ function PlanFeatures({
       entering={FadeIn.duration(250)}
       className="overflow-hidden"
     >
-      <View className="mt-3.5 border-t border-dashed border-border pt-3.5">
+      <View className="border-border mt-3.5 border-t border-dashed pt-3.5">
         {plan.featuresLabel && (
-          <Text className="mb-3 text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
+          <Text className="text-muted-foreground mb-3 text-[10px] font-bold tracking-widest uppercase">
             {plan.featuresLabel}
           </Text>
         )}
@@ -319,7 +319,7 @@ function PlanFeatures({
                 color={primaryHex}
               />
 
-              <Text className="flex-1 text-[12px] leading-tight text-muted-foreground">
+              <Text className="text-muted-foreground flex-1 text-[12px] leading-tight">
                 {feature.text}
               </Text>
 
@@ -379,7 +379,7 @@ function Price({
         style={{ fontSize: 15, fontWeight: '500', color: text }}
       />
 
-      <Text className="mt-1.5 text-[10px] leading-none font-bold tracking-widest text-muted-foreground uppercase">
+      <Text className="text-muted-foreground mt-1.5 text-[10px] leading-none font-bold tracking-widest uppercase">
         per user/month
       </Text>
     </View>
