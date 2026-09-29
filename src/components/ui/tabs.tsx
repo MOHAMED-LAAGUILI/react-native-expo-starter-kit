@@ -294,7 +294,7 @@ function TabsTrigger({
           Platform.select({
             web: [
               'inline-flex',
-              'h-[calc(100%-1px)]',
+              'h-full',
               'cursor-default',
               'whitespace-nowrap',
               'transition-[color,box-shadow]',

@@ -42,7 +42,7 @@ function LoginScreen() {
           <Image
             source={require('@assets/images/logo.png')}
             className="mb-2 size-20 overflow-hidden rounded-full"
-            style={{ height: 80, width: 80, borderRadius: '100px' }}
+            style={{ height: 80, width: 80, borderRadius: 40 }}
             contentFit="cover"
           />
           <Text variant="h1">{isLogin ? 'Welcome' : 'Create Account'}</Text>
