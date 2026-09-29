@@ -18,7 +18,9 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 
 | Script                                   | Purpose 
 |------------------------------------------|--------------------------------------------
-| `pnpm run setup`                          | Bootstrap: `pnpm install` + install skills from `skills-lock.json`
+| `pnpm run setup`                          | Bootstrap: `install:safe` + skills from `skills-lock.json` + `env:create`
+| `pnpm run install:safe`                   | `pnpm install` behind the `guard` check — use this instead of a bare `pnpm install`
+| `pnpm run guard`                          | Check nothing is using `node_modules` (pnpm, Metro, Gradle) and clear idle locks
 | `pnpm run skills:install`                 | Install pinned skills from `skills-lock.json` into `.claude/skills/`
 | `pnpm run skills:check`                   | Preview the skill install without writing (dry run)
 | `pnpm run env:create`                     | Create missing `.env.{development,preview,production}` from `.env.example`
@@ -30,7 +32,7 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 | `pnpm run web`                            | Dev server targeting Web
 | `pnpm run clean:app`                      | Clean pnpm cache, node_modules, native builds, and lockfile
 | `pnpm run mac:ios`                        | Install pods for iOS
-| `pnpm run deps:fix`                       | Fix dependency versions via Expo
+| `pnpm run deps:fix`                       | Fix dependency versions via Expo (runs `guard` first)
 | `pnpm run lint:fix`                       | Run ESLint with auto-fix on all source files
 | `pnpm run type:check`                     | Type-check the app, then `script/` under Node types (two tsc passes)
 | `pnpm run doctor`                         | Run Expo doctor diagnostics & React Doctor
@@ -70,7 +72,7 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 
 `skills-lock.json` is the source of truth for the agent skills this project uses. `pnpm run skills:install` (`script/install-skills.ts`) reads it and installs each skill into `.claude/skills/`, resolving from autoskills' local cache first — the lockfile's `computedHash` is that cache's key, so a hit is the exact pinned revision — and falling back to `raw.githubusercontent.com` for `sourceType: "github"` entries.
 
-- `pnpm run setup` is the bootstrap entry point: `pnpm install` followed by `skills:install`.
+- `pnpm run setup` is the bootstrap entry point: `install:safe` followed by `skills:install`.
 - Skills fetched from GitHub are **not** revision-verified. `computedHash` is not a plain sha256 of `SKILL.md`, so on a cache miss the pinned revision cannot be confirmed — report that rather than implying a clean install.
 - `pnpm skills` (`npx autoskills`) is a different operation: it re-detects skills from the dependency tree, installs **globally** to `~/.agents/skills/`, and rewrites `skills-lock.json`. Run it only to deliberately re-pin.
 - `.claude/skills/` and `.agents/skills/` are git-ignored; the lockfile is what gets committed.
@@ -222,6 +224,9 @@ How: Essential Rules
 - **ScrollViews**: use `contentContainerStyle` not `className` for background colors on scroll containers
 - **SVG**: hardcoded hex colors (`#ffffff`) won't follow theme — use `useThemeColors()` or CSS variables for dynamic theming
 - **Image**: always include `contentFit` prop and `style={{ height: '100%', width: '100%' }}` — without these, the image only renders on web and shows blank on native
+- **Numeric style values**: `borderRadius`, `borderWidth` and other length props take numbers on native — a CSS string like `'100px'` works on web but Android throws `Value for borderRadius cannot be cast from String to double`. Use `borderRadius: 40` (half the size for a circle) or a `rounded-*` class
+- **Web-only libraries**: anything that renders DOM elements (`div`, e.g. `@tanstack/react-query-devtools`) must be gated with `isWeb` from `@/utils/platform` — on native it crashes the whole tree with `View config getter callback for component 'div'`
+- **Web-only classes still compile on native**: Uniwind processes every class string at build time, including ones inside `Platform.select({ web: … })`. It can't evaluate `calc()` that mixes `%` with other units (`h-[calc(100%-1px)]` → `Invalid calc, you can't mix % with other units`) — use a plain utility such as `h-full` instead
 - **BottomSheet**: `@gorhom/bottom-sheet` needs `GestureHandlerRootView` wrapper — already in root layout
 - **RTL**: not supported — Arabic removed from language options
 
@@ -247,12 +252,12 @@ How: Essential Rules
 | Framework       | React 19 + React Native 0.86 
 | Platform        | Expo SDK 57 
 | Language        | TypeScript 6 (strict) 
-| Package Manager | Bun
+| Package Manager | pnpm 10 (`node-linker=hoisted`)
 | Routing         | Expo Router (Stack/Drawer/Tabs) 
 | Styling         | Tailwind CSS v4 + Uniwind + cn() 
 | Theme           | oklch CSS variables (light/dark + 7 accent color palettes) 
 | Client State    | Zustand 5 (MMKV persistence) 
-| Server State    | TanStack Query 5 + Devtools 
+| Server State    | TanStack Query 5 + Devtools (web only) 
 | Forms           | TanStack Form 1 + Zod 3 
 | Storage         | react-native-mmkv 4 (lazy, SSR-safe) 
 | i18n            | i18next 26 + react-i18next (EN/FR, RTL) 
@@ -439,6 +444,8 @@ global.css            — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - Use `pnpm` for package management only — don't add `package-lock.json` or `yarn.lock`
 - MMKV storage is lazily initialized with try/catch to prevent SSR crashes during Metro pnpmdling
 - **Watchman is required for dev on Windows** — Expo CLI defaults `useWatchman` to false, so Metro falls back to Node's `fs.watch` and crashes with `EMFILE: too many open files, watch` on large trees. `metro.config.js` re-enables it (`config.resolver.useWatchman = true`) and blocklists `android/`, `ios/`, `dist/`, `build/`, `.git/` from the file map. Install via `choco install watchman`.
+- **Never modify `node_modules` while it is in use (Windows)** — an open file can't be deleted, so a `pnpm install` / `pnpm add` / `deps:fix` that overlaps Metro, a Gradle build, Watchman or a second pnpm dies with `EBUSY` / `ENOTEMPTY` and leaves `node_modules` half-written (missing `.bin` links such as `eslint`, duplicate native modules flagged by expo-doctor). `script/guard-node-modules.ts` (`pnpm run guard`) refuses to proceed while another pnpm, this project's `expo start` / `expo run:*`, or a Gradle build is running, and clears the safe locks itself: idle Gradle/Kotlin daemons and Watchman's watch on this project. `deps:fix`, `install:safe` and `setup` run it first; it is also registered as `pnpm:devPreinstall`, but that hook — like Husky's `prepare` — does not run when `ignore-scripts=true` is set in the user's `.npmrc`, so use `pnpm run install:safe` over a bare `pnpm install`. Skipped when `CI` / `EAS_BUILD` is set; override with `SKIP_INSTALL_GUARD=1`. If `node_modules` is already broken, delete it and reinstall — a partial repair can leave duplicates.
+- **Dev build, not Expo Go** — native modules (MMKV etc.) mean the app runs in an `expo-dev-client` build. Build it with `npx expo run:android --device <avd-name>` — `--device` takes the **AVD name** (`emulator -list-avds`), not the adb serial `emulator-5554`. Rebuild after any native dependency or config-plugin change (an Expo SDK bump counts); otherwise `pnpm run android:dev` is enough. The dev client targets Metro on 8081 — if another project's Metro holds that port the app loads the wrong bundle and renders blank, so use `--port 8082` or stop the other server.
 - iOS runs Hermes (SDK 57 default) — do not add `jsEngine`/`newArchEnabled` keys to `app.config.ts`; they no longer exist in the config type
 - Drawer and Tabs must NOT set `freezeOnBlur: true`. Uniwind resolves `className` styles at render and only re-renders via a `UniwindListener` subscription registered in a layout effect. A frozen screen tears that subscription down, misses the `Uniwind.setTheme()` / `updateCSSVariables()` notification, and — because React Compiler memoizes the subtree — never recomputes on unfreeze. The result is a screen stuck on the theme it had when it was first mounted until the app reloads.
 - `ActivityIndicator` in Uniwind doesn't support `className` color — use native `color` prop with hex fallback

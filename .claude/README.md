@@ -20,7 +20,7 @@ The behavioural rules Claude follows live in **[`AGENTS.md`](../AGENTS.md)** (lo
 
 | Command | Purpose |
 |---|---|
-| `/setup` | Bootstrap the project — `pnpm install` + install skills from `skills-lock.json` |
+| `/setup` | Bootstrap the project — guarded `pnpm install` (`install:safe`) + skills from `skills-lock.json` + env files |
 | `/checks` | Run `pnpm run checks` (the pre-commit suite) and fix what fails |
 | `/new-screen <name> [tab\|drawer]` | Scaffold a screen: component, route, nav entry, i18n keys, docs |
 | `/new-component <name>` | Scaffold a `src/components/ui/` component + barrel export + `DESIGN.md` entry |

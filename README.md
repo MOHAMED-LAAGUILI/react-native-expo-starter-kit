@@ -54,7 +54,7 @@
 </p>
 
 ![Made by](https://img.shields.io/badge/Made%20by-Mohamed_LAAGUILI-blue)
-![Version](https://img.shields.io/badge/Version-5.6.0-blue)
+![Version](https://img.shields.io/badge/Version-5.7.0-blue)
 
 ## Demo Android (Old Build Demo)
 **Wanna See Magic Star & Clone Repo**
@@ -62,7 +62,8 @@
 
 ## Prerequisites
 
-- **Node 20+**, **pnpm 10+** (`corepack enable`)
+- **Node 22.18+** (pinned in `engines` — the `script/*.ts` tools run directly on Node's built-in type stripping), **pnpm 10+** (`corepack enable`)
+- **Android:** Android Studio with an SDK + emulator (AVD), and **JDK 17**. **iOS:** Xcode (macOS only).
 - **[Watchman](https://facebook.github.io/watchman/)** — required for the dev server on large projects. Without it Metro falls back to Node's `fs.watch` and crashes with `EMFILE: too many open files, watch` (especially on Windows). Install: `choco install watchman` (Windows) / `brew install watchman` (macOS).
 
 ## Quick Start
@@ -70,27 +71,43 @@
 git clone https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit.git my-react-native-app
 cd my-react-native-app
 pnpm run setup
-pnpm dev
 ```
 
-Press `i` (iOS), `a` (Android), or `w` (Web). Or scan the QR with [Expo Go](https://expo.dev/go).
-[!IMPORTANT]
-**This project cannot run in Expo Go.**
+> [!IMPORTANT]
+> **This project cannot run in Expo Go.** It uses native modules (e.g. **react-native-mmkv**) that Expo Go doesn't include, so it runs in a **development build** — your own app binary with `expo-dev-client`.
 
-It uses **react-native-mmkv**, which relies on native modules that are **not included in Expo Go**.
-To run the app, use a development build instead:
+### Run on an Android emulator
+
+**1. Build and install the dev client** — only the first time, and again whenever native dependencies or config plugins change (e.g. after an Expo SDK upgrade):
 
 ```bash
- npm run android
- # or
- npm run ios
+# List your emulators (AVD names)
+emulator -list-avds
+
+# Prebuild, compile, install and launch — pass the AVD *name*, not the adb serial (emulator-5554)
+npx cross-env EXPO_PUBLIC_APP_ENV=development npx expo run:android --device <avd-name>
 ```
+
+The first build compiles every native module and can take a long time (tens of minutes on Windows); later ones are incremental.
+
+**2. Day to day** — the dev client is already installed, so just start Metro:
+
+```bash
+pnpm run android:dev
+```
+
+Web runs without a native build: `pnpm run web`. For iOS use `npx expo run:ios`, then `pnpm run ios:dev`.
+
+> [!NOTE]
+> The dev client connects to Metro on port **8081**. If another project's Metro already holds that port, the app loads *that* project's bundle and shows a blank screen. Stop the other server, or run this one on a free port — `npx expo start --dev-client --port 8082` — and open it from the dev client.
 
 ## Commands
 
 | Script                                    | Purpose 
 |-------------------------------------------|--------------------------------------------
-| `pnpm run setup`                          | Bootstrap: `pnpm install` + install skills from `skills-lock.json`
+| `pnpm run setup`                          | Bootstrap: `install:safe` + skills from `skills-lock.json` + `env:create`
+| `pnpm run install:safe`                   | `pnpm install` behind the `guard` check — use this instead of a bare `pnpm install`
+| `pnpm run guard`                          | Check nothing is using `node_modules` (pnpm, Metro, Gradle) and clear idle locks
 | `pnpm run skills:install`                 | Install pinned skills from `skills-lock.json` into `.claude/skills/`
 | `pnpm run skills:check`                   | Preview the skill install without writing (dry run)
 | `pnpm run env:create`                     | Create missing `.env.{development,preview,production}` from `.env.example`
@@ -102,7 +119,7 @@ To run the app, use a development build instead:
 | `pnpm run web`                            | Dev server targeting Web
 | `pnpm run clean:app`                      | Clean pnpm cache, node_modules, native builds, and lockfile
 | `pnpm run mac:ios`                        | Install pods for iOS
-| `pnpm run deps:fix`                       | Fix dependency versions via Expo
+| `pnpm run deps:fix`                       | Fix dependency versions via Expo (runs `guard` first)
 | `pnpm run lint:fix`                       | Run ESLint with auto-fix on all source files
 | `pnpm run type:check`                     | Type-check the app, then `script/` under Node types (two tsc passes)
 | `pnpm run doctor`                         | Run Expo doctor diagnostics & React Doctor
@@ -137,6 +154,37 @@ To run the app, use a development build instead:
 | `pnpm run eas:update:prod`                | Push OTA update to production channel
 | `pnpm run export:web`                     | Export web build locally static files
 | `pnpm run deploy:web`                     | Deploy web build to production
+
+
+## Troubleshooting
+
+### `EBUSY` / `ENOTEMPTY` during `pnpm install`, `pnpm add` or `deps:fix` (Windows)
+
+Windows can't delete a file another process has open. If an install overlaps Metro, a Gradle build, Watchman or a second pnpm, it dies half-way and leaves `node_modules` broken. Avoid it:
+
+- Install with `pnpm run install:safe`, not a bare `pnpm install`. It runs `pnpm run guard` first, which stops if another pnpm, this project's Metro / `expo run`, or a Gradle build is running, and clears idle Gradle/Kotlin daemons and the Watchman watch for you. `deps:fix` and `setup` run the guard too.
+- Run one pnpm command at a time.
+
+> [!NOTE]
+> The guard is also registered as the `pnpm:devPreinstall` hook, but pnpm skips all lifecycle hooks — including Husky's `prepare` — when `ignore-scripts=true` is set in your `~/.npmrc`. Check with `pnpm config get ignore-scripts`; if it prints `true`, `install:safe` is the only guarded install, and the git hooks are not installed.
+
+### `node_modules` is already broken
+
+Symptoms: `'eslint' is not recognized` (or another missing binary) in `lint:fix`, or expo-doctor reporting *duplicate native module dependencies* with identical versions. A partial install caused it; repairing in place can leave duplicates behind, so reinstall cleanly:
+
+```bash
+pnpm run guard
+rm -rf node_modules
+pnpm run install:safe
+```
+
+### Blank white screen after the app launches
+
+The dev client connected to a Metro server from **another project** on port 8081. See the note under [Run on an Android emulator](#run-on-an-android-emulator).
+
+### Native changes aren't in the app
+
+After upgrading Expo or adding a package with native code, rebuild the dev client (`npx expo run:android --device <avd-name>`). Restarting Metro only reloads JavaScript.
 
 
 ## Features
@@ -238,12 +286,12 @@ To run the app, use a development build instead:
 | Framework       | React 19 + React Native 0.86 
 | Platform        | Expo SDK 57 
 | Language        | TypeScript 6 (strict) 
-| Package Manager | Bun
+| Package Manager | pnpm 10 (`node-linker=hoisted`)
 | Routing         | Expo Router (Stack/Drawer/Tabs) 
 | Styling         | Tailwind CSS v4 + Uniwind + cn() 
 | Theme           | oklch CSS variables (light/dark + 7 accent color palettes) 
 | Client State    | Zustand 5 (MMKV persistence) 
-| Server State    | TanStack Query 5 + Devtools 
+| Server State    | TanStack Query 5 + Devtools (web only) 
 | Forms           | TanStack Form 1 + Zod 3 
 | Storage         | react-native-mmkv 4 (lazy, SSR-safe) 
 | i18n            | i18next 26 + react-i18next (EN/FR) 
