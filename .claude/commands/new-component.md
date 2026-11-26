@@ -15,5 +15,5 @@ Before writing anything, read `DESIGN.md` for the component contract and find th
 5. **Motion** — use the presets in `@/config/motion` (`SPRING_PRESS`, `SPRING_GENTLE`). No inline `{ damping, stiffness, mass }` literals.
 6. **Types** — `type` over `interface`; inline `import { type Foo }`. Wrapper props via `React.ComponentProps<typeof X>` + `React.RefAttributes`.
 7. **Limits** — functions cap at 110 lines and 3 params; extract sub-components or use an options object rather than raising either.
-8. **Docs** — add the component to `DESIGN.md` (props, variants, sizes, motion) and to the component list in `AGENTS.md`, in this same change.
+8. **Docs** — add the component to `DESIGN.md` (props, variants, sizes, motion) and to the component list in `CLAUDE.md` (§ Component Patterns), in this same change. Add an `rn` test (`__tests__/components/<name>.test.tsx`) covering its props and interactions.
 9. Run `/checks`.

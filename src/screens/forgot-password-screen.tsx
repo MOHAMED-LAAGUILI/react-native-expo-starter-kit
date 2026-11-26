@@ -24,7 +24,7 @@ function ForgotPasswordScreen() {
   const formError = forgotPasswordMutation.error ? (forgotPasswordMutation.error as Error).message : undefined;
 
   return (
-    <KeyboardAvoidingView className="flex-1 bg-background">
+    <KeyboardAvoidingView className="bg-background flex-1">
       <ScrollView contentContainerClassName="flex-grow justify-center px-6" keyboardShouldPersistTaps="handled">
         <View className="mb-8 items-center gap-2">
           <Image

@@ -1,0 +1,64 @@
+# Docker for Android — build the app and run it in a containerised emulator.
+#
+#   pnpm run docker:build      → dist/*.apk built inside Linux (any host OS)
+#   pnpm run docker:emulator   → Android 14 emulator + install + launch;
+#                                watch it at http://localhost:6080 (noVNC)
+#   pnpm run docker:down       → stop everything (volumes keep the caches)
+#
+# The emulator needs hardware virtualisation (KVM): a Linux host, or Windows
+# 11 with WSL2 nested virtualisation. It cannot run on macOS Docker. iOS
+# cannot be containerised at all (Simulator is macOS-only) — see docs/DOCKER.md.
+
+name: rn-expo-starter
+
+services:
+  android-build:
+    build:
+      context: ./docker
+      dockerfile: android.Dockerfile
+    image: rn-expo-starter/android-build:sdk58
+    working_dir: /app
+    volumes:
+      - .:/app
+      # Linux node_modules / android / Gradle cache live in volumes, so they
+      # never overwrite (or get overwritten by) the host's Windows/macOS copies.
+      - node_modules:/app/node_modules
+      - android_project:/app/android
+      - gradle_cache:/root/.gradle
+    command: >
+      sh -c "pnpm install --frozen-lockfile &&
+             pnpm run env:create &&
+             pnpm run build:local:android --emulator --arch arm64-v8a,x86_64"
+
+  emulator:
+    image: budtmo/docker-android:emulator_14.0
+    privileged: true
+    devices:
+      - /dev/kvm
+    environment:
+      EMULATOR_DEVICE: Samsung Galaxy S10
+      WEB_VNC: 'true'
+    ports:
+      - '6080:6080' # noVNC — the emulator screen in your browser
+      - '5555:5555' # adb, for `adb connect localhost:5555` from the host
+    healthcheck:
+      test: [CMD-SHELL, 'adb shell getprop sys.boot_completed | grep -q 1']
+      interval: 10s
+      timeout: 5s
+      retries: 60
+
+  installer:
+    image: rn-expo-starter/android-build:sdk58
+    depends_on:
+      emulator:
+        condition: service_healthy
+    working_dir: /app
+    volumes:
+      - ./dist:/app/dist:ro
+      - ./docker:/app/docker:ro
+    entrypoint: [sh, /app/docker/install-on-emulator.sh]
+
+volumes:
+  node_modules:
+  android_project:
+  gradle_cache:

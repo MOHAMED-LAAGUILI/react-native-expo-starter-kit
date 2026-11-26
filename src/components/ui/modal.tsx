@@ -183,7 +183,7 @@ function BottomSheetBody({ title, className, onClose, sheetTranslateStyle, child
   return (
     <Animated.View
       style={[sheetTranslateStyle, { marginTop: SHEET_MIN_Y, marginBottom: bottomInset > 0 ? bottomInset : 0 }]}
-      className={cn('rounded-[28px] bg-background p-6', className)}
+      className={cn('bg-background rounded-[28px] p-6', className)}
     >
       <View className="mb-5 items-center">
         <View className="bg-foreground/20 mb-4 h-1 w-9 rounded-full" />
@@ -218,7 +218,7 @@ function CenteredBody({ title, description, icon, actions, className, onClose, s
   return (
     <Animated.View
       style={sheetScaleStyle}
-      className={cn('w-full max-w-sm rounded-[28px] bg-background p-6', className)}
+      className={cn('bg-background w-full max-w-sm rounded-[28px] p-6', className)}
     >
       <View className="mb-2 items-end">
         <Pressable onPress={onClose} hitSlop={12} accessibilityRole="button" accessibilityLabel={t('common.close')}>

@@ -1,0 +1,16 @@
+# Subflow: from the login screen to the signed-in home tab, via demo mode
+# (no backend needed). Replace with a real-credentials subflow once the app
+# talks to an API.
+appId: ${APP_ID}
+---
+- scrollUntilVisible:
+    element:
+      id: login-demo
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: login-demo
+- extendedWaitUntil:
+    visible:
+      id: home-screen
+    timeout: 20000

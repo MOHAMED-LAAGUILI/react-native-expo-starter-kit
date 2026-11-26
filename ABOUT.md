@@ -2,7 +2,7 @@
 
 A production-ready **React Native + Expo** starter template for building universal mobile apps (iOS, Android, Web) from one TypeScript codebase.
 
-Built on **Expo SDK 57**, **React 19**, and **React Native 0.86**, it ships with routing, theming, auth, i18n, and a reusable UI kit.
+Built on **Expo SDK 58**, **React 19.3**, and **React Native 0.88**, it ships with routing, theming, auth, i18n, and a reusable UI kit.
 
 Focus on your product — not boilerplate.
 
@@ -12,7 +12,7 @@ Focus on your product — not boilerplate.
 | File | Purpose |
 |------|---------|
 | `README.md` | Quick start, features, and getting started guide |
-| `AGENTS.md` | AI / agent engineering guide, conventions, tech stack, routing |
+| `CLAUDE.md` | AI / agent entry point and engineering guide — conventions, tech stack, routing, testing (`AGENTS.md` points to it) |
 | `ABOUT.md` | This file — project summary and specs |
 | `DESIGN.md` | Design system, theming, and UI tokens |
 | `CODE_OF_CONDUCT.md` | Community code of conduct |
@@ -37,7 +37,7 @@ Focus on your product — not boilerplate.
 
 ## Platform & Runtime
 
-- **Expo SDK** `57` · **React** `19.2` · **React Native** `0.86`
+- **Expo SDK** `58` · **React** `19.3` · **React Native** `0.88`
 - Universal targets: **iOS**, **Android**, **Web**
 - **TypeScript** `6` (strict) · **Expo Router** file-based routing (`~57`)
 - Metro with `EXPO_ROUTER_APP_ROOT=./app` and sync import mode
@@ -46,6 +46,6 @@ Focus on your product — not boilerplate.
 
 - **Repository:** https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit
 - **Getting started:** see `README.md` (Quick Start)
-- **AI Guide:** see `AGENTS.md`
+- **AI Guide:** see `CLAUDE.md`
 - **Design system:** see `DESIGN.md`
 - **Developer:** Mohamed Laaguili (MOLI)

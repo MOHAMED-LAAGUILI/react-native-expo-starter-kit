@@ -1,19 +1,19 @@
+import type { ListRenderItem } from 'react-native';
 import type { CardData } from '@/data/cards';
 import * as React from 'react';
-import { Pressable, ScrollView, View } from 'react-native';
+import { FlatList, Pressable, View } from 'react-native';
 import { BottomSheet, Image, Text } from '@/components/ui';
 import { HORIZONTAL_CARDS, VERTICAL_CARDS } from '@/data/cards';
 import { cn } from '@/utils/cn';
 
 type ImageCardProps = {
-  title: string;
-  subtitle: string;
-  imageUrl: string;
-  orientation?: 'vertical' | 'horizontal';
-  onPress?: () => void;
+  card: CardData;
+  /** Stable callback shared by every row; the card passes itself back. */
+  onSelect?: (card: CardData) => void;
 };
 
-function ImageCard({ title, subtitle, imageUrl, orientation = 'vertical', onPress }: ImageCardProps) {
+function ImageCard({ card, onSelect }: ImageCardProps) {
+  const { title, subtitle, imageUrl, orientation } = card;
   const isVertical = orientation === 'vertical';
 
   return (
@@ -44,7 +44,7 @@ function ImageCard({ title, subtitle, imageUrl, orientation = 'vertical', onPres
         </View>
       </View>
       <Pressable
-        onPress={onPress}
+        onPress={() => onSelect?.(card)}
         accessibilityRole="button"
         className="absolute inset-0"
       />
@@ -64,27 +64,31 @@ function ImageCardDemo({ onCardSelect }: { onCardSelect?: (card: CardData) => vo
     }
   };
 
+  const renderVerticalCard: ListRenderItem<CardData> = ({ item }) => (
+    <ImageCard card={item} onSelect={handleSelect} />
+  );
+
   return (
     <>
       <View className="gap-6">
         <View>
           <Text variant="h3" className="mb-3">Vertical Cards</Text>
-          <ScrollView
+          {/* FlatList mounts only the cards near the viewport (ScrollView + map mounts all). */}
+          <FlatList
             horizontal
+            data={VERTICAL_CARDS}
+            keyExtractor={card => card.title}
+            renderItem={renderVerticalCard}
             showsHorizontalScrollIndicator={false}
             contentContainerClassName="gap-3"
-          >
-            {VERTICAL_CARDS.map(card => (
-              <ImageCard key={card.title} {...card} onPress={() => handleSelect({ ...card })} />
-            ))}
-          </ScrollView>
+          />
         </View>
 
         <View>
           <Text variant="h3" className="mb-3">Horizontal Cards</Text>
           <View className="gap-3">
             {HORIZONTAL_CARDS.map(card => (
-              <ImageCard key={card.title} {...card} onPress={() => handleSelect({ ...card })} />
+              <ImageCard key={card.title} card={card} onSelect={handleSelect} />
             ))}
           </View>
         </View>

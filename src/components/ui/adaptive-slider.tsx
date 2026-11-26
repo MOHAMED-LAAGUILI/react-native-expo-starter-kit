@@ -1,5 +1,5 @@
 import type { LayoutChangeEvent, ViewStyle } from 'react-native';
-import type { PanGesture } from 'react-native-gesture-handler';
+import type { LegacyPanGesture as PanGesture } from 'react-native-gesture-handler';
 import type { AnimatedStyle, SharedValue } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useState } from 'react';
@@ -412,7 +412,7 @@ function SliderTrack({
           ]}
         >
           <View
-            className="items-center justify-center rounded-full bg-background"
+            className="bg-background items-center justify-center rounded-full"
             style={{
               width: thumbInnerSize,
               height: thumbInnerSize,

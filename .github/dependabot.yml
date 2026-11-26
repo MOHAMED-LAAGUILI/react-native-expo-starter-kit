@@ -1,0 +1,17 @@
+# Dependabot keeps the GitHub Actions used by the workflows up to date.
+#
+# npm dependencies are deliberately NOT managed here: Expo SDK packages must be
+# upgraded together and aligned with `expo install --fix`, which single-package
+# PRs would break. Use `pnpm run deps:check` (also run weekly by
+# maintenance.yml) and `pnpm run upgrade:expo` instead.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ['*']
+    commit-message:
+      prefix: ci

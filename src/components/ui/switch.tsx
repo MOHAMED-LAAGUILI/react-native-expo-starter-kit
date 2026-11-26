@@ -151,7 +151,7 @@ function AnimatedThumb({
     <AnimatedView
       style={thumbStyle}
       className={cn(
-        'size-5 bg-background shadow-sm',
+        'bg-background size-5 shadow-sm',
         variant === 'default' && 'rounded-full',
         variant === 'liquid-glass' && [
           'rounded-full bg-white/90',

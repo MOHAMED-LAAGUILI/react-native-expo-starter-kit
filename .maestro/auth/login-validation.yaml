@@ -1,0 +1,26 @@
+# Flow: submitting the login form with bad input keeps the user on login.
+# Screens: src/screens/login-screen.tsx, src/components/auth/login-form-fields.tsx, src/validation/auth.ts
+appId: ${APP_ID}
+tags:
+  - auth
+---
+- runFlow: ../subflows/launch.yaml
+- runFlow: ../subflows/skip-onboarding.yaml
+- tapOn:
+    id: login-email
+- inputText: not-an-email
+- tapOn:
+    id: login-password
+# Short on purpose: tapOn puts the cursor mid-field and eraseText only deletes
+# what is before it, so long values are awkward to clear later.
+- inputText: '123'
+- hideKeyboard:
+    optional: true
+- tapOn:
+    id: login-submit
+- assertVisible:
+    text: Invalid email address
+- assertVisible:
+    id: login-email
+- assertNotVisible:
+    id: home-screen

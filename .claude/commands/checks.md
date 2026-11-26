@@ -9,7 +9,7 @@ Run the project's full check suite, exactly as the Husky `pre-commit` hook does:
 pnpm run checks
 ```
 
-That chains `deps:fix` → `lint:fix` → `type:check` → `doctor`.
+That chains `deps:fix` → `lint:fix` → `type:check` (app, `script/`, `__tests__/`) → `test` (Jest, both projects) → `i18n:check` → `doctor`.
 
 Then:
 

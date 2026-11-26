@@ -3,7 +3,7 @@ import { EditProfileForm, ProfileHeader } from '@/components/profile';
 
 function ProfileScreen() {
   return (
-    <ScrollView className="flex-1 bg-background" showsVerticalScrollIndicator={false}>
+    <ScrollView className="bg-background flex-1" showsVerticalScrollIndicator={false}>
       <ProfileHeader />
 
       <View className="px-6">

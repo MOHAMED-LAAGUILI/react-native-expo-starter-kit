@@ -225,7 +225,7 @@ function TabsList({
             <AnimatedView
               pointerEvents="none"
               style={indicatorGooeyStyle}
-              className="dark:bg-input/30 size-full rounded-md bg-background shadow-sm"
+              className="dark:bg-input/30 bg-background size-full rounded-md shadow-sm"
             />
           </AnimatedView>
         )}

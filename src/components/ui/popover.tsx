@@ -48,7 +48,7 @@ function PopoverContent({
                   }),
                   Platform.select({
                     web: cn(
-                      'origin-(--radix-popover-content-transform-origin) animate-in fade-in-0 zoom-in-95',
+                      'animate-in fade-in-0 zoom-in-95 origin-(--radix-popover-content-transform-origin)',
                       props.side === 'bottom' && 'slide-in-from-top-2',
                       props.side === 'top' && 'slide-in-from-bottom-2',
                     ),

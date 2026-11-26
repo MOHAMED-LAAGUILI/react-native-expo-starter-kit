@@ -21,13 +21,21 @@
  *
  * Skipped in CI / EAS builds, or with SKIP_INSTALL_GUARD=1.
  *
- * Usage: node script/guard-node-modules.ts
+ * Usage: node script/guard-node-modules.ts [--from-install]
+ *
+ * --from-install is passed by the `pnpm:devPreinstall` hook. There the running
+ * pnpm is the one that invoked us (pnpm serialises itself with its own lock),
+ * so the "another pnpm" check is skipped — the ancestor walk below cannot be
+ * trusted to find it: `expo install --fix` → `pnpm add` → hook → guard was
+ * refused as "another pnpm", aborting the add and leaving node_modules
+ * half-written. Standalone runs (install:safe, deps:fix, setup) keep the check.
  */
 
 import { execFileSync, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
+import { spawn } from './lib/spawn.ts'
 
 type Proc = { pid: number, ppid: number, name: string, cmd: string }
 
@@ -101,7 +109,8 @@ const problems: string[] = []
 
 // 1. Another pnpm mutating node_modules. The command line doesn't say which
 //    project it's in, so this errs on the side of stopping.
-const pnpmRuns = others.filter(p =>
+const FROM_INSTALL = process.argv.includes('--from-install')
+const pnpmRuns = FROM_INSTALL ? [] : others.filter(p =>
   isNode(p)
   && /pnpm(\.cjs|\.js|\.exe)?["']?\s/i.test(p.cmd)
   && /\s["']?(install|i|add|remove|rm|update|up)["']?(\s|$)/i.test(p.cmd),
@@ -115,7 +124,7 @@ const expoRuns = others.filter((p) => {
   if (!isNode(p))
     return false
   const cmd = norm(p.cmd)
-  return cmd.includes(root) && /expo[/\\]bin[/\\]cli["']?\s+(start|run:)/i.test(p.cmd)
+  return cmd.includes(root) && /expo[/\\]bin[/\\]cli["']?\s+["']?(start|run:)/i.test(p.cmd)
 })
 for (const p of expoRuns)
   problems.push(`this project's Expo is running (PID ${p.pid}): ${short(p.cmd)}`)
@@ -142,7 +151,7 @@ if (gradleDaemons.length > 0) {
   const wrapper = path.join(ROOT, 'android', IS_WINDOWS ? 'gradlew.bat' : 'gradlew')
   if (fs.existsSync(wrapper)) {
     console.log(`[install-guard] Stopping ${gradleDaemons.length} idle Gradle daemon(s)…`)
-    spawnSync(IS_WINDOWS ? `"${wrapper}"` : wrapper, ['-p', 'android', '--stop', '--quiet'], { stdio: 'inherit', shell: IS_WINDOWS })
+    spawn(wrapper, ['-p', 'android', '--stop', '--quiet'], { stdio: 'inherit' })
   }
 }
 

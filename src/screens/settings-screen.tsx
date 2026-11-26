@@ -25,7 +25,7 @@ function SettingsScreen() {
 
   return (
     <>
-      <ScrollView className="flex-1 bg-background">
+      <ScrollView className="bg-background flex-1">
         <View className="gap-8 p-6">
           <AppearanceSection
             currentColorLabel={currentColorLabel}

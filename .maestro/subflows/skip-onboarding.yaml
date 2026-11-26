@@ -1,0 +1,12 @@
+# Subflow: from the first onboarding step to the login screen.
+# "Skip" jumps to the last step; the right-hand button then reads "Finish".
+appId: ${APP_ID}
+---
+- tapOn:
+    id: onboarding-skip
+- tapOn:
+    id: onboarding-finish
+- extendedWaitUntil:
+    visible:
+      id: login-email
+    timeout: 15000

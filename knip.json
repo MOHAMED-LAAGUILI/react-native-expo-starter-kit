@@ -1,0 +1,46 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "app/**/*.{ts,tsx}",
+    "script/*.ts",
+    "__tests__/**/*.{ts,tsx,js}",
+    ".maestro/scripts/*.js",
+    "metro.config.js",
+    "babel.config.js",
+    "jest.config.js",
+    "app.config.ts"
+  ],
+  "project": [
+    "app/**/*.{ts,tsx}",
+    "src/**/*.{ts,tsx}",
+    "script/**/*.ts"
+  ],
+  "ignoreDependencies": [
+    "expo-atlas",
+    "eslint-plugin-react-hooks",
+    "babel-preset-expo",
+    "@expo/metro-runtime",
+    "@expo/dom-webview",
+    "react-dom",
+    "react-native-web",
+    "react-native-worklets",
+    "tailwindcss",
+    "@expo/vector-icons",
+    "@expo/metro-file-map",
+    "tw-animate-css"
+  ],
+  "ignoreBinaries": [
+    "watchman",
+    "maestro",
+    "adb"
+  ],
+  "rules": {
+    "exports": "off",
+    "types": "off",
+    "nsExports": "off",
+    "nsTypes": "off",
+    "enumMembers": "off",
+    "classMembers": "off",
+    "duplicates": "off"
+  }
+}

@@ -54,10 +54,11 @@ function GallerySection() {
   return (
     <>
       <Text variant="h3" className="mb-2">4 Columns, No Spacing</Text>
-      <Gallery items={gridImages} columns={4} spacing={0} borderRadius={0} aspectRatio={1} />
+      <Gallery scrollEnabled={false} items={gridImages} columns={4} spacing={0} borderRadius={0} aspectRatio={1} />
 
       <Text variant="h3" className="mt-4 mb-2">3 Columns with Spacing</Text>
       <Gallery
+        scrollEnabled={false}
         items={gridImages.slice(0, 6)}
         columns={3}
         spacing={12}
@@ -68,6 +69,7 @@ function GallerySection() {
 
       <Text variant="h3" className="mt-4 mb-2">2 Columns, Large Spacing</Text>
       <Gallery
+        scrollEnabled={false}
         items={gridImages}
         columns={2}
         spacing={16}
@@ -174,7 +176,7 @@ function MediaAudioScreen() {
 
   return (
     <ScrollView
-      className="flex-1 bg-background"
+      className="bg-background flex-1"
       contentInset={isIOS ? { bottom: insets.bottom + 24 } : undefined}
       contentContainerStyle={isIOS ? undefined : { paddingBottom: insets.bottom + 24 }}
     >

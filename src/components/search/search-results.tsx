@@ -48,7 +48,7 @@ function SearchResults({
       ListEmptyComponent={
         isLoading
           ? (
-              <View className="flex-1 items-center justify-center bg-background pt-24">
+              <View className="bg-background flex-1 items-center justify-center pt-24">
                 <ActivityIndicator size="large" color={primaryHex} />
               </View>
             )

@@ -26,7 +26,7 @@ export default function AuthLayout() {
   }
 
   return (
-    <View className="flex-1 overflow-hidden bg-background">
+    <View className="bg-background flex-1 overflow-hidden">
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: 'transparent' } }}>
         <Stack.Screen name="login" />
         <Stack.Screen name="forgot-password" />

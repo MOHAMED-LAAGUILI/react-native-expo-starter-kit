@@ -1,0 +1,44 @@
+# Subflow: launch the installed dev-client build straight onto Metro's bundle,
+# skipping the dev-launcher UI. `exp+rn-template` is `exp+<slug>` from
+# app.config.ts — change it if you rename the slug.
+#
+# Env (from the shell, all optional):
+#   MAESTRO_METRO_URL       Metro as the DEVICE reaches it  (default http://10.0.2.2:8081, the Android emulator's host alias)
+#   MAESTRO_METRO_HOST_URL  Metro as the HOST reaches it    (default http://localhost:8081)
+appId: ${APP_ID}
+---
+- runScript:
+    file: ../scripts/metro-bundle-mode.js
+    env:
+      METRO_HOST_URL: ${MAESTRO_METRO_HOST_URL}
+- openLink:
+    link: "exp+rn-template://expo-development-client/?url=${encodeURIComponent(MAESTRO_METRO_URL || 'http://10.0.2.2:8081')}"
+# iOS asks "Open in <app>?" before following a custom scheme.
+- runFlow:
+    when:
+      visible:
+        text: 'Open in .*'
+    commands:
+      - tapOn:
+          text: Open
+# First launch of a dev build shows the dev-menu onboarding sheet.
+- extendedWaitUntil:
+    visible:
+      text: '(?i)continue|(?i)skip|(?i)next'
+    timeout: 150000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        text: (?i)continue
+    commands:
+      - tapOn:
+          text: (?i)continue
+# Close the dev menu if it opened on top of the app.
+- runFlow:
+    when:
+      visible:
+        text: (?i)toggle element inspector
+    commands:
+      - back
+      - waitForAnimationToEnd

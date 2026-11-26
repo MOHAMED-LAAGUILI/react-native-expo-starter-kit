@@ -57,7 +57,7 @@ function Menubar({
         : null}
       <MenubarPrimitive.Root
         className={cn(
-          'border-border flex h-10 flex-row items-center gap-1 rounded-md border bg-background p-1 shadow-sm shadow-black/5 sm:h-9',
+          'border-border bg-background flex h-10 flex-row items-center gap-1 rounded-md border p-1 shadow-sm shadow-black/5 sm:h-9',
           className,
         )}
         value={value ?? valueProp}
@@ -186,7 +186,7 @@ function MenubarContent({
                 'border-border bg-popover min-w-48 overflow-hidden rounded-md border p-1 shadow-lg shadow-black/5',
                 Platform.select({
                   web: cn(
-                    'z-50 max-h-(--radix-context-menu-content-available-height) origin-(--radix-context-menu-content-transform-origin) animate-in cursor-default fade-in-0 zoom-in-95',
+                    'animate-in fade-in-0 zoom-in-95 z-50 max-h-(--radix-context-menu-content-available-height) origin-(--radix-context-menu-content-transform-origin) cursor-default',
                     props.side === 'bottom' && 'slide-in-from-top-2',
                     props.side === 'top' && 'slide-in-from-bottom-2',
                   ),

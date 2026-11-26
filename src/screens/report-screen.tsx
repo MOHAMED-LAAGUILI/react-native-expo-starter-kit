@@ -62,7 +62,7 @@ export function ReportScreen() {
   ];
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="bg-background flex-1">
       <ReportTabs
         activeTab={activeTab}
         tabs={tabs}

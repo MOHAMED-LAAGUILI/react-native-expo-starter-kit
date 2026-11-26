@@ -216,7 +216,7 @@ export function SheetContent({ children, style }: SheetContentProps) {
               },
               pressed && { opacity: 0.2 },
             ]}
-            className="absolute z-10 size-8 items-center justify-center rounded-full bg-background"
+            className="bg-background absolute z-10 size-8 items-center justify-center rounded-full"
             onPress={handleClose}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             accessibilityRole="button"

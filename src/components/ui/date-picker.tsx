@@ -863,7 +863,7 @@ function TimeColumn({
             <Text
               className={cn(
                 option.value === selectedValue
-                  ? 'font-semibold text-background'
+                  ? 'text-background font-semibold'
                   : 'text-foreground',
               )}
             >
@@ -904,7 +904,7 @@ function PeriodPicker({ isPM, onSelectPeriod }: PeriodPickerProps) {
               <Text
                 className={cn(
                   isSelected
-                    ? 'font-semibold text-background'
+                    ? 'text-background font-semibold'
                     : 'text-foreground',
                 )}
               >
@@ -1025,7 +1025,7 @@ function MonthPickerView({ selectedIndex, onSelect }: ListPickerViewProps) {
             <Text
               className={cn(
                 index === selectedIndex
-                  ? 'font-semibold text-background'
+                  ? 'text-background font-semibold'
                   : 'text-foreground',
               )}
             >
@@ -1073,7 +1073,7 @@ function YearPickerView({ selectedIndex, onSelect }: ListPickerViewProps) {
             <Text
               className={cn(
                 year === selectedIndex
-                  ? 'font-semibold text-background'
+                  ? 'text-background font-semibold'
                   : 'text-foreground',
               )}
             >

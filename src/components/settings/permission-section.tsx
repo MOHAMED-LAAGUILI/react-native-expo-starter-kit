@@ -2,12 +2,11 @@ import type { PermissionLabel } from '@/hooks/use-permissions-status';
 import { Bell, Camera, MapPin, Mic } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { openSettings, RESULTS } from 'react-native-permissions';
 import { SectionHeader } from '@/components/common/section-header';
 import { SettingGroup } from '@/components/common/setting-group';
 import { SettingRow } from '@/components/common/setting-row';
 import { Badge, Switch } from '@/components/ui';
-import { usePermissionsStatus } from '@/hooks/use-permissions-status';
+import { openSettings, RESULTS, usePermissionsStatus } from '@/hooks/use-permissions-status';
 
 const ICONS: Record<PermissionLabel, React.ComponentType<{ size?: number; color?: string }>> = {
   Notifications: Bell,
@@ -48,7 +47,7 @@ function PermissionSection() {
       await requestPermission(label);
       return;
     }
-    await openSettings('application');
+    await openSettings();
   };
 
   return (

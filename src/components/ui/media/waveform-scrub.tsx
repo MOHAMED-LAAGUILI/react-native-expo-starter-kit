@@ -1,6 +1,6 @@
 import type { AudioSource } from 'expo-audio';
 import type { LayoutChangeEvent } from 'react-native';
-import type { PanGesture } from 'react-native-gesture-handler';
+import type { LegacyPanGesture as PanGesture } from 'react-native-gesture-handler';
 import type { SharedValue } from 'react-native-reanimated';
 
 import {

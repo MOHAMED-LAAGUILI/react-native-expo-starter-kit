@@ -1,0 +1,19 @@
+# Flow: onboarding → login → demo mode → signed-in home.
+# Screens: app/onboarding.tsx, app/(auth)/login.tsx, src/components/auth/demo-login-button.tsx, app/(app)/(tabs)/index.tsx
+appId: ${APP_ID}
+tags:
+  - auth
+  - smoke
+---
+- runFlow: ../subflows/launch.yaml
+- runFlow: ../subflows/skip-onboarding.yaml
+- runFlow: ../subflows/demo-login.yaml
+- assertVisible:
+    id: drawer-toggle
+# Auth state is persisted in SecureStore: relaunching keeps the user signed in.
+- stopApp
+- runFlow: ../subflows/open-dev-build.yaml
+- extendedWaitUntil:
+    visible:
+      id: home-screen
+    timeout: 60000

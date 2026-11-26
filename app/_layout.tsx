@@ -16,6 +16,7 @@ import { useColorScheme, View } from 'react-native';
 
 import { ToastContainer } from 'react-native-toast-message-ts';
 
+import { Loading } from '@/components/common/loading';
 import { AppProviders } from '@/components/layout/app-providers';
 import { Text } from '@/components/ui';
 import { setupI18n } from '@/i18n';
@@ -26,7 +27,7 @@ import {
 } from '@/store';
 import { isAndroid } from '@/utils/platform';
 
-import '../global.css';
+import '../src/style/global.css';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -76,14 +77,16 @@ export default function RootLayout() {
     }
   }, [themeMode, systemScheme]);
 
+  // Native keeps the splash screen up until `isReady`, so this only shows on
+  // web, which has no splash: a spinner instead of an empty page.
   if (!isReady) {
-    return null;
+    return <Loading />;
   }
 
   if (error) {
     return (
       <AppProviders>
-        <View className="flex-1 items-center justify-center bg-background p-8">
+        <View className="bg-background flex-1 items-center justify-center p-8">
           <Text variant="h3" className="text-destructive">Startup Error</Text>
           <Text variant="body" className="text-muted-foreground mt-2 text-center">
             {error.message}

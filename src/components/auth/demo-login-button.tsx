@@ -10,6 +10,7 @@ function DemoLoginButton({ isLogin }: DemoLoginButtonProps) {
   return (
     <Button
       title={isLogin ? 'Skip Login (Demo Mode)' : 'Skip Signup (Demo Mode)'}
+      testID="login-demo"
       variant="ghost"
       onPress={() => {
         useAuthStore.getState().login(

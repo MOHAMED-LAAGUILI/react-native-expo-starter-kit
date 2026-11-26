@@ -5,7 +5,7 @@
   "rsc": false,
   "tailwind": {
     "config": "",
-    "css": "global.css",
+    "css": "src/style/global.css",
     "baseColor": "neutral",
     "cssVariables": true
   },

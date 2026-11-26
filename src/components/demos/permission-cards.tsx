@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { Alert, View } from 'react-native';
 
-import RNRestart from 'react-native-restart-newarch'; // Import package from node modules
 import { Badge, Button, Image, Text } from '@/components/ui';
 import { usePermissionsStatus } from '@/hooks/use-permissions-status';
 import { loadExpoImagePicker, loadExpoLocation, loadExpoMediaLibrary, loadExpoNotifications } from '@/utils/permission-utils';
@@ -236,7 +235,7 @@ function PermissionCards() {
       <NotificationCard permissions={permissions} />
       <CameraCard permissions={permissions} />
       <LocationCard permissions={permissions} />
-      <Button title="Refresh" onPress={() => RNRestart.restart()} size="sm" />
+      <Button title="Refresh" onPress={permissions.refresh} size="sm" />
 
     </View>
   );

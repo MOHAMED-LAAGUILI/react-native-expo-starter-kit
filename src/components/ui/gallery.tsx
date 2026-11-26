@@ -42,6 +42,11 @@ type GalleryProps = {
   onDownload?: (item: GalleryItem) => void;
   onShare?: (item: GalleryItem) => void;
   renderCustomOverlay?: (item: GalleryItem, index: number) => React.ReactNode;
+  /**
+   * Set to false when the gallery sits inside a vertical ScrollView: the page
+   * scrolls instead, and React Native stops warning about nested lists.
+   */
+  scrollEnabled?: boolean;
 };
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
@@ -118,6 +123,7 @@ type GalleryGridProps = {
   backgroundColor: string;
   renderCustomOverlay?: (item: GalleryItem, index: number) => React.ReactNode;
   onItemPress: (item: GalleryItem, index: number) => void;
+  scrollEnabled: boolean;
 };
 
 function GalleryGrid({
@@ -132,6 +138,7 @@ function GalleryGrid({
   backgroundColor,
   renderCustomOverlay,
   onItemPress,
+  scrollEnabled,
 }: GalleryGridProps) {
   const { width: screenWidth } = useWindowDimensions();
   const [containerWidth, setContainerWidth] = useState(screenWidth);
@@ -203,6 +210,7 @@ function GalleryGrid({
       }}
       columnWrapperStyle={columns > 1 ? { gap: spacing } : undefined}
       showsVerticalScrollIndicator={false}
+      scrollEnabled={scrollEnabled}
       onLayout={(event) => {
         setContainerWidth(event.nativeEvent.layout.width);
       }}
@@ -412,7 +420,7 @@ function useFullscreenViewerState(initialIndex: number) {
     fullscreenFlatListRef.current?.scrollToIndex({ index, animated: true });
   };
 
-  const onViewableItemsChanged = ({ viewableItems }: { viewableItems: Array<{ index: number | null }> }) => {
+  const onViewableItemsChanged = ({ viewableItems }: { viewableItems: Array<{ index?: number | null }> }) => {
     if (viewableItems.length === 0)
       return;
     const newIndex = viewableItems[0].index;
@@ -531,6 +539,7 @@ export function Gallery({
   onDownload,
   onShare,
   renderCustomOverlay,
+  scrollEnabled = true,
 }: GalleryProps) {
   const showPages = show?.pages ?? false;
   const showTitles = show?.titles ?? false;
@@ -589,6 +598,7 @@ export function Gallery({
         backgroundColor={backgroundColor}
         renderCustomOverlay={renderCustomOverlay}
         onItemPress={handleItemPress}
+        scrollEnabled={scrollEnabled}
       />
 
       <Modal visible={isModalVisible} transparent animationType="fade" onRequestClose={closeFullscreen}>

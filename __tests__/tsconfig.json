@@ -1,0 +1,13 @@
+{
+  // Tests run under Jest, so they need its globals (`describe`, `jest`, …) and
+  // Node's (`fs`, `process`) — neither belongs in the app's root config, where
+  // they would leak into React Native code. `__tests__` is excluded from the
+  // root tsconfig; this project owns it. Checked by `pnpm run type:check`.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["jest", "node"]
+  },
+  "include": ["**/*.ts", "**/*.tsx", "../src/types/*.d.ts", "../uniwind-types.d.ts", "../expo-env.d.ts"],
+  "exclude": []
+}

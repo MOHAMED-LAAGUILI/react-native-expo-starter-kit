@@ -1,7 +1,7 @@
 # Design System: React Native Starter Kit
 
 > Single source of truth for generating new screens and components.
-> Grounded in the real tokens defined in `global.css`, `src/config/color-palettes.ts`, `src/components/ui/*`.
+> Grounded in the real tokens defined in `src/style/global.css`, `src/config/color-palettes.ts`, `src/components/ui/*`.
 > Read this before designing anything new, then let it drive the implementation.
 
 **Where things live (current layout):**
@@ -24,7 +24,7 @@ Three tokens every screen obeys:
 
 ## 2. Color Palette & Roles
 
-Colors are **oklch CSS variables** defined in `global.css` under `@layer theme` with `@variant light` / `@variant dark`. Utility classes reference them by name: `bg-background`, `text-foreground`, `bg-primary`, `border-border`, etc. Never reference a hex color in a component unless a native API requires it (lucide icon `color` prop, `ActivityIndicator color`).
+Colors are **oklch CSS variables** defined in `src/style/global.css` under `@layer theme` with `@variant light` / `@variant dark`. Utility classes reference them by name: `bg-background`, `text-foreground`, `bg-primary`, `border-border`, etc. Never reference a hex color in a component unless a native API requires it (lucide icon `color` prop, `ActivityIndicator color`).
 
 ### Neutral scale (light / dark)
 
@@ -157,7 +157,7 @@ Three families, all theme-bound. Axis/grid/track colors come from `getAxisColor`
 Demo/dashboard section header: `<Text variant={default 'h3'}>` + 1px `bg-border` divider. `mt-6 mb-3 first:mt-0`.
 
 ### Gallery (`gallery.tsx`)
-Responsive image grid (`columns`, `spacing`, `aspectRatio`, `borderRadius`, optional `showTitles`/`showDescriptions`/`showPages`). Tap opens fullscreen viewer with pinch-to-zoom (`MIN_SCALE 0.8` / `MAX_SCALE 4`, spring gestures), swipe pagination, download/share actions. Exposes `useImageZoom()` hook for custom zoom layouts.
+Responsive image grid (`columns`, `spacing`, `aspectRatio`, `borderRadius`, optional `showTitles`/`showDescriptions`/`showPages`). Tap opens fullscreen viewer with pinch-to-zoom (`MIN_SCALE 0.8` / `MAX_SCALE 4`, spring gestures), swipe pagination, download/share actions. Exposes `useImageZoom()` hook for custom zoom layouts. The grid is a `FlatList`: inside a vertical `ScrollView` pass `scrollEnabled={false}` (the page scrolls instead, and RN stops warning that a VirtualizedList is nested in a same-direction ScrollView).
 
 ### MediaPicker (`media-picker.tsx`)
 Button-triggered image/video picker (`expo-image-picker` + media library): `mediaType` (`image`/`video`/`all`), `multiple`, `maxSelection`, `quality`, preview thumbnails of `selectedAssets`. Requests permissions through `loadExpoMediaLibrary`.
@@ -189,7 +189,7 @@ Segmented one-time-code input: `length`, `masked`, `separator`, `showCursor`, `o
 Data card with 7 variants: `stats` (default — `bg-card` + hairline `border-border`), `primary` (solid accent fill, white text), `secondary`, `compact` (tighter padding, `text-2xl` value), `action`, `mini` (row layout with accent gradient blush), `glass` (frosted `GlassView` surface with `border-white/20`, `dark:border-white/10`). Props: `title`, `value`, `subtitle`, optional lucide `icon` (44×44 tinted well), `children`, and `effect="gooey"` — pressable cards squash/stretch on press via the shared `useGooeyPress` hook. Surface: `rounded-2xl`, `border`, `overflow-hidden`.
 
 ### Form controls
-- **Switch / Toggle / Checkbox / RadioGroup / Slider / Progress** — all tinted with primary accent. `Slider` takes `orientation` (`horizontal` default / `vertical`) and `verticalLength` (track px, default 160); vertical is a custom `Gesture.Pan` + Reanimated track (tight `activeOffsetY` so it wins the gesture race against the surrounding ScrollView — a rotated native slider gets its drag stolen by scroll), with tap-to-seek and a `border`-colored rail, `primaryHex` fill + thumb. `disabled` dims the whole control to `opacity-50`.
+- **Switch / Toggle / Checkbox / RadioGroup / Slider / Progress** — all tinted with primary accent. `Progress` is in-house (react-native-svg + Reanimated, identical on web): `Bar` animates its fill with a 250 ms ease-out timing, `Pie` draws a 12-o'clock slice, `Circle` is a determinate ring or an `indeterminate` 3/4-arc spinner (1 s/turn), `CircleSnail` a 0.3 arc (0.9 s/turn) stepping through its `color` array each turn; spinners rotate a wrapping view and stop under reduced motion. `Slider` takes `orientation` (`horizontal` default / `vertical`) and `verticalLength` (track px, default 160); vertical is a custom `Gesture.Pan` + Reanimated track (tight `activeOffsetY` so it wins the gesture race against the surrounding ScrollView — a rotated native slider gets its drag stolen by scroll), with tap-to-seek and a `border`-colored rail, `primaryHex` fill + thumb. `disabled` dims the whole control to `opacity-50`.
 - **Switch** ships 4 variants: `default`, `liquid-glass`, `square`, and `gooey`. `gooey` uses an elongated pill-shaped knob (sizes `sm`/`md`/`lg` with fixed `trackW`/`knobW` ratios) that travels the track with a spring `{ damping: 13, stiffness: 150, mass: 0.9 }`, stretching in the direction of travel (`scaleX` 1→1.4→1, `scaleY` 1→0.85→1) while the track color interpolates `border` → `primaryHex`.
 - **CalendarView** (`react-native-calendars`) for date selection with marked dates; **DateTimePickerField** (`@react-native-community/datetimepicker`) for native pickers; **DatePicker** for custom calendar/range selection.
 - **Spinner** — `ActivityIndicator` via native `color` prop (hex from `useThemeColors`), sizes `sm`/`md`/`lg`.
@@ -297,7 +297,7 @@ When generating a screen, default to:
 - RNR structure & overlays: `Tabs`, `Accordion`, `Menubar`, `Popover`, `Select`, `Tooltip`, `Separator`, `Alert`, `Skeleton` from `@/components/ui` — same theme tokens. `Card` is the custom data-card (variants `primary`/`secondary`/`stats`/`compact`/`action`).
 
 **Themes that must stay in sync when you change any token:**
-1. `global.css` — neutral + radius + spacing tokens.
+1. `src/style/global.css` — neutral + radius + spacing tokens.
 2. `src/config/color-palettes.ts` — accent palettes (light + dark).
-3. `src/store/theme-store.ts` — mode (`light`/`dark`/`system`) + selected accent, persisted in MMKV.
+3. `src/store/theme-store.ts` — mode (`light`/`dark`/`system`) + selected accent, persisted via `StorageService` (expo-secure-store).
 4. `src/providers/theme-provider.tsx` — `Uniwind.setTheme` + `updateCSSVariables` + navigation theme.

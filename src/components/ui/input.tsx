@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react-native';
-import type { TextInputProps, TextStyle, ViewStyle } from 'react-native';
+import type { TextInputInstance, TextInputProps, TextStyle, ViewStyle } from 'react-native';
 import { Eye, EyeOff, KeyRound, Mail, Phone, Search, User, X } from 'lucide-react-native';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,7 @@ import { Text } from './text';
 type InputType = 'email' | 'password' | 'phone' | 'search' | 'text' | 'username';
 
 type InputProps = {
-  ref?: React.Ref<TextInput>;
+  ref?: React.Ref<TextInputInstance>;
   label?: string;
   error?: string;
   leftIcon?: React.ReactNode;
@@ -83,7 +83,7 @@ function ClearButton({ onClear }: { onClear: () => void }) {
 }
 
 type InputFieldProps = {
-  ref?: React.Ref<TextInput>;
+  ref?: React.Ref<TextInputInstance>;
   focused: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
@@ -211,16 +211,16 @@ function Input({
   ...props
 }: InputProps) {
   const [isFocused, setIsFocused] = React.useState(false);
-  const inputRef = React.useRef<TextInput>(null);
+  const inputRef = React.useRef<TextInputInstance>(null);
 
   // Keeps the internal ref (label press → focus) while forwarding to the consumer's ref.
-  const setRefs = (node: TextInput | null) => {
+  const setRefs = (node: TextInputInstance | null) => {
     inputRef.current = node;
     if (typeof ref === 'function') {
       ref(node);
     }
     else if (ref) {
-      (ref as React.RefObject<TextInput | null>).current = node;
+      (ref as React.RefObject<TextInputInstance | null>).current = node;
     }
   };
 

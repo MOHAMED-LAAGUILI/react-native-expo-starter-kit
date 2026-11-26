@@ -1,0 +1,24 @@
+# gitleaks config — used by the `secrets` job in .github/workflows/ci.yml.
+# Local scan: `gitleaks protect --staged --redact --config=.gitleaks.toml`
+# (install: https://github.com/gitleaks/gitleaks).
+title = "react-native-expo-starter-kit gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Templates, docs and test fixtures contain example strings, not secrets."
+paths = [
+  '''(^|/)\.env\.example$''',
+  '''(^|/)[^/]+\.md$''',
+  '''^__tests__/''',
+  '''^\.maestro/''',
+  '''^pnpm-lock\.yaml$''',
+]
+regexes = [
+  '''(?i)placeholder''',
+  '''(?i)your[-_][a-z0-9]+[-_]here''',
+  '''(?i)replace[-_]me''',
+  '''(?i)example\.(test|com|org)''',
+  '''(?i)\bdemo[-_]?(token|refresh)\b''',
+]

@@ -1,7 +1,7 @@
 import type { AssetInfo } from 'expo-media-library';
 import type { LucideIcon } from 'lucide-react-native';
 import type { ReactNode } from 'react';
-import type { ViewStyle } from 'react-native';
+import type { ViewInstance, ViewStyle } from 'react-native';
 import type { ButtonSize, ButtonVariant } from './button';
 import * as ImagePicker from 'expo-image-picker';
 import { Video, X } from 'lucide-react-native';
@@ -553,7 +553,7 @@ export function MediaPicker({
   disabled = false,
   selectedAssets = [],
   ref,
-}: MediaPickerProps & { ref?: React.Ref<View> }) {
+}: MediaPickerProps & { ref?: React.Ref<ViewInstance> }) {
   const {
     assets,
     galleryAssets,

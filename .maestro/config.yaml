@@ -1,0 +1,15 @@
+# Maestro workspace config — https://docs.maestro.dev
+#
+# Run from the project root (see .maestro/README.md):
+#   pnpm run e2e:metro      # terminal 1 — Metro in E2E mode
+#   pnpm run e2e:android    # terminal 2 — every flow listed below
+#   pnpm run e2e:ios
+#
+# The app id is passed by those scripts as `-e APP_ID=…`; every flow starts
+# with `appId: ${APP_ID}`, so a renamed bundle id is a one-line change in
+# package.json. `subflows/` and `scripts/` are never listed here: they are
+# called from flows, not run on their own.
+flows:
+  - 'smoke/*'
+  - 'auth/*'
+  - 'navigation/*'

@@ -1,0 +1,16 @@
+# Subflow: accept an Android runtime-permission dialog if one is showing.
+# Safe to call when none is — every step is optional.
+appId: ${APP_ID}
+---
+- extendedWaitUntil:
+    visible:
+      id: 'com.android.permissioncontroller:id/permission_allow_button'
+    timeout: 5000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'com.android.permissioncontroller:id/permission_allow_button'
+    commands:
+      - tapOn:
+          id: 'com.android.permissioncontroller:id/permission_allow_button'

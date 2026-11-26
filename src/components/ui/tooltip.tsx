@@ -49,7 +49,7 @@ function TooltipContent({
                   'bg-primary z-50 rounded-md px-2 py-1 sm:py-1',
                   Platform.select({
                     web: cn(
-                      'w-fit origin-(--radix-tooltip-content-transform-origin) animate-in text-balance fade-in-0 zoom-in-95',
+                      'animate-in fade-in-0 zoom-in-95 w-fit origin-(--radix-tooltip-content-transform-origin) text-balance',
                       side === 'bottom' && 'slide-in-from-top-2',
                       side === 'left' && 'slide-in-from-right-2',
                       side === 'right' && 'slide-in-from-left-2',

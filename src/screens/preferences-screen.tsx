@@ -25,7 +25,7 @@ export function PreferencesScreen() {
   const [entries] = React.useState<Entry[]>(() => readAllKeys());
 
   return (
-    <ScrollView className="flex-1 bg-background">
+    <ScrollView className="bg-background flex-1">
       <View className="mb-10 gap-6 p-6">
         <View className="flex-row items-center justify-between">
           <Text variant="h4">Stored Preferences</Text>

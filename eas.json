@@ -9,31 +9,41 @@
       "distribution": "store",
       "environment": "production",
       "ios": {
-        "image": "latest"
+        "image": "sdk-58"
       },
       "android": {
         "buildType": "app-bundle",
-        "image": "latest"
+        "image": "sdk-58"
       },
       "env": {
-        "EXPO_PUBLIC_APP_ENV": "production"
+        "EXPO_PUBLIC_APP_ENV": "production",
+        "EXPO_PUBLIC_API_URL": "http://localhost:3000/api",
+        "EXPO_PUBLIC_ENABLE_ANALYTICS": "false",
+        "EXPO_PUBLIC_ENABLE_CRASH_REPORTING": "false",
+        "EXPO_PUBLIC_QUERY_DEVTOOLS": "0"
       }
     },
     "preview": {
       "channel": "preview",
       "distribution": "internal",
-      "autoIncrement": true,      
+      "autoIncrement": true,
       "ios": {
-        "image": "latest"
+        "image": "sdk-58"
       },
       "android": {
-        "gradleCommand": "assembleRelease -PreactNativeArchitectures=arm64-v8a,armeabi-v7a",
+        "gradleCommand": "assembleRelease -PreactNativeArchitectures=arm64-v8a",
         "buildType": "apk",
-        "image": "latest"
+        "image": "sdk-58"
       },
       "environment": "preview",
       "env": {
-        "EXPO_PUBLIC_APP_ENV": "preview"
+        "EXPO_PUBLIC_APP_ENV": "preview",
+        "EXPO_PUBLIC_API_URL": "http://localhost:3000/api",
+        "EXPO_PUBLIC_ENABLE_ANALYTICS": "false",
+        "EXPO_PUBLIC_ENABLE_CRASH_REPORTING": "false",
+        "EXPO_PUBLIC_QUERY_DEVTOOLS": "0",
+        "EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH": "1",
+        "EXPO_UNSTABLE_TREE_SHAKING": "1"
       }
     },
     "development": {
@@ -41,13 +51,17 @@
       "distribution": "internal",
       "environment": "development",
       "ios": {
-        "image": "latest"
+        "image": "sdk-58"
       },
       "android": {
-        "image": "latest"
+        "image": "sdk-58"
       },
       "env": {
-        "EXPO_PUBLIC_APP_ENV": "development"
+        "EXPO_PUBLIC_APP_ENV": "development",
+        "EXPO_PUBLIC_API_URL": "http://localhost:3000/api",
+        "EXPO_PUBLIC_ENABLE_ANALYTICS": "false",
+        "EXPO_PUBLIC_ENABLE_CRASH_REPORTING": "false",
+        "EXPO_PUBLIC_QUERY_DEVTOOLS": "0"
       },
       "channel": "development"
     }

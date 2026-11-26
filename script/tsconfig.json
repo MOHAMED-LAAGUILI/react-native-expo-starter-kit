@@ -4,14 +4,24 @@
   // and the timer return types differ from React Native's and would leak into
   // app code. TypeScript 6 no longer auto-includes `@types/*`, so `types` is
   // explicit. `script` is excluded from the root tsconfig; this project owns it.
-  "extends": "../tsconfig.json",
+  //
+  // Standalone on purpose — it does NOT extend ../tsconfig.json: that config
+  // extends `expo/tsconfig.base`, and the Node tooling (guard, setup:check,
+  // deps:fix, upgrade:expo) must type-check and run even while `expo` is
+  // missing from node_modules — which is exactly when you need those scripts.
   "compilerOptions": {
+    "target": "ESNext",
     "lib": ["ESNext"],
     "module": "preserve",
     "moduleResolution": "bundler",
+    "types": ["node"],
+    "strict": true,
     "noEmit": true,
-    "types": ["node"]
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
-  "include": ["**/*.ts"],
-  "exclude": ["../node_modules"]
+  "include": ["**/*.ts"]
 }

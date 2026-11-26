@@ -19,7 +19,7 @@ function PostDetailScreen() {
 
   if (error || !post) {
     return (
-      <View className="flex-1 items-center justify-center bg-background px-6">
+      <View className="bg-background flex-1 items-center justify-center px-6">
         <Text
           variant="body"
           className="text-destructive mb-4 text-center"
@@ -36,7 +36,7 @@ function PostDetailScreen() {
   }
 
   return (
-    <ScrollView className="flex-1 bg-background">
+    <ScrollView className="bg-background flex-1">
       <PostHero post={post} />
     </ScrollView>
   );

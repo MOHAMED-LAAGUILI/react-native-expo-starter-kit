@@ -35,6 +35,7 @@ function LoginFormFields({ form, isLogin, formError }: LoginFormFieldsProps) {
           <Input
             type="email"
             label="Email"
+            testID="login-email"
             placeholder="Enter your email"
             autoCapitalize="none"
             value={field.state.value}
@@ -50,6 +51,7 @@ function LoginFormFields({ form, isLogin, formError }: LoginFormFieldsProps) {
           <Input
             type="password"
             label="Password"
+            testID="login-password"
             placeholder="Enter your password"
             value={field.state.value}
             onChangeText={v => field.handleChange(v)}
@@ -83,6 +85,7 @@ function LoginFormFields({ form, isLogin, formError }: LoginFormFieldsProps) {
         {isSubmitting => (
           <Button
             title={isLogin ? 'Sign In' : 'Sign Up'}
+            testID="login-submit"
             loading={isSubmitting}
             onPress={() => form.handleSubmit()}
             size="lg"

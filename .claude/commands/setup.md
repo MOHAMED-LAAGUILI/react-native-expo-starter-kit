@@ -1,5 +1,5 @@
 ---
-description: Bootstrap the project — install skills from skills-lock.json and pnpm dependencies
+description: Bootstrap the project — pnpm dependencies, env files and a machine check
 allowed-tools: Bash, Read, Glob, Grep
 ---
 
@@ -9,14 +9,14 @@ Bootstrap this project from a clean checkout.
 pnpm run setup
 ```
 
-That is `pnpm run install:safe && pnpm run skills:install && pnpm run env:create`. Run the steps separately if you need to isolate a failure:
+That is `pnpm run install:safe && pnpm run env:create && pnpm run setup:check`. Run the steps separately if you need to isolate a failure:
 
 ```bash
 pnpm run install:safe
 ```
 
 ```bash
-pnpm run skills:install
+pnpm run setup:check
 ```
 
 ```bash
@@ -29,9 +29,7 @@ pnpm run env:create
 
 **`pnpm run env:create`** (`script/create-env-files.ts`) — creates any missing `.env.{development,preview,production}` from `.env.example`; existing files are skipped.
 
-**`pnpm run skills:install`** (`script/install-skills.ts`) — installs every skill pinned in `skills-lock.json` into `.claude/skills/`, preferring autoskills' local cache (where the lockfile hash is the cache key, so a hit is the exact pinned revision) and falling back to `raw.githubusercontent.com` for `sourceType: "github"` entries.
-
-Use `pnpm run skills:check` to preview without writing.
+**`pnpm run setup:check`** (`script/check-setup.ts`) — checks Node, pnpm, `node_modules`, `.env.*`, JDK 17, Android SDK, Xcode (macOS), Watchman, Maestro, ffmpeg and Docker, and prints a fix for anything missing.
 
 ## Reporting
 
@@ -41,6 +39,7 @@ Report what actually happened, per step:
 - A non-zero exit from the installer means some skills are unavailable; list them.
 - If the install was blocked by the guard, skipped or failed, say that explicitly instead of moving on.
 
-## Do not run `npx autoskills`
+## Skills
 
-`pnpm skills` (`npx autoskills`) re-detects skills from the dependency tree and installs **globally** to `~/.agents/skills/`, not into this project — a different set in a different place, and it rewrites `skills-lock.json`. `skills-lock.json` is the source of truth; `skills:install` reads it. Only run `pnpm skills` when the user explicitly wants to re-detect and re-pin.
+Agent skills are committed in `.claude/skills/` — nothing to install. Add more with `pnpm run skills:add -- <owner/repo>` (skills.sh CLI) and commit them.
+

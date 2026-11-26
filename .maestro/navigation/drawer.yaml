@@ -1,0 +1,26 @@
+# Flow: the drawer opens and reaches a drawer-only route.
+# Screens: app/(app)/_layout.tsx (DRAWER_ROUTES), src/components/drawer/drawer-header-left.tsx, src/components/drawer/app-drawer-content.tsx
+# Guards the SDK 58 rule that undeclared drawer routes are unreachable.
+appId: ${APP_ID}
+tags:
+  - navigation
+---
+- runFlow: ../subflows/launch.yaml
+- runFlow: ../subflows/skip-onboarding.yaml
+- runFlow: ../subflows/demo-login.yaml
+- tapOn:
+    id: drawer-toggle
+- scrollUntilVisible:
+    element:
+      text: UI Components
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    text: UI Components
+- assertNotVisible:
+    id: home-screen
+- back
+- extendedWaitUntil:
+    visible:
+      id: home-screen
+    timeout: 10000

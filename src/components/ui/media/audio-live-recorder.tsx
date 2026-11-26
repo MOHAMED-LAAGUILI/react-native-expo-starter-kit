@@ -30,7 +30,7 @@ export default function VoiceVisualizer() {
   const circleColors: [string, string] = [primaryLight, primary];
 
   return (
-    <View className="w-full items-center justify-center bg-background px-4 py-10">
+    <View className="bg-background w-full items-center justify-center px-4 py-10">
       <View className="w-full flex-row items-center justify-center">
         <View className="flex-1 items-end overflow-hidden">
           <Waveform reverse gradientColors={barColors} />

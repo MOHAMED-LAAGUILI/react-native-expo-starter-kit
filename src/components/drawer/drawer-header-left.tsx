@@ -41,6 +41,7 @@ export function DrawerHeaderLeft() {
         }}
         accessibilityRole="button"
         accessibilityLabel={t('common.openMenu')}
+        testID="drawer-toggle"
         className="size-10 items-center justify-center"
       >
         <Menu size={24} color={HEADER_ICON_COLOR} />

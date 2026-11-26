@@ -33,6 +33,7 @@ export function OnboardingControls({
     <View className="flex-row items-center justify-between px-6" style={{ paddingBottom: Math.max(insets.bottom, 24) }}>
       <Pressable
         onPress={onBack}
+        testID="onboarding-back"
         disabled={isFirst}
         accessibilityRole="button"
         accessibilityLabel={t('common.back')}
@@ -45,6 +46,7 @@ export function OnboardingControls({
 
       <Pressable
         onPress={isLast ? (onComplete ?? (() => {})) : onSkip}
+        testID="onboarding-skip"
         disabled={isLast}
         accessibilityRole="button"
         accessibilityLabel={isLast ? t('common.finish') : t('common.skip')}
@@ -57,6 +59,7 @@ export function OnboardingControls({
 
       <Pressable
         onPress={isLast ? (onComplete ?? (() => {})) : onNext}
+        testID={isLast ? 'onboarding-finish' : 'onboarding-next'}
         accessibilityRole="button"
         accessibilityLabel={isLast ? t('common.finish') : t('common.next')}
         className="size-12 items-center justify-center rounded-full"

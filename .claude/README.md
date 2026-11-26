@@ -2,7 +2,7 @@
 
 Claude Code configuration for this repo.
 
-The behavioural rules Claude follows live in **[`AGENTS.md`](../AGENTS.md)** (loaded via `CLAUDE.md` → `@AGENTS.md`) and **[`DESIGN.md`](../DESIGN.md)**. This folder holds only the harness config: permissions, slash commands, and subagents. Conventions go in `AGENTS.md`, not here.
+The behavioural rules Claude follows live in **[`CLAUDE.md`](../CLAUDE.md)** (the single source of truth — `AGENTS.md` only points to it) and **[`DESIGN.md`](../DESIGN.md)**. This folder holds only the harness config: permissions, slash commands, and subagents. Conventions go in `CLAUDE.md`, not here.
 
 ## Layout
 
@@ -11,7 +11,7 @@ The behavioural rules Claude follows live in **[`AGENTS.md`](../AGENTS.md)** (lo
 ├── settings.json     — shared permissions (checked-in, team-wide)
 ├── commands/         — /slash commands
 ├── agents/           — subagent definitions
-└── skills/           — skills installed from ../skills-lock.json (git-ignored)
+└── skills/           — agent skills, committed (added with `pnpm run skills:add -- <owner/repo>`)
 ```
 
 `settings.local.json` (git-ignored by Claude Code convention) is the place for personal overrides — put machine-specific paths and your own permission grants there, not in `settings.json`.
@@ -20,12 +20,12 @@ The behavioural rules Claude follows live in **[`AGENTS.md`](../AGENTS.md)** (lo
 
 | Command | Purpose |
 |---|---|
-| `/setup` | Bootstrap the project — guarded `pnpm install` (`install:safe`) + skills from `skills-lock.json` + env files |
+| `/setup` | Bootstrap the project — guarded `pnpm install` (`install:safe`) + env files + machine check |
 | `/checks` | Run `pnpm run checks` (the pre-commit suite) and fix what fails |
 | `/new-screen <name> [tab\|drawer]` | Scaffold a screen: component, route, nav entry, i18n keys, docs |
 | `/new-component <name>` | Scaffold a `src/components/ui/` component + barrel export + `DESIGN.md` entry |
 | `/i18n-check` | Audit EN/FR key parity and find hardcoded user-facing strings |
-| `/docs-sync` | Bring `AGENTS.md` / `DESIGN.md` / `README.md` in line with the current diff |
+| `/docs-sync` | Bring `CLAUDE.md` / `DESIGN.md` / `README.md` in line with the current diff |
 | `/ship [ios\|android] [preview\|production]` | Verify release readiness and print the EAS commands to run |
 
 ## Agents
@@ -59,22 +59,10 @@ Not enabled by default, since it runs on every edit. To turn it on, add to `sett
 
 ## Version control
 
-`settings.json`, `commands/` and `agents/` are committed and shared with the team. The root `.gitignore` excludes only `.claude/skills` (vendored skill markdown, restored from `skills-lock.json`) and `.agents/skills`.
+`settings.json`, `commands/` and `agents/` are committed and shared with the team. Everything here is committed, including `skills/`.
 
 Personal overrides belong in `settings.local.json`, which Claude Code ignores by convention.
 
 ## Skills
 
-`skills/` holds the skills pinned in [`skills-lock.json`](../skills-lock.json), installed project-locally so they are scoped to this repo rather than to your machine. The directory is git-ignored — the lockfile is what gets committed.
-
-Install or restore them with:
-
-```bash
-pnpm run skills:install
-```
-
-or as part of `pnpm run setup`. Use `pnpm run skills:check` for a dry run.
-
-The installer resolves each entry from autoskills' local cache first (the lockfile's `computedHash` is that cache's key, so a hit is the exact pinned revision), then falls back to `raw.githubusercontent.com` for `sourceType: "github"` entries. **Skills fetched from GitHub are not revision-verified** — `computedHash` is not a plain sha256 of `SKILL.md`, so on a cache miss the pinned revision cannot be confirmed.
-
-`pnpm skills` (`npx autoskills`) is a different operation and does not read the lockfile as input: it re-detects skills from the dependency tree, installs **globally** to `~/.agents/skills/`, and rewrites `skills-lock.json` with whatever it detected. Run it only when you intend to re-pin.
+`skills/` holds the project's agent skills, committed so every clone has them. Add them from GitHub or [skills.sh](https://skills.sh) with `pnpm run skills:add -- <owner/repo>` (copies into `.claude/skills/`), find them with `pnpm run skills:find -- <query>`, update them with `pnpm run skills:update`, then commit the changed files. There is no lockfile — see CLAUDE.md § Skills for the recommended sources.

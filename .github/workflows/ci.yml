@@ -1,0 +1,164 @@
+# CI — fast checks on every pull request and every push to main.
+#
+#   quality         lint · type-check (app, scripts, tests) · Jest · test
+#                   discovery · locale parity · image optimization
+#   secrets         gitleaks over the full history of the PR
+#   maestro-syntax  every Maestro flow parses (the real E2E run is e2e.yml)
+#
+# Everything here mirrors a local command (`pnpm run checks` runs the same
+# set), so a red check is always reproducible on your machine.
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Skips the local node_modules lock guard (script/guard-node-modules.ts).
+  CI: 'true'
+
+jobs:
+  quality:
+    name: lint · types · tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Enable pnpm (version from package.json "packageManager")
+        run: corepack enable
+
+      - name: Resolve pnpm store path
+        id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
+      - name: Install dependencies (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      - name: ESLint
+        run: pnpm exec eslint .
+
+      - name: TypeScript (app, script/, __tests__/)
+        run: pnpm run type:check
+
+      - name: Jest
+        run: pnpm run test:coverage --ci
+
+      - name: Every test file is discovered
+        run: pnpm run test:discovery
+
+      - name: Locale parity (en ⇄ fr)
+        run: pnpm run i18n:check
+
+      - name: Images are optimized
+        run: pnpm run images:check
+
+      - name: README badges match package.json
+        run: pnpm run docs:check
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 14
+          if-no-files-found: ignore
+
+  secrets:
+    name: secret scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+          GITLEAKS_ENABLE_COMMENTS: false
+
+  maestro-syntax:
+    name: maestro flows parse
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      MAESTRO_VERSION: 2.10.0
+      # SHA-256 of maestro.zip for that version (GitHub release asset digest). Bump both together.
+      MAESTRO_SHA256: 29b675e10cc12080e445e9bfb2e2b4e4dfb9c0f2e30d5884120d258b5e1cd991
+      MAESTRO_CLI_NO_ANALYTICS: '1'
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install Maestro ${{ env.MAESTRO_VERSION }}
+        run: |
+          curl --fail --location --silent --show-error --output "$RUNNER_TEMP/maestro.zip" \
+            "https://github.com/mobile-dev-inc/maestro/releases/download/cli-${MAESTRO_VERSION}/maestro.zip"
+          echo "${MAESTRO_SHA256}  $RUNNER_TEMP/maestro.zip" | sha256sum -c -   # abort on mismatch
+          unzip -q "$RUNNER_TEMP/maestro.zip" -d "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/maestro/bin" >> "$GITHUB_PATH"
+
+      # Negative control: prove `check-syntax` really rejects a broken flow,
+      # so a green run below means "all flows parse", not "the checker is a no-op".
+      - name: Self-test — a malformed flow must fail
+        run: |
+          cat > "$RUNNER_TEMP/broken.yaml" <<'YAML'
+          appId: com.example.selftest
+          ---
+          - extendedWaitUntil:
+              notVisible:
+                id: "some-element"
+              timeout: 5000
+            optional: true
+          YAML
+          if maestro check-syntax "$RUNNER_TEMP/broken.yaml"; then
+            echo "::error::maestro check-syntax accepted a malformed flow — this check cannot detect failures."
+            exit 1
+          fi
+
+      - name: Check every flow
+        run: |
+          shopt -s globstar nullglob
+          checked=0; failed=0
+          for flow in .maestro/**/*.yaml; do
+            [ "$flow" = ".maestro/config.yaml" ] && continue
+            checked=$((checked + 1))
+            if output=$(maestro check-syntax "$flow" 2>&1); then
+              echo "ok   $flow"
+            else
+              failed=$((failed + 1))
+              echo "::error file=${flow}::Maestro cannot parse this flow"
+              printf '%s\n' "$output"
+            fi
+          done
+          if [ "$checked" -eq 0 ]; then echo "::error::No Maestro flows found under .maestro/"; exit 1; fi
+          echo "$checked flow(s) checked, $failed failed."
+          [ "$failed" -eq 0 ]

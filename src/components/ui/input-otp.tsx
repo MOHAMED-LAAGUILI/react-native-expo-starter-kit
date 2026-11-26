@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { BlurEvent, FocusEvent, NativeSyntheticEvent, TextInputKeyPressEventData, TextInputProps, TextStyle, ViewStyle } from 'react-native';
+import type { BlurEvent, FocusEvent, TextInputInstance, TextInputKeyPressEvent, TextInputProps, TextStyle, ViewStyle } from 'react-native';
 import type { HapticType } from '@/hooks/use-haptics';
 import React, {
   useImperativeHandle,
@@ -71,7 +71,7 @@ function useOtpController({
   feedback: (type: HapticType) => void;
 }) {
   const [isFocused, setIsFocused] = useState(false);
-  const inputRef = useRef<TextInput>(null);
+  const inputRef = useRef<TextInputInstance>(null);
 
   const normalizedValue = value.slice(0, length);
 
@@ -92,7 +92,7 @@ function useOtpController({
     }
   };
 
-  const handleKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+  const handleKeyPress = (e: TextInputKeyPressEvent) => {
     const { key } = e.nativeEvent;
 
     if (key === 'Backspace' && normalizedValue.length > 0) {

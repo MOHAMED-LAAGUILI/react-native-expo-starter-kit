@@ -201,6 +201,13 @@ export default function TabLayout() {
             options={{ headerTitle: t(item.translationKey) }}
           />
         ))}
+      {/*
+        Non-tab routes (drawer/menu only). SDK 58 only registers declared screens,
+        and a null `href` option now marks a screen hidden, which makes it redirect to the
+        first tab. Declare it plainly instead: CustomTabBar renders no button for
+        routes without a TAB_CONFIG entry.
+      */}
+      <Tabs.Screen name="profile" />
     </Tabs>
   );
 }

@@ -1,0 +1,60 @@
+# Maintenance — a weekly health report, written to the run's job summary.
+#
+#   deps    Expo SDK alignment · outdated packages · unused/unlisted deps ·
+#           duplicate singletons · lighter alternatives (pnpm run deps:check)
+#   bundle  what each package adds to the production JS bundle, checked
+#           against perf-budget.json (pnpm run perf:bundle -- --budget)
+#
+# Nothing is changed or committed: Expo-managed packages must move together
+# through `pnpm run upgrade:expo`, which a human runs and reviews. Open the
+# latest run under Actions → Maintenance to read the report.
+
+name: Maintenance
+
+on:
+  schedule:
+    - cron: '0 6 * * 1' # Mondays 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CI: 'true'
+
+jobs:
+  deps:
+    name: dependency report
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile
+      - name: Dependency report
+        run: pnpm run deps:check --strict
+
+  bundle:
+    name: bundle size
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile
+      - name: Android bundle vs. budget
+        run: pnpm run perf:bundle -- --platform android --budget
+      - name: iOS bundle
+        run: pnpm run perf:bundle -- --platform ios
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bundle-report
+          path: dist/bundle-report/*.json
+          retention-days: 30

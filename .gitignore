@@ -14,14 +14,16 @@ yarn-error.log
 /coverage
 /android
 /ios
-/docs
+# Maestro E2E artifacts (logcat, recordings, JUnit) — see .github/scripts/maestro-e2e.sh
+maestro-out/
 # macOS
 .DS_Store
 .idea
 .freebuff/
 .kilo/
-.claude/skills
-.agents/skills
+# Skills live in .claude/skills and are committed (pnpm run skills:add);
+# the skills CLI's lockfile is not used.
+skills-lock.json
 .env.production
 .env.development
 .env.preview

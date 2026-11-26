@@ -120,7 +120,7 @@ function DropdownMenuContent({
                   'border-border bg-popover min-w-32 overflow-hidden rounded-md border p-1 shadow-lg shadow-black/5',
                   Platform.select({
                     web: cn(
-                      'z-50 max-h-(--radix-context-menu-content-available-height) origin-(--radix-context-menu-content-transform-origin) animate-in cursor-default fade-in-0 zoom-in-95',
+                      'animate-in fade-in-0 zoom-in-95 z-50 max-h-(--radix-context-menu-content-available-height) origin-(--radix-context-menu-content-transform-origin) cursor-default',
                       props.side === 'bottom' && 'slide-in-from-top-2',
                       props.side === 'top' && 'slide-in-from-bottom-2',
                     ),

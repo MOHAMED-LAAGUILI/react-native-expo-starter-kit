@@ -1,0 +1,3 @@
+# Build context is docker/ only (see compose.yaml) — the Dockerfile needs nothing else.
+*
+!android.Dockerfile

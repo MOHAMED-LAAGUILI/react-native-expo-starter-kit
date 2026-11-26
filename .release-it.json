@@ -1,0 +1,48 @@
+{
+  "$schema": "https://unpkg.com/release-it@21/schema/release-it.json",
+  "git": {
+    "requireBranch": "main",
+    "requireCleanWorkingDir": true,
+    "requireUpstream": true,
+    "commitMessage": "chore(release): v${version}",
+    "tagName": "v${version}",
+    "tagAnnotation": "Release v${version}",
+    "push": true
+  },
+  "github": {
+    "release": true,
+    "releaseName": "v${version}"
+  },
+  "npm": {
+    "publish": false
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "infile": "CHANGELOG.md",
+      "header": "# Changelog",
+      "preset": {
+        "name": "conventionalcommits",
+        "types": [
+          { "type": "feat", "section": "Features" },
+          { "type": "fix", "section": "Bug fixes" },
+          { "type": "perf", "section": "Performance" },
+          { "type": "update", "section": "Updates" },
+          { "type": "improve", "section": "Improvements" },
+          { "type": "refactor", "section": "Refactoring" },
+          { "type": "revert", "section": "Reverts" },
+          { "type": "build", "section": "Build & dependencies" },
+          { "type": "docs", "hidden": true },
+          { "type": "style", "hidden": true },
+          { "type": "test", "hidden": true },
+          { "type": "ci", "hidden": true },
+          { "type": "chore", "hidden": true }
+        ]
+      }
+    }
+  },
+  "hooks": {
+    "before:init": ["pnpm run lint", "pnpm run type:check", "pnpm test"],
+    "after:bump": ["pnpm run docs:badges"],
+    "after:release": "echo Released v${version}"
+  }
+}

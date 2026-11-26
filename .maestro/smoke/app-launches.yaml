@@ -1,0 +1,12 @@
+# Flow: the app boots from a clean install and shows onboarding.
+# Screens: app/_layout.tsx, app/index.tsx, app/onboarding.tsx, src/components/onboarding/onboarding-controls.tsx
+# The fastest signal that the bundle loads at all — run it first when triaging.
+appId: ${APP_ID}
+tags:
+  - smoke
+---
+- runFlow: ../subflows/launch.yaml
+- assertVisible:
+    id: onboarding-next
+- assertVisible:
+    id: onboarding-back

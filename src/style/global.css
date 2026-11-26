@@ -2,6 +2,12 @@
 @import 'uniwind';
 @import 'tw-animate-css';
 
+/* Uniwind scans for class names from this file's folder (src/style/), so the
+   folders that use classes must be listed explicitly. Paths are relative to
+   this file. Without these, almost no utilities are generated. */
+@source '../../app';
+@source '..';
+
 @theme {
   --radius: 12px;
   --radius-sm: calc(var(--radius) - 5px);

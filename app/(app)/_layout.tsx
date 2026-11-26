@@ -13,6 +13,22 @@ function renderDrawerContent(props: ComponentProps<typeof AppDrawerContent>) {
   return <AppDrawerContent {...props} />;
 }
 
+// Expo Router SDK 58: Drawer only registers screens declared here — a route
+// file without a matching entry is unreachable. Keep in sync with `app/(app)/`.
+const DRAWER_ROUTES = [
+  '(tabs)',
+  'blocks',
+  'dev-data',
+  'dev-forms',
+  'dev-media',
+  'dev-onboarding',
+  'dev-preferences',
+  'dev-test',
+  'dev-ui',
+  'parallax',
+  'post/[id]',
+] as const;
+
 export default function AppLayout() {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
   const primaryHex = usePrimaryHex();
@@ -39,6 +55,10 @@ export default function AppLayout() {
         headerTitle: HeaderTitle,
         drawerStyle: { width: '80%' },
       }}
-    />
+    >
+      {DRAWER_ROUTES.map(name => (
+        <Drawer.Screen key={name} name={name} />
+      ))}
+    </Drawer>
   );
 }

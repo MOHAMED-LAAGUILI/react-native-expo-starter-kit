@@ -2,6 +2,10 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    // Required by allowImportingTsExtensions. Also inherited from
+    // expo/tsconfig.base, but stated here so the config stays valid if an
+    // editor reads it while node_modules is being reinstalled.
+    "noEmit": true,
     "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -34,6 +38,10 @@
     "babel.config.js",
     "metro.config.js",
     "script",
+    "__tests__",
+    "jest.config.js",
+    "coverage",
+    "dist",
     "android",
     "ios",
   ]

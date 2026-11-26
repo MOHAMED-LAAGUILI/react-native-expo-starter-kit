@@ -5,7 +5,7 @@ function Loading() {
   const primaryHex = usePrimaryHex();
 
   return (
-    <View className="flex-1 items-center justify-center gap-4 bg-background">
+    <View className="bg-background flex-1 items-center justify-center gap-4">
       <ActivityIndicator size="large" color={primaryHex} />
     </View>
   );

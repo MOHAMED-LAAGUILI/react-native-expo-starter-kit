@@ -43,7 +43,7 @@ export function OnboardingScreen({ steps, onComplete }: OnboardingScreenProps) {
   const animation = direction === 'forward' ? FadeInRight.duration(350) : FadeInLeft.duration(350);
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="bg-background flex-1">
       <View className="mx-4 mt-14 flex-1 overflow-hidden rounded-[32px]">
         <View className="flex-1 items-center justify-center px-6">
           <OnboardingSVG

@@ -1,0 +1,64 @@
+# Flow: a ~40 s guided tour of the app, recorded by `pnpm run demo:record`
+# into the README demo. Not part of the E2E suite (not listed in config.yaml).
+# Screens: onboarding, login, home, Search / Graphs / Settings tabs, drawer, UI Components
+# Pacing: `waitForAnimationToEnd` + short swipes so every screen is readable in the GIF.
+appId: ${APP_ID}
+tags:
+  - demo
+---
+- runFlow: ../subflows/launch.yaml
+# Onboarding: show two steps, then skip to the end.
+- tapOn:
+    id: onboarding-next
+- waitForAnimationToEnd
+- tapOn:
+    id: onboarding-skip
+- tapOn:
+    id: onboarding-finish
+- extendedWaitUntil:
+    visible:
+      id: login-email
+    timeout: 15000
+- runFlow: ../subflows/demo-login.yaml
+# Home: scroll the component showcase.
+- swipe:
+    direction: UP
+    duration: 900
+- waitForAnimationToEnd
+- swipe:
+    direction: UP
+    duration: 900
+- waitForAnimationToEnd
+- swipe:
+    direction: DOWN
+    duration: 600
+# Tabs.
+- tapOn: Graphs
+- waitForAnimationToEnd
+- swipe:
+    direction: UP
+    duration: 900
+- waitForAnimationToEnd
+- tapOn: Search
+- waitForAnimationToEnd
+- tapOn: Settings
+- waitForAnimationToEnd
+- swipe:
+    direction: UP
+    duration: 900
+- waitForAnimationToEnd
+# Drawer → a drawer-only screen.
+- tapOn:
+    id: drawer-toggle
+- waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: UI Components
+    direction: DOWN
+    timeout: 10000
+- tapOn: UI Components
+- waitForAnimationToEnd
+- swipe:
+    direction: UP
+    duration: 900
+- waitForAnimationToEnd

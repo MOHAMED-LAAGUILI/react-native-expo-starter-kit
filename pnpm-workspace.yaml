@@ -1,3 +1,8 @@
+# Install scripts are blocked by default; only the packages listed below may run
+# theirs. pnpm 11 (newer EAS / CI images) reads `allowBuilds`; pnpm 10 (pinned in
+# package.json "packageManager") reads `onlyBuiltDependencies` — keep both lists
+# identical. Audit with `pnpm ignored-builds`. `patchedDependencies` is written by
+# `pnpm patch-commit` only if a package is ever patched (none are today).
 allowBuilds:
   esbuild: true
   unrs-resolver: true
@@ -10,9 +15,18 @@ trustPolicy: no-downgrade
 
 trustPolicyExclude:
   - semver@6.3.1
-  - recast@0.23.12
+  - recast@0.23.
 overrides:
   fast-uri@>=3.0.0 <3.1.5: '>=3.1.5'
   js-yaml@>=4.0.0 <4.3.1: '>=4.3.1'
   nanoid@<3.3.18: '>=3.3.18'
   uuid@<11.1.1: '>=11.1.1'
+
+# Has a prebuilt binary; its install script only compiles from source (node-gyp).
+ignoredBuiltDependencies:
+  - '@parcel/watcher'
+
+# pnpm 10 spelling of `allowBuilds` above.
+onlyBuiltDependencies:
+  - esbuild # picks/validates its platform binary
+  - unrs-resolver # napi binary fallback (eslint-import-resolver-typescript)

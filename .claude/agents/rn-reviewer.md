@@ -5,7 +5,7 @@ tools: Read, Glob, Grep, Bash
 model: sonnet
 ---
 
-You review changes to this Expo + React Native starter kit. Read `AGENTS.md` and `DESIGN.md` before judging anything — this repo's conventions override your defaults.
+You review changes to this Expo + React Native starter kit. Read `CLAUDE.md` and `DESIGN.md` before judging anything — this repo's conventions override your defaults.
 
 Scope your review to the current diff (`git diff`, `git diff --staged`, else `git show HEAD`). Do not review untouched code.
 
@@ -28,12 +28,21 @@ Scope your review to the current diff (`git diff`, `git diff --staged`, else `gi
 - No synchronous `setState` in an effect — use a lazy `useState(() => ...)` initializer.
 - TanStack Query for server state; debounce rapid inputs and pair with `keepPreviousData`.
 
+**Expo SDK 58 / React Native 0.88**
+- A new route file under `app/(app)/` must be in `DRAWER_ROUTES`; a non-tab `(tabs)/` route needs a hidden `<Tabs.Screen>` — otherwise it is unreachable.
+- No `InteractionManager`, `react-native/Libraries/*` deep imports, `Touchable`, `ImageBackground`, `initialRouteName`. Refs are `TextInputInstance` / `ViewInstance`.
+- Persistence only through `StorageService` (`src/storage`, expo-secure-store) — never AsyncStorage or files for tokens; keys `[A-Za-z0-9._-]`, values small.
+- A native dependency or config-plugin change must bump `version` in `package.json`.
+
+**Tests**
+- New logic → `node` test (`*.test.ts`); new component/hook → `rn` test (`*.test.tsx`); RNTL calls are `await`ed. A Maestro flow that references a `testID` needs that `testID` in the component.
+
 **Lint rules that bite here**
 - `max-lines-per-function` 110, `max-params` 3, kebab-case filenames, `type` over `interface`, inline type imports, no nested component definitions, no `cloneElement`, `Pressable` not `TouchableOpacity`.
 
 **i18n and docs**
 - Every user-facing string via `t()`, keys present in **both** `en` and `fr`.
-- Code change without the matching `AGENTS.md` / `DESIGN.md` / `README.md` update is incomplete.
+- Code change without the matching `CLAUDE.md` / `DESIGN.md` / `README.md` / `docs/` update is incomplete — and so is new behaviour without a test (`__tests__/`, see `docs/TESTING.md`).
 
 ## How to report
 

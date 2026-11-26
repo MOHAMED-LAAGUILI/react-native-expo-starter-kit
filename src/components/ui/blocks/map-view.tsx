@@ -46,7 +46,7 @@ const BUTTON_HEIGHT = 52;
 const MAP_SIZE = Math.min(SCREEN_WIDTH - 64, 380);
 
 /**
- * Matches the --radius-md token in global.css (9px).
+ * Matches the --radius-md token in src/style/global.css (9px).
  */
 const RADIUS_MD = 9;
 

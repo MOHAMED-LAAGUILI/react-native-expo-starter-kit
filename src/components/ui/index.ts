@@ -124,13 +124,7 @@ export { AnimatedNumber } from './number-flow';
 export { ParallaxScrollView } from './parallax-scrollview';
 export { Popover, PopoverContent, PopoverTrigger } from './popover';
 export { Progress } from './progress';
-export type {
-  BarPropTypes,
-  CirclePropTypes,
-  CircleSnailPropTypes,
-  DefaultPropTypes,
-  PiePropTypes,
-} from './progress';
+export type { BarProps, CircleProps, CircleSnailProps, PieProps } from './progress';
 export type { QRCodeProps } from './qr-code';
 export { QRCodeView } from './qr-code';
 export type { RadioGroupItemProps, RadioGroupProps } from './radio-group';

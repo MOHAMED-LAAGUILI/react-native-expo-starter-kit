@@ -1,0 +1,18 @@
+# Subflow: fresh install state → app running on Metro, first screen visible.
+# Every flow starts here, so no flow depends on what an earlier one left behind.
+appId: ${APP_ID}
+---
+- retry:
+    maxRetries: 2
+    commands:
+      - clearState
+      - setPermissions:
+          permissions:
+            all: allow
+      - runFlow: open-dev-build.yaml
+      # A fresh install always lands on onboarding: clearState wipes app data, and on
+      # iOS src/storage drops Keychain leftovers on the first launch after install.
+      - extendedWaitUntil:
+          visible:
+            id: onboarding-skip
+          timeout: 90000

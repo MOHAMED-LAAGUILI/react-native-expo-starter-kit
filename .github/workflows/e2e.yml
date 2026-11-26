@@ -1,0 +1,127 @@
+# E2E — the Maestro suite (.maestro/) on an Android emulator.
+#
+# Builds a debug dev-client APK, serves the JS from Metro in E2E mode
+# (`pnpm run e2e:metro`: no lazy bundles, no file watcher), boots an x86_64
+# emulator and runs every flow. On failure the logcat, screen recordings,
+# JUnit report and Maestro debug output are uploaded as an artifact.
+#
+# Too slow for every PR (~25–40 min), so it runs on pushes to main and on
+# demand: Actions → E2E → Run workflow.
+
+name: E2E
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI: 'true'
+  MAESTRO_VERSION: 2.10.0
+  # SHA-256 of maestro.zip for that version (GitHub release asset digest). Bump both together.
+  MAESTRO_SHA256: 29b675e10cc12080e445e9bfb2e2b4e4dfb9c0f2e30d5884120d258b5e1cd991
+  MAESTRO_CLI_NO_ANALYTICS: '1'
+  EXPO_PUBLIC_APP_ENV: development
+
+jobs:
+  android:
+    name: maestro · android emulator
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    env:
+      MAESTRO_OUT: ${{ github.workspace }}/maestro-out
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Resolve pnpm store path
+        id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('pnpm-lock.yaml', 'app.config.ts') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      - name: Install Maestro ${{ env.MAESTRO_VERSION }}
+        run: |
+          curl --fail --location --silent --show-error --output "$RUNNER_TEMP/maestro.zip" \
+            "https://github.com/mobile-dev-inc/maestro/releases/download/cli-${MAESTRO_VERSION}/maestro.zip"
+          echo "${MAESTRO_SHA256}  $RUNNER_TEMP/maestro.zip" | sha256sum -c -   # abort on mismatch
+          unzip -q "$RUNNER_TEMP/maestro.zip" -d "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/maestro/bin" >> "$GITHUB_PATH"
+
+      - name: Build debug dev-client APK (x86_64)
+        run: |
+          pnpm exec expo prebuild --platform android --no-install
+          cd android
+          ./gradlew assembleDebug -PreactNativeArchitectures=x86_64 --no-daemon
+          echo "APK=$PWD/app/build/outputs/apk/debug/app-debug.apk" >> "$GITHUB_ENV"
+
+      - name: Start Metro (E2E mode) and pre-warm the bundle
+        run: |
+          mkdir -p "$MAESTRO_OUT"
+          nohup pnpm run e2e:metro --port 8081 > "$MAESTRO_OUT/metro.log" 2>&1 &
+          for i in $(seq 1 90); do
+            curl --silent http://127.0.0.1:8081/status | grep -q 'packager-status:running' && break
+            sleep 2
+          done
+          # The first bundle takes minutes on a cold runner; build it now so the
+          # first flow doesn't burn its timeout waiting for Metro.
+          curl --silent --show-error --max-time 600 --output /dev/null \
+            'http://127.0.0.1:8081/node_modules/expo-router/entry.bundle?platform=android&dev=true&minify=false'
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run Maestro on the emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          script: bash .github/scripts/maestro-e2e.sh
+
+      - name: Upload Maestro output
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-out
+          path: maestro-out/
+          retention-days: 14

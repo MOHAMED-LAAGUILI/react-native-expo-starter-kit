@@ -21,7 +21,7 @@ function SearchScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="bg-background flex-1">
       <SearchHeader query={query} onQueryChange={setQuery} count={posts?.length ?? 0} isLoading={isLoading} />
       <SearchResults posts={posts ?? []} query={query} isLoading={isLoading} />
     </View>

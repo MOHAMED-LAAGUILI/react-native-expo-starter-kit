@@ -1,81 +1,81 @@
+# Automatic release on every push to main.
+#
+# release-it + @release-it/conventional-changelog read the commits since the
+# last v* tag and pick the bump (the commit-msg hook enforces the format):
+#   feat:                         → minor
+#   type!: or BREAKING CHANGE:     → major
+#   fix / perf / update / improve / refactor / revert / build → patch
+#   only docs / style / test / ci / chore                       → no release
+# Then: lint · type:check · test → bump package.json → CHANGELOG.md → README
+# badges → commit `chore(release): vX.Y.Z` → tag → push → GitHub release.
+#
+# The release commit is pushed with GITHUB_TOKEN, which never triggers another
+# workflow run, and this job also skips its own `chore(release)` commits.
+# A version bump is a new app runtime (runtimeVersion: appVersion) — ship a new
+# build for it (EAS / build:local), not only an OTA update.
+#
+# If main is branch-protected, allow github-actions[bot] to push, or this job
+# fails at the push step (nothing is published in that case).
+
 name: Release
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      increment:
+        description: Force a bump (leave empty to infer from commits)
+        type: choice
+        options: ['', patch, minor, major]
+        default: ''
 
 permissions:
   contents: write
 
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
   release:
+    if: ${{ !startsWith(github.event.head_commit.message, 'chore(release)') }}
     runs-on: ubuntu-latest
-
+    timeout-minutes: 30
+    env:
+      CI: 'true'
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
-          fetch-depth: 0
-          fetch-tags: true
+          fetch-depth: 0 # full history + tags: the bump is computed from them
 
-      - name: Get version
-        id: version
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - run: corepack enable
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Anything releasable since the last tag?
+        id: releasable
         run: |
-          echo "tag=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
-
-      - name: Fetch tags
-        run: git fetch --tags --force
-
-      - name: Delete existing release (if any)
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG="${{ steps.version.outputs.tag }}"
-
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            echo "Deleting existing release $TAG..."
-            gh release delete "$TAG" --yes
+          last=$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || true)
+          range=${last:+$last..}HEAD
+          if [ -n "${{ inputs.increment }}" ] || \
+             git log "$range" --format=%s | grep -qE '^(feat|fix|perf|update|improve|refactor|revert|build)(\(.+\))?!?: ' || \
+             git log "$range" --format=%B | grep -q 'BREAKING CHANGE:'; then
+            echo "release=true" >> "$GITHUB_OUTPUT"
           else
-            echo "No existing release found."
+            echo "Only docs/style/test/ci/chore commits since ${last:-the start} — no release."
+            echo "release=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Delete existing tag (if any)
+      - name: Release
+        if: steps.releasable.outputs.release == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG="${{ steps.version.outputs.tag }}"
-
-          if git ls-remote --tags origin | grep -q "refs/tags/$TAG$"; then
-            echo "Deleting remote tag..."
-            git push origin ":refs/tags/$TAG"
-          fi
-
-          if git rev-parse "$TAG" >/dev/null 2>&1; then
-            echo "Deleting local tag..."
-            git tag -d "$TAG"
-          fi
-
-      - name: Create tag
-        run: |
-          TAG="${{ steps.version.outputs.tag }}"
-          git tag "$TAG"
-          git push origin "$TAG"
-
-      - name: Generate release notes
-        run: |
-          {
-            echo "## What's Changed"
-            echo ""
-            git log -20 --pretty=format:"- %s (%h)"
-          } > release_notes.md
-
-      - name: Create release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TAG="${{ steps.version.outputs.tag }}"
-
-          gh release create "$TAG" \
-            --title "$TAG" \
-            --notes-file release_notes.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          pnpm exec release-it ${{ inputs.increment }} --ci

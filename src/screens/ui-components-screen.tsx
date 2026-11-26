@@ -195,7 +195,7 @@ function UiComponentsScreen() {
 
   return (
     <ScrollView
-      className="flex-1 bg-background"
+      className="bg-background flex-1"
       contentInset={isIOS ? { bottom: insets.bottom + 24 } : undefined}
       contentContainerStyle={isIOS ? undefined : { paddingBottom: insets.bottom + 24 }}
     >
