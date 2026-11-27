@@ -67,7 +67,6 @@ export async function setupI18n(): Promise<void> {
   catch {}
 
   await i18next.use(initReactI18next).init({
-    compatibilityJSON: 'v4',
     defaultNS: 'common',
     fallbackLng: 'en',
     interpolation: { escapeValue: false },

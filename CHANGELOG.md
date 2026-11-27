@@ -1,6 +1,6 @@
 # Changelog
 
-## [6.0.1](https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit/compare/v5.5.0...v5.6.0) (2026-11-27)
+## [6.0.1](https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit/compare/v5.6.0...v6.0.1) (2026-11-27)
 
 * add note about commented metro blocklist config ([fe1fa88](https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit/commit/fe1fa885161512bc59d7b87216df4c89b72ca612))
 * bump the actions group with 6 updates ([8a67051](https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit/commit/8a67051cf00a18e5c76bf7986f02a9ae57b64dde))

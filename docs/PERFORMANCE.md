@@ -18,9 +18,18 @@ Native binary size is a different budget: build with `pnpm run build:local:andro
 
 | | Android | Android, tree-shaken | iOS |
 |---|---|---|---|
-| Bundle | 8,586 KB | **6,122 KB (−29%)** | 8,570 KB |
-| Gzip (OTA download) | 1,859 KB | **1,435 KB (−23%)** | 1,855 KB |
-| Modules | 5,746 | 3,359 | 5,736 |
+| Bundle | 9,054 KB | **≈6,100 KB (−32%)** | — |
+| Gzip (OTA download) | 1,867 KB | **≈1,450 KB** | — |
+| Modules | 5,911 | ≈3,300 | — |
+
+Re-measured 2026-11-27 after the dependency refresh (lucide 1.82 adds ~50 icons; tree-shaken figures from the same run with Zod 3). Earlier figures: 8,586 KB / 6,122 KB.
+
+### What slows the first load
+
+1. **Dev only — Metro bundling ~5,900 modules on first visit.** The first screen in `pnpm dev` waits for Metro (a minute or more with a cold cache, `-c` clears it). Release builds ship precompiled Hermes bytecode and do not pay this.
+2. **Startup work before the first frame** (`app/_layout.tsx`): fonts, i18n and three store hydrations run in parallel behind the splash screen (web shows the `Loading` spinner). Keep this list short — anything added there delays every launch.
+3. **Eagerly imported routes.** `EXPO_ROUTER_IMPORT_MODE = 'sync'` loads every screen module at startup, so demo-only weight (`reanimated-color-picker`, gifted-charts, calendars) is evaluated even if the user never opens those screens. Apps built on this starter should delete the demo screens they do not need.
+4. **Libraries that do not tree-shake under Metro:** `lucide` (493 KB, reachable through `morphicons`) and `zod`. Zod 4 is worse, not better: Metro loads its CommonJS entry, which re-exports all ~250 locales (+~490 KB measured), so the starter stays on Zod 3.
 
 Biggest owners before tree shaking: `lucide-react-native` 1.2 MB (the whole icon set — gone after tree shaking), `react-native-reanimated` 625 KB, `react-native` 595 KB, `src/components` 550 KB, `expo-router` 480 KB, `lucide` 408 KB (icon data used by `morphicons`, which reaches every icon, so it cannot be pruned), `reanimated-color-picker` 228 KB, `gifted-charts-core` 221 KB.
 
@@ -41,7 +50,7 @@ The curated list lives in [`script/lib/dependency-alternatives.ts`](../script/li
 | `react-native-toast-message-ts` | older fork | `sonner-native` or `burnt` | no | S |
 | `@react-native-community/datetimepicker` | platform-inconsistent UX | evaluate `@expo/ui` DateTimePicker | yes | M |
 | `date-fns` | mostly formatting | `Intl.DateTimeFormat` / `RelativeTimeFormat` (Hermes) | no | S |
-| `zod` 3 | largest schema lib | Zod 4 (`zod/mini`) or valibot | no | M |
+| `zod` 3 | largest schema lib | valibot — **not Zod 4**: its CommonJS entry (what Metro loads) re-exports every locale, +~490 KB measured | no | M |
 | `@tanstack/react-query-devtools` | web-only, a runtime dependency | dynamic `import()` behind `isWeb && __DEV__` | no | S |
 | `react-native-keyboard-controller` | installed, unused | adopt (`KeyboardProvider` + `KeyboardAwareScrollView`) or remove | yes | S |
 | `babel-plugin-module-resolver` | blocks the SDK 58 Rust transformer | Metro tsconfig `paths`; drop custom Babel plugins, try `experiments.noxcturnalTransformWorker` | no | M |

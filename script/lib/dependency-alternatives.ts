@@ -83,7 +83,7 @@ export const ALTERNATIVES: Alternative[] = [
     pkg: 'zod',
     kind: 'modernize',
     why: 'Zod 3 is the largest schema library in common use',
-    instead: 'Zod 4 (`zod/mini` for a tree-shakable core, faster parsing) or valibot',
+    instead: 'valibot (modular, tree-shakes under Metro). NOT Zod 4: Metro resolves its CommonJS entry, which re-exports all ~250 locales — classic and zod/mini alike — measured +~490 KB vs Zod 3 (Nov 2026)',
     native: false,
     effort: 'M',
   },

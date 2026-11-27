@@ -189,6 +189,8 @@ Agent skills are committed in `.claude/skills/` — every clone gets them, no in
 
 - Commit the files under `.claude/skills/` after adding or updating — they are reviewed like code.
 - No lockfile: `skills-lock.json` is git-ignored; the committed files are the source of truth.
+- **Installed now** (top skills.sh results): `find-skills` (vercel-labs/skills; load it first to discover any other skill), `agent-browser` (vercel-labs/agent-browser), `design-mobile-apps` (designed-by-ai/skills), `grill-with-docs` + the `grilling` and `domain-modeling` skills it calls (mattpocock/skills), `frontend-design` (anthropics/skills), and from expo/skills: `expo-overview`, `expo-dev-client`, `expo-upgrade`, `expo-native-ui`, `expo-router`, `expo-data-fetching`, `expo-animation`, `expo-project-structure`, `eas-workflows`, `eas-app-stores`, `eas-update`.
+- **Gotcha:** with `--yes`, the skills CLI ignores `--skill` for repos that hold many skills and copies all of them. After adding from such a repo, delete the folders you don't want before committing.
 - Recommended sources for this stack (what the kit used to pin):
 
 | Repository | Skills |
@@ -398,7 +400,7 @@ How: Essential Rules
 | Server State    | TanStack Query 5 + Devtools (web dev only, opt-in: `EXPO_PUBLIC_QUERY_DEVTOOLS=1`) 
 | Forms           | TanStack Form 1 + Zod 3 
 | Storage         | expo-secure-store (Keychain / Keystore; localStorage on web) 
-| i18n            | i18next 26 + react-i18next (EN/FR, RTL) 
+| i18n            | i18next 27 + react-i18next 18 (EN/FR) 
 | UI Primitives   | @rn-primitives 1.5 (Portal, Slot, Dialog, etc.) 
 | Bottom Sheet    | @gorhom/bottom-sheet 5 
 | Icons           | lucide-react-native (icon data via `lucide`) 
@@ -556,7 +558,7 @@ src/style/global.css  — Tailwind v4 entry + CSS vars (oklch light/dark, @varia
 - `@tanstack/react-form` (v1) + `zod` (v3) — form validation
 - `zustand` (v5) — client state, persisted via `StorageService`
 - `expo-secure-store` — encrypted key/value storage (Keychain / Keystore); backs `StorageService`
-- `i18next` (v26) + `react-i18next` — i18n
+- `i18next` (v27) + `react-i18next` (v18) — i18n (v27 removed `compatibilityJSON`; `fallbackLng` must be set — it is `en`)
 - `lucide-react-native` — icons
 - `axios` — HTTP client with interceptors
 - `expo-splash-screen` — splash screen lifecycle

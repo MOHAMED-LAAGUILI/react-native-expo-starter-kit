@@ -3,24 +3,25 @@
 # package.json "packageManager") reads `onlyBuiltDependencies` — keep both lists
 # identical. Audit with `pnpm ignored-builds`. `patchedDependencies` is written by
 # `pnpm patch-commit` only if a package is ever patched (none are today).
-allowBuilds:
-  esbuild: true
-  unrs-resolver: true
-
 minimumReleaseAge: 10080
-
-shellEmulator: true
+minimumReleaseAgeExcludePrune: true
 
 trustPolicy: no-downgrade
-
 trustPolicyExclude:
   - semver@6.3.1
   - recast@0.23.
+
+shellEmulator: true
+
 overrides:
   fast-uri@>=3.0.0 <3.1.5: '>=3.1.5'
   js-yaml@>=4.0.0 <4.3.1: '>=4.3.1'
   nanoid@<3.3.18: '>=3.3.18'
   uuid@<11.1.1: '>=11.1.1'
+
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
 
 # Has a prebuilt binary; its install script only compiles from source (node-gyp).
 ignoredBuiltDependencies:
