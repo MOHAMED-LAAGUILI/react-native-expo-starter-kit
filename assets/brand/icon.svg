@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- Source of every app icon and splash image: `pnpm run icons`
+       (script/render-icons.ts). Edit this file, never the PNGs.
+       `.field` is the round badge, `.mark` the chevron drawn on it. -->
+  <circle class="field" cx="512" cy="512" r="512" fill="#000000"/>
+  <path class="mark" d="M 457 226 L 567 226 L 806 686 L 772 750 L 512 382 L 252 750 L 218 686 Z"
+        fill="#ffffff" stroke="#ffffff" stroke-width="56" stroke-linejoin="round"/>
+</svg>

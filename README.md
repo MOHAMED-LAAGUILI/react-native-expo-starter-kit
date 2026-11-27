@@ -53,7 +53,7 @@
 
 <p align="center">
 <a href="https://github.com/MOHAMED-LAAGUILI"><img alt="Made by Mohamed LAAGUILI" src="https://img.shields.io/badge/Made%20by-Mohamed%20LAAGUILI-0A7EA4" /></a>
-<a href="https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit/releases"><img alt="Version 6.0.1" src="https://img.shields.io/badge/Version-6.0.1-2563EB" /></a>
+<a href="https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit/releases"><img alt="Version 6.0.2" src="https://img.shields.io/badge/Version-6.0.2-2563EB" /></a>
 </p>
 <!-- badges:key:end -->
 

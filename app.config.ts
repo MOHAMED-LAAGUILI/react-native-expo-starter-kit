@@ -158,7 +158,8 @@ const plugins: ExpoConfig['plugins'] = [
     {
       // Android draws only the alpha channel: use a white silhouette on
       // transparency, or the icon becomes a white square.
-      icon: './assets/images/favicon.png',
+      // Rendered from assets/brand/icon.svg: `pnpm run icons`.
+      icon: './assets/images/notification-icon.png',
       color: '#ffffff',
       defaultChannel: 'default',
       sounds: [],
@@ -220,7 +221,8 @@ export default ({ config }: ConfigContext): ExpoConfig => withGradleProperties({
   description: `${APP_NAME} is a cross-platform mobile application engineered with modern technologies, optimized for performance, scalability, and maintainability.`,
   scheme: ENV.EXPO_PUBLIC_SCHEME,
   orientation: 'portrait',
-  icon: './assets/images/favicon.png',
+  // 1024×1024 opaque (App Store requirement), rendered from assets/brand/icon.svg.
+  icon: './assets/images/icon.png',
   userInterfaceStyle: 'automatic',
   backgroundColor: '#ffffff',
   assetBundlePatterns: ['**/*'],

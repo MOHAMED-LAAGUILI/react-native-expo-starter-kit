@@ -1,7 +1,7 @@
 {
   "name": "react-native-expo-starter-kit",
   "main": "expo-router/entry",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "packageManager": "pnpm@10.12.3",
   "engines": {
     "node": ">=22.18"
@@ -74,8 +74,11 @@
     "upgrade:expo": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON script/upgrade-expo.ts",
     "perf:bundle": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON script/bundle-report.ts",
     "perf:budget": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON script/bundle-report.ts --budget",
+    "perf:device": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON script/perf-device.ts",
     "images:optimize": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON script/optimize-images.ts",
     "images:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON script/optimize-images.ts --check",
+    "icons": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON script/render-icons.ts",
+    "icons:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON script/render-icons.ts --check",
     "lottie:optimize": "node script/optimize-lottie.mjs",
     "expo:config": "expo config --type public",
     "prebuild": "expo prebuild --platform all",

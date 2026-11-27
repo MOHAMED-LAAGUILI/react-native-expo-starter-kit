@@ -42,6 +42,8 @@ A production-ready **Expo SDK 58** starter (React Native 0.88, React 19.3, TypeS
 | E2E (Maestro) | `pnpm run e2e:metro` then `pnpm run e2e:android` / `e2e:ios` |
 | Local preview APK (no EAS) | `pnpm run build:local:android` · `pnpm run build:local:install` |
 | Optimize images | `pnpm run images:optimize` · `pnpm run images:check` |
+| Regenerate app icons | edit `assets/brand/icon.svg` → `pnpm run icons` → `pnpm run images:optimize` |
+| Launch time on a device | `pnpm run perf:device` |
 | Locale parity | `pnpm run i18n:check` |
 | Is this machine ready? | `pnpm run setup:check` |
 | Dependency health / alternatives | `pnpm run deps:check` |
@@ -128,7 +130,7 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 | `pnpm run test:watch`                     | Jest in watch mode
 | `pnpm run test:coverage`                  | Jest with coverage → `coverage/`
 | `pnpm run test:discovery`                 | Fail if a file under `__tests__/` is not matched by any Jest project
-| `pnpm run i18n:check`                     | Fail if a locale is missing (or has extra) keys vs. English
+| `pnpm run i18n:check`                     | Fail if a locale is missing (or has extra) keys vs. English, or a key's `{{placeholders}}` / `$t()` differ
 | `pnpm run images:optimize`                | Lossless-optimize `assets/` images in place (`--lossy`, `--max-size`, `--dry-run`)
 | `pnpm run images:check`                   | Fail if any image could still shrink (CI gate)
 | `pnpm run e2e:metro`                      | Metro for Maestro (`CI=1 EXPO_NO_METRO_LAZY=1 expo start --dev-client`)
@@ -141,6 +143,8 @@ Production-ready Expo + React Native starter with file-based routing, Tailwind v
 | `pnpm run upgrade:expo`                   | Scripted Expo SDK upgrade: guard → bump → install (EPERM fallback) → align → companions → verify (`--sdk N`, `--dry-run`)
 | `pnpm run perf:bundle`                    | Production bundle size + what each package adds (`--platform ios`, `--top N`, `--update-budget`)
 | `pnpm run perf:budget`                    | Fail if the bundle is over `perf-budget.json`
+| `pnpm run perf:device`                    | Over adb: cold-start time (`cold-start --runs N`, default) or idle CPU/memory/FPS sampling (`sample -m 20 -i 60`) — docs/PERFORMANCE.md
+| `pnpm run icons` / `icons:check`          | Render every app icon + splash PNG from `assets/brand/icon.svg` / fail if a committed PNG differs (`--list` shows what uses each)
 | `pnpm run doctor`                         | Run Expo doctor diagnostics & React Doctor
 | `pnpm run checks`                         | Run all checks (deps:fix → lint:fix → type:check → test → i18n:check → doctor)
 | `pnpm run expo:config`                    | Print public Expo config
@@ -450,7 +454,7 @@ app/
 __tests__/            — Jest: architecture/ guards, components/, config/, hooks/, storage/, utils/, validation/, setup/ (mocks), tsconfig.json
 .maestro/             — Maestro E2E: smoke/, auth/, navigation/, subflows/, scripts/ (see .maestro/README.md)
 docs/                 — TESTING, LOCAL_BUILDS, UPGRADING, SECRETS, MOBILE_QA_CHECKLIST, AUTOMATION, PERFORMANCE
-script/               — Node TS scripts: guard-node-modules, create-env-files, fix-deps, check-setup, check-deps, upgrade-expo, bundle-report, build-local-android, optimize-images, check-locale-parity, check-jest-discovery · lib/dependency-alternatives.ts
+script/               — Node TS scripts: guard-node-modules, create-env-files, fix-deps, check-setup, check-deps, upgrade-expo, bundle-report, build-local-android, optimize-images, check-locale-parity, check-jest-discovery, perf-device, render-icons · lib/ (dependency-alternatives, device-perf, i18n-placeholders, icon-variants, spawn)
 .github/              — workflows: ci, e2e, maintenance (weekly deps + bundle report), react-doctor, release · scripts/maestro-e2e.sh · dependabot.yml (Actions only)
 src/
 ├── permissions/       — Centralized permission hooks + utils (usePermissionsStatus, loadExpoNotifications, etc.)

@@ -12,12 +12,17 @@
  * i18next plural suffixes (`_one`, `_other`, `_few`, …) differ per language by
  * design, so a key matches when its plural stem exists on both sides.
  *
+ * Each key must also use the same i18next placeholders (`{{name}}`,
+ * `$t(other.key)`) as the reference, plural forms counted together — a
+ * dropped `{{count}}` renders without its value (ported from clocknet copy-lint).
+ *
  * Usage: node script/check-locale-parity.ts [--locales-dir <dir>] [--reference <lang>]
  */
 
 import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
+import { formatSet, placeholdersByStem, sameSet } from './lib/i18n-placeholders.ts'
 
 type Issue = { lang: string, file: string, message: string }
 
@@ -76,6 +81,7 @@ function main(): void {
     const refKeys = flatten(readJson(path.join(refDir, ns)))
     keyCount += refKeys.size
     const refStems = new Set([...refKeys.keys()].map(stem))
+    const refPlaceholders = placeholdersByStem(refKeys, stem)
 
     for (const lang of languages.filter(l => l !== REFERENCE)) {
       const file = path.join(LOCALES_DIR, lang, ns)
@@ -95,6 +101,14 @@ function main(): void {
           issues.push({ lang, file: ns, message: `extra key "${key}" (not in ${REFERENCE})` })
         else if (typeof value === 'string' && value.trim() === '')
           issues.push({ lang, file: ns, message: `empty value for "${key}"` })
+      }
+
+      // Same {{placeholders}} / $t() nesting per key, plural forms counted together.
+      const langPlaceholders = placeholdersByStem(keys, stem)
+      for (const [keyStem, refSet] of refPlaceholders) {
+        const own = langPlaceholders.get(keyStem)
+        if (own && !sameSet(own, refSet))
+          issues.push({ lang, file: ns, message: `placeholders differ for "${keyStem}": ${REFERENCE} has ${formatSet(refSet)}, ${lang} has ${formatSet(own)}` })
       }
     }
   }

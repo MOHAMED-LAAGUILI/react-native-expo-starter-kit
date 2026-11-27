@@ -55,6 +55,8 @@ Then it prints what's left for a human: read the release notes, rebuild the dev 
 | `pnpm run perf:bundle` | Exports the production bundle and ranks what each package adds — see [PERFORMANCE.md](PERFORMANCE.md) |
 | `pnpm run perf:budget` | Same, and exits 1 if the bundle is over `perf-budget.json` |
 | `pnpm run images:optimize` · `images:check` | Lossless image optimization (verified pixel-identical) / CI gate |
+| `pnpm run icons` · `icons:check` | Render the icon, adaptive icon, light/dark splash, favicon and notification icon from `assets/brand/icon.svg`; `--check` is also run by the `app-icons` Jest test |
+| `pnpm run perf:device` | Cold-start time over adb (`cold-start --runs N`) or idle CPU/memory/FPS sampling (`sample`) — needs a connected device or emulator |
 | `pnpm run lottie:optimize -- <files…>` | Lottie JSON: minify, round coordinates (timing keys untouched), drop hidden layers and unused assets, re-encode embedded PNGs only when pixel-identical; `--check` for CI |
 | `pnpm run dev:atlas` | Expo Atlas — interactive module graph of the bundle |
 

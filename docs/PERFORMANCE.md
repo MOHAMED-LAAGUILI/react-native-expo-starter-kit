@@ -7,6 +7,8 @@ pnpm run perf:bundle                      # android: bundle size, gzip, and a ra
 pnpm run perf:bundle -- --platform ios
 pnpm run perf:bundle -- --update-budget   # record today's size (+5% headroom) in perf-budget.json
 pnpm run perf:budget                      # fail if over budget (run weekly by maintenance.yml)
+pnpm run perf:device                      # cold start on a device: am start -W, 5 runs, median
+pnpm run perf:device -- sample -m 20      # idle CPU / memory / FPS every minute → summary.csv
 pnpm run dev:atlas                        # interactive module graph (Expo Atlas)
 ```
 
