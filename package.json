@@ -1,7 +1,7 @@
 {
   "name": "react-native-expo-starter-kit",
   "main": "expo-router/entry",
-  "version": "6.0.2",
+  "version": "6.1.0",
   "packageManager": "pnpm@10.12.3",
   "engines": {
     "node": ">=22.18"

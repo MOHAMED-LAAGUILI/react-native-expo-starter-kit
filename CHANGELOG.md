@@ -1,5 +1,15 @@
 # Changelog
 
+## [6.1.0](https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit/compare/v6.0.1...v6.1.0) (2026-11-27)
+
+### Features
+
+* **tools:** port device perf sampler, placeholder parity and icon renderer from clocknet ([fe70465](https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit/commit/fe70465a12e69000d1aa1f35fb142fd283f51290))
+
+### Build & dependencies
+
+* **deps:** refresh dependencies, add skills.sh skills, document first-load costs ([34751e8](https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit/commit/34751e8c44ae5ba74d548e1a1ed7a58d99e786ca))
+
 ## [6.0.1](https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit/compare/v5.6.0...v6.0.1) (2026-11-27)
 
 * add note about commented metro blocklist config ([fe1fa88](https://github.com/MOHAMED-LAAGUILI/react-native-expo-starter-kit/commit/fe1fa885161512bc59d7b87216df4c89b72ca612))
